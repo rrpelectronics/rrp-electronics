@@ -2,25 +2,75 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #151515;
+  --white: #ffffff;
+  --black: #151515;
+  --primary: #FF5C19;
+  --darkBg: #141623;
+  --whiteBg: #fafafa;
+  --textPrimary: #646464;
+  --textSecondary: #7E7F86;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-primary: var(--primary);
+  --color-darkBg: var(--darkBg);
+  --color-whiteBg: var(--whiteBg);
+  --color-textPrimary: var(--textPrimary);
+  --color-textSecondary: var(--textSecondary);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+  /* Font Size */
+  --text-display: clamp(3rem, 2.217rem + 3.48vw, 5rem);
+  /*80px, 48px*/
+  --text-heading1: clamp(2.25rem, 1.607rem + 2.86vw, 3.75rem);
+  /*60px, 36px*/
+  --text-heading2: clamp(1.75rem, 1.429rem + 1.43vw, 2.5rem);
+  /*40px, 28px*/
+  --text-heading3: clamp(1.5rem, 1.286rem + 0.95vw, 2rem);
+  /*32px, 24px*/
+  --text-heading4: clamp(1.25rem, 1.143rem + 0.48vw, 1.5rem);
+  /*24px, 20px*/
+
+  --text-bodyLarge: clamp(1.125rem, 1.071rem + 0.24vw, 1.25rem);
+  /*20px, 18px*/
+  --text-bodyBase: clamp(1rem, 0.946rem + 0.24vw, 1.125rem);
+  /*18px, 16px*/
+  --text-bodySmall: clamp(0.875rem, 0.821rem + 0.24vw, 1rem);
+  /*16px, 14px*/
+  --text-caption: 12px;
+
+  /* Letter Spacing */
+  --tracking-display: clamp(-0.06rem, 0.005rem + 0.24vw, -0.2rem); /*-0.6px, -3.2px*/
+  --tracking-heading1: clamp(-0.045rem, 0.004rem + 0.18vw, -0.15rem); /*-0.72px, -2.4px*/
+  --tracking-heading2: clamp(0rem, -0.02rem + 0.09vw, -0.05rem); /*0px, -0.8px*/
+  --tracking-heading3: clamp(0rem, -0.016rem + 0.07vw, -0.04rem); /*0px, -0.64px*/
+
+  /* Font Family */
+  --font-neueMontreal: var(--font-neueMontreal);
+  --font-neueMontrealMd: var(--font-neueMontrealMd);
+
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-neueMontrealMd);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.active-timeline {
+  width: clamp(15.375rem, 12.587rem + 12.39vw, 22.5rem);
 }
