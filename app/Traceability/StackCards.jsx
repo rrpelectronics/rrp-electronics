@@ -89,7 +89,9 @@ export default function QualityCards() {
     items.map((text, idx) => (
        <div
       key={idx}
-      className={`flex items-center gap-2 border-b border-[#EEEEF1] ${idx === 0 ? 'border-t' : ''}`}>
+      className={`flex items-center gap-2 border-b border-[#EEEEF1] ${idx === 0 ? 'border-t' : ''
+}`}
+    >
         <Image
           src="/Images/icons/operation.svg"
           alt={`Icon ${idx + 1}`}
