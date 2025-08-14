@@ -1,13 +1,38 @@
 'use client';
 import React from 'react';
 import Banner from '@/app/components/Banner';
-import Logistics from './Logistics';
+import StackCards from '@/app/components/StackCards';
+
+const cardsData = [
+  {
+    zIndex: 10,
+    title: "Supply Chain Efficiency",
+    desc: "From inventory management to last-mile delivery, we offer complete visibility and control throughout the supply chain. Our processes are designed to minimize delays and maximize accuracy.",
+    items: [
+      "Streamlined inventory & order management",
+      "Integrated warehousing and dispatch system",
+      "Responsive logistics support for bulk or custom orders",
+    ],
+    img: "/images/logistics/logistic1.webp",
+  },
+  {
+    zIndex: 20,
+    title: "Prime Location Advantage",
+    desc: "Located just 30 kilometers from Mumbai International Airport and in close proximity to major ports, our facility is strategically positioned for optimal inbound and outbound logistics.",
+    items: [
+      "Fast access to international air cargo routes",
+      "Immediate port connectivity for maritime shipments",
+      "Reduced lead times and improved operational efficiency",
+    ],
+    img: "/images/logistics/logistic2.webp",
+  },
+];
 
 export const logistics = () => {
   return (
     <main className="min-h-screen w-full relative">
       <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
-      <Logistics/>
+      <StackCards cardsData={cardsData} />
     </main>
   )
 }

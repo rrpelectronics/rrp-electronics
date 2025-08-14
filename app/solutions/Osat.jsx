@@ -1,12 +1,13 @@
 'use client'
 import Image from 'next/image'
 
+const cardItems = [
+  { text: 'Full-suite IC packaging.' },
+  { text: 'Scalable from prototyping to high-volume production' },
+  { text: 'Focused on reliability, performance, and turnaround time' },
+]
+
 export default function Osat() {
-  const cardItems = [
-    { text: 'Full-suite IC packaging.' },
-    { text: 'Scalable from prototyping to high-volume production' },
-    { text: 'Focused on reliability, performance, and turnaround time' },
-  ]
 
   const renderCardItems = (items) =>
     items.map((item, idx) => (
@@ -18,14 +19,12 @@ export default function Osat() {
             : "border-b-1 border-b-borderPrimary"
         }`}
       >
-        <Image
-          src="/Images/icons/operation.svg"
+        <img
+          src="/images/icons/operation.svg"
           alt={`Icon ${idx + 1}`}
-          width={24}
-          height={24}
-          className="shrink-0"
+          className="h-6 w-6 shrink-0"
         />
-        <span className="text-bodyBase text-grey leading-[110%] font-neueMontreal">
+        <span className="text-bodyBase text-textPrimary leading-[120%] font-neueMontreal">
           {item.text}
         </span>
       </div>
