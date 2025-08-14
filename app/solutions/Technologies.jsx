@@ -4,17 +4,17 @@ import Image from 'next/image'
 export default function Technologies() {
   const cards = [
     { title: "Consumer electronics",
-      icon : "/Images/icons/display1.svg"
+      icon : "/images/icons/display1.svg"
     },
 
     { title: "Industrial automation",
-      icon : "/Images/icons/display2.svg"
+      icon : "/images/icons/display2.svg"
      },
     { title: "Medical imaging",
-      icon : "/Images/icons/display3.svg"
+      icon : "/images/icons/display3.svg"
      },
     { title: "Automotive displays",
-      icon : "/Images/icons/display4.svg"
+      icon : "/images/icons/display4.svg"
      },
   ]
 
@@ -60,10 +60,10 @@ function Card({ title, icon, className }) {
     <div
       className={`relative flex flex-col justify-between aspect-[294/169] h-[123px] md:h-[169px] w-full p-2 md:p-4 ${className}`}
     >
-        <Image src={icon} alt="Card Icon" width={40} height={40} className="rounded" />
-       <div className="text-heading4 text-black leading-[115%]">
+      <img src={icon} alt="Card Icon" className='h-7 w-7 md:h-10 md:w-10' />
+      <div className="text-heading4 text-black leading-[115%]">
         {title}
-        </div>
+      </div>
     </div>
   )
 }
