@@ -41,6 +41,7 @@ export default function Logistics() {
 
   const cardsData = [
     {
+      zIndex: 10,
       title: 'Supply Chain Efficiency',
       desc: 'From inventory management to last-mile delivery, we offer complete visibility and control throughout the supply chain. Our processes are designed to minimize delays and maximize accuracy.',
       textSize: 'text-bodyBase',
@@ -52,6 +53,7 @@ export default function Logistics() {
       img: '/images/logistics/logistic1.webp',
     },
     {
+      zIndex: 20,
       title: 'Prime Location Advantage',
       desc: 'Located just 30 kilometers from Mumbai International Airport and in close proximity to major ports, our facility is strategically positioned for optimal inbound and outbound logistics.',
       textSize: 'text-bodyBase',
@@ -96,7 +98,10 @@ export default function Logistics() {
         <div
           ref={(el) => (cardRefs.current[id] = el)}
           key={id}
-          className={`absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-x-3 md:gap-x-5 z-${id + 1}0`}
+          style={{
+            zIndex: `z-${card.zIndex}`,
+          }}
+          className={`absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-x-3 md:gap-x-5`}
         >
           <div className="col-span-2 flex flex-col justify-between pl-3.5 md:pl-5 lg:pl-10 py-10">
             <div className="flex flex-col gap-5 md:gap-6">
