@@ -5,8 +5,9 @@ import Logistics from './Logistics';
 
 export const logistics = () => {
   return (
-    <main className="min-h-screen w-full relative">
+    <main className="h-full w-full relative overflow-hidden">
       <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
+      <div className='w-full h-16'></div>
       <Logistics/>
     </main>
   )
