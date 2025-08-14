@@ -95,7 +95,7 @@ export default function QualityCards() {
           className="shrink-0"
         />
         <span
-          className={`py-[20px] ${textSize} text-grey leading-[120%] font-neueMontreal`}
+          className={`py-4 md:py-5 ${textSize} text-grey leading-[120%] font-neueMontreal`}
         >
           {text}
         </span>
@@ -111,11 +111,11 @@ export default function QualityCards() {
         <div
           key={i}
           ref={card.ref}
-          className="absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-10"
+          className="px-3.5 md:px-0 absolute top-0 left-0 w-full h-screen bg-white flex flex-col md:grid md:grid-cols-4 gap-10"
           style={{ zIndex: card.zIndex }}
         >
-          <div className="col-span-2 flex flex-col justify-between pl-10 py-[50px]">
-            <div className="flex flex-col gap-4 border-b border-[#E5E5E5]">
+          <div className="col-span-2 flex flex-col justify-between pl-0 md:pl-10 py-[50px]">
+            <div className="flex flex-col gap-4 border-b border-[#E5E5E5] pb-[30px]">
               <h2 className="text-heading2 font-neueMontrealMd text-black leading-[110%]">
                 {card.title}
               </h2>
