@@ -63,7 +63,7 @@ export default function QualityCards() {
       img: '/images/traceability/traceability2.webp',
     },
     {
-      zIndex: 50,
+      zIndex: 30,
       title: 'Lot-Labeling & Secure Packaging',
       desc: 'Every unit that leaves our facility—whether it’s packed in trays, tubes, or reels—comes with a clear label that includes the lot number and production date. Our automated labeling system guarantees',
       textSize: 'text-bodyBase',
@@ -108,7 +108,10 @@ export default function QualityCards() {
         <div
           ref={(el) => (cardRefs.current[id] = el)}
           key={id}
-          className={`absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-x-3 md:gap-x-5 z-${card.zIndex}`}
+          style={{
+            zIndex: `z-${card.zIndex}`,
+          }}
+          className={`absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-x-3 md:gap-x-5`}
         >
           <div className="col-span-2 flex flex-col justify-between pl-3.5 md:pl-5 lg:pl-10 py-10">
             <div className="flex flex-col gap-5 md:gap-6">
@@ -146,5 +149,5 @@ export default function QualityCards() {
         </div>
       ))}
     </section>
-  )
+  );
 }
