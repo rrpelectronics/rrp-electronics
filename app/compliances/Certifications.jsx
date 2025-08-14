@@ -16,7 +16,7 @@ export default function Certifications() {
         <div className="col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg">
           <div className="flex justify-end">
             <img
-              src="/Images/icons/arrow_outward.svg"
+              src="/images/icons/arrow_outward.svg"
               alt="ISO Icon"
               className="h-7 w-7 md:h-10 md:w-10"
             />
@@ -34,7 +34,7 @@ export default function Certifications() {
         <div className="col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg">
           <div className="flex justify-end">
             <img
-              src="/Images/icons/arrow_outward.svg"
+              src="/images/icons/arrow_outward.svg"
               alt="ISO Icon"
               className="h-7 w-7 md:h-10 md:w-10"
             />
