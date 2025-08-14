@@ -56,7 +56,7 @@ export default function StackCards({ cardsData = [] }) {
           className={`px-3.5 md:px-0 md:pl-5 lg:pl-10 bg-whiteBg ${
             isDesktop ? "absolute top-0 left-0 h-full md:h-screen" : "relative"
           } 
-              w-full bg-white flex flex-col md:grid md:grid-cols-4 lg:gap-x-5`}
+              w-full bg-white flex flex-col md:grid md:grid-cols-4 md:gap-x-5`}
           style={isDesktop ? { zIndex: card.zIndex } : {}}
         >
           <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:py-10">
