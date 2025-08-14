@@ -28,20 +28,19 @@ export default function StackCards({ cardsData = [] }) {
           scrub: true,
         },
       });
-
-      tl.fromTo(
-        cardRefs.current[1],
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.5, ease: "linear" }
-      ).fromTo(
-        cardRefs.current[2],
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.5, ease: "linear" }
-      );
+      
+      for (let i = 1; i < cardsData.length; i++) {
+        tl.fromTo(
+          cardRefs.current[i],
+          { yPercent: 100 },
+          { yPercent: 0, duration: 0.5, ease: "linear" }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [isDesktop]);
+  }, [isDesktop, cardsData.length]);
+
 
   return (
     <section
