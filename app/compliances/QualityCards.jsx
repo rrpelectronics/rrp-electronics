@@ -51,7 +51,7 @@ export default function QualityCards() {
         'We continuously audit and refine processes for optimal output.',
         'Every step—from material to final test—is governed by rigorous quality checks.',
       ],
-      img: '/Images/compliances/quality1.webp',
+      img: '/images/compliances/quality1.webp',
     },
     {
       ref: card2Ref,
@@ -65,7 +65,7 @@ export default function QualityCards() {
         'We foster a culture of innovation and constant improvement.',
         'Our commitment to quality ensures reliable, high-performance outcomes.',
       ],
-      img: '/Images/compliances/quality2.webp',
+      img: '/images/compliances/quality2.webp',
     },
     {
       ref: card3Ref,
@@ -79,7 +79,7 @@ export default function QualityCards() {
         'We proactively manage risks before they impact quality.',
         'Root cause elimination drives consistent and reliable performance.',
       ],
-      img: '/Images/compliances/quality3.webp',
+      img: '/images/compliances/quality3.webp',
     },
   ]
 

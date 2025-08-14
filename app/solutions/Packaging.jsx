@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-export default function AdvancedPackaging() {
+export default function Packaging() {
   const cards = [
     { title: "Designed for innovation and customization" },
     { title: "Access to DECA’s revolutionary packaging technologies" },
