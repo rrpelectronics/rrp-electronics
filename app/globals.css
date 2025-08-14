@@ -10,6 +10,9 @@
   --whiteBg: #fafafa;
   --textPrimary: #646464;
   --textSecondary: #7E7F86;
+  --borderPrimary: #EEEEF1;
+  --borderSecondary: #2e2e38;
+  
 }
 
 @theme inline {
@@ -22,6 +25,8 @@
   --color-whiteBg: var(--whiteBg);
   --color-textPrimary: var(--textPrimary);
   --color-textSecondary: var(--textSecondary);
+  --color-borderPrimary: var(--borderPrimary);
+  --color-borderSecondary: var(--borderSecondary);
 
 
   /* Font Size */
