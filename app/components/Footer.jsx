@@ -38,7 +38,7 @@ const Footer = () => {
             />
           </Link>
 
-          <div className="font-neueMontreal col-span-4 md:col-span-12 lg:col-span-9 grid grid-cols-2 gap-y-10 gap-x-3 md:flex md:flex-row md:justify-between md:gap-12 lg:w-fit lg:ml-auto">
+          <div className="font-neueMontreal col-span-4 md:col-span-12 lg:col-span-9 grid grid-cols-2 gap-y-10 gap-x-3 md:flex md:flex-row md:justify-between w-full lg:ml-auto">
             <div className="flex flex-col gap-4 md:gap-6 text-white">
               <strong className="text-bodyLarge font-normal">Company</strong>
               <ul className="flex flex-col gap-2 md:gap-4.5 text-white text-bodySmall">
