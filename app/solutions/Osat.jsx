@@ -4,9 +4,9 @@ import Image from 'next/image';
 import BulletList from '@/app/components/BulletList'
 
 const cardItems = [
-  { text: 'Full-suite IC packaging.' },
-  { text: 'Scalable from prototyping to high-volume production' },
-  { text: 'Focused on reliability, performance, and turnaround time' },
+  'Full-suite IC packaging.',
+  'Scalable from prototyping to high-volume production',
+  'Focused on reliability, performance, and turnaround time',
 ]
 
 export default function Osat() {
