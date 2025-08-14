@@ -12,32 +12,33 @@ export default function Logistics() {
   const card2Ref = useRef(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: '+=200%',
-        pin: true,
-        scrub: true,
-      })
+    if (window.innerWidth >= 768) {
+      const ctx = gsap.context(() => {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=200%',
+          pin: true,
+          scrub: true
+        })
 
-      gsap.fromTo(
-        card2Ref.current,
-        { y: '100%' },
-        {
-          y: '0%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: '+=100%',
-            scrub: true,
-          },
-        }
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
+        gsap.fromTo(
+          card2Ref.current,
+          { yPercent: 100 },
+          {
+            yPercent: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: '+=100%',
+              scrub: true
+            }
+          }
+        )
+      }, sectionRef)
+      return () => ctx.revert()
+    }
   }, [])
 
   const cardsData = [
@@ -49,9 +50,9 @@ export default function Logistics() {
       items: [
         'Streamlined inventory & order management',
         'Integrated warehousing and dispatch system',
-        'Responsive logistics support for bulk or custom orders',
+        'Responsive logistics support for bulk or custom orders'
       ],
-      img: '/Images/logistics/logistic1.webp',
+      img: '/Images/logistics/logistic1.webp'
     },
     {
       ref: card2Ref,
@@ -61,17 +62,17 @@ export default function Logistics() {
       items: [
         'Fast access to international air cargo routes',
         'Immediate port connectivity for maritime shipments',
-        'Reduced lead times and improved operational efficiency',
+        'Reduced lead times and improved operational efficiency'
       ],
-      img: '/Images/logistics/logistic2.webp',
-    },
+      img: '/Images/logistics/logistic2.webp'
+    }
   ]
 
   const renderCardItems = (items, textSize) =>
     items.map((text, idx) => (
       <div
         key={idx}
-        className="flex items-center gap-2 border-b border-[#EEEEF1]"
+        className={`flex items-center gap-2 border-b border-[#EEEEF1] ${idx === 0 ? 'border-t' : ''}`}
       >
         <Image
           src="/Images/icons/operation.svg"
@@ -80,9 +81,7 @@ export default function Logistics() {
           height={24}
           className="shrink-0"
         />
-        <span
-          className={`py-[20px] ${textSize} text-grey leading-[120%] font-neueMontreal`}
-        >
+        <span className={`py-4 md:py-5 ${textSize} text-grey leading-[120%] font-neueMontreal`}>
           {text}
         </span>
       </div>
@@ -91,36 +90,30 @@ export default function Logistics() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen bg-white flex flex-col items-center justify-center"
+      className="relative w-full bg-white flex flex-col gap-15 items-center justify-center"
     >
       <div
         ref={card1Ref}
-        className="absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-10 z-10"
+        className="px-3.5 md:px-0 md:absolute top-0 left-0 w-full md:h-screen bg-white grid grid-cols-4 md:grid-cols-4 gap-[30px] md:gap-10 z-10"
       >
-        <div className="col-span-4 md:col-span-2 flex flex-col justify-between pl-0 md:pl-10 py-[50px]">
-          <div className="flex flex-col gap-4 border-b border-[#E5E5E5]">
+        <div className="col-span-4 md:col-span-2 gap-10 md:gap-0 flex flex-col justify-between pl-0 md:pl-10 py-0 md:py-[50px]">
+          <div className="flex flex-col gap-2">
             <h2 className="text-heading2 font-neueMontrealMd text-black leading-[110%]">
               {cardsData[0].title}
             </h2>
-            <p
-              className={`text-textPrimary font-neueMontreal ${cardsData[0].textSize} leading-[120%]`}
-            >
+            <p className={`text-textPrimary font-neueMontreal ${cardsData[0].textSize} leading-[120%]`}>
               {cardsData[0].desc}
             </p>
           </div>
-          <div
-            className={`text-textPrimary font-neueMontreal ${cardsData[0].textSize} flex flex-col`}
-          >
-            {renderCardItems(cardsData[0].items, cardsData[0].textSize)}
-          </div>
+         <div>{renderCardItems(cardsData[0].items, cardsData[0].textSize)}</div>
         </div>
-        <div className="col-span-2 flex items-center justify-center">
-          <div className="relative w-full h-screen">
+        <div className="col-span-4 md:col-span-2 flex items-center justify-center">
+          <div className="relative w-full md:h-screen h-[300px]">
             <Image
               src={cardsData[0].img}
               alt={cardsData[0].title}
               fill
-              className="object-fill"
+              className="object-cover"
               priority
             />
           </div>
@@ -129,32 +122,26 @@ export default function Logistics() {
 
       <div
         ref={card2Ref}
-        className="absolute top-0 left-0 w-full h-screen bg-white grid grid-cols-4 gap-10 z-20"
+        className="px-3.5 md:px-0 md:absolute top-0 left-0 w-full md:h-screen bg-white grid grid-cols-4 md:grid-cols-4 gap-10 z-20"
       >
-        <div className="col-span-2 flex flex-col justify-center pl-10">
-          <div className="flex flex-col gap-4 pb-[15.563rem] border-b border-[#E5E5E5]">
+        <div className="col-span-4 md:col-span-2 gap-10 md:gap-0 flex flex-col justify-between pl-0 md:pl-10 py-0 md:py-[50px]">
+          <div className="flex flex-col gap-2 md:gap-4">
             <h2 className="text-heading2 font-neueMontrealMd text-black leading-[110%]">
               {cardsData[1].title}
             </h2>
-            <p
-              className={`text-textPrimary font-neueMontreal ${cardsData[1].textSize} leading-[120%]`}
-            >
+            <p className={`text-textPrimary font-neueMontreal ${cardsData[1].textSize} leading-[120%]`}>
               {cardsData[1].desc}
             </p>
           </div>
-          <div
-            className={`text-textPrimary font-neueMontreal ${cardsData[1].textSize} flex flex-col`}
-          >
-            {renderCardItems(cardsData[1].items, cardsData[1].textSize)}
-          </div>
+          <div>{renderCardItems(cardsData[0].items, cardsData[0].textSize)}</div>
         </div>
-        <div className="col-span-2 flex items-center justify-center">
-          <div className="relative w-full h-screen">
+        <div className="col-span-4 md:col-span-2 flex items-center justify-center">
+          <div className="relative w-full md:h-screen h-[300px]">
             <Image
               src={cardsData[1].img}
               alt={cardsData[1].title}
               fill
-              className="object-fill"
+              className="object-cover"
               priority
             />
           </div>

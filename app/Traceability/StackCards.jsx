@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -12,7 +12,18 @@ export default function QualityCards() {
   const card2Ref = useRef(null)
   const card3Ref = useRef(null)
 
+  const [isDesktop, setIsDesktop] = useState(false)
+
   useEffect(() => {
+    const checkSize = () => setIsDesktop(window.innerWidth >= 1024)
+    checkSize()
+    window.addEventListener('resize', checkSize)
+    return () => window.removeEventListener('resize', checkSize)
+  }, [])
+
+  useEffect(() => {
+    if (!isDesktop) return 
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -24,19 +35,12 @@ export default function QualityCards() {
         },
       })
 
-      tl.fromTo(
-        card2Ref.current,
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.5, ease: 'linear' }
-      ).fromTo(
-        card3Ref.current,
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.5, ease: 'linear' }
-      )
+      tl.fromTo(card2Ref.current, { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: 'linear' })
+        .fromTo(card3Ref.current, { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: 'linear' })
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [isDesktop])
 
   const cardsData = [
     {
@@ -83,10 +87,9 @@ export default function QualityCards() {
 
   const renderCardItems = (items, textSize) =>
     items.map((text, idx) => (
-      <div
-        key={idx}
-        className="flex items-center gap-2 border-b border-[#EEEEF1]"
-      >
+       <div
+      key={idx}
+      className={`flex items-center gap-2 border-b border-[#EEEEF1] ${idx === 0 ? 'border-t' : ''}`}>
         <Image
           src="/Images/icons/operation.svg"
           alt={`Icon ${idx + 1}`}
@@ -94,9 +97,7 @@ export default function QualityCards() {
           height={24}
           className="shrink-0"
         />
-        <span
-          className={`py-4 md:py-5 ${textSize} text-grey leading-[120%] font-neueMontreal`}
-        >
+        <span className={`py-4 md:py-5 ${textSize} text-grey leading-[120%] font-neueMontreal`}>
           {text}
         </span>
       </div>
@@ -105,34 +106,31 @@ export default function QualityCards() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen bg-white flex flex-col items-center justify-center "
+      className={`relative w-full ${isDesktop ? 'h-screen' : 'min-h-screen'} bg-white flex flex-col gap-10 md:gap-0 items-center justify-center`}
     >
       {cardsData.map((card, i) => (
         <div
           key={i}
           ref={card.ref}
-          className="px-3.5 md:px-0 absolute top-0 left-0 w-full h-screen bg-white flex flex-col md:grid md:grid-cols-4 gap-10"
-          style={{ zIndex: card.zIndex }}
+          className={`px-3.5 md:px-0 ${isDesktop ? 'absolute top-0 left-0 h-full md:h-screen' : 'relative'} 
+            w-full bg-white flex flex-col md:grid md:grid-cols-4 gap-0 md:gap-10`}
+          style={isDesktop ? { zIndex: card.zIndex } : {}}
         >
-          <div className="col-span-2 flex flex-col justify-between pl-0 md:pl-10 py-[50px]">
-            <div className="flex flex-col gap-4 border-b border-[#E5E5E5] pb-[30px]">
+          <div className="col-span-2 flex flex-col justify-between pl-0 md:pl-10 py-[30px] md:py-[50px]">
+            <div className="flex flex-col gap-4 pb-[30px]">
               <h2 className="text-heading2 font-neueMontrealMd text-black leading-[110%]">
                 {card.title}
               </h2>
-              <p
-                className={`text-textPrimary font-neueMontreal ${card.textSize} leading-[120%]`}
-              >
+              <p className={`text-textPrimary font-neueMontreal ${card.textSize} leading-[120%]`}>
                 {card.desc}
               </p>
             </div>
-            <div
-              className={`text-textPrimary font-neueMontreal ${card.textSize} flex flex-col`}
-            >
+            <div className={`text-textPrimary font-neueMontreal ${card.textSize} flex flex-col`}>
               {renderCardItems(card.items, card.textSize)}
             </div>
           </div>
           <div className="col-span-2 flex items-center justify-center">
-            <div className="relative aspect-[590/700] w-full h-screen">
+            <div className="relative aspect-[590/700] w-full h-auto md:h-screen">
               <Image
                 src={card.img}
                 alt={card.title}
