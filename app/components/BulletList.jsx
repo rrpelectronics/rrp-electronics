@@ -14,7 +14,7 @@ const BulletList = ({ items = [] }) => {
           } `}
         >
           <img
-            src="/Images/icons/operation.svg"
+            src="/images/icons/operation.svg"
             alt={`Icon ${idx + 1}`}
             className="shrink-0 w-6 h-6"
           />
