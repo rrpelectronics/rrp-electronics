@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { leadersData } from "../leadersData";
 import { useAppContext } from "./AppContext";
-// import SplitType from "split-type"
 
 const Popup = () => {
   const { state, setState } = useAppContext();
@@ -14,7 +13,6 @@ const Popup = () => {
   let popup = useRef();
   let popupDesc = useRef();
   let popupImage = useRef();
-  // let text = new SplitType('.popupDescription', { types: 'lines' })
 
   function initalizePopup(index) {
     if (
@@ -30,7 +28,7 @@ const Popup = () => {
       popupDesc.current.innerHTML = leaders.description;
     }
     if (popupImage.current) {
-      popupImage.current.src = leaders.imgPath;
+      popupImage.current.src = leaders.imgThum;
       popupImage.current.alt = leaders.name;
     }
   }
@@ -38,10 +36,23 @@ const Popup = () => {
   function moveCursor(e) {
     if (cursor.current) {
       cursor.current.style.display = "block";
-      let x = e.clientX;
-      let y = e.clientY;
-      cursor.current.style.left = `${x - 10}px`;
-      cursor.current.style.top = `${y - 10}px`;
+      const isMobile = window.innerWidth < 768;
+      
+      if (isMobile) {
+        cursor.current.style.position = "fixed";
+        cursor.current.style.top = "20px";
+        cursor.current.style.right = "20px";
+        cursor.current.style.left = "auto";
+        cursor.current.style.transform = "none";
+      } else {
+        let x = e.clientX;
+        let y = e.clientY;
+        cursor.current.style.position = "absolute";
+        cursor.current.style.left = `${x - 10}px`;
+        cursor.current.style.top = `${y - 10}px`;
+        cursor.current.style.right = "auto";
+        cursor.current.style.transform = "translate(-50%, -50%)";
+      }
     }
   }
 
@@ -75,26 +86,36 @@ const Popup = () => {
     <div
       ref={popup}
       role="presentation"
-      className="fixed inset-0 flex flex-col justify-start padding-block-[72px] padding-inline-[40px] bg-white overflow-visible z-[10000] px-10"
+      className="overflow-scroll md:overflow-visible fixed inset-0 flex flex-col md:flex-row justify-start padding-block-[72px] padding-inline-[40px] bg-white z-[10000] md:px-10 px-3.5"
       onMouseMove={moveCursor}
       onClick={handleClose}
     >
       <div
         ref={cursor}
-        className="w-10 h-10 bg-primary rounded-full absolute top-50 left-50 -translate-x-1/2 -translate-y-1/2"
-      ></div>
-      <div className="w-full h-screen flex flex-row gap-y-4">
-        <img ref={popupImage} className="w-1/2 h-screen object-contain" />
-        <div className="w-1/2 h-screen flex flex-col gap-y-4">
-          <h1 className="text-heading3 text-primary leading-[105%] tracking-heading3">
-            {leadersData[selectedIndex].name}
-          </h1>
-          <p className="text-bodyBase text-textPrimary">
-            {leadersData[selectedIndex].position}
-          </p>
-          <p ref={popupDesc} className="text-sm text-gray-500">
-            {leadersData[selectedIndex].position}
-          </p>
+        className="flex justify-center items-center w-10 h-10 bg-primary rounded-full md:absolute md:top-50 md:left-50 md:-translate-x-1/2 md:-translate-y-1/2 fixed top-5 right-5 z-[10001]"
+      >
+        <img src="/Images/icons/close.svg" className="w-full h-full scale-75"/>
+      </div>
+      <div className="w-full h-full flex flex-col md:grid md:grid-cols-4 md:gap-4">
+        <img 
+          ref={popupImage} 
+          className="w-full h-1/2 md:h-screen md:col-span-2 object-contain" 
+        />
+
+        <div className="flex-1 md:col-span-2 md:h-screen flex flex-col justify-center gap-y-4 pt-4 md:pt-0">
+          <div>
+            <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
+              {leadersData[selectedIndex]?.name}
+            </h1>
+            <p className="text-bodySmall text-black">
+              {leadersData[selectedIndex]?.position}
+            </p>
+          </div>
+          <div>
+            <p ref={popupDesc} className="text-bodyBase text-textPrimary">
+              {leadersData[selectedIndex]?.description}
+            </p>
+          </div>
         </div>
       </div>
     </div>
