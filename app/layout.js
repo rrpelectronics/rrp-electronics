@@ -2,7 +2,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { ReactLenis } from "lenis/react";
 import Header from "@/app/components/Header";
-// import Footer from "@/app/components/Footer";
+import Footer from "@/app/components/Footer";
 
 const neueMontreal = localFont({
     src: "../public/fonts/NeueMontreal-Regular.woff",
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <ReactLenis root>
           <Header/>
             {children}
-          {/* <Footer/> */}
+          <Footer/>
         </ReactLenis>
       </body>
     </html>
