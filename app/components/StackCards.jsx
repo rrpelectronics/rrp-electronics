@@ -28,7 +28,7 @@ export default function StackCards({ cardsData = [] }) {
           scrub: true,
         },
       });
-      
+
       for (let i = 1; i < cardsData.length; i++) {
         tl.fromTo(
           cardRefs.current[i],
@@ -40,7 +40,6 @@ export default function StackCards({ cardsData = [] }) {
 
     return () => ctx.revert();
   }, [isDesktop, cardsData.length]);
-
 
   return (
     <section
@@ -70,7 +69,7 @@ export default function StackCards({ cardsData = [] }) {
                 {card.desc}
               </p>
             </div>
-            <BulletList items={card.items}/>
+            <BulletList items={card.items} />
           </div>
           <div className="col-span-2 flex items-center justify-center">
             <div
