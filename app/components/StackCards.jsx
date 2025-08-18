@@ -22,7 +22,7 @@ export default function StackCards({ cardsData = [] }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
+          start: "top 10%",
           end: `+=${cardsData.length * 100}%`,
           pin: true,
           scrub: true,
