@@ -35,7 +35,7 @@ const Rajendra = () => {
             Founder & Chairman
           </p>
         </div>
-        <p className="text-bodyBase text-textSecondary font-neueMontreal leading-[120%]">
+        <p className="text-bodyBase text-textSecondary font-neueMontreal leading-[120%] w-full sm:w-[80%]">
           Maharashtra’s first semiconductor facility by RRP Electronics marks a
           historic leap in technology and innovation. This milestone strengthens
           our resolve to lead the global semiconductor landscape. Together, we
