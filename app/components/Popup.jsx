@@ -1,18 +1,21 @@
-import { useContext, useEffect, useRef } from "react";
-
-import { useGSAP } from "@gsap/react";
+"use client";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { leadersData } from "../leadersData";
-import { useAppContext } from "./AppContext";
+import { useGSAP } from "@gsap/react";
+import { leadersData } from "@/app/leadersData";
+import { useAppContext } from "@/app/components/AppContext";
+import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 const Popup = () => {
   const { state, setState } = useAppContext();
   const { selectedIndex, isActive } = state;
-
+  
   let cursor = useRef();
   let popup = useRef();
   let popupDesc = useRef();
   let popupImage = useRef();
+
+  UseBodyScrollLock(isActive, ".popup-content-scrollable");
 
   function initalizePopup(index) {
     if (
@@ -28,7 +31,7 @@ const Popup = () => {
       popupDesc.current.innerHTML = leaders.description;
     }
     if (popupImage.current) {
-      popupImage.current.src = leaders.imgThum;
+      popupImage.current.src = leaders.imgPathPopup;
       popupImage.current.alt = leaders.name;
     }
   }
@@ -86,33 +89,32 @@ const Popup = () => {
     <div
       ref={popup}
       role="presentation"
-      className="overflow-scroll md:overflow-visible fixed inset-0 flex flex-col md:flex-row justify-start padding-block-[72px] padding-inline-[40px] bg-white z-[10000] md:px-10 px-3.5"
+      className="overflow-y-scroll overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-white z-[70] md:px-5 lg:px-7.5 px-3.5"
       onMouseMove={moveCursor}
       onClick={handleClose}
     >
       <div
         ref={cursor}
-        className="bg-whiteBg flex justify-center items-center w-10 h-10 rounded-full md:absolute md:top-50 md:left-50 md:-translate-x-1/2 md:-translate-y-1/2 fixed top-5 right-5 z-[10001]"
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full md:fixed md:top-50 md:left-50 md:-translate-x-1/2 md:-translate-y-1/2 fixed top-5 right-3.5 z-[60]"
       >
-        <img src="/Images/icons/close.svg" className="w-full h-full scale-75"/>
+        <img src="/images/icons/close.svg" className="w-full h-full scale-75"/>
       </div>
-      <div className="w-full h-full flex flex-col md:grid md:grid-cols-4 md:gap-4">
+      <div className="w-full min-h-screen flex flex-col md:grid md:grid-cols-4 md:gap-4">
         <img 
           ref={popupImage} 
           className="w-full h-1/2 md:h-screen md:col-span-2 object-contain" 
         />
-
-        <div className="bg-white flex-1 md:col-span-2 md:h-screen flex flex-col justify-center gap-y-4 pt-4 md:pt-0">
-          <div>
+        <div className="bg-white flex-1 md:col-span-2 flex flex-col justify-center gap-y-6 md:gap-y-10 pt-4 md:pt-15">
+          <div className="flex flex-col gap-y-4">
             <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
               {leadersData[selectedIndex]?.name}
             </h1>
-            <p className="text-bodySmall text-black">
+            <p className="text-bodySmall text-black font-neueMontreal">
               {leadersData[selectedIndex]?.position}
             </p>
           </div>
           <div>
-            <p ref={popupDesc} className="text-bodyBase text-textPrimary">
+            <p ref={popupDesc} className="text-bodyBase text-textPrimary font-neueMontreal">
               {leadersData[selectedIndex]?.description}
             </p>
           </div>
