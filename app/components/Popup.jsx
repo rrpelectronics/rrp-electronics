@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { leadersData } from "@/app/leadersData";
@@ -97,15 +97,15 @@ const Popup = () => {
         ref={cursor}
         className="bg-primary flex justify-center items-center w-10 h-10 rounded-full @6xl:fixed @6xl:top-50 @6xl:left-50 @6xl:-translate-x-1/2 @6xl:-translate-y-1/2 fixed top-5 right-3.5 z-[60]"
       >
-        <img src="/images/icons/close.svg" className="w-full h-full scale-75"/>
+        <img src="/images/icons/close.svg" className="w-full h-full scale-75" />
       </div>
       <div className="w-full min-h-screen flex flex-col md:grid md:grid-cols-4 md:gap-4">
-        <img 
-          ref={popupImage} 
-          className="w-full h-1/2 md:h-screen md:col-span-2 object-contain" 
+        <img
+          ref={popupImage}
+          className="w-full h-1/2 md:h-screen md:col-span-2 object-contain"
         />
-        <div className="bg-white flex-1 md:col-span-2 flex flex-col justify-center gap-y-6 md:gap-y-10 pt-4 md:pt-15">
-          <div className="flex flex-col gap-y-4">
+        <div className="bg-white flex-1 md:col-span-2 flex flex-col justify-center gap-y-6 pt-4 md:pt-15">
+          <div className="flex flex-col gap-y-4 mb-4">
             <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
               {leadersData[selectedIndex]?.name}
             </h1>
@@ -113,11 +113,19 @@ const Popup = () => {
               {leadersData[selectedIndex]?.position}
             </p>
           </div>
-          <div>
-            <p ref={popupDesc} className="text-bodyBase text-textPrimary font-neueMontreal">
-              {leadersData[selectedIndex]?.description}
-            </p>
-          </div>
+          {leadersData[selectedIndex]?.description &&
+            leadersData[selectedIndex]?.description.length > 0 && (
+              <React.Fragment>
+                {leadersData[selectedIndex]?.description.map((para, id) => (
+                  <p
+                    key={id}
+                    className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
+                  >
+                    {para}
+                  </p>
+                ))}
+              </React.Fragment>
+          )}
         </div>
       </div>
     </div>
