@@ -22,13 +22,13 @@ export default function StackCards({ cardsData = [] }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
+          start: "top 10%",
           end: `+=${cardsData.length * 100}%`,
           pin: true,
           scrub: true,
         },
       });
-      
+
       for (let i = 1; i < cardsData.length; i++) {
         tl.fromTo(
           cardRefs.current[i],
@@ -40,7 +40,6 @@ export default function StackCards({ cardsData = [] }) {
 
     return () => ctx.revert();
   }, [isDesktop, cardsData.length]);
-
 
   return (
     <section
@@ -70,7 +69,7 @@ export default function StackCards({ cardsData = [] }) {
                 {card.desc}
               </p>
             </div>
-            <BulletList items={card.items}/>
+            <BulletList items={card.items} />
           </div>
           <div className="col-span-2 flex items-center justify-center">
             <div
