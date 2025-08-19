@@ -39,7 +39,7 @@ const Popup = () => {
   function moveCursor(e) {
     if (cursor.current) {
       cursor.current.style.display = "block";
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth < 1152;
       
       if (isMobile) {
         cursor.current.style.position = "fixed";
@@ -89,13 +89,13 @@ const Popup = () => {
     <div
       ref={popup}
       role="presentation"
-      className="overflow-y-scroll overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-white z-[70] md:px-5 lg:px-7.5 px-3.5"
+      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-white z-[70] md:px-5 lg:px-7.5 px-3.5"
       onMouseMove={moveCursor}
       onClick={handleClose}
     >
       <div
         ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full md:fixed md:top-50 md:left-50 md:-translate-x-1/2 md:-translate-y-1/2 fixed top-5 right-3.5 z-[60]"
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full @6xl:fixed @6xl:top-50 @6xl:left-50 @6xl:-translate-x-1/2 @6xl:-translate-y-1/2 fixed top-5 right-3.5 z-[60]"
       >
         <img src="/images/icons/close.svg" className="w-full h-full scale-75"/>
       </div>
