@@ -3,7 +3,6 @@ import React from "react";
 import Banner from "@/app/components/Banner";
 import Text from "@/app/components/Text";
 import Leaders from "./Leaders";
-import Popup from "../components/Popup";
 
 const page = () => {
   return (

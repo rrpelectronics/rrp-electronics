@@ -76,6 +76,10 @@ body {
   scrollbar-width: none;
 }
 
+.cursor-popup {
+  cursor: url("/images/icons/close-2.svg") 16 16, pointer;
+}
+
 .active-timeline {
   width: clamp(15.375rem, 12.587rem + 12.39vw, 22.5rem);
 }

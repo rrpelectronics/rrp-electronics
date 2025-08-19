@@ -6,34 +6,6 @@ import { leadersData } from "../leadersData";
 import { useAppContext } from "../components/AppContext";
 import Popup from "../components/Popup";
 
-// const leadersData = [
-//   {
-//     name: "Prashant Deshmukh",
-//     role: "Managing Director (MD)",
-//     img: "/images/leadership/prashant-deshmukh-card.webp",
-//   },
-//   {
-//     name: "George Abraham Vithayathil",
-//     role: "Esteemed Advisors, Independent Director",
-//     img: "/images/leadership/george-card.webp",
-//   },
-//   {
-//     name: "Sachin Tendulkar",
-//     role: "Our Strategic Investor",
-//     img: "/images/leadership/sachin-tendulkar-card.webp",
-//   },
-//   {
-//     name: "Dr. Anil Kakodkar",
-//     role: "Our Mentor",
-//     img: "/images/leadership/anil-kakodkar-card.webp",
-//   },
-//   {
-//     name: "Lt. Gen. R R Nimbhorkar",
-//     role: "Former Officer, Indian Army",
-//     img: "/images/leadership/rr-nimbhorkar-card.webp",
-//   },
-// ];
-
 const Leaders = () => {
   const { state, setState } = useAppContext();
 
