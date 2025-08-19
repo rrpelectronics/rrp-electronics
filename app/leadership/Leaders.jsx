@@ -17,7 +17,7 @@ const Leaders = () => {
     <section className="h-fit w-full py-10 md:py-15 bg-white">
       <SectionHeader
         heading="Meet Our Experts"
-        text="Our leadership consists of visionary engineers, business strategists, and industry pioneers, committed to driving RRP Electronics’ global expansion."
+        text="Our leadership consists of visionary engineers, business strategists, and industry pioneers, committed to driving RRP Electronics' global expansion."
       />
       <div className="h-fit w-full flex flex-wrap md:gap-x-22.5 gap-y-6 sm:gap-y-8 md:gap-y-10 justify-around md:justify-center items-center px-3.5 md:px-5 lg:px-10">
         {leadersData.map((leader, idx) => (
@@ -48,7 +48,8 @@ const Leaders = () => {
             </div>
           </div>
         ))}
-        <Popup />
+        
+        {state.isActive && <Popup />}
       </div>
     </section>
   );

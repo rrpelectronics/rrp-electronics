@@ -4,6 +4,7 @@ import Banner from '@/app/components/Banner';
 import Text from '@/app/components/Text';
 import Beginning from './Beginning';
 import Future from './Future';
+import OurJourney from './OurJourney';
 
 const page = () => {
   return (
@@ -18,6 +19,7 @@ const page = () => {
         }
       />
       <Beginning/>
+      <OurJourney/>
       <Future/>
     </main>
   );
