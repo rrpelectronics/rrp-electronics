@@ -425,7 +425,7 @@ const OurJourney = () => {
             {events.map((event, index) => (
               <div
                 key={index}
-                className="w-[246px] sm:w-[364px] relative flex flex-col gap-6 justify-center items-start"
+                className="w-[285px] relative flex flex-col gap-6 justify-center items-start"
               >
                 <div
                   ref={itemRefs.current[index]?.dot}
