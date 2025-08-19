@@ -134,31 +134,40 @@ const OurJourney = () => {
       const prevYear =
         activeIndex > 0 ? getYear(events[activeIndex - 1]?.date) : currentYear;
 
-      if (currentYear !== prevYear) {
-        const tl = gsap.timeline();
-        tl.to(yearTextRef.current, {
-          yPercent: -100,
-          opacity: 0,
-          duration: 0.25,
-          ease: "power2.inOut",
-          onComplete: () => {
-            yearTextRef.current.textContent = currentYear;
-            gsap.set(yearTextRef.current, {
-              yPercent: 100,
-              opacity: 0,
-              duration: 0.25,
-              ease: "power2.inOut",
-            });
-          },
-        }).to(yearTextRef.current, {
-          yPercent: 0,
-          opacity: 1,
-          duration: 0.25,
-          ease: "power2.inOut",
-        });
+      // Update year text content
+      if (yearTextRef.current.textContent !== currentYear) {
+        if (currentYear !== prevYear) {
+          // Animate only when year changes
+          const tl = gsap.timeline();
+          tl.to(yearTextRef.current, {
+            yPercent: -100,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.inOut",
+            onComplete: () => {
+              yearTextRef.current.textContent = currentYear;
+              gsap.set(yearTextRef.current, {
+                yPercent: 100,
+                opacity: 0,
+              });
+            },
+          }).to(yearTextRef.current, {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.25,
+            ease: "power2.inOut",
+          });
+        } else {
+          // Directly set the year without animation if it's the same year
+          yearTextRef.current.textContent = currentYear;
+          gsap.set(yearTextRef.current, {
+            yPercent: 0,
+            opacity: 1,
+          });
+        }
       }
     }
-  }, [activeIndex]);
+  }, [activeIndex, events]);
 
   // Handle next click
   useEffect(() => {
