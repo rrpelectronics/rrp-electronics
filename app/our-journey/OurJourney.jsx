@@ -13,7 +13,7 @@ const OurJourney = () => {
   const [translateX, setTranslateX] = useState(0);
   const titleRef = useRef([]);
   const isMedium = UseScreenSizeMedium();
-  
+
   // Enhanced timeline items with buffer for smooth infinite scroll
   const timelineItems = useRef([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]);
   const [renderKey, setRenderKey] = useState(0);
@@ -34,11 +34,31 @@ const OurJourney = () => {
   // Timeline data for easy reference
   const timelineData = [
     { year: "2024", month: "March", image: "/images/our-journey/image1.webp" },
-    { year: "2024", month: "September", image: "/images/our-journey/image1.webp" },
-    { year: "2024", month: "December", image: "/images/our-journey/image1.webp" },
-    { year: "2025", month: "January", image: "/images/our-journey/image1.webp" },
-    { year: "2025", month: "February", image: "/images/our-journey/image1.webp" },
-    { year: "2025", month: "September", image: "/images/our-journey/image1.webp" },
+    {
+      year: "2024",
+      month: "September",
+      image: "/images/our-journey/image1.webp",
+    },
+    {
+      year: "2024",
+      month: "December",
+      image: "/images/our-journey/image1.webp",
+    },
+    {
+      year: "2025",
+      month: "January",
+      image: "/images/our-journey/image1.webp",
+    },
+    {
+      year: "2025",
+      month: "February",
+      image: "/images/our-journey/image1.webp",
+    },
+    {
+      year: "2025",
+      month: "September",
+      image: "/images/our-journey/image1.webp",
+    },
   ];
 
   // Get element width for calculations
@@ -50,52 +70,57 @@ const OurJourney = () => {
   const getActualIndex = (index) => index % timelineData.length;
 
   // Render timeline element with optimized performance
-  const renderTimelineElement = useCallback((itemIndex, arrayPosition) => {
-    const actualIndex = getActualIndex(itemIndex);
-    const data = timelineData[actualIndex];
-    const isActive = arrayPosition === 0 && actualIndex === activeIndex;
+  const renderTimelineElement = useCallback(
+    (itemIndex, arrayPosition) => {
+      const actualIndex = getActualIndex(itemIndex);
+      const data = timelineData[actualIndex];
+      const isActive = arrayPosition === 0 && actualIndex === activeIndex;
 
-    return (
-      <div
-        key={`${actualIndex}-${arrayPosition}-${renderKey}`}
-        ref={(el) => {
-          if (isActive) titleRef.current[actualIndex] = el;
-        }}
-        style={isActive ? getActiveElementStyle() : getInactiveElementStyle()}
-        className={`
+      return (
+        <div
+          key={`${actualIndex}-${arrayPosition}-${renderKey}`}
+          ref={(el) => {
+            if (isActive) titleRef.current[actualIndex] = el;
+          }}
+          style={isActive ? getActiveElementStyle() : getInactiveElementStyle()}
+          className={`
           flex flex-col gap-6 justify-center cursor-pointer
           ${isActive ? "items-start" : "items-center"}
-          ${isAnimating ? 'pointer-events-none' : ''}
+          ${isAnimating ? "pointer-events-none" : ""}
         `}
-        onClick={() => !isAnimating && handleTimelineClick(actualIndex, arrayPosition)}
-      >
-        <div
-          style={
-            isActive
-              ? {
-                  marginInline: isMedium
-                    ? (yearWidth - 60) / 2 - (yearWidth - 60) * 0.05
-                    : (yearWidth - 28) / 2 - (yearWidth - 28) * 0.05,
-                }
-              : {}
+          onClick={() =>
+            !isAnimating && handleTimelineClick(actualIndex, arrayPosition)
           }
-          className={`h-4.5 w-4.5 rounded-full cursor-pointer will-change-auto ${
-            isActive ? "bg-primary" : "bg-textPrimary"
-          }`}
-        />
-        <p className="text-bodyBase text-textSecondary leading-[120%] font-neueMontreal whitespace-nowrap">
-          {data.month}, {data.year}
-        </p>
-      </div>
-    );
-  }, [activeIndex, yearWidth, isMedium, isAnimating, renderKey]);
+        >
+          <div
+            style={
+              isActive
+                ? {
+                    marginInline: isMedium
+                      ? (yearWidth - 60) / 2 - (yearWidth - 60) * 0.05
+                      : (yearWidth - 28) / 2 - (yearWidth - 28) * 0.05,
+                  }
+                : {}
+            }
+            className={`h-4.5 w-4.5 rounded-full cursor-pointer will-change-auto ${
+              isActive ? "bg-primary" : "bg-textPrimary"
+            }`}
+          />
+          <p className="text-bodyBase text-textSecondary leading-[120%] font-neueMontreal whitespace-nowrap">
+            {data.month}, {data.year}
+          </p>
+        </div>
+      );
+    },
+    [activeIndex, yearWidth, isMedium, isAnimating, renderKey]
+  );
 
   // Get styles for active element
   const getActiveElementStyle = () => ({
     width: "clamp(15.375rem, 12.587rem + 12.39vw, 19.5rem)",
     // marginRight: "clamp(1.25rem, -2.712rem + 17.61vw, 11.375rem)",
     flexShrink: 0,
-    willChange: 'width, margin',
+    willChange: "width, margin",
   });
 
   // Get styles for inactive elements
@@ -103,7 +128,7 @@ const OurJourney = () => {
     width: "200px",
     marginRight: "0",
     flexShrink: 0,
-    willChange: 'width, margin',
+    willChange: "width, margin",
   });
 
   // Ultra-smooth animation using requestAnimationFrame
@@ -116,20 +141,20 @@ const OurJourney = () => {
       const animate = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Smooth easing function
         const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-        const currentX = startX + (distance * easeOutCubic);
-        
+        const currentX = startX + distance * easeOutCubic;
+
         setTranslateX(currentX);
-        
+
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
           resolve();
         }
       };
-      
+
       requestAnimationFrame(animate);
     });
   };
@@ -139,7 +164,7 @@ const OurJourney = () => {
     if (isAnimating || clickedPosition === 0) return;
 
     setIsAnimating(true);
-    
+
     // Update state immediately for instant visual feedback
     setActiveIndex(clickedActualIndex);
     setCurrentYear(timelineData[clickedActualIndex].year);
@@ -150,27 +175,26 @@ const OurJourney = () => {
     try {
       // Phase 1: Smooth slide animation
       await animateToPosition(-moveDistance, 500);
-      
+
       // Phase 2: Instant rearrangement (happens off-screen)
       const currentItems = [...timelineItems.current];
-      
+
       // Rotate array to bring clicked item to front
       for (let i = 0; i < clickedPosition; i++) {
         const item = currentItems.shift();
         currentItems.push(item);
       }
-      
+
       timelineItems.current = currentItems;
-      
+
       // Reset position instantly (no visual change since items moved)
       setTranslateX(0);
-      setRenderKey(prev => prev + 1); // Force re-render with new order
-      
+      setRenderKey((prev) => prev + 1); // Force re-render with new order
+
       // Small delay for DOM to settle
-      await new Promise(resolve => setTimeout(resolve, 50));
-      
+      await new Promise((resolve) => setTimeout(resolve, 50));
     } catch (error) {
-      console.error('Animation error:', error);
+      console.error("Animation error:", error);
     } finally {
       setIsAnimating(false);
     }
@@ -179,13 +203,13 @@ const OurJourney = () => {
   // Handle next button click
   const handleNextClick = () => {
     if (isAnimating) return;
-    
+
     const nextActualIndex = (activeIndex + 1) % timelineData.length;
     // Find the position of next item in current array
-    const nextPosition = timelineItems.current.findIndex(item => 
-      getActualIndex(item) === nextActualIndex
+    const nextPosition = timelineItems.current.findIndex(
+      (item) => getActualIndex(item) === nextActualIndex
     );
-    
+
     if (nextPosition > 0) {
       handleTimelineClick(nextActualIndex, nextPosition);
     }
@@ -228,9 +252,11 @@ const OurJourney = () => {
               </g>
             </svg>
           </button>
-          <button 
+          <button
             className={`cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 rounded-full transition-all duration-200 ${
-              isAnimating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-orange/20'
+              isAnimating
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-orange/20"
             }`}
             onClick={handleNextClick}
             disabled={isAnimating}
@@ -263,14 +289,13 @@ const OurJourney = () => {
           </button>
         </div>
       </div>
-      
+
       <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-4">
         <div className="relative mb-6.5 col-span-4 px-3.5 md:px-10">
-            
           <h3
             ref={yearRef}
             className="text-display text-primary tracking-display leading-[105%] w-fit transition-all duration-300 ease-out"
-            style={{ willChange: 'contents' }}
+            style={{ willChange: "contents" }}
           >
             {currentYear}
           </h3>
@@ -279,21 +304,21 @@ const OurJourney = () => {
             className="w-full left-0 h-0.25 absolute bg-textSecondary z-1"
           />
         </div>
-        
-        <div 
+
+        <div
           ref={containerRef}
           className="relative min-w-full overflow-hidden col-span-4"
-          style={{ willChange: 'transform' }}
+          style={{ willChange: "transform" }}
         >
           <div
             ref={timelineRef}
             className="flex gap-7 md:gap-8 h-fit items-start relative z-2 px-8 md:px-16"
             style={{
-              width: 'max-content',
+              width: "max-content",
               transform: `translate3d(${translateX}px, 0, 0)`,
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-              perspective: '1000px',
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+              perspective: "1000px",
             }}
           >
             {timelineItems.current.map((itemIndex, arrayPosition) =>
@@ -302,37 +327,36 @@ const OurJourney = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-4 gap-x-3 md:gap-x-4 px-3.5 md:px-10">
         <div className="flex flex-col gap-6 justify-center items-start col-span-2 max-w-[22.5rem]">
-            <img
-              src={timelineData[activeIndex].image}
-              alt={getEventTitle(activeIndex)}
-              className="w-full h-full object-cover transition-opacity duration-300 ease-out"
-              loading="lazy"
-            />
-          <p 
+          <img
+            src={timelineData[activeIndex].image}
+            alt={getEventTitle(activeIndex)}
+            className="w-full h-full object-cover transition-opacity duration-300 ease-out"
+            loading="lazy"
+          />
+          <p
             className="text-white leading-[115%] text-heading4 transition-all duration-300 ease-out"
-            style={{ willChange: 'contents' }}
+            style={{ willChange: "contents" }}
           >
             {getEventTitle(activeIndex)}
           </p>
-          <p 
+          <p
             className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2 transition-all duration-300 ease-out"
-            style={{ willChange: 'contents' }}
+            style={{ willChange: "contents" }}
           >
             {getEventDescription(activeIndex)}
           </p>
         </div>
         <div className="col-span-2 flex justify-end items-start">
-          <div 
+          <div
             className="w-[285px] h-[214px] rounded-lg overflow-hidden transition-all duration-300 ease-out"
-            style={{ 
-              aspectRatio: '285/214',
-              willChange: 'contents'
+            style={{
+              aspectRatio: "285/214",
+              willChange: "contents",
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
     </section>
@@ -342,11 +366,11 @@ const OurJourney = () => {
   function getEventTitle(index) {
     const titles = [
       "Bhoomi Poojan Ceremony",
-      "Infrastructure Development", 
+      "Infrastructure Development",
       "Technology Integration",
       "Production Commencement",
       "Quality Certification",
-      "Market Expansion"
+      "Market Expansion",
     ];
     return titles[index] || "Bhoomi Poojan Ceremony";
   }
@@ -358,7 +382,7 @@ const OurJourney = () => {
       "Integration of cutting-edge technology and automated systems to enhance production capabilities and quality standards.",
       "Official commencement of production operations with first batch of high-quality semiconductor components.",
       "Achievement of international quality certifications and compliance with global semiconductor industry standards.",
-      "Strategic expansion into new markets and establishment of partnerships with leading technology companies worldwide."
+      "Strategic expansion into new markets and establishment of partnerships with leading technology companies worldwide.",
     ];
     return descriptions[index] || descriptions[0];
   }
