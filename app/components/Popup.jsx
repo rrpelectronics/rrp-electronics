@@ -38,16 +38,26 @@ const Popup = () => {
 
   function moveCursor(e) {
     if (cursor.current) {
-      cursor.current.style.display = "block";
       const isMobile = window.innerWidth < 1152;
       
       if (isMobile) {
+        cursor.current.style.display = "block";
         cursor.current.style.position = "fixed";
         cursor.current.style.top = "20px";
-        cursor.current.style.right = "20px";
+        cursor.current.style.right = "40px";
         cursor.current.style.left = "auto";
         cursor.current.style.transform = "none";
       } else {
+        const target = e.target;
+        const rect = target.getBoundingClientRect();
+        const isNearRightEdge = e.clientX > rect.right - 40;
+        
+        if (isNearRightEdge && target.classList.contains('popup-content-scrollable')) {
+          cursor.current.style.display = "none";
+          return;
+        }
+        
+        cursor.current.style.display = "block";
         let x = e.clientX;
         let y = e.clientY;
         cursor.current.style.position = "absolute";
@@ -56,6 +66,12 @@ const Popup = () => {
         cursor.current.style.right = "auto";
         cursor.current.style.transform = "translate(-50%, -50%)";
       }
+    }
+  }
+
+  function handleMouseLeave() {
+    if (cursor.current) {
+      cursor.current.style.display = "none";
     }
   }
 
@@ -85,47 +101,66 @@ const Popup = () => {
     setState((prev) => ({ ...prev, isActive: false }));
   };
 
+  const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div
       ref={popup}
       role="presentation"
-      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-white z-[70] md:px-5 lg:px-7.5 px-3.5"
+      className="fixed inset-0 z-[70] bg-white"
       onMouseMove={moveCursor}
+      onMouseLeave={handleMouseLeave}
       onClick={handleClose}
     >
       <div
         ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full @6xl:fixed @6xl:top-50 @6xl:left-50 @6xl:-translate-x-1/2 @6xl:-translate-y-1/2 fixed top-5 right-3.5 z-[60]"
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed top-5 right-3.5 z-[80] cursor-pointer pointer-events-auto"
+        onClick={handleClose}
+        style={{ display: 'none' }}
       >
-        <img src="/images/icons/close.svg" className="w-full h-full scale-75" />
+        <img src="/images/icons/close.svg" className="w-full h-full scale-75" alt="Close" />
       </div>
-      <div className="w-full min-h-screen flex flex-col md:grid md:grid-cols-4 md:gap-4">
-        <img
-          ref={popupImage}
-          className="w-full h-1/2 md:h-screen md:col-span-2 object-contain"
-        />
-        <div className="bg-white flex-1 md:col-span-2 flex flex-col justify-center gap-y-6 pt-4 md:pt-15">
-          <div className="flex flex-col gap-y-4 mb-4">
-            <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
-              {leadersData[selectedIndex]?.name}
-            </h1>
-            <p className="text-bodySmall text-black font-neueMontreal">
-              {leadersData[selectedIndex]?.position}
-            </p>
+
+      <div 
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5"
+        onClick={handleContentClick}
+        style={{ cursor: 'auto' }} 
+      >
+        <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-center">
+          <div className="md:col-span-2 flex justify-center items-center md:h-screen">
+            <img
+              ref={popupImage}
+              className="w-full max-h-[50vh] md:max-h-full object-contain"
+              alt=""
+            />
           </div>
-          {leadersData[selectedIndex]?.description &&
-            leadersData[selectedIndex]?.description.length > 0 && (
-              <React.Fragment>
-                {leadersData[selectedIndex]?.description.map((para, id) => (
-                  <p
-                    key={id}
-                    className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
-                  >
-                    {para}
-                  </p>
-                ))}
-              </React.Fragment>
-          )}
+          
+          <div className="md:col-span-2 flex flex-col justify-center gap-y-6 py-8 md:py-10">
+            <div className="flex flex-col gap-y-4 mb-4">
+              <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
+                {leadersData[selectedIndex]?.name}
+              </h1>
+              <p className="text-bodySmall text-black font-neueMontreal">
+                {leadersData[selectedIndex]?.position}
+              </p>
+            </div>
+            
+            {leadersData[selectedIndex]?.description &&
+              leadersData[selectedIndex]?.description.length > 0 && (
+                <div className="space-y-4">
+                  {leadersData[selectedIndex]?.description.map((para, id) => (
+                    <p
+                      key={id}
+                      className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
