@@ -9,7 +9,7 @@ import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 const Popup = () => {
   const { state, setState } = useAppContext();
   const { selectedIndex, isActive } = state;
-  
+
   let cursor = useRef();
   let popup = useRef();
   let popupDesc = useRef();
@@ -40,7 +40,7 @@ const Popup = () => {
     if (cursor.current) {
       cursor.current.style.display = "block";
       const isMobile = window.innerWidth < 1152;
-      
+
       if (isMobile) {
         cursor.current.style.position = "fixed";
         cursor.current.style.top = "20px";
@@ -89,7 +89,7 @@ const Popup = () => {
     <div
       ref={popup}
       role="presentation"
-      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-white z-[70] md:px-5 lg:px-7.5 px-3.5"
+      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-whiteBg z-[70] md:px-5 lg:px-7.5 px-3.5"
       onMouseMove={moveCursor}
       onClick={handleClose}
     >
@@ -125,7 +125,7 @@ const Popup = () => {
                   </p>
                 ))}
               </React.Fragment>
-          )}
+            )}
         </div>
       </div>
     </div>
