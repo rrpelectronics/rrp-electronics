@@ -10,7 +10,10 @@ export const leadersData = [
       "Mr. Prashant Deshmukh is a highly experienced professional with over 30 years in quality control, research and development, and operational management in the chemical and electronics industries. As the Managing Director of RRP Electronics, he is committed to driving innovation and excellence.", 
       "He has begun his career at Polychem Ltd, a collaboration with Dow Chemical, where he served as a Quality Control Specialist from 1982 to 1992 in Mumbai, India. His contributions to R&D and quality control were pivotal in establishing the company as the sole manufacturer of Styrene and Polystyrene in India.", 
       "From 1992 to 2000, he worked at SHARQ, a SABIC group company in Saudi Arabia, focusing on quality control, development, and safety. His leadership in these areas significantly enhanced product quality and safety standards.", 
+      "In 2001, he took on the role of Director at Mechvac Fabricators, where he not only refined his strategic and operational skills but also spearheaded R&D initiatives in nano-machining, optics manufacturing, and thin film coating. Under his guidance, Mechvac became the only private company in India equipped with cutting-edge technologies, including a one-of-a-kind nano-machining center. His leadership was pivotal in ensuring the smooth operation and growth of the company.",
+      "From 1992 to 2000, he worked at SHARQ, a SABIC group company in Saudi Arabia, focusing on quality control, development, and safety. His leadership in these areas significantly enhanced product quality and safety standards.", 
       "In 2001, he took on the role of Director at Mechvac Fabricators, where he not only refined his strategic and operational skills but also spearheaded R&D initiatives in nano-machining, optics manufacturing, and thin film coating. Under his guidance, Mechvac became the only private company in India equipped with cutting-edge technologies, including a one-of-a-kind nano-machining center. His leadership was pivotal in ensuring the smooth operation and growth of the company."
+      
     ],
   },
   {
