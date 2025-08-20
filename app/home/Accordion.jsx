@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
 
 const accordionData = [
   {
@@ -52,27 +53,59 @@ const accordionData = [
 const Accordion = () => {
   const [openItem, setOpenItem] = useState(0);
   const [shouldScroll, setShouldScroll] = useState(false);
-
   const itemRefs = useRef([]);
-  const topOffset = 100; // adjust this offset as needed (e.g., fixed header height)
+  const descriptionRefs = useRef([]);
+  const imageRefs = useRef([]);
+  const topOffset = 100;
 
   useEffect(() => {
-    if (!shouldScroll || openItem === -1) return;
+    accordionData.forEach((_, index) => {
+      const description = descriptionRefs.current[index];
+      const image = imageRefs.current[index];
+      const element = itemRefs.current[index];
 
-    const element = itemRefs.current[openItem];
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      window.scrollTo({
-        top: rect.top + scrollTop - topOffset,
-        behavior: "smooth",
-      });
-
-      // Reset scroll flag
-      setShouldScroll(false);
-    }
+      if (openItem === index) {
+        // Open animation
+        gsap.to(description, {
+          height: "auto",
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.inOut",
+          OnStart: () => {
+            if (shouldScroll && element) {
+              const rect = element.getBoundingClientRect();
+              const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+              window.scrollTo({
+                top: rect.top + scrollTop - topOffset,
+                behavior: "smooth",
+              });
+              setShouldScroll(false);
+            }
+          },
+        });
+        gsap.to(image, {
+          height: "auto",
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+      } else {
+        // Close animation
+        gsap.to(description, {
+          height: 0,
+          opacity: 0,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+        gsap.to(image, {
+          height: 0,
+          opacity: 0,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+      }
+    });
   }, [openItem, shouldScroll]);
 
   const toggleItem = (index) => {
@@ -83,7 +116,7 @@ const Accordion = () => {
 
   return (
     <section className="bg-darkBg h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
-      <h3 className="text-white text-heading2 leading-[110%] tracking-heading2 mb-8 md:mb-10 col-span-4">
+      <h3 className="text-white text-heading2 leading-[105%] tracking-heading2 mb-8 md:mb-10 col-span-4">
         Industries We Power <br /> The Future, Powered by RRP
       </h3>
       <ul className="grid grid-cols-4 col-span-4">
@@ -109,7 +142,8 @@ const Accordion = () => {
                 <p className="text-white text-heading4 leading-[115%] flex flex-col gap-2 lg:gap-4">
                   {item.title}
                   <span
-                    className={`text-bodySmall leading-[120%] text-textSecondary transition-all duration-300 ease-in-out ${
+                    ref={(el) => (descriptionRefs.current[index] = el)}
+                    className={`text-bodySmall leading-[120%] text-textSecondary ${
                       isOpen
                         ? "overflow-visible block h-fit opacity-100"
                         : "overflow-hidden hidden h-0 opacity-0"
@@ -141,7 +175,8 @@ const Accordion = () => {
               </div>
               <figure
                 id={`accordion-content-${index}`}
-                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden transition-all duration-300 ease-in-out ${
+                ref={(el) => (imageRefs.current[index] = el)}
+                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden ${
                   isOpen ? "h-fit block opacity-100" : "h-0 hidden opacity-0"
                 }`}
               >

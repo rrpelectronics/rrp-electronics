@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { leadersData } from "@/app/leadersData";
+import { leadersData } from "@/app/leadership/leadersData";
 import { useAppContext } from "@/app/components/AppContext";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
@@ -38,13 +38,14 @@ const Popup = () => {
 
   function moveCursor(e) {
     if (cursor.current) {
+      cursor.current.style.display = "block";
       const isMobile = window.innerWidth < 1152;
 
+
       if (isMobile) {
-        cursor.current.style.display = "block";
         cursor.current.style.position = "fixed";
         cursor.current.style.top = "20px";
-        cursor.current.style.right = "40px";
+        cursor.current.style.right = "20px";
         cursor.current.style.left = "auto";
         cursor.current.style.transform = "none";
       } else {
@@ -97,17 +98,12 @@ const Popup = () => {
     setState((prev) => ({ ...prev, isActive: false }));
   };
 
-  const handleContentClick = (e) => {
-    e.stopPropagation();
-  };
-
   return (
     <section
       ref={popup}
       role="presentation"
-      className="fixed inset-0 z-[70] bg-white"
+      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-whiteBg z-[70] md:px-5 lg:px-7.5 px-3.5"
       onMouseMove={moveCursor}
-      onMouseLeave={handleMouseLeave}
       onClick={handleClose}
     >
       <div

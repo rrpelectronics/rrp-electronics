@@ -22,7 +22,7 @@ export default function StackCards({ cardsData = [] }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 10%",
+          start: "top top",
           end: `+=${cardsData.length * 100}%`,
           pin: true,
           scrub: true,
@@ -58,9 +58,9 @@ export default function StackCards({ cardsData = [] }) {
               w-full bg-white flex flex-col md:grid md:grid-cols-4 md:gap-x-5`}
           style={isDesktop ? { zIndex: card.zIndex } : {}}
         >
-          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:py-10">
+          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:pt-25 md:pb-10">
             <div className="flex flex-col gap-5 md:gap-4">
-              <h3 className="text-heading2 text-black leading-[110%]">
+              <h3 className="text-heading2 text-black leading-[105%]">
                 {card.title}
               </h3>
               <p

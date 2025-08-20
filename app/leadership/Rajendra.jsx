@@ -28,14 +28,14 @@ const Rajendra = () => {
 
       <div className="col-span-4 w-full h-auto flex flex-col px-3.5 md:px-0 sm:py-10 lg:py-15 gap-y-20 sm:gap-y-0 justify-between">
         <div className="flex flex-col gap-y-4">
-          <h3 className="text-primary text-heading3 tracking-heading3 leading-[110%]">
+          <h3 className="text-primary text-heading3 tracking-heading3 leading-[105%]">
             Rajendra Chodankar
           </h3>
           <p className="text-bodySmall text-textSecondary font-neueMontreal leading-[120%]">
             Founder & Chairman
           </p>
         </div>
-        <p className="text-bodyBase text-textSecondary font-neueMontreal leading-[120%]">
+        <p className="text-bodyBase text-textSecondary font-neueMontreal leading-[120%] w-full sm:w-[80%]">
           Maharashtra’s first semiconductor facility by RRP Electronics marks a
           historic leap in technology and innovation. This milestone strengthens
           our resolve to lead the global semiconductor landscape. Together, we
