@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { leadersData } from "@/app/leadersData";
+import { leadersData } from "@/app/leadership/leadersData";
 import { useAppContext } from "@/app/components/AppContext";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
