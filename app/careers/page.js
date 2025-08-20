@@ -3,6 +3,8 @@ import React from 'react';
 import Banner from '@/app/components/Banner';
 import Text from '@/app/components/Text';
 import JobList from './JobList';
+import Why from './Why';
+import Culture from './Culture';
 
 const page = () => {
   return (
@@ -17,6 +19,8 @@ const page = () => {
         }
       />
       <JobList/>
+      <Why/>
+      <Culture/>
     </main>
   );
 }
