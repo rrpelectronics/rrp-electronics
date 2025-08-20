@@ -38,14 +38,13 @@ const Popup = () => {
 
   function moveCursor(e) {
     if (cursor.current) {
-      cursor.current.style.display = "block";
       const isMobile = window.innerWidth < 1152;
 
-
       if (isMobile) {
+        cursor.current.style.display = "block";
         cursor.current.style.position = "fixed";
         cursor.current.style.top = "20px";
-        cursor.current.style.right = "20px";
+        cursor.current.style.right = "40px";
         cursor.current.style.left = "auto";
         cursor.current.style.transform = "none";
       } else {
@@ -98,12 +97,17 @@ const Popup = () => {
     setState((prev) => ({ ...prev, isActive: false }));
   };
 
+  const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <section
       ref={popup}
       role="presentation"
-      className="@container overflow-y-scroll min-h-screen overflow-x-hidden fixed inset-0 flex flex-col md:flex-row justify-start bg-whiteBg z-[70] md:px-5 lg:px-7.5 px-3.5"
+      className="fixed inset-0 z-[70] bg-white"
       onMouseMove={moveCursor}
+      onMouseLeave={handleMouseLeave}
       onClick={handleClose}
     >
       <div
@@ -124,12 +128,13 @@ const Popup = () => {
       </div>
 
       <div
-        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 scrollbar-hide"
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none scrollbar-hide"
         onClick={handleContentClick}
         style={{ cursor: "auto" }}
+        data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start md:py-8">
-          <div className="md:col-span-2 flex justify-center items-start md:sticky md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
+          <div className="md:col-span-2 flex justify-center items-start md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
             <img
               ref={popupImage}
               className="w-full max-h-[50vh] md:max-h-full object-contain"
@@ -137,7 +142,7 @@ const Popup = () => {
             />
           </div>
 
-          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-0">
+          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-16">
             <div className="flex flex-col gap-y-4 mb-4">
               <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
                 {leadersData[selectedIndex]?.name}
