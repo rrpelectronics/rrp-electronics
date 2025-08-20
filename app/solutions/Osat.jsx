@@ -31,7 +31,7 @@ export default function Osat() {
             src="/images/solutions/solutions1.webp"
             alt="Chip Closeup"
             fill
-            className="object-fill"
+            className="object-cover object-top"
             priority
           />
         </div>
