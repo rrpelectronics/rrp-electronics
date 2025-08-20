@@ -294,7 +294,7 @@ const OurJourney = () => {
         <div className="relative mb-6.5 col-span-4 px-3.5 md:px-10">
           <h3
             ref={yearRef}
-            className="text-display text-primary tracking-display leading-[105%] w-fit transition-all duration-300 ease-out"
+            className="text-display text-primary tracking-display leading-[105%] w-fit transition-all duration-300 ease-linear"
             style={{ willChange: "contents" }}
           >
             {currentYear}
@@ -333,17 +333,17 @@ const OurJourney = () => {
           <img
             src={timelineData[activeIndex].image}
             alt={getEventTitle(activeIndex)}
-            className="w-full h-full object-cover transition-opacity duration-300 ease-out"
+            className="w-full h-full object-cover transition-opacity duration-300 ease-linear"
             loading="lazy"
           />
           <p
-            className="text-white leading-[115%] text-heading4 transition-all duration-300 ease-out"
+            className="text-white leading-[115%] text-heading4 transition-all duration-300 ease-linear"
             style={{ willChange: "contents" }}
           >
             {getEventTitle(activeIndex)}
           </p>
           <p
-            className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2 transition-all duration-300 ease-out"
+            className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2 transition-all duration-300 ease-linear"
             style={{ willChange: "contents" }}
           >
             {getEventDescription(activeIndex)}
@@ -351,7 +351,7 @@ const OurJourney = () => {
         </div>
         <div className="col-span-2 flex justify-end items-start">
           <div
-            className="w-[285px] h-[214px] rounded-lg overflow-hidden transition-all duration-300 ease-out"
+            className="w-[285px] h-[214px] rounded-lg overflow-hidden transition-all duration-300 ease-linear"
             style={{
               aspectRatio: "285/214",
               willChange: "contents",

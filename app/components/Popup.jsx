@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef } from "react";
-
-import { useGSAP } from "@gsap/react";
+"use client";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { leadersData } from "../leadersData";
-import { useAppContext } from "./AppContext";
-// import SplitType from "split-type"
+import { useGSAP } from "@gsap/react";
+import { leadersData } from "@/app/leadersData";
+import { useAppContext } from "@/app/components/AppContext";
+import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 const Popup = () => {
   const { state, setState } = useAppContext();
@@ -14,7 +14,8 @@ const Popup = () => {
   let popup = useRef();
   let popupDesc = useRef();
   let popupImage = useRef();
-  // let text = new SplitType('.popupDescription', { types: 'lines' })
+
+  UseBodyScrollLock(isActive, ".popup-content-scrollable");
 
   function initalizePopup(index) {
     if (
@@ -30,18 +31,37 @@ const Popup = () => {
       popupDesc.current.innerHTML = leaders.description;
     }
     if (popupImage.current) {
-      popupImage.current.src = leaders.imgPath;
+      popupImage.current.src = leaders.imgPathPopup;
       popupImage.current.alt = leaders.name;
     }
   }
 
   function moveCursor(e) {
     if (cursor.current) {
-      cursor.current.style.display = "block";
-      let x = e.clientX;
-      let y = e.clientY;
-      cursor.current.style.left = `${x - 10}px`;
-      cursor.current.style.top = `${y - 10}px`;
+      const isMobile = window.innerWidth < 1152;
+
+      if (isMobile) {
+        cursor.current.style.display = "block";
+        cursor.current.style.position = "fixed";
+        cursor.current.style.top = "20px";
+        cursor.current.style.right = "40px";
+        cursor.current.style.left = "auto";
+        cursor.current.style.transform = "none";
+      } else {
+        cursor.current.style.display = "block";
+        cursor.current.style.position = "fixed";
+        cursor.current.style.top = "40px";
+        cursor.current.style.right = "40px";
+        cursor.current.style.left = "auto";
+        cursor.current.style.transform = "none";
+      }
+    }
+  }
+
+  function handleMouseLeave() {
+    const isMobile = window.innerWidth < 1152;
+    if (cursor.current && isMobile) {
+      cursor.current.style.display = "none";
     }
   }
 
@@ -67,37 +87,97 @@ const Popup = () => {
     }
   }, [selectedIndex]);
 
+  useEffect(() => {
+    if (isActive && cursor.current) {
+      moveCursor();
+    }
+  }, [isActive]);
+
   const handleClose = () => {
     setState((prev) => ({ ...prev, isActive: false }));
   };
 
+  const handleContentClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div
+    <section
       ref={popup}
       role="presentation"
-      className="fixed inset-0 flex flex-col justify-start padding-block-[72px] padding-inline-[40px] bg-white overflow-visible z-[10000] px-10"
+      className="fixed inset-0 z-[70] bg-white"
       onMouseMove={moveCursor}
+      onMouseLeave={handleMouseLeave}
       onClick={handleClose}
     >
       <div
         ref={cursor}
-        className="w-10 h-10 bg-primary rounded-full absolute top-50 left-50 -translate-x-1/2 -translate-y-1/2"
-      ></div>
-      <div className="w-full h-screen flex flex-row gap-y-4">
-        <img ref={popupImage} className="w-1/2 h-screen object-contain" />
-        <div className="w-1/2 h-screen flex flex-col gap-y-4">
-          <h1 className="text-heading3 text-primary leading-[105%] tracking-heading3">
-            {leadersData[selectedIndex].name}
-          </h1>
-          <p className="text-bodyBase text-textPrimary">
-            {leadersData[selectedIndex].position}
-          </p>
-          <p ref={popupDesc} className="text-sm text-gray-500">
-            {leadersData[selectedIndex].position}
-          </p>
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80] cursor-pointer pointer-events-auto"
+        onClick={handleClose}
+        style={{
+          display: "none",
+          top: "40px",
+          right: "40px",
+        }}
+      >
+        <img
+          src="/images/icons/close.svg"
+          className="w-full h-full scale-75"
+          alt="Close"
+        />
+      </div>
+
+      <div
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 scrollbar-hide"
+        onClick={handleContentClick}
+        style={{ cursor: "auto" }}
+      >
+        <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start md:py-8">
+          <div className="md:col-span-2 flex justify-center items-start md:sticky md:top-8 md:h-[calc(100vh-4rem)]">
+            <img
+              ref={popupImage}
+              className="w-full max-h-[50vh] md:max-h-full object-contain"
+              alt=""
+            />
+          </div>
+
+          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-0">
+            <div className="flex flex-col gap-y-4 mb-4">
+              <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
+                {leadersData[selectedIndex]?.name}
+              </h1>
+              <p className="text-bodySmall text-black font-neueMontreal">
+                {leadersData[selectedIndex]?.position}
+              </p>
+            </div>
+
+            {leadersData[selectedIndex]?.description &&
+              leadersData[selectedIndex]?.description.length > 0 && (
+                <div className="space-y-4">
+                  {leadersData[selectedIndex]?.description.map((para, id) => (
+                    <p
+                      key={id}
+                      className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+    </section>
   );
 };
 
