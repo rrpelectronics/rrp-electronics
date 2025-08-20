@@ -1,6 +1,6 @@
 "use client";
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 const Beginning = () => {
   return (
@@ -34,7 +34,7 @@ const Beginning = () => {
           />
         </div>
         <div className="flex flex-col items-center justify-center gap-5 md:gap-8 max-w-[590px] mx-auto">
-          <h3 className="text-center text-heading2 text-black leading-[110%] tracking-heading2">
+          <h3 className="text-center text-heading2 text-black leading-[105%] tracking-heading2">
             The Beginning
           </h3>
           <p className="text-center text-bodyBase text-textPrimary leading-[120%] font-neueMontreal">
@@ -75,6 +75,6 @@ const Beginning = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Beginning
+export default Beginning;

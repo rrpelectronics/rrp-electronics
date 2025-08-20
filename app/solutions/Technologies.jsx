@@ -1,27 +1,19 @@
-'use client'
-import Image from 'next/image'
+"use client";
+import Image from "next/image";
 
 export default function Technologies() {
   const cards = [
-    { title: "Consumer electronics",
-      icon : "/images/icons/display1.svg"
-    },
+    { title: "Consumer electronics", icon: "/images/icons/display1.svg" },
 
-    { title: "Industrial automation",
-      icon : "/images/icons/display2.svg"
-     },
-    { title: "Medical imaging",
-      icon : "/images/icons/display3.svg"
-     },
-    { title: "Automotive displays",
-      icon : "/images/icons/display4.svg"
-     },
-  ]
+    { title: "Industrial automation", icon: "/images/icons/display2.svg" },
+    { title: "Medical imaging", icon: "/images/icons/display3.svg" },
+    { title: "Automotive displays", icon: "/images/icons/display4.svg" },
+  ];
 
   return (
     <section className="grid grid-cols-4 bg-white px-3.5 md:px-10 py-10 md:py-15">
       <div className="col-span-4 lg:col-span-2 flex flex-col justify-start mb-10">
-        <h3 className="font-neueMontrealMd text-heading2 tracking-heading2 leading-[110%] mb-5 md:mb-6">
+        <h3 className="font-neueMontrealMd text-heading2 tracking-heading2 leading-[105%] mb-5 md:mb-6">
           Display Technologies
         </h3>
         <p
@@ -29,7 +21,7 @@ export default function Technologies() {
         >
           {`At RRP Electronics, we deliver high-performance display technologies that enhance user experiences across consumer electronics, industrial automation, medical imaging, and automotive systems.`}
         </p>
-        <br/>
+        <br />
         <p
           className={`md:w-[80%] font-neueMontreal text-bodyBase text-textPrimary leading-[120%] whitespace-normal md:whitespace-pre-line`}
         >
@@ -60,10 +52,8 @@ function Card({ title, icon, className }) {
     <div
       className={`relative flex flex-col justify-between aspect-[294/169] h-[123px] md:h-[169px] w-full p-2 md:p-4 ${className}`}
     >
-      <img src={icon} alt="Card Icon" className='h-7 w-7 md:h-10 md:w-10' />
-      <div className="text-heading4 text-black leading-[115%]">
-        {title}
-      </div>
+      <img src={icon} alt="Card Icon" className="h-7 w-7 md:h-10 md:w-10" />
+      <div className="text-heading4 text-black leading-[115%]">{title}</div>
     </div>
-  )
+  );
 }

@@ -341,7 +341,7 @@ const OurJourney = () => {
   return (
     <section className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg">
       <div className="h-fit w-full col-span-4 sm:col-span-12 grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 items-end px-3.5 md:px-5 lg:px-10">
-        <h3 className="text-heading2 text-white leading-[110%] tracking-heading2 col-span-3 sm:col-span-9">
+        <h3 className="text-heading2 text-white leading-[105%] tracking-heading2 col-span-3 sm:col-span-9">
           Our Evolution at <br /> RRP Electronics
         </h3>
         <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 sm:col-span-3 w-fit ml-auto mr-0 h-fit">
