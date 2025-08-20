@@ -4,7 +4,7 @@ import Image from "next/image";
 import SectionHeader from "@/app/components/SectionHeader";
 import { leadersData } from "./leadersData";
 import { useAppContext } from "../components/AppContext";
-import Popup from "@/app/components/Popup";
+import Popup from "../components/Popup";
 
 const Leaders = () => {
   const { state, setState } = useAppContext();

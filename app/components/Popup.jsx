@@ -50,18 +50,34 @@ const Popup = () => {
       } else {
         cursor.current.style.display = "block";
         cursor.current.style.position = "fixed";
-        cursor.current.style.top = "40px";
-        cursor.current.style.right = "40px";
-        cursor.current.style.left = "auto";
+        cursor.current.style.left = e.clientX - 20 + "px";
+        cursor.current.style.top = e.clientY - 20 + "px";
+        cursor.current.style.right = "auto";
         cursor.current.style.transform = "none";
+        const isNearScrollbar = e.clientX > window.innerWidth - 20;
+        
+        if (isNearScrollbar) {
+          cursor.current.style.display = "none";
+          popup.current.style.cursor = "auto";
+        } else {
+          cursor.current.style.display = "block";
+          popup.current.style.cursor = "none";
+        }
       }
     }
   }
 
   function handleMouseLeave() {
     const isMobile = window.innerWidth < 1152;
-    if (cursor.current && isMobile) {
-      cursor.current.style.display = "none";
+    if (cursor.current) {
+      if (isMobile) {
+        cursor.current.style.display = "none";
+      } else {
+        cursor.current.style.display = "none";
+        if (popup.current) {
+          popup.current.style.cursor = "auto";
+        }
+      }
     }
   }
 
@@ -89,7 +105,15 @@ const Popup = () => {
 
   useEffect(() => {
     if (isActive && cursor.current) {
-      moveCursor();
+      const isMobile = window.innerWidth < 1152;
+      if (!isMobile) {
+        cursor.current.style.display = "block";
+        if (popup.current) {
+          popup.current.style.cursor = "none";
+        }
+      } else {
+        moveCursor();
+      }
     }
   }, [isActive]);
 
@@ -109,15 +133,15 @@ const Popup = () => {
       onMouseMove={moveCursor}
       onMouseLeave={handleMouseLeave}
       onClick={handleClose}
+      style={{ cursor: "none" }}
     >
       <div
         ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80] cursor-pointer pointer-events-auto"
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80] cursor-none pointer-events-none"
         onClick={handleClose}
         style={{
           display: "none",
-          top: "40px",
-          right: "40px",
+          pointerEvents: "none",
         }}
       >
         <img
@@ -128,13 +152,13 @@ const Popup = () => {
       </div>
 
       <div
-        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none scrollbar-hide"
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none"
         onClick={handleContentClick}
         style={{ cursor: "auto" }}
         data-lenis-prevent
       >
-        <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start md:py-8">
-          <div className="md:col-span-2 flex justify-center items-start md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
+        <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start">
+          <div className="bg-whiteBg md:col-span-2 flex justify-center items-start md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
             <img
               ref={popupImage}
               className="w-full max-h-[50vh] md:max-h-full object-contain"
@@ -142,7 +166,7 @@ const Popup = () => {
             />
           </div>
 
-          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-16">
+          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-10">
             <div className="flex flex-col gap-y-4 mb-4">
               <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
                 {leadersData[selectedIndex]?.name}

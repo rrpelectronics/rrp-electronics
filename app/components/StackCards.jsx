@@ -35,6 +35,19 @@ export default function StackCards({ cardsData = [] }) {
           { yPercent: 100 },
           { yPercent: 0, duration: 0.5, ease: "linear" }
         );
+        if (i > 0) {
+          tl.to(
+            cardRefs.current[i - 1],
+            {
+              scale: 0.9,
+              filter: "blur(1px)",
+              zIndex: -1,
+              duration: 0.5,
+              ease: "power2.out"
+            },
+            "<"
+          );
+        }
       }
     }, sectionRef);
 
@@ -46,7 +59,7 @@ export default function StackCards({ cardsData = [] }) {
       ref={sectionRef}
       className={`relative w-full ${
         isDesktop ? "h-screen" : "h-fit"
-      } bg-white flex flex-col gap-10 md:gap-15 items-center justify-center py-10 md:py-15`}
+      } bg-white flex flex-col gap-10 md:gap-15 items-center justify-center py-10 md:py-15 overflow-hidden`}
     >
       {cardsData.map((card, id) => (
         <div
@@ -56,7 +69,10 @@ export default function StackCards({ cardsData = [] }) {
             isDesktop ? "absolute top-0 left-0 h-full md:h-screen" : "relative"
           } 
               w-full bg-white flex flex-col md:grid md:grid-cols-4 md:gap-x-5`}
-          style={isDesktop ? { zIndex: card.zIndex } : {}}
+          style={isDesktop ? { 
+            zIndex: cardsData.length - id,
+            transformOrigin: "center center"
+          } : {}}
         >
           <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:pt-25 md:pb-10">
             <div className="flex flex-col gap-5 md:gap-4">
