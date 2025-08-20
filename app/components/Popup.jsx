@@ -146,7 +146,7 @@ const Popup = () => {
       >
         <img
           src="/images/icons/close.svg"
-          className="w-full h-full scale-75"
+          className="w-full h-full scale-75 cursor-auto"
           alt="Close"
         />
       </div>
@@ -154,7 +154,7 @@ const Popup = () => {
       <div
         className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none"
         onClick={handleContentClick}
-        style={{ cursor: "auto" }}
+        style={{ cursor: "none" }}
         data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start">
