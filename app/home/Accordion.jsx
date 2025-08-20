@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
 
 const accordionData = [
   {
@@ -52,27 +53,59 @@ const accordionData = [
 const Accordion = () => {
   const [openItem, setOpenItem] = useState(0);
   const [shouldScroll, setShouldScroll] = useState(false);
-
   const itemRefs = useRef([]);
-  const topOffset = 100; // adjust this offset as needed (e.g., fixed header height)
+  const descriptionRefs = useRef([]);
+  const imageRefs = useRef([]);
+  const topOffset = 100;
 
   useEffect(() => {
-    if (!shouldScroll || openItem === -1) return;
+    accordionData.forEach((_, index) => {
+      const description = descriptionRefs.current[index];
+      const image = imageRefs.current[index];
+      const element = itemRefs.current[index];
 
-    const element = itemRefs.current[openItem];
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      window.scrollTo({
-        top: rect.top + scrollTop - topOffset,
-        behavior: "smooth",
-      });
-
-      // Reset scroll flag
-      setShouldScroll(false);
-    }
+      if (openItem === index) {
+        // Open animation
+        gsap.to(description, {
+          height: "auto",
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.inOut",
+          OnStart: () => {
+            if (shouldScroll && element) {
+              const rect = element.getBoundingClientRect();
+              const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+              window.scrollTo({
+                top: rect.top + scrollTop - topOffset,
+                behavior: "smooth",
+              });
+              setShouldScroll(false);
+            }
+          },
+        });
+        gsap.to(image, {
+          height: "auto",
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+      } else {
+        // Close animation
+        gsap.to(description, {
+          height: 0,
+          opacity: 0,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+        gsap.to(image, {
+          height: 0,
+          opacity: 0,
+          duration: 0.75,
+          ease: "power2.inOut",
+        });
+      }
+    });
   }, [openItem, shouldScroll]);
 
   const toggleItem = (index) => {
@@ -109,7 +142,8 @@ const Accordion = () => {
                 <p className="text-white text-heading4 leading-[115%] flex flex-col gap-2 lg:gap-4">
                   {item.title}
                   <span
-                    className={`text-bodySmall leading-[120%] text-textSecondary transition-all duration-300 ease-in-out ${
+                    ref={(el) => (descriptionRefs.current[index] = el)}
+                    className={`text-bodySmall leading-[120%] text-textSecondary ${
                       isOpen
                         ? "overflow-visible block h-fit opacity-100"
                         : "overflow-hidden hidden h-0 opacity-0"
@@ -141,7 +175,8 @@ const Accordion = () => {
               </div>
               <figure
                 id={`accordion-content-${index}`}
-                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden transition-all duration-300 ease-in-out ${
+                ref={(el) => (imageRefs.current[index] = el)}
+                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden ${
                   isOpen ? "h-fit block opacity-100" : "h-0 hidden opacity-0"
                 }`}
               >
@@ -183,4 +218,4 @@ const Accordion = () => {
   );
 };
 
-export default Accordion;
+export default Accordion
