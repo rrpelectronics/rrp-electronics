@@ -14,7 +14,7 @@ const Leaders = () => {
   };
 
   return (
-    <section className="h-fit w-full py-10 md:py-15 bg-white">
+    <section className="h-full w-full py-10 md:py-15 bg-white">
       <SectionHeader
         heading="Meet Our Experts"
         text="Our leadership consists of visionary engineers, business strategists, and industry pioneers, committed to driving RRP Electronics' global expansion."
