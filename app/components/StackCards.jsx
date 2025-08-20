@@ -60,7 +60,7 @@ export default function StackCards({ cardsData = [] }) {
         >
           <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:pt-25 md:pb-10">
             <div className="flex flex-col gap-5 md:gap-4">
-              <h3 className="text-heading2 text-black leading-[110%]">
+              <h3 className="text-heading2 text-black leading-[105%]">
                 {card.title}
               </h3>
               <p
