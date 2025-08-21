@@ -8,7 +8,7 @@ import OurJourney from './OurJourney';
 
 const page = () => {
   return (
-    <main className='"min-h-screen w-full relative"'>
+    <main className='min-h-screen w-full'>
       <Banner
         imgSrc={"/images/our-journey/banner.webp"}
         heading={"From Vision to Reality – \n A Journey of Innovation"}

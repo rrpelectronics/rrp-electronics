@@ -3,12 +3,11 @@ import React from "react";
 import Banner from "@/app/components/Banner";
 import Text from "@/app/components/Text";
 import Leaders from "./Leaders";
-import Popup from "../components/Popup";
 import Rajendra from "./Rajendra";
 
 const page = () => {
   return (
-    <main className='"min-h-screen w-full relative"'>
+    <main className='min-h-screen w-full'>
       <Banner
         imgSrc={"/images/leadership/banner.webp"}
         heading={"Leaders of Innovation, \n Architects of the Future"}

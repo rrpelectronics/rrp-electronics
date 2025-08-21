@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import Banner from '@/app/components/BannerStack';
 import StackCards from '@/app/components/StackCards';
 import Certifications from './Certifications';
 
@@ -46,7 +46,7 @@ const cardsData = [
 
 export const compliances = () => {
   return (
-    <main className="min-h-screen w-full relative overflow-hidden">
+    <main className="min-h-screen w-full relative">
       <Banner imgSrc={"/images/compliances/banner.webp"} heading={"Driven by Excellence, \n Guided by Standards"} text={"We Deliver Semiconductors Built on a Foundation of Quality, Precision, and Compliance"}/>
       <StackCards cardsData={cardsData}/>
       <Certifications/>
