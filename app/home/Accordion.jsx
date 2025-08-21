@@ -8,7 +8,7 @@ const accordionData = [
     id: "01",
     title: "Telecommunication",
     description: "Ultra-fast, low-latency network processing.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/telecommunication.webp",
     alt: "Telecommunication",
   },
   {
@@ -16,21 +16,21 @@ const accordionData = [
     title: "Industrial",
     description:
       "Smart grids, renewable energy integration, efficient power distribution.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/industrial.webp",
     alt: "Industrial",
   },
   {
     id: "03",
     title: "Automotive & EVs",
     description: "Smart chips for self-driving cars & battery management.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/automative_ev.webp",
     alt: "Automotive & EVs",
   },
   {
     id: "04",
     title: "Medical & Healthcare",
     description: "Next-gen diagnostic & wearable tech.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/medical_healthcare.webp",
     alt: "Medical & Healthcare",
   },
   {
@@ -38,14 +38,14 @@ const accordionData = [
     title: "Commercial",
     description:
       "Advanced IoT solutions, smart retail systems, intelligent automation.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/commercial.webp",
     alt: "Commercial",
   },
   {
     id: "06",
     title: "Advanced Computing",
     description: "Future-ready computing for complex applications.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/advanced_computing.webp",
     alt: "Advanced Computing",
   },
 ];
