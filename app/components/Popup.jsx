@@ -137,7 +137,7 @@ const Popup = () => {
     >
       <div
         ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80] cursor-none pointer-events-none"
+        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80]"
         onClick={handleClose}
         style={{
           display: "none",
@@ -154,7 +154,6 @@ const Popup = () => {
       <div
         className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none"
         onClick={handleContentClick}
-        style={{ cursor: "none" }}
         data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start">
