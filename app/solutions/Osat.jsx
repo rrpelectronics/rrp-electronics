@@ -11,7 +11,7 @@ const cardItems = [
 
 export default function Osat() {
   return (
-    <section className="w-full h-full bg-white flex flex-col md:grid md:grid-cols-4 gap-5 px-3.5 md:px-10 py-10 md:py-16">
+    <section id="legacy-packaging" className="w-full h-full bg-white flex flex-col md:grid md:grid-cols-4 gap-5 px-3.5 md:px-10 py-10 md:py-16">
       <div className="col-span-2 flex flex-col justify-between">
         <div className="flex flex-col gap-4 pb-20 md:pb-0 justify-between">
           <h3 className="text-heading2 tracking-tight font-neueMontrealMd text-black leading-[105%]">
