@@ -1,10 +1,11 @@
 "use client";
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import Banner from '@/app/components/BannerStack';
 import VideoImgSection from '@/app/components/VideoImgSection';
 import Carousel from './Carousel';
 import Accordion from './Accordion';
 import Grid from './Grid';
+import News from './News';
 
 const Home = () => {
     return (
@@ -18,6 +19,7 @@ const Home = () => {
         <Accordion/>
         <VideoImgSection videoSrc={"/images/common/video.mp4"} heading={"Inside the \n OSAT Process"} text={"From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."}/>
         <Grid/>
+        <News/>
       </main>
     );
 }

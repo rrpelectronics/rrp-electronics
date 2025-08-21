@@ -22,7 +22,7 @@ const imgLayoutData = [
 
 const page = () => {
   return (
-    <main className='min-h-screen w-full relative'>
+    <main className='min-h-screen w-full'>
       <Banner imgSrc={"/images/about/banner.webp"} heading={"Pioneering Precision and \n Innovation in OSAT Services"}/>
       <Text text={"At RRP Electronics, we specialize in advanced OSAT (Outsourced Semiconductor Assembly and Test) services, combining cutting-edge technology with unwavering precision. From concept to completion, we drive innovation that powers next-gen electronics and shapes a smarter, connected future."}/>
       <ImageLayout imageLayoutData={imgLayoutData}/>

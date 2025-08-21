@@ -27,7 +27,7 @@ const imgLayoutData = [
 
 const page = () => {
   return (
-    <main className='min-h-screen w-full relative'>
+    <main className='min-h-screen w-full'>
       <Banner imgSrc={"/images/projects/banner.webp"} heading={"Shaping the Future – \n What’s Next for \n RRP Electronics?"}/>
       <Text text={"At RRP Electronics, we’re always looking ahead. From cutting-edge technology rollouts to new strategic partnerships, here’s a glimpse into what’s coming next."}/>
       <ImageLayout heading={"Next-Gen Projects in the Making"} imageLayoutData={imgLayoutData}/>

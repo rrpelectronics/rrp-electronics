@@ -51,12 +51,32 @@ const accordionData = [
 ];
 
 const Accordion = () => {
-  const [openItem, setOpenItem] = useState(0);
-  const [shouldScroll, setShouldScroll] = useState(false);
+  const [openItem, setOpenItem] = useState();
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const itemRefs = useRef([]);
   const descriptionRefs = useRef([]);
   const imageRefs = useRef([]);
-  const topOffset = 100;
+
+  const isElementInView = (element) => {
+    if (!element) return false;
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    return rect.top >= 0 && rect.bottom <= windowHeight;
+  };
+
+  const scrollToPosition = (element) => {
+    if (!element) return;
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const targetPosition = windowHeight * 0.5;
+    const currentPosition = rect.top;
+    const scrollOffset = currentPosition - targetPosition;
+
+    window.scrollBy({
+      top: scrollOffset,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     accordionData.forEach((_, index) => {
@@ -65,33 +85,26 @@ const Accordion = () => {
       const element = itemRefs.current[index];
 
       if (openItem === index) {
-        // Open animation
         gsap.to(description, {
           height: "auto",
           opacity: 1,
           duration: 0.75,
           ease: "power2.inOut",
-          OnStart: () => {
-            if (shouldScroll && element) {
-              const rect = element.getBoundingClientRect();
-              const scrollTop =
-                window.pageYOffset || document.documentElement.scrollTop;
-              window.scrollTo({
-                top: rect.top + scrollTop - topOffset,
-                behavior: "smooth",
-              });
-              setShouldScroll(false);
-            }
-          },
         });
         gsap.to(image, {
           height: "auto",
           opacity: 1,
           duration: 0.75,
           ease: "power2.inOut",
+          onComplete: () => {
+            if (!isElementInView(element)) {
+              setTimeout(() => {
+                scrollToPosition(element);
+              }, 100);
+            }
+          },
         });
       } else {
-        // Close animation
         gsap.to(description, {
           height: 0,
           opacity: 0,
@@ -106,12 +119,21 @@ const Accordion = () => {
         });
       }
     });
-  }, [openItem, shouldScroll]);
+  }, [openItem]);
 
   const toggleItem = (index) => {
     const isSame = openItem === index;
-    setOpenItem(isSame ? -1 : index);
-    setShouldScroll(!isSame);
+    const newOpenItem = isSame ? -1 : index;
+    setOpenItem(newOpenItem);
+    
+    if (!isSame) {
+      setTimeout(() => {
+        const element = itemRefs.current[index];
+        if (!isElementInView(element)) {
+          scrollToPosition(element);
+        }
+      }, 50);
+    }
   };
 
   return (
@@ -139,14 +161,16 @@ const Accordion = () => {
                 <p className="text-white text-heading4 leading-[105%] hidden sm:block">
                   {item.id}
                 </p>
-                <p className="text-white text-heading4 leading-[115%] flex flex-col gap-2 lg:gap-4">
+                <p
+                  className={`text-white text-heading4 leading-[115%] flex flex-col transition-all duration-750 ${
+                    isOpen ? "gap-2 lg:gap-4" : "gap-0 lg:gap-0"
+                  }`}
+                >
                   {item.title}
                   <span
                     ref={(el) => (descriptionRefs.current[index] = el)}
                     className={`text-bodySmall leading-[120%] text-textSecondary ${
-                      isOpen
-                        ? "overflow-visible block h-fit opacity-100"
-                        : "overflow-hidden hidden h-0 opacity-0"
+                      isOpen ? "overflow-visible h-fit" : "overflow-hidden h-0"
                     }`}
                   >
                     {item.description}
@@ -177,7 +201,7 @@ const Accordion = () => {
                 id={`accordion-content-${index}`}
                 ref={(el) => (imageRefs.current[index] = el)}
                 className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden ${
-                  isOpen ? "h-fit block opacity-100" : "h-0 hidden opacity-0"
+                  isOpen ? "h-fit" : "h-0"
                 }`}
               >
                 <Image
