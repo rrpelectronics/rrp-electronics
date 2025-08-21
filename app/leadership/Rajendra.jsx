@@ -4,12 +4,13 @@ import Image from "next/image";
 const Rajendra = () => {
   return (
     <section
-      className="h-fit w-full grid grid-cols-4 sm:flex gap-y-4 gap-x-3 sm:gap-x-10 lg:gap-x-15 justify-center items-stretch bg-darkBg bg-contain bg-center py-10 sm:py-0"
+      className="h-[70vh] w-full grid grid-cols-4 sm:flex gap-y-4 gap-x-3 sm:gap-x-10 lg:gap-x-15 justify-center items-stretch bg-darkBg bg-cover bg-center py-10 sm:py-0"
       style={{
         backgroundImage: "url('/images/leadership/leader-banner.webp')",
+        backgroundRepeat: "no-repeat"
       }}
     >
-      <div className="relative w-full h-auto bg-[#0f0f18] max-w-[35%] hidden sm:block">
+      <div className="overflow-hidden relative w-full h-auto bg-[#0f0f18] max-w-[30%] hidden sm:block">
         <img
           src="/images/leadership/rajendra.webp"
           alt="Rajendra Chodankar"
