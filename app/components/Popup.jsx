@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 import { leadersData } from "@/app/leadership/leadersData";
 import { useAppContext } from "@/app/components/AppContext";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
@@ -80,19 +81,19 @@ const Popup = () => {
       onClick={handleClose}
     >
       <div
-        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none"
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:pr-5 lg:pr-7.5 pr-3.5 select-none"
         data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start">
           <div className="bg-whiteBg md:col-span-2 flex justify-center items-start md:h-svh md:sticky top-0">
             <img
               ref={popupImage}
-              className="w-full max-h-[50vh] md:max-h-full object-contain"
+              className="w-full max-h-[50vh] md:max-h-full object-cover"
               alt={leadersData[selectedIndex]?.name}
             />
           </div>
 
-          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-10">
+          <div className="min-h-screen md:col-span-2 flex flex-col justify-center gap-y-6 py-8 md:py-10">
             <div className="flex flex-col gap-y-4 mb-4">
               <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
                 {leadersData[selectedIndex]?.name}
