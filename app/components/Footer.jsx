@@ -21,7 +21,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-      <div className='w-full h-fit pt-7.5 md:pt-10 border-t-1 border-t-borderSecondary'>
+      <div className="w-full h-fit pt-7.5 md:pt-10 border-t-1 border-t-borderSecondary">
         <div className="w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-x-5 items-start px-3.5 md:px-5 lg:px-10">
           <Link
             href={"/"}
@@ -43,17 +43,26 @@ const Footer = () => {
               <strong className="text-bodyLarge font-normal">Company</strong>
               <ul className="flex flex-col gap-2 md:gap-4.5 text-white text-bodySmall">
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/about"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/our-journey"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Our Journey
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/leadership"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Leadership
                   </Link>
                 </li>
@@ -64,12 +73,18 @@ const Footer = () => {
               <strong className="text-bodyLarge font-normal">Solutions</strong>
               <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/solutions/#legacy-packaging"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Legacy Packaging
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/solutions/#advance-packaging"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Advanced Packaging
                   </Link>
                 </li>
@@ -79,7 +94,10 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/solutions/#display-technologies"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Display Technologies
                   </Link>
                 </li>
@@ -90,17 +108,26 @@ const Footer = () => {
               <strong className="text-bodyLarge font-normal">Operations</strong>
               <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/compliances"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Quality standards & Compliances
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/logistics"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Supply Chain & Logistics
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/traceability"
+                    className="text-textSecondary leading-[120%]"
+                  >
                     Traceability
                   </Link>
                 </li>
@@ -113,7 +140,7 @@ const Footer = () => {
               </strong>
               <ul className="flex flex-col gap-[6px] md:gap-4.5 text-white text-bodySmall">
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link href="/projects" className="text-textSecondary leading-[120%]">
                     Projects
                   </Link>
                 </li>
@@ -123,7 +150,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link href="/careers" className="text-textSecondary leading-[120%]">
                     Careers
                   </Link>
                 </li>

@@ -39,8 +39,8 @@ export default function StackCards({ cardsData = [] }) {
           tl.to(
             cardRefs.current[i - 1],
             {
-              scale: 0.9,
-              filter: "blur(1px)",
+              scale: 0.75,
+              filter: "blur(10px)",
               zIndex: -1,
               duration: 0.5,
               ease: "power2.out"
