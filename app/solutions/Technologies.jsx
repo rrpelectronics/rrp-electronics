@@ -11,7 +11,7 @@ export default function Technologies() {
   ];
 
   return (
-    <section id="display-technologies" className="grid grid-cols-4 bg-white px-3.5 md:px-10 py-10 md:py-15">
+    <section id="display-technologies" className="grid grid-cols-4 bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
       <div className="col-span-4 lg:col-span-2 flex flex-col justify-start mb-10">
         <h3 className="font-neueMontrealMd text-heading2 tracking-heading2 leading-[105%] mb-5 md:mb-6">
           Display Technologies

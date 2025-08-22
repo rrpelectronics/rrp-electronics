@@ -87,10 +87,10 @@ export default function StackCards({ cardsData = [] }) {
           }
           className={`px-3.5 md:px-5 lg:px-10 py-10 bg-whiteBg ${
             isDesktop ? "absolute top-0 left-0" : "relative"
-          }  w-full bg-white flex flex-col md:grid md:grid-cols-4 md:gap-x-5 `}
+          }  w-full bg-white flex flex-col md:grid md:grid-cols-4 gap-y-7.5 md:gap-x-5 `}
         >
-          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0">
-            <div className="flex flex-col gap-5 md:gap-4">
+          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-15">
+            <div className={`flex flex-col gap-5 md:gap-4`}>
               <h3 className="text-heading2 text-black leading-[105%]">
                 {card.title}
               </h3>
@@ -103,13 +103,13 @@ export default function StackCards({ cardsData = [] }) {
             <BulletList items={card.items} />
           </div>
           <div className="col-span-2 flex items-center justify-center">
-            <div className="relative h-full w-full ml-auto mr-0">
+            <div className="relative h-[50vh] md:h-full w-full ml-auto mr-0">
               <Image
                 src={card.img}
                 alt={card.title}
                 fill
                 sizes="50vw"
-                className="object-cover object-top"
+                className="object-cover object-center"
                 priority
               />
             </div>

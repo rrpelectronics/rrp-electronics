@@ -1,21 +1,19 @@
 "use client";
-import React, { forwardRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef, memo, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import gsap from "gsap";
 import UseDropdownHandlers from "@/app/hooks/UseDropdownHandlers";
-import UseMobileDetection from "../hooks/UseMobileDetection";
+import UseMobileDetection from "@/app/hooks/UseMobileDetection";
+import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 import Dropdown from "./header/Dropdown";
+import NavLinks from "./header/NavLinks";
+import MobileMenu from "./header/MobileMenu";
 
 const companyLinks = [
   { href: "/about", label: "About Us" },
   { href: "/our-journey", label: "Our Journey" },
   { href: "/leadership", label: "Leadership" },
-];
-
-const solutionsLinks = [
-  { href: "/solutions/#legacy-packaging", label: "Legacy Packaging" },
-  { href: "/solutions/#advance-packaging", label: "Advanced Packaging" },
-  { href: "/solutions/#display-technologies", label: "Display Technologies" },
 ];
 
 const operationsLinks = [
@@ -24,10 +22,43 @@ const operationsLinks = [
   { href: "/traceability", label: "Traceability" },
 ];
 
+const navLinks = [
+  {
+    href: "/projects",
+    label: "Projects"
+  },
+  {
+    href: "/news-events",
+    label: "News & Events"
+  },
+  {
+    href: "/careers",
+    label: "Careers"
+  },
+  {
+    href: "/contact-us",
+    label: "Contact Us"
+  },
+]
+
 const Header = forwardRef((props, ref) => {
   const pathname = usePathname();
+  const mobileMenuRef = useRef(null);
   const isMobile = UseMobileDetection();
   const dropdowns = UseDropdownHandlers(isMobile);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  UseBodyScrollLock(isMobileMenuOpen, ".mobile-menu-scrollable");
+
+  const toggleMobileDropdown = useCallback((key) => {
+    setOpenMobileDropdown((prev) => (prev === key ? null : key));
+  }, []);
+
+  const handleMobileMenuClose = useCallback(() => {
+    setIsMobileMenuOpen(false);
+    setOpenMobileDropdown(null);
+  }, []);
 
   return (
     <header
@@ -37,13 +68,12 @@ const Header = forwardRef((props, ref) => {
       <nav className="flex justify-between items-center">
         <Link href={"/"} className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-9">
           <img
-            src="/images/common/rrplogo.png"
+            src="/images/common/rrplogo.svg"
             alt="RRP Electronics"
             className="object-contain object-center h-full w-auto"
           />
         </Link>
         <ul className="hidden lg:flex justify-center items-center lg:gap-2 xl:gap-6">
-
           <Dropdown
             isOpen={dropdowns.isCompanyOpen}
             onMouseEnter={() => dropdowns.handleMouseEnter("company")}
@@ -54,15 +84,11 @@ const Header = forwardRef((props, ref) => {
             onDropdownLinkClick={() => dropdowns.setIsCompanyOpen(false)}
           />
 
-          <Dropdown
-            isOpen={dropdowns.isSolutionsOpen}
-            onMouseEnter={() => dropdowns.handleMouseEnter("solutions")}
-            onMouseLeave={() => dropdowns.handleMouseLeave("solutions")}
-            label="Solutions"
-            links={solutionsLinks}
-            pathname={pathname}
-            onDropdownLinkClick={() => dropdowns.setIsSolutionsOpen(false)}
-          />
+          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
+            <Link href={"/solutions"} className={`p-2`}>
+              Solutions
+            </Link>
+          </li>
 
           <Dropdown
             isOpen={dropdowns.isOperationsOpen}
@@ -73,29 +99,28 @@ const Header = forwardRef((props, ref) => {
             pathname={pathname}
             onDropdownLinkClick={() => dropdowns.setIsOperationsOpen(false)}
           />
-
-          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              Projects
-            </Link>
-          </li>
-          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              News & Events
-            </Link>
-          </li>
-          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              Careers
-            </Link>
-          </li>
-          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2 pr-0 ">
-              Contact
-            </Link>
-          </li>
+          {navLinks.map((link, idx) => (
+            <NavLinks
+              key={`${idx}-${link.label}`}
+              href={link.href}
+              label={link.label}
+              className={`${idx === navLinks.length - 1 ? "pl-2 pr-0" : "p-2"}`}
+            />
+          ))}
         </ul>
-        <button className="block lg:hidden outline-0 border-none cursor-pointer">
+        <MobileMenu
+          dropDownLinks={companyLinks}
+          openMobileDropdown={openMobileDropdown}
+          toggleMobileDropdown={toggleMobileDropdown}
+          handleMobileMenuClose={handleMobileMenuClose}
+          pathname={pathname}
+          isOpen={isMobileMenuOpen}
+          ref={mobileMenuRef}
+        />
+        <button
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          className="block lg:hidden outline-0 border-none cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -126,4 +151,4 @@ const Header = forwardRef((props, ref) => {
   );
 });
 
-export default Header;
+export default memo(Header);
