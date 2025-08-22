@@ -340,11 +340,11 @@ const OurJourney = () => {
 
   return (
     <section className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg">
-      <div className="h-fit w-full col-span-4 sm:col-span-12 grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 items-end px-3.5 md:px-5 lg:px-10">
-        <h3 className="text-heading2 text-white leading-[105%] tracking-heading2 col-span-3 sm:col-span-9">
+      <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 items-end px-3.5 md:px-5 lg:px-10">
+        <h3 className="text-heading2 text-white leading-[105%] tracking-heading2 col-span-3">
           Our Evolution at <br /> RRP Electronics
         </h3>
-        <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 sm:col-span-3 w-fit ml-auto mr-0 h-fit">
+        <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit">
           <button
             ref={prevRef}
             disabled={activeIndex === 0}
@@ -409,14 +409,14 @@ const OurJourney = () => {
           </button>
         </div>
       </div>
-      <div className="h-fit w-full col-span-4 sm:col-span-12 grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4">
+      <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5">
         <h3
           ref={yearRef}
-          className="mb-6.5 col-span-4 sm:col-span-12 text-display text-primary tracking-display leading-[105%] w-fit px-3.5 md:px-10"
+          className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[105%] w-fit px-3.5 md:px-10"
         >
           <span ref={yearTextRef}>2024</span>
         </h3>
-        <div className="relative w-full overflow-x-hidden no-scrollbar col-span-4 sm:col-span-12">
+        <div className="relative w-full overflow-x-hidden no-scrollbar col-span-4">
           <div className="w-full h-0.25 absolute bg-textSecondary z-1 top-[9px] left-0" />
           <div
             ref={timelineRef}

@@ -87,18 +87,9 @@ export default function StackCards({ cardsData = [] }) {
             </div>
             <BulletList items={card.items} />
           </div>
-          <div className="col-span-2 flex items-center justify-center">
+          <div className="col-span-2 flex items-center justify-center pt-10 pr-10 pb-10">
             <div
-              style={
-                isMedium
-                  ? {
-                      width: "calc(100% - 20px)",
-                    }
-                  : {
-                      width: "calc(100% - 0px)",
-                    }
-              }
-              className="relative aspect-[332/394] lg:h-screen ml-auto mr-0"
+              className="relative h-full w-full ml-auto mr-0"
             >
               <Image
                 src={card.img}

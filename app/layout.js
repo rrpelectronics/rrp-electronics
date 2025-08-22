@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <AppProvider>
           <ReactLenis root>
             <Header />
-            {children}
+              {children}
             <Footer />
           </ReactLenis>
         </AppProvider>

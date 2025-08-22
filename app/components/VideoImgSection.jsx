@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const VideoImgSection = ({ videoSrc, imgSrc, heading, text }) => {
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-[700px] overflow-hidden">
       {videoSrc && (
         <div className="absolute inset-0 z-0">
           <video
@@ -41,7 +41,7 @@ const VideoImgSection = ({ videoSrc, imgSrc, heading, text }) => {
           </h3>
 
           <div className="col-span-4 col-start-1 lg:col-span-1 lg:col-start-4 flex flex-col gap-5 lg:gap-6 justify-end lg:justify-start">
-            <p className="text-white text-bodyLarge font-neueMontreal leading-[120%]">
+            <p className="text-white text-bodyBase font-neueMontreal leading-[120%]">
               {text}
             </p>
             {/* <Link

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import Banner from '@/app/components/BannerStack';
 import StackCards from '@/app/components/StackCards';
 
 const cardsData = [
