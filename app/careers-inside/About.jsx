@@ -13,7 +13,7 @@ export default function About() {
             <h3 className="text-heading2 text-black leading-[110%]">About Us</h3>
           </div>
           <div className="md:col-span-2">
-            <p className="text-textPrimary text-bodyBase leading-[120%]">
+            <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal">
               At RRP S4E, we specialize in precision engineering and electro-optics, providing cutting-edge solutions to defense, aerospace, and high-tech industries. With over three decades of innovation and a strong commitment to excellence, we are at the forefront of technological advancements, including drone systems, VTOL technologies, and defense applications.
             </p>
           </div>
@@ -25,7 +25,7 @@ export default function About() {
             <h3 className="text-heading2 text-black leading-[110%]">The Role</h3>
           </div>
           <div className="md:col-span-2">
-            <p className="text-textPrimary text-bodyBase leading-[120%]">
+            <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal">
               We are looking for a Drone Systems Engineer to join our Defense Technology team. In this role, you will design, develop, and test advanced drone systems, playing a key part in RRP S4E's defense solutions. Your work will push the boundaries of drone technologies, focusing on lightweight, high-performance systems for military and defense applications.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function About() {
             <h3 className="text-heading2 text-black leading-[110%]">Responsibilities</h3>
           </div>
           <div className="md:col-span-2">
-            <ul className="pl-5 list-disc text-textPrimary text-bodyBase leading-[120%] space-y-4 md:space-y-6">
+            <ul className="pl-5 list-disc text-textPrimary text-bodyBase leading-[120%] font-neueMontreal space-y-4 md:space-y-6">
               <li>Design, develop, and optimize drone systems for defense applications, including hardware, software, and integration.</li>
               <li>Collaborate with cross-functional teams to meet stringent performance and safety requirements.</li>
               <li>Lead testing, troubleshooting, and validation of drone systems, ensuring quality and functionality.</li>
@@ -52,10 +52,10 @@ export default function About() {
             <h3 className="text-heading2 text-black leading-[110%]">Why Join RRP S4E</h3>
           </div>
           <div className="md:col-span-2">
-            <p className="text-textPrimary text-bodyBase leading-[120%] mb-4">
+            <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal mb-4">
               At RRP S4E, you'll be part of a team that's redefining defense technology. We offer competitive salaries, opportunities for professional development, and a culture of innovation where your ideas are valued. Join us to work on projects that have a real impact on global defense and aerospace advancements.
             </p>
-            <p className="text-textPrimary text-bodyBase leading-[120%] mb-6">
+            <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal mb-9">
               If you're passionate about pushing the limits of drone technology and eager to contribute to groundbreaking projects, we want to hear from you!
             </p>
             <Link
