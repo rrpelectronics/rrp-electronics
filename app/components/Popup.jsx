@@ -81,24 +81,7 @@ const Popup = () => {
       onClick={handleClose}
     >
       <div
-        ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80]"
-        onClick={handleClose}
-        style={{
-          display: "none",
-          pointerEvents: "none",
-        }}
-      >
-        <img
-          src="/images/icons/close.svg"
-          className="w-full h-full scale-75 cursor-auto"
-          alt="Close"
-        />
-      </div>
-
-      <div
-        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 select-none"
-        onClick={handleContentClick}
+        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:pr-5 lg:pr-7.5 pr-3.5 select-none"
         data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start">
