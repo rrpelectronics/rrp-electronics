@@ -80,6 +80,26 @@ body {
   cursor: url("/images/icons/close-2.svg") 16 16, pointer;
 }
 
+select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.custom-select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 52%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url(/images/icons/arrow-down.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
 .active-timeline {
   width: clamp(15.375rem, 12.587rem + 12.39vw, 22.5rem);
 }

@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { leadersData } from "@/app/leadership/leadersData";
-import { useAppContext } from "@/app/components/AppContext";
+import { useAppContext } from "@/app/context/AppContext";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 const Popup = () => {
@@ -132,9 +132,7 @@ const Popup = () => {
         />
       </div>
 
-      <div
-        className="fixed top-5 md:top-8 lg:top-10 right-3.5 md:right-5 lg:right-10 w-10 h-10 pointer-events-none z-[80] block @6xl:hidden"
-      >
+      <div className="fixed top-5 md:top-8 lg:top-10 right-3.5 md:right-5 lg:right-10 w-10 h-10 pointer-events-none z-[80] block @6xl:hidden">
         <img
           src="/images/icons/close-button.svg"
           alt="Popup Close button for less then 1152"

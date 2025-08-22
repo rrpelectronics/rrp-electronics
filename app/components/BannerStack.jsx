@@ -18,12 +18,10 @@ const BannerStack = ({ video, imgSrc, heading, text }) => {
         </video>
       )}
       {imgSrc && (
-        <Image
+        <img
           src={imgSrc}
           alt={"Banner Image"}
-          sizes="100vw"
-          fill
-          className="object-cover object-center"
+          className="object-cover object-center absolute h-full w-full inset-0"
         />
       )}
       <div className="bg-black/70 inset-0 absolute h-full w-full" />

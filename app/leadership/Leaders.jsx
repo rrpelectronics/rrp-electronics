@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import SectionHeader from "@/app/components/SectionHeader";
 import { leadersData } from "./leadersData";
-import { useAppContext } from "../components/AppContext";
+import { useAppContext } from "../context/AppContext";
 import Popup from "../components/Popup";
 
 const Leaders = () => {

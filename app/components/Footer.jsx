@@ -14,7 +14,7 @@ const Footer = () => {
             scale, and intelligence.
           </p>
           <Link
-            href={"#"}
+            href={"/contact-us"}
             className="text-bodySmall text-white leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
           >
             Connect with Us
@@ -45,7 +45,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/about"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     About Us
                   </Link>
@@ -53,7 +53,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/our-journey"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Our Journey
                   </Link>
@@ -61,7 +61,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/leadership"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Leadership
                   </Link>
@@ -75,7 +75,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/solutions/#legacy-packaging"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Legacy Packaging
                   </Link>
@@ -83,20 +83,15 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/solutions/#advance-packaging"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Advanced Packaging
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
-                    FAB
-                  </Link>
-                </li>
-                <li>
                   <Link
                     href="/solutions/#display-technologies"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Display Technologies
                   </Link>
@@ -110,7 +105,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/compliances"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Quality standards & Compliances
                   </Link>
@@ -118,7 +113,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/logistics"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Supply Chain & Logistics
                   </Link>
@@ -126,7 +121,7 @@ const Footer = () => {
                 <li>
                   <Link
                     href="/traceability"
-                    className="text-textSecondary leading-[120%]"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
                   >
                     Traceability
                   </Link>
@@ -140,22 +135,34 @@ const Footer = () => {
               </strong>
               <ul className="flex flex-col gap-[6px] md:gap-4.5 text-white text-bodySmall">
                 <li>
-                  <Link href="/projects" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/projects"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+                  >
                     Projects
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="#"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+                  >
                     News & Events
                   </Link>
                 </li>
                 <li>
-                  <Link href="/careers" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="/careers"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+                  >
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-textSecondary leading-[120%]">
+                  <Link
+                    href="#"
+                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+                  >
                     Contact Us
                   </Link>
                 </li>
@@ -164,25 +171,34 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row justify-between gap-4 text-textSecondary text-caption font-neueMontreal px-3.5 md:px-5 lg:px-10">
+      <div className="flex flex-col md:flex-row justify-between gap-4 text-caption font-neueMontreal px-3.5 md:px-5 lg:px-10">
         <ul className="flex items-center gap-4">
           <li>
-            <Link href={"#"} className="leading-[120%]">
+            <Link
+              href={"#"}
+              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+            >
               Privacy Policy
             </Link>
           </li>
           <li>
-            <Link href={"#"} className="leading-[120%]">
+            <Link
+              href={"#"}
+              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+            >
               Disclaimer
             </Link>
           </li>
           <li>
-            <Link href={"#"} className="leading-[120%]">
+            <Link
+              href={"#"}
+              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+            >
               Sitemap
             </Link>
           </li>
         </ul>
-        <p className="leading-[120%]">
+        <p className="leading-[120%] text-textSecondary">
           Copyright © {new Date().getFullYear()} RRP Electronics. All Rights
           Reserved
         </p>
