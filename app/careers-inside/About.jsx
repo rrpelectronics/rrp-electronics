@@ -4,13 +4,13 @@ import Link from 'next/link';
 
 export default function About() {
   return (
-    <section className="w-full h-full px-3.5 md:px-10">
+    <section className="w-full h-full px-3.5 md:px-5 lg:px-10">
       <div className="w-full grid grid-cols-4">
         
         {/* about us */}
-        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-16">
+        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
           <div className="md:col-span-2 flex items-start">
-            <h2 className="text-heading2 text-black leading-[110%]">About Us</h2>
+            <h3 className="text-heading2 text-black leading-[110%]">About Us</h3>
           </div>
           <div className="md:col-span-2">
             <p className="text-textPrimary text-bodyBase leading-[120%]">
@@ -20,9 +20,9 @@ export default function About() {
         </div>
         
         {/* the role */}
-        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-16">
+        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
           <div className="md:col-span-2 flex items-start">
-            <h2 className="text-heading2 text-black leading-[110%]">The Role</h2>
+            <h3 className="text-heading2 text-black leading-[110%]">The Role</h3>
           </div>
           <div className="md:col-span-2">
             <p className="text-textPrimary text-bodyBase leading-[120%]">
@@ -32,9 +32,9 @@ export default function About() {
         </div>
         
         {/* responsibilities */}
-        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-16">
+        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
           <div className="md:col-span-2 flex items-start">
-            <h2 className="text-heading2 text-black leading-[110%]">Responsibilities</h2>
+            <h3 className="text-heading2 text-black leading-[110%]">Responsibilities</h3>
           </div>
           <div className="md:col-span-2">
             <ul className="pl-5 list-disc text-textPrimary text-bodyBase leading-[120%] space-y-4 md:space-y-6">
@@ -47,9 +47,9 @@ export default function About() {
         </div>
         
         {/*join RRP S4E */}
-        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-16">
+        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
           <div className="md:col-span-2 flex items-start">
-            <h2 className="text-heading2 text-black leading-[110%]">Why Join RRP S4E</h2>
+            <h3 className="text-heading2 text-black leading-[110%]">Why Join RRP S4E</h3>
           </div>
           <div className="md:col-span-2">
             <p className="text-textPrimary text-bodyBase leading-[120%] mb-4">
