@@ -1,10 +1,10 @@
 "use client";
+import React, { forwardRef } from "react";
 import Link from "next/link";
-import React from "react";
 
-const Header = () => {
+const Header = forwardRef((props, ref) => {
   return (
-    <header className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 bg-[#17171780] z-50 backdrop-blur-[2.5rem]">
+    <header ref={ref} className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 bg-[#17171780] z-50 backdrop-blur-[2.5rem]">
       <nav className="flex justify-between items-center">
         <Link
           href={"/"}
@@ -151,6 +151,6 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+});
 
 export default Header;
