@@ -1,14 +1,21 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
-const GridEventCards = ({ newsEventImg, title, date, source, link }) => {
+const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link }) => {
   return (
-    <li className="col-span-4 sm:col-span-2 flex flex-col sm:flex-row sm:items-stretch gap-4">
-      <div className="relative asepct-[340/192] w-full sm:aspect-[285/214] sm:w-[49%]">
-        <img src={newsEventImg} alt={title} className='h-full object-cover object-center' />
+    <li className="col-span-4 sm:col-span-2 grid grid-cols-4 gap-4">
+      <div className="col-span-4 sm:col-span-2 relative aspect-[340/192] sm:aspect-[285/214] w-full">
+        <Image
+          src={newsEventImg}
+          alt={title}
+          fill
+          sizes="25vw"
+          className={`object-cover ${imgBgClass}`}
+        />
       </div>
-      <div className="flex flex-col justify-between h-full w-[49%]">
+      <div className="col-span-4 sm:col-span-2 flex flex-col justify-between h-full">
         <div className="flex flex-col">
           <p className="text-textPrimary text-caption leading-[120%] font-neueMontreal mb-4.5">
             {date} | {source}

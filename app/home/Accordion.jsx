@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
 const accordionData = [
   {
@@ -52,31 +53,10 @@ const accordionData = [
 
 const Accordion = () => {
   const [openItem, setOpenItem] = useState();
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const itemRefs = useRef([]);
   const descriptionRefs = useRef([]);
   const imageRefs = useRef([]);
-
-  const isElementInView = (element) => {
-    if (!element) return false;
-    const rect = element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    return rect.top >= 0 && rect.bottom <= windowHeight;
-  };
-
-  const scrollToPosition = (element) => {
-    if (!element) return;
-    const rect = element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    const targetPosition = windowHeight * 0.5;
-    const currentPosition = rect.top;
-    const scrollOffset = currentPosition - targetPosition;
-
-    window.scrollBy({
-      top: scrollOffset,
-      behavior: "smooth",
-    });
-  };
+  const isSmall = UseScreenSizeSmall()
 
   useEffect(() => {
     accordionData.forEach((_, index) => {
@@ -84,39 +64,42 @@ const Accordion = () => {
       const image = imageRefs.current[index];
       const element = itemRefs.current[index];
 
+      const accordion_tl = gsap.timeline();
+
       if (openItem === index) {
-        gsap.to(description, {
+        accordion_tl.to(element, {
+          rowGap: "20px",
+          duration: 0.75,
+          ease: "power2.inOut",
+        }, "a").to(description, {
           height: "auto",
           opacity: 1,
           duration: 0.75,
+          marginTop : "12px",
           ease: "power2.inOut",
-        });
-        gsap.to(image, {
-          height: "auto",
+        }, "a").to(image, {
+          height: isSmall ? "30vh" : "auto" ,
           opacity: 1,
           duration: 0.75,
           ease: "power2.inOut",
-          onComplete: () => {
-            if (!isElementInView(element)) {
-              setTimeout(() => {
-                scrollToPosition(element);
-              }, 100);
-            }
-          },
-        });
+        }, "a");
       } else {
-        gsap.to(description, {
+        accordion_tl.to(element, {
+          rowGap: "0px",
+          duration: 0.75,
+          ease: "power2.inOut",
+        }, "a").to(description, {
+          marginTop : 0,
           height: 0,
           opacity: 0,
           duration: 0.75,
           ease: "power2.inOut",
-        });
-        gsap.to(image, {
+        }, "a").to(image, {
           height: 0,
           opacity: 0,
           duration: 0.75,
           ease: "power2.inOut",
-        });
+        }, "a");
       }
     });
   }, [openItem]);
@@ -125,15 +108,6 @@ const Accordion = () => {
     const isSame = openItem === index;
     const newOpenItem = isSame ? -1 : index;
     setOpenItem(newOpenItem);
-    
-    if (!isSame) {
-      setTimeout(() => {
-        const element = itemRefs.current[index];
-        if (!isElementInView(element)) {
-          scrollToPosition(element);
-        }
-      }, 50);
-    }
   };
 
   return (
@@ -151,7 +125,7 @@ const Accordion = () => {
               key={index}
               ref={(el) => (itemRefs.current[index] = el)}
               onClick={() => toggleItem(index)}
-              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 gap-y-5 ${
+              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 ${
                 isFirst
                   ? "border-y-1 border-y-borderSecondary"
                   : "border-b-1 border-b-borderSecondary"
@@ -162,15 +136,13 @@ const Accordion = () => {
                   {item.id}
                 </p>
                 <p
-                  className={`text-white text-heading4 leading-[115%] flex flex-col transition-all duration-750 ${
-                    isOpen ? "gap-2 lg:gap-4" : "gap-0 lg:gap-0"
-                  }`}
+                  className={`text-white text-heading4 font-neueMontreal leading-[115%] flex flex-col`}
                 >
                   {item.title}
                   <span
                     ref={(el) => (descriptionRefs.current[index] = el)}
                     className={`text-bodySmall leading-[120%] text-textSecondary ${
-                      isOpen ? "overflow-visible h-fit" : "overflow-hidden h-0"
+                      isOpen ? `overflow-visible` : `overflow-hidden`
                     }`}
                   >
                     {item.description}
@@ -200,9 +172,7 @@ const Accordion = () => {
               <figure
                 id={`accordion-content-${index}`}
                 ref={(el) => (imageRefs.current[index] = el)}
-                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden ${
-                  isOpen ? "h-fit" : "h-0"
-                }`}
+                className={`col-span-4 sm:col-span-6 sm:mx-auto relative sm:aspect-[285/212] sm:w-[285px] overflow-hidden`}
               >
                 <Image
                   src={item.image}
