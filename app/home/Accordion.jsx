@@ -52,7 +52,7 @@ const accordionData = [
 ];
 
 const Accordion = () => {
-  const [openItem, setOpenItem] = useState();
+  const [openItem, setOpenItem] = useState(0);
   const itemRefs = useRef([]);
   const descriptionRefs = useRef([]);
   const imageRefs = useRef([]);

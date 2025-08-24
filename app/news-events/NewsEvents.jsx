@@ -76,9 +76,10 @@ const news_data = [
 ];
 
 const NewsEvents = () => {
+
   return (
     <section className="w-full h-fit px-3.5 md:px-5 lg:px-10">
-      <h3 className="pt-40 pb-10 text-display text-black tracking-display leading-[105%]">
+      <h3 className="pt-25 md:pt-32 lg:pt-35 pb-10 text-display text-black tracking-display leading-[105%]">
         News & Events
       </h3>
       <ul className="w-full h-fit flex flex-wrap justify-between items-center gap-y-7.5 md:gap-y-10 gap-4 py-10 md:py-15">
