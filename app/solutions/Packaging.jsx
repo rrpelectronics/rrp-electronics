@@ -11,7 +11,7 @@ export default function Packaging() {
   ];
 
   return (
-    <section id="advance-packaging" className="bg-white px-3.5 md:px-10 py-16">
+    <section id="advance-packaging" className="bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
       <div className="grid grid-cols-4 gap-5">
         <div className="col-span-4 md:col-span-2 flex flex-col gap-5">
           <h3 className="text-heading2 tracking-heading2 leading-[105%]">

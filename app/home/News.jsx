@@ -10,14 +10,16 @@ const press_data = [
     date: "April 05",
     source: "India Today",
     link: "#",
+    imgBgClass: "object-center",
   },
   {
     newsEventImg: "/images/news-events/press-2.webp",
     title:
-      "RRP Electronics to establish first semiconductor plant in Maharashtra",
+    "RRP Electronics to establish first semiconductor plant in Maharashtra",
     date: "April 05",
     source: "India Today",
     link: "#",
+    imgBgClass: "object-top",
   },
 ];
 
@@ -25,18 +27,20 @@ const news_data = [
   {
     newsEventImg: "/images/news-events/news-1.webp",
     title:
-      "Tendulkar-backed RRP Electronics unveils semiconductor facility in Maharashtra",
+    "Tendulkar-backed RRP Electronics unveils semiconductor facility in Maharashtra",
     date: "March 28",
     source: "India Business Journal",
     link: "#",
+    imgBgClass: "object-center",
   },
   {
     newsEventImg: "/images/news-events/news-2.webp",
     title:
-      "RRP Electronics Ltd Launched Maharashtra's First OSAT Semiconductor Manufacturing Facility.",
+    "RRP Electronics Ltd Launched Maharashtra's First OSAT Semiconductor Manufacturing Facility.",
     date: "September 19",
     source: "The Print",
     link: "#",
+    imgBgClass: "object-center",
   },
 ];
 
@@ -82,6 +86,7 @@ const News = () => {
           <GridEventCards
             key={id}
             newsEventImg={item.newsEventImg}
+            imgBgClass={item.imgBgClass}
             title={item.title}
             date={item.date}
             source={item.source}

@@ -69,7 +69,7 @@ const Dropdown = ({
           clipPath: isOpen ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)",
           opacity: isOpen ? "opacity-100" : "opacity-0",
         }}
-        className="transition-all ease-in-out duration-500 rounded-md absolute h-fit py-3.5 flex flex-col w-[270px] left-0 top-[180%] bg-[#17171780] backdrop-blur-[4px]"
+        className="transition-all ease-in-out duration-500 rounded-md absolute h-fit py-3.5 flex flex-col w-max left-0 top-[180%] bg-[#17171780] backdrop-blur-[4px]"
       >
         {links.map(({ href, label }, idx) => (
           <li

@@ -1,7 +1,68 @@
-import Link from 'next/link';
-import React from 'react'
+"use client"
+import React, { memo } from "react";
+import Link from "next/link";
+
+// Reusable LinkList component to reduce duplication
+const LinkList = ({ title, links }) => (
+  <div className="flex flex-col gap-3.5 md:gap-6 text-white">
+    <strong className="text-bodyLarge font-normal">{title}</strong>
+    <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
+      {links.map(({ href, label }) => (
+        <li key={href}>
+          <Link
+            href={href}
+            className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+            aria-label={label}
+          >
+            {label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 const Footer = () => {
+  // Data for link sections
+  const linkSections = [
+    {
+      title: "Company",
+      links: [
+        { href: "/about", label: "About Us" },
+        { href: "/our-journey", label: "Our Journey" },
+        { href: "/leadership", label: "Leadership" },
+      ],
+    },
+    {
+      title: "Solutions",
+      links: [
+        { href: "/solutions/#legacy-packaging", label: "Legacy Packaging" },
+        { href: "/solutions/#advance-packaging", label: "Advanced Packaging" },
+        {
+          href: "/solutions/#display-technologies",
+          label: "Display Technologies",
+        },
+      ],
+    },
+    {
+      title: "Operations",
+      links: [
+        { href: "/compliances", label: "Quality standards & Compliances" },
+        { href: "/logistics", label: "Supply Chain & Logistics" },
+        { href: "/traceability", label: "Traceability" },
+      ],
+    },
+    {
+      title: "Explore",
+      links: [
+        { href: "/projects", label: "Projects" },
+        { href: "/news-events", label: "News & Events" },
+        { href: "/careers", label: "Careers" },
+        { href: "/contact-us", label: "Contact Us" },
+      ],
+    },
+  ];
+
   return (
     <footer className="h-fit w-full flex flex-col gap-10 md:gap-15 pt-10 md:pt-15 pb-10 md:pb-5 bg-darkBg">
       <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10">
@@ -14,8 +75,9 @@ const Footer = () => {
             scale, and intelligence.
           </p>
           <Link
-            href={"/contact-us"}
+            href="/contact-us"
             className="text-bodySmall text-white leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
+            aria-label="Connect with Us"
           >
             Connect with Us
           </Link>
@@ -24,179 +86,45 @@ const Footer = () => {
       <div className="w-full h-fit pt-7.5 md:pt-10 border-t-1 border-t-borderSecondary">
         <div className="w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-x-5 items-start px-3.5 md:px-5 lg:px-10">
           <Link
-            href={"/"}
-            className="aspect-[240/26] col-span-4 md:col-span-12 lg:col-span-3 mb-10 lg:mb-0"
-            style={{
-              width: "clamp(7.5rem, 6.964rem + 2.38vw, 8.75rem)",
-              height: "clamp(2.25rem, 2.089rem + 0.71vw, 2.625rem)",
-            }}
+            href="/"
+            className="aspect-[240/26] col-span-4 md:col-span-12 lg:col-span-3 mb-10 lg:mb-0 logo-container"
+            aria-label="RRP Electronics Home"
           >
             <img
-              src="/images/common/rrplogo.png"
+              src="/images/common/rrplogo.svg"
               alt="RRP Electronics"
               className="object-contain object-center h-full w-auto"
+              loading="lazy"
             />
           </Link>
-
           <div className="font-neueMontreal col-span-4 md:col-span-12 lg:col-span-9 grid grid-cols-2 gap-y-10 gap-x-3 md:flex md:flex-row md:justify-between w-full lg:ml-auto">
-            <div className="flex flex-col gap-4 md:gap-6 text-white">
-              <strong className="text-bodyLarge font-normal">Company</strong>
-              <ul className="flex flex-col gap-2 md:gap-4.5 text-white text-bodySmall">
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/our-journey"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Our Journey
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/leadership"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Leadership
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3.5 md:gap-6 text-white">
-              <strong className="text-bodyLarge font-normal">Solutions</strong>
-              <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
-                <li>
-                  <Link
-                    href="/solutions/#legacy-packaging"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Legacy Packaging
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/solutions/#advance-packaging"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Advanced Packaging
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/solutions/#display-technologies"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Display Technologies
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3.5 md:gap-6 text-white">
-              <strong className="text-bodyLarge font-normal">Operations</strong>
-              <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
-                <li>
-                  <Link
-                    href="/compliances"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Quality standards & Compliances
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/logistics"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Supply Chain & Logistics
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/traceability"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Traceability
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3.5 md:gap-6 text-white">
-              <strong className="block text-bodyLarge font-normal">
-                Explore
-              </strong>
-              <ul className="flex flex-col gap-[6px] md:gap-4.5 text-white text-bodySmall">
-                <li>
-                  <Link
-                    href="/projects"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    News & Events
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/careers"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Careers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {linkSections.map((section) => (
+              <LinkList
+                key={section.title}
+                title={section.title}
+                links={section.links}
+              />
+            ))}
           </div>
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between gap-4 text-caption font-neueMontreal px-3.5 md:px-5 lg:px-10">
         <ul className="flex items-center gap-4">
-          <li>
-            <Link
-              href={"#"}
-              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-            >
-              Privacy Policy
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={"#"}
-              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-            >
-              Disclaimer
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={"#"}
-              className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
-            >
-              Sitemap
-            </Link>
-          </li>
+          {[
+            { href: "#", label: "Privacy Policy" },
+            { href: "#", label: "Disclaimer" },
+            { href: "#", label: "Sitemap" },
+          ].map(({ href, label }) => (
+            <li key={label}>
+              <Link
+                href={href}
+                className="text-textSecondary hover:text-primary transition-colors duration-300 leading-[120%]"
+                aria-label={label}
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
         <p className="leading-[120%] text-textSecondary">
           Copyright © {new Date().getFullYear()} RRP Electronics. All Rights
@@ -205,6 +133,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
-export default Footer
+export default memo(Footer);

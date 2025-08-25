@@ -11,6 +11,7 @@ const press_data = [
     date: "April 05",
     source: "India Today",
     link: "#",
+    imgBgClass: "object-center",
   },
   {
     newsEventImg: "/images/news-events/press-2.webp",
@@ -19,6 +20,7 @@ const press_data = [
     date: "April 05",
     source: "India Today",
     link: "#",
+    imgBgClass: "object-top",
   },
 ];
 
@@ -31,7 +33,15 @@ const PressReleases = () => {
       />
       <ul className="w-full h-fit grid justify-center items-stretch grid-cols-4 gap-y-7.5 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
         {press_data.map((item, id) => (
-          <GridEventCards key={id} newsEventImg={item.newsEventImg} title={item.title} date={item.date} source={item.source} link={item.link}/>
+          <GridEventCards 
+            key={id} 
+            imgBgClass={item.imgBgClass} 
+            newsEventImg={item.newsEventImg} 
+            title={item.title} 
+            date={item.date} 
+            source={item.source} 
+            link={item.link}
+          />
         ))}
       </ul>
     </section>
