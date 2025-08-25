@@ -63,7 +63,7 @@ const Header = forwardRef((props, ref) => {
   return (
     <header
       ref={ref}
-      className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 bg-[#17171780] z-50 backdrop-blur-[4px]"
+      className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 bg-darkBg/60 z-50 backdrop-blur-[4px]"
     >
       <nav className="flex justify-between items-center">
         <Link href={"/"} className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-9">
