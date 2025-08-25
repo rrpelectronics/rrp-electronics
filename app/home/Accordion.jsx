@@ -111,7 +111,7 @@ const Accordion = () => {
   };
 
   return (
-    <section className="bg-darkBg h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
+    <section className="bg-darkBg h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-center">
       <h3 className="text-white text-heading2 leading-[105%] tracking-heading2 mb-8 md:mb-10 col-span-4">
         Industries We Power <br /> The Future, Powered by RRP
       </h3>

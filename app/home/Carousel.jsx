@@ -54,6 +54,7 @@ const slides = [
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
   const timeoutRef = useRef(null);
 
   const handleChange = (index) => {
@@ -62,11 +63,22 @@ const Carousel = () => {
   };
 
   useEffect(() => {
+    // Force initial animation to start
+    const initTimer = setTimeout(() => {
+      setIsInitialized(true);
+    }, 100);
+
+    return () => clearTimeout(initTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!isInitialized) return;
+
     timeoutRef.current = setTimeout(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 8000);
     return () => clearTimeout(timeoutRef.current);
-  }, [current]);
+  }, [current, isInitialized]);
 
   return (
     <section className="h-max w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-background">
@@ -128,12 +140,12 @@ const Carousel = () => {
             <div
               key={index}
               onClick={() => handleChange(index)}
-              className="p-2  cursor-pointer"
+              className="p-2 cursor-pointer"
             >
               <div className="w-15 h-0.75 bg-[#d9d9d9] relative overflow-hidden rounded-full">
                 <div
                   className={`absolute top-0 left-0 h-full ${
-                    current === index
+                    current === index && isInitialized
                       ? "w-full bg-primary transition-[width] duration-[8000ms]"
                       : "w-0"
                   }`}
