@@ -12,16 +12,7 @@ const Dropdown = ({
   onDropdownLinkClick,
 }) => {
 
-  const isParentActive =
-    links.some(({ href }) => {
-      const linkPath = href.split("/#")[0];
-      console.log(linkPath)
-      return (
-        pathname === href ||
-        pathname === linkPath ||
-        pathname.startsWith(linkPath)
-      );
-    }) || isOpen;
+  const isParentActive = links.some(({ href }) => pathname === href) || isOpen;
 
   return (
     <li
@@ -69,13 +60,13 @@ const Dropdown = ({
           clipPath: isOpen ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 100% 0%)",
           opacity: isOpen ? "opacity-100" : "opacity-0",
         }}
-        className="transition-all ease-in-out duration-500 rounded-md absolute h-fit py-3.5 flex flex-col w-max left-0 top-[180%] bg-[#17171780] backdrop-blur-[4px]"
+        className="transition-all ease-in-out duration-500 rounded-md absolute h-fit py-3.5 flex flex-col w-max left-0 top-[180%] bg-darkBg/60 backdrop-blur-[4px]"
       >
         {links.map(({ href, label }, idx) => (
           <li
             key={idx}
             onClick={onDropdownLinkClick}
-            className={`text-[16px] leading-[120%] font-neueMontreal ${
+            className={`text-[16px] leading-[120%] font-neueMontreal relative z-2 ${
               pathname === href
                 ? "text-primary"
                 : "text-white transition-colors ease-in-out hover:text-primary"
