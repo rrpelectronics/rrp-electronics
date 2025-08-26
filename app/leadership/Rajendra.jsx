@@ -1,53 +1,65 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
-const Rajendra = () => {
+const RajendraUpdate = () => {
+  const { containerRef } = useTextAnimation();
+
   return (
     <section
-      className="h-fit sm:h-[70vh] w-full grid grid-cols-4 sm:flex gap-y-4 gap-x-3 sm:gap-x-10 lg:gap-x-15 justify-center items-stretch bg-darkBg bg-cover bg-center py-10 sm:py-0"
-      style={{
-        backgroundImage: "url('/images/leadership/leader-banner.webp')",
-        backgroundRepeat: "no-repeat",
-      }}
+      ref={containerRef}
+      className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
     >
-      <div className="overflow-hidden relative w-full h-auto bg-[#0f0f18] max-w-[35%] hidden sm:block">
+      <div className="col-span-4 sm:col-span-2 w-full aspect-square relative overflow-hidden">
         <Image
-          src="/images/leadership/rajendra.webp"
-          alt="Rajendra Chodankar"
+          src={"/images/leadership/rajendra-sir.webp"}
+          alt="Mr. Rajendra Chodankar"
           fill
-          sizes="35%"
-          className="object-cover object-top"
+          sizes="50vw"
+          className="object-cover object-center"
         />
       </div>
-      <div className="col-span-4 relative w-full bg-[#0f0f18] aspect-square block sm:hidden px-3.5 overflow-hidden">
-        <Image
-          src="/images/leadership/rajendra.webp"
-          alt="Rajendra Chodankar"
-          fill
-          sizes="100vw"
-          className="object-top object-cover"
-        />
-      </div>
-
-      <div className="col-span-4 w-full h-auto flex flex-col px-3.5 md:px-0 sm:py-10 lg:py-15 gap-y-20 sm:gap-y-0 justify-between">
+      <div className="col-span-4 sm:col-span-2 flex flex-col justify-between gap-y-8">
         <div className="flex flex-col gap-y-4">
-          <h3 className="text-primary text-heading3 tracking-heading3 leading-[110%]">
+          <h3
+            data-animate-text
+            className="text-heading3 tracking-heading3 leading-[110%] text-primary"
+          >
             Rajendra Chodankar
           </h3>
-          <p className="text-bodySmall text-textSecondary font-neueMontreal leading-[120%]">
+          <p
+            data-animate-text
+            className="text-black text-bodySmall leading-[120%] font-neueMontreal"
+          >
             Founder & Chairman
           </p>
         </div>
-        <p className="text-bodyBase text-textSecondary font-neueMontreal leading-[120%] w-full sm:w-[80%]">
-          Maharashtra’s first semiconductor facility by RRP Electronics marks a
-          historic leap in technology and innovation. This milestone strengthens
-          our resolve to lead the global semiconductor landscape. Together, we
-          propel RRP S4E and the nation toward unmatched technological
-          excellence and prosperity.
-        </p>
+        <div className="text-textPrimary leading-[120%] text-bodyBase font-neueMontreal mt-8 sm:mt-0 flex flex-col gap-y-4">
+          <p data-animate-text>
+            Under the leadership of Mr. Rajendra Chodankar, RRP Electronics Ltd.
+            has emerged as one of the fastest-growing players in the
+            semiconductor industry with its advanced OSAT facility. The company
+            is expanding into fan-out packaging, memory device assembly, and a
+            dedicated fab lab for thermal imaging devices, strengthening its
+            position in high-tech manufacturing.
+          </p>
+          <p data-animate-text>
+            With 40+ years of engineering expertise, Mr. Chodankar—an innovator,
+            patent holder, and Padma Shri nominee—founded India’s first
+            nano-machining facility (2001) and achieved 1-micron tolerance
+            prototyping (2005). His work spans mass spectrometry, vacuum
+            systems, elemental analysis, space telescope components, and
+            delivering 10,000+ optical parts for fire-control systems.
+          </p>
+          <p data-animate-text>
+            His vision, rooted in precision and innovation, continues to drive
+            India’s progress in advanced manufacturing and semiconductors.
+          </p>
+        </div>
       </div>
     </section>
   );
 };
 
-export default Rajendra;
+export default RajendraUpdate;
