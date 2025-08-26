@@ -33,11 +33,11 @@ export default function Osat() {
           </h3>
           <p
             data-animate-text
-            className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%]"
+            className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%] md:mb-10 mb-0"
           >
-            From wafer to package, see how our world-class OSAT process delivers
-            precision, performance, and scalability at every stage of chip
-            assembly and testing.
+            We’re proud to launch Maharashtra’s first dedicated OSAT facility  
+            a major leap forward in India’s semiconductor ecosystem. Designed for agility, 
+            precision, and scale, our OSAT services support high-volume assembly and testing for consumer, industrial, and defense applications.
           </p>
         </div>
         <BulletList items={cardItems} />

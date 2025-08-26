@@ -18,13 +18,13 @@ const slides = [
       },
       {
         icon: "/images/icons/thermometer.svg",
-        title: "Thermal Efficiency",
+        title: "Thermal Performance",
         text: "Enables smooth operations.",
       },
       {
         icon: "/images/icons/mobile.svg",
         title: "Applications",
-        text: "IoT, mobile devices, RF, automotive, and industrial systems.",
+        text: "IoT, mobile devices, RF, consumer electronics, automotive, and industrial systems",
       },
     ],
   },
@@ -37,11 +37,11 @@ const slides = [
       {
         icon: "/images/icons/select-all.svg",
         title: "High Pin Count Capability",
-        text: "Suited for space-constrained designs.",
+        text: "Supports complex, high-performance chips",
       },
       {
         icon: "/images/icons/thermometer.svg",
-        title: "Thermal Efficiency",
+        title: "Thermal Management",
         text: "Ideal for high-power applications",
       },
       {

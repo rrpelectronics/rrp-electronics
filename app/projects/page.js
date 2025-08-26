@@ -16,7 +16,7 @@ const imgLayoutData = [
   }, 
   {
     src: "/images/projects/project2.webp",
-    title: "Water Level Packaging (with DECA Technologies)",
+    title: "Wafer Level Packaging (with DECA Technologies)",
     description: "An advanced packaging solution designed to redefine performance, efficiency, and scalability in semiconductor devices.",
     dates: {
       initiated: "November 2024",
