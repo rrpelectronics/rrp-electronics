@@ -3,44 +3,25 @@ import React, { useState } from "react";
 import GridEventCards from "@/app/components/GridEventCards";
 import Link from "next/link";
 
-const press_data = [
-  {
-    newsEventImg: "/images/news-events/press-1.webp",
-    title:
-      "RRP Electronics to establish first semiconductor plant in Maharashtra",
-    date: "April 05",
-    source: "India Today",
-    link: "#",
-    imgBgClass: "object-center",
-  },
-  {
-    newsEventImg: "/images/news-events/press-2.webp",
-    title:
-      "RRP Electronics to establish first semiconductor plant in Maharashtra",
-    date: "April 05",
-    source: "India Today",
-    link: "#",
-    imgBgClass: "object-top",
-  },
-];
-
 const news_data = [
   {
-    newsEventImg: "/images/news-events/news-1.webp",
+    id: "1",
+    newsEventImg: "/images/news-events/deca-rrp.webp",
     title:
-      "Tendulkar-backed RRP Electronics unveils semiconductor facility in Maharashtra",
-    date: "March 28",
-    source: "India Business Journal",
-    link: "#",
-    imgBgClass: "object-center",
+      "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
+    date: "February 26, 2025",
+    source: "The Hindu",
+    link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
+    imgBgClass: "object-top",
   },
   {
-    newsEventImg: "/images/news-events/news-2.webp",
+    id: "2",
+    newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
     title:
-      "RRP Electronics Ltd Launched Maharashtra's First OSAT Semiconductor Manufacturing Facility.",
-    date: "September 19",
-    source: "The Print",
-    link: "#",
+      "RRP Electronics to set up first semiconductor plant in Maharashtra’",
+    date: "July 10",
+    source: "The Hindu Business Line",
+    link: "https://www.thehindubusinessline.com/info-tech/rrp-electronics-to-set-up-first-semiconductor-plant-in-maharashtra/article67961569.ece",
     imgBgClass: "object-center",
   },
 ];
