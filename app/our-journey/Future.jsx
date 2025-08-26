@@ -1,15 +1,18 @@
 "use client";
 import React from 'react';
 import SectionHeader from '@/app/components/SectionHeader';
+import { useTextAnimation } from '@/app/hooks/UseTextAnimation';
 
 const Future = () => {
+  const { containerRef } = useTextAnimation();
+
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
       <SectionHeader
         heading={"The Road Ahead – \n Innovating for the Future"}
         text={"Our journey doesn’t stop here. We are relentlessly focused on:"}
       />
-      <div className="grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 items-stretch">
+      <div ref={containerRef} className="grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 items-stretch">
         <div className="md:gap-y-20 lg:gap-y-0 col-span-12 md:col-span-4 bg-whiteBg aspect-[387/290] w-full flex flex-col justify-between p-4">
           <img
             src="/images/icons/biotech.svg"
@@ -17,10 +20,10 @@ const Future = () => {
             className="h-7 w-7 md:h-10 md:w-10"
           />
           <div className="flex flex-col gap-y-2">
-            <p className="text-heading4 leading-[115%] text-black">
+            <p data-animate-text className="text-heading4 leading-[115%] text-black">
               Expanding R&D
             </p>
-            <p className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To push semiconductor tech beyond limits.</p>
+            <p data-animate-text className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To push semiconductor tech beyond limits.</p>
           </div>
         </div>
         <div className="md:gap-y-20 lg:gap-y-0 col-span-12 md:col-span-4 bg-whiteBg aspect-[387/290] w-full flex flex-col justify-between p-4">
@@ -30,10 +33,10 @@ const Future = () => {
             className="h-7 w-7 md:h-10 md:w-10"
           />
           <div className="flex flex-col gap-y-2">
-            <p className="text-heading4 leading-[115%] text-black">
+            <p data-animate-text className="text-heading4 leading-[115%] text-black">
               Advancing Automation
             </p>
-            <p className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To enhance efficiency, precision, and sustainability.</p>
+            <p data-animate-text className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To enhance efficiency, precision, and sustainability.</p>
           </div>
         </div>
         <div className="md:gap-y-20 lg:gap-y-0 col-span-12 md:col-span-4 bg-whiteBg aspect-[387/290] w-full flex flex-col justify-between p-4">
@@ -43,10 +46,10 @@ const Future = () => {
             className="h-7 w-7 md:h-10 md:w-10"
           />
           <div className="flex flex-col gap-y-2">
-            <p className="text-heading4 leading-[115%] text-black">
+            <p data-animate-text className="text-heading4 leading-[115%] text-black">
               Building Strategic Partnerships
             </p>
-            <p className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To shape the future of electronics manufacturing.</p>
+            <p data-animate-text className='text-textPrimary text-bodySmall leading-[120%] font-neueMontreal'>To shape the future of electronics manufacturing.</p>
           </div>
         </div>
       </div>

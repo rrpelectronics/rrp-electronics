@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UseScreenSizeLarge from "@/app/hooks/UseScreenSizeLarge";
 import { useHeaderHeight } from "@/app/context/HeaderHeightContext";
 import BulletList from "@/app/components/BulletList";
+import { useTextAnimation } from "../hooks/UseTextAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +15,10 @@ export default function StackCards({ cardsData = [] }) {
   const cardRefs = useRef([]);
   const isDesktop = UseScreenSizeLarge();
   const headerHeight = useHeaderHeight();
+  const { containerRef } = useTextAnimation();
 
   console.log(headerHeight);
-  
+
   useEffect(() => {
     if (!isDesktop) return;
 
@@ -45,7 +47,7 @@ export default function StackCards({ cardsData = [] }) {
               filter: "blur(10px)",
               zIndex: -1,
               duration: 0.5,
-              ease: "power2.out"
+              ease: "power2.out",
             },
             "<"
           );
@@ -89,13 +91,20 @@ export default function StackCards({ cardsData = [] }) {
             isDesktop ? "absolute top-0 left-0" : "relative"
           }  w-full bg-white flex flex-col md:grid md:grid-cols-4 gap-y-7.5 md:gap-x-5 `}
         >
-          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-15">
+          <div
+            ref={containerRef}
+            className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-15"
+          >
             <div className={`flex flex-col gap-5 md:gap-4`}>
-              <h3 className="text-heading2 text-black leading-[105%]">
+              <h3
+                data-animate-text
+                className="text-heading2 text-black leading-[110%]"
+              >
                 {card.title}
               </h3>
               <p
-                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%]`}
+                data-animate-text
+                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%] w-[80%]`}
               >
                 {card.desc}
               </p>

@@ -16,7 +16,7 @@ const MobileDropdown = ({
     <li>
       <p
         onClick={toggleOpen}
-        className={`w-fit gap-4 flex justify-center items-center text-3xl sm:text-heading1 leading-[105%] sm:tracking-heading1 ${
+        className={`w-fit gap-4 flex justify-center items-center text-3xl sm:text-heading1 leading-[110%] sm:tracking-heading1 ${
           isActive
             ? "text-primary"
             : "text-white transition-colors ease-in-out hover:text-primary"
@@ -48,7 +48,7 @@ const MobileDropdown = ({
             <Link
               href={href}
               onClick={closeMenu}
-              className={`text-xl sm:text-heading2 leading-[105%] ${
+              className={`text-xl sm:text-heading2 leading-[110%] ${
                 pathname === href
                   ? "text-primary"
                   : "text-white/60 transition-colors ease-in-out hover:text-primary"

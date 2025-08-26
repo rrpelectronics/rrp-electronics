@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState, createRef } from "react";
 import gsap from "gsap/all";
 import Image from "next/image";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 const OurJourney = () => {
   const yearRef = useRef(null);
@@ -9,6 +10,7 @@ const OurJourney = () => {
   const timelineRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const { containerRef } = useTextAnimation();
 
   const itemRefs = useRef([]);
 
@@ -339,83 +341,91 @@ const OurJourney = () => {
   }, [activeIndex, itemWidth, gap]);
 
   return (
-    <section className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg">
+    <section
+      ref={containerRef}
+      className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg"
+    >
       <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 items-end px-3.5 md:px-5 lg:px-10">
-        <h3 className="text-heading2 text-white leading-[105%] tracking-heading2 col-span-3">
+        <h3
+          data-animate-text
+          className="text-heading2 text-white leading-[110%] tracking-heading2 col-span-3"
+        >
           Our Evolution at <br /> RRP Electronics
         </h3>
-        <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit">
-          <button
-            ref={prevRef}
-            disabled={activeIndex === 0}
-            className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <rect width="40" height="40" rx="20" fill="#2E2E30" />
-              <mask
-                id="mask0_453_1226"
-                maskUnits="userSpaceOnUse"
-                x="8"
-                y="8"
-                width="24"
-                height="24"
-              >
-                <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_453_1226)">
-                <path
-                  d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-          </button>
-          <button
-            ref={nextRef}
-            disabled={activeIndex === events.length - 1}
-            className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <rect width="40" height="40" rx="20" fill="#2E2E30" />
-              <mask
-                id="mask0_453_1226"
-                maskUnits="userSpaceOnUse"
-                x="8"
-                y="8"
-                width="24"
-                height="24"
-              >
-                <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_453_1226)">
-                <path
-                  d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
       </div>
       <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5">
-        <h3
-          ref={yearRef}
-          className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[105%] w-fit px-3.5 md:px-10"
-        >
-          <span ref={yearTextRef}>2024</span>
-        </h3>
+        <div className="col-span-4 flex justify-between items-center px-3.5 md:px-10">
+          <h3
+            ref={yearRef}
+            className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[110%] w-fit"
+          >
+            <span ref={yearTextRef}>2024</span>
+          </h3>
+          <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit">
+            <button
+              ref={prevRef}
+              disabled={activeIndex === 0}
+              className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <rect width="40" height="40" rx="20" fill="#2E2E30" />
+                <mask
+                  id="mask0_453_1226"
+                  maskUnits="userSpaceOnUse"
+                  x="8"
+                  y="8"
+                  width="24"
+                  height="24"
+                >
+                  <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_453_1226)">
+                  <path
+                    d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </button>
+            <button
+              ref={nextRef}
+              disabled={activeIndex === events.length - 1}
+              className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <rect width="40" height="40" rx="20" fill="#2E2E30" />
+                <mask
+                  id="mask0_453_1226"
+                  maskUnits="userSpaceOnUse"
+                  x="8"
+                  y="8"
+                  width="24"
+                  height="24"
+                >
+                  <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_453_1226)">
+                  <path
+                    d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div className="relative w-full overflow-x-hidden no-scrollbar col-span-4">
           <div className="w-full h-0.25 absolute bg-textSecondary z-1 top-[9px] left-0" />
           <div

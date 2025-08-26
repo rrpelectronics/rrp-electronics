@@ -7,7 +7,7 @@ const Rajendra = () => {
       className="h-fit sm:h-[70vh] w-full grid grid-cols-4 sm:flex gap-y-4 gap-x-3 sm:gap-x-10 lg:gap-x-15 justify-center items-stretch bg-darkBg bg-cover bg-center py-10 sm:py-0"
       style={{
         backgroundImage: "url('/images/leadership/leader-banner.webp')",
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div className="overflow-hidden relative w-full h-auto bg-[#0f0f18] max-w-[35%] hidden sm:block">
@@ -31,7 +31,7 @@ const Rajendra = () => {
 
       <div className="col-span-4 w-full h-auto flex flex-col px-3.5 md:px-0 sm:py-10 lg:py-15 gap-y-20 sm:gap-y-0 justify-between">
         <div className="flex flex-col gap-y-4">
-          <h3 className="text-primary text-heading3 tracking-heading3 leading-[105%]">
+          <h3 className="text-primary text-heading3 tracking-heading3 leading-[110%]">
             Rajendra Chodankar
           </h3>
           <p className="text-bodySmall text-textSecondary font-neueMontreal leading-[120%]">

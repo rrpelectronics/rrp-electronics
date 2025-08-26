@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import HeadingCenter from "../components/HeadingCenter";
+import HeadingCenter from "@/app/components/HeadingCenter";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 const slides = [
   {
@@ -57,6 +58,8 @@ const Carousel = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const timeoutRef = useRef(null);
 
+  const { containerRef } = useTextAnimation();
+
   const handleChange = (index) => {
     setCurrent(index);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -84,13 +87,22 @@ const Carousel = () => {
     <section className="h-max w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-background">
       <HeadingCenter heading={"Packaging Services"} />
       {/* Content grid */}
-      <div className="grid grid-cols-4 gap-y-6 gap-x-3 md:gap-x-5 col-span-4 w-full">
+      <div
+        ref={containerRef}
+        className="grid grid-cols-4 gap-y-6 gap-x-3 md:gap-x-5 col-span-4 w-full"
+      >
         {/* Left Text */}
         <div className="col-span-4 sm:col-span-1">
-          <p className="text-primary text-heading3 tracking-heading3 leading-[105%] mb-3 md:mb-5">
+          <p
+            data-animate-text
+            className="text-primary text-heading3 tracking-heading3 leading-[110%] mb-3 md:mb-5"
+          >
             {slides[current].title}
           </p>
-          <p className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%]">
+          <p
+            data-animate-text
+            className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%]"
+          >
             {slides[current].description}
           </p>
         </div>
@@ -124,10 +136,16 @@ const Carousel = () => {
                 alt={feature.title}
                 className="w-7 h-7 lg:w-10 lg:h-10 mb-3.5 lg:mb-4"
               />
-              <p className="capitalize text-heading4 text-black leading-[105%] mb-1 lg:mb-2">
+              <p
+                data-animate-text
+                className="capitalize text-heading4 text-black leading-[110%] mb-1 lg:mb-2"
+              >
                 {feature.title}
               </p>
-              <p className="text-bodySmall font-neueMontreal text-textPrimary leading-[120%]">
+              <p
+                data-animate-text
+                className="text-bodySmall font-neueMontreal text-textPrimary leading-[120%]"
+              >
                 {feature.text}
               </p>
             </li>

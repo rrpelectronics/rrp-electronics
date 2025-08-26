@@ -1,10 +1,17 @@
 'use client'
-import React from 'react'
+import React, { useRef } from 'react'
 import Link from 'next/link';
+import gsap from 'gsap/all';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 
 export default function About() {
+  const sectionRef = useRef(null);
+  
   return (
-    <section className="w-full h-full px-3.5 md:px-5 lg:px-10">
+    <section ref={sectionRef} className="w-full h-full px-3.5 md:px-5 lg:px-10">
       <div className="w-full grid grid-cols-4">
         
         {/* about us */}
@@ -59,7 +66,7 @@ export default function About() {
               If you're passionate about pushing the limits of drone technology and eager to contribute to groundbreaking projects, we want to hear from you!
             </p>
             <Link
-              href={"#"}
+              href={"/contact-us"}
               className="text-bodySmall text-primary leading-[120%] bg-none border border-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
             >
               Apply Now

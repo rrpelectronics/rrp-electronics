@@ -1,7 +1,11 @@
 "use client";
-import Image from "next/image";
+import React from "react";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 export default function Technologies() {
+
+  const { containerRef } = useTextAnimation();
+
   const cards = [
     { title: "Consumer electronics", icon: "/images/icons/display1.svg" },
 
@@ -11,18 +15,27 @@ export default function Technologies() {
   ];
 
   return (
-    <section id="display-technologies" className="grid grid-cols-4 bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
+    <section
+      ref={containerRef}
+      id="display-technologies"
+      className="grid grid-cols-4 bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
+    >
       <div className="col-span-4 lg:col-span-2 flex flex-col justify-start mb-10">
-        <h3 className="font-neueMontrealMd text-heading2 tracking-heading2 leading-[105%] mb-5 md:mb-6">
+        <h3
+          data-animate-text
+          className="font-neueMontrealMd text-heading2 tracking-heading2 leading-[110%] mb-5 md:mb-6"
+        >
           Display Technologies
         </h3>
         <p
+          data-animate-text
           className={`md:w-[80%] font-neueMontreal text-bodyBase text-textPrimary leading-[120%] whitespace-normal md:whitespace-pre-line`}
         >
           {`At RRP Electronics, we deliver high-performance display technologies that enhance user experiences across consumer electronics, industrial automation, medical imaging, and automotive systems.`}
         </p>
         <br />
         <p
+          data-animate-text
           className={`md:w-[80%] font-neueMontreal text-bodyBase text-textPrimary leading-[120%] whitespace-normal md:whitespace-pre-line`}
         >
           {`From everyday devices to mission-critical applications, our solutions combine innovation and reliability to help the world see the future more clearly.`}
@@ -53,7 +66,12 @@ function Card({ title, icon, className }) {
       className={`relative flex flex-col justify-between aspect-[294/169] h-[123px] md:h-[169px] w-full p-2 md:p-4 ${className}`}
     >
       <img src={icon} alt="Card Icon" className="h-7 w-7 md:h-10 md:w-10" />
-      <div className="text-heading4 text-black leading-[115%]">{title}</div>
+      <div
+        data-animate-text
+        className="text-heading4 text-black leading-[115%]"
+      >
+        {title}
+      </div>
     </div>
   );
 }

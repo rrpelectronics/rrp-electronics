@@ -95,7 +95,7 @@ const Popup = () => {
 
           <div className="min-h-screen md:col-span-2 flex flex-col justify-center gap-y-6 py-8 md:py-10">
             <div className="flex flex-col gap-y-4 mb-4">
-              <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
+              <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[110%] tracking-heading3">
                 {leadersData[selectedIndex]?.name}
               </h1>
               <p className="text-bodySmall text-black font-neueMontreal">

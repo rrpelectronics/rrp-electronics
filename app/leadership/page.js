@@ -2,8 +2,7 @@
 import React from "react";
 import Banner from "@/app/components/Banner";
 import Text from "@/app/components/Text";
-import Leaders from "./Leaders";
-import Rajendra from "./Rajendra";
+import RajendraUpdate from "./RajendraUpdate";
 
 const page = () => {
   return (
@@ -17,8 +16,7 @@ const page = () => {
           "Our leadership team brings decades of expertise in semiconductor R&D, advanced manufacturing, and global supply chain management, shaping the future of high-performance electronics."
         }
       />
-      <Rajendra/>
-      <Leaders />
+      <RajendraUpdate/>
     </main>
   );
 };

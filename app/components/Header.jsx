@@ -84,7 +84,14 @@ const Header = forwardRef((props, ref) => {
             onDropdownLinkClick={() => dropdowns.setIsCompanyOpen(false)}
           />
 
-          <li className="cursor-pointer text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
+          <li
+            className={`cursor-pointer text-[16px] font-neueMontreal leading-[120%] capitalize
+            ${
+              pathname === "/solutions"
+                ? "text-primary"
+                : "text-white transition-colors ease-in-out hover:text-primary"
+            }`}
+          >
             <Link href={"/solutions"} className={`p-2`}>
               Solutions
             </Link>
@@ -104,6 +111,7 @@ const Header = forwardRef((props, ref) => {
               key={`${idx}-${link.label}`}
               href={link.href}
               label={link.label}
+              pathname={pathname}
               className={`${idx === navLinks.length - 1 ? "pl-2 pr-0" : "p-2"}`}
             />
           ))}
