@@ -109,7 +109,7 @@ const Carousel = () => {
 
         {/* Center Image */}
         <div className="col-span-4 sm:col-span-2 flex justify-center items-center">
-          <figure className="w-full sm:w-[60%] lg:w-[30vw] aspect-[285/200] sm:aspect-square mx-auto relative">
+          <figure className="w-full sm:w-[60%] lg:w-[30vw] overflow-hidden aspect-[285/200] sm:aspect-square mx-auto relative">
             <Image
               src={slides[current].image}
               alt={slides[current].title}

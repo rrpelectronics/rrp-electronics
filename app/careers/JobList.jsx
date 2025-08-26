@@ -1,28 +1,9 @@
 "use client";
 import React from "react";
-import HeadingCenter from "@/app/components/HeadingCenter";
 import Link from "next/link";
-
-const JOB_LISTINGS = [
-  {
-    id: 0,
-    title: "Semiconductor Packaging Engineers",
-    postedDate: "Today",
-    location: "Mumbai, India",
-  },
-  {
-    id: 1,
-    title: "Business Development & Partnerships",
-    postedDate: "5 Days ago",
-    location: "Mumbai, India",
-  },
-  {
-    id: 2,
-    title: "R&D Specialists",
-    postedDate: "25 Days ago",
-    location: "Mumbai, India",
-  },
-];
+import HeadingCenter from "@/app/components/HeadingCenter";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { JOB_DATA } from "./jobData.js";
 
 const JobItem = React.memo(({ job }) => (
   <li
@@ -30,25 +11,32 @@ const JobItem = React.memo(({ job }) => (
       job.id === 0 ? "pt-0 pb-6 lg:pt-6" : "py-6"
     } border-b-1 border-b-borderPrimary`}
   >
-    <ul className="flex flex-col gap-3 col-span-4 lg:col-span-2">
-      <li className="text-heading4 leading-[115%] text-black">{job.title}</li>
-      <li className="text-bodySmall text-textPrimary leading-[120%] font-neueMontreal">
-        {job.postedDate}
-      </li>
-    </ul>
+    <p
+      data-animate-text
+      className="col-span-4 lg:col-span-2 text-heading4 leading-[115%] text-black"
+    >
+      {job.title}
+    </p>
     <ul className="flex justify-between col-span-4 lg:col-span-2">
-      <li className="text-bodyBase text-black leading-[120%] font-neueMontreal">
+      <li
+        data-animate-text
+        className="text-bodyBase text-black leading-[120%] font-neueMontreal"
+      >
         {job.location}
       </li>
       <Link
-        href="#"
+        href={`/careers/${job.id}`}
         className="flex justify-center items-center h-fit w-fit gap-3 lg:gap-4"
         aria-label={`View job details for ${job.title}`}
       >
-        <p className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal">
+        <p
+          data-animate-text
+          className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal"
+        >
           Job Details
         </p>
         <img
+          data-animate-text
           src="/images/icons/arrow_outward.svg"
           alt={`Job Details of ${job.title}`}
           className="h-5.5 w-5.5 md:h-6 md:w-6"
@@ -63,10 +51,10 @@ JobItem.displayName = "JobItem";
 
 const TableHeader = React.memo(() => (
   <li className="hidden lg:grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-4 pb-5.5 border-b-1 border-b-borderPrimary">
-    <p className="col-span-2 text-textPrimary text-bodySmall font-neueMontreal leading-[120%] uppercase">
+    <p data-animate-text className="col-span-2 text-textPrimary text-bodySmall font-neueMontreal leading-[120%] uppercase">
       Position
     </p>
-    <p className="col-span-2 text-textPrimary text-bodySmall font-neueMontreal leading-[120%] uppercase">
+    <p data-animate-text className="col-span-2 text-textPrimary text-bodySmall font-neueMontreal leading-[120%] uppercase">
       Location
     </p>
   </li>
@@ -75,15 +63,16 @@ const TableHeader = React.memo(() => (
 TableHeader.displayName = "TableHeader";
 
 const JobList = () => {
+  const { containerRef } = useTextAnimation()
   return (
     <section className="h-fit w-full px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-white">
       <HeadingCenter
         heading="Who We Hire"
         text="Join a team of experts driving the next generation of semiconductor packaging"
       />
-      <ul className="w-full h-fit flex flex-col">
+      <ul ref={containerRef} className="w-full h-fit flex flex-col">
         <TableHeader />
-        {JOB_LISTINGS.map((job) => (
+        {JOB_DATA.map((job) => (
           <JobItem key={job.id} job={job} />
         ))}
       </ul>
