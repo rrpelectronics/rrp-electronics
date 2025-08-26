@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 import { JOB_DATA } from "../jobData";
 
