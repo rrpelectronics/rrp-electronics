@@ -8,7 +8,6 @@ import Footer from "@/app/components/Footer";
 export default function ClientLayout({ children }) {
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
-  const lenisRef = useRef(null);
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -52,16 +51,7 @@ export default function ClientLayout({ children }) {
   }, []);
 
   return (
-    <ReactLenis
-      root
-      ref={lenisRef}
-      options={{
-        autoRaf: true,
-        gestureDirection: "vertical",
-        normalizeWheel: true,
-        smoothTouch: false,
-      }}
-    >
+    <ReactLenis root>
       <Header
         ref={headerRef}
       />

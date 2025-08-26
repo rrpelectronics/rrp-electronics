@@ -1,58 +1,57 @@
-"use client";
-import React from "react";
+"uise client";
+import React from 'react';
+import { useTextAnimation } from '@/app/hooks/UseTextAnimation';
 
-export default function Packaging() {
-  const cards = [
-    { title: "Designed for innovation and customization" },
-    { title: "Access to DECA’s revolutionary packaging technologies" },
-    {
-      title: "Optimized for agile development in IR and photonic technologies",
-    },
-  ];
-
+const Packaging = () => {
+  const { containerRef } = useTextAnimation();
   return (
-    <section id="advance-packaging" className="bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
-      <div className="grid grid-cols-4 gap-5">
-        <div className="col-span-4 md:col-span-2 flex flex-col gap-5">
-          <h3 className="text-heading2 tracking-heading2 leading-[105%]">
-            Advanced Packaging
-          </h3>
-          <p className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%] md:w-[80%]">
-            Through our collaboration with DECA Technologies, a global leader in
-            advanced packaging, we bring fan-out wafer-level packaging (FOWLP)
-            and high-density RDL interconnect innovations to the Indian market.
-          </p>
-        </div>
-
-        <div className="col-span-4 md:col-span-2 grid grid-cols-1 md:grid-cols-2 grid-rows-3 md:grid-rows-3 relative">
-          <Card
-            title={cards[0].title}
-            className="w-full h-full bg-darkBg text-white md:col-start-1 row-start-1"
-            icon="/images/icons/packaging1.svg"
-          />
-          <Card
-            title={cards[1].title}
-            className="w-full h-full bg-whiteBg text-black md:col-start-2 row-start-2"
-            icon="/images/icons/packaging2.svg"
-          />
-          <Card
-            title={cards[2].title}
-            className="w-full h-full bg-primary text-white md:col-start-1 row-start-3"
-            icon="/images/icons/packaging3.svg"
-          />
-        </div>
+    <section
+      ref={containerRef}
+      className="h-fit w-full grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
+    >
+      <div className="col-span-4 sm:col-span-12 lg:col-span-3 lg:pt-15 mb-8 md:mb-10">
+        <h3
+          data-animate-text
+          className="text-heading2 tracking-heading2 leading-[110%] mb-5"
+        >
+          Advanced Packaging
+        </h3>
+        <p
+          data-animate-text
+          className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%] max-w-[590px]"
+        >
+          Through our collaboration with DECA Technologies a global leader in
+          advanced packaging. we bring fan-out wafer-level packaging (FOWLP) and
+          high-density RDL interconnect innovations to the Indian market.
+        </p>
+      </div>
+      <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
+        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+          1
+        </p>
+        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
+          Access to DECA’s revolutionary packaging technologies
+        </p>
+      </div>
+      <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
+        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+          2
+        </p>
+        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
+          Ultra-compact form factors with enhanced electrical performance
+        </p>
+      </div>
+      <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
+        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+          3
+        </p>
+        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
+          Ideal for mobile, AI, automotive, and high-performance computing
+          applications
+        </p>
       </div>
     </section>
   );
 }
 
-function Card({ title, className, icon }) {
-  return (
-    <div
-      className={`relative flex flex-col justify-between p-4 bg-lightestGrey aspect-square w-[283px] h-[283px] ${className}`}
-    >
-      <img src={icon} alt="Card Icon" className="w-7 h-7 md:w-10 md:h-10" />
-      <div className="mt-auto text-heading4 leading-[115%]">{title}</div>
-    </div>
-  );
-}
+export default Packaging

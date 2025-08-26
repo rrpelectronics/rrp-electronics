@@ -8,7 +8,7 @@ const MobileNavLinks = ({ href, label, pathname, onClick }) => {
       <Link
         href={href}
         onClick={onClick}
-        className={`text-3xl sm:text-heading1 leading-[105%] sm:tracking-heading1 ${
+        className={`text-3xl sm:text-heading1 leading-[110%] sm:tracking-heading1 ${
           pathname === href
             ? "text-primary"
             : "text-white transition-colors ease-in-out hover:text-primary"

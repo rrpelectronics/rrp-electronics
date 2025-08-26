@@ -45,7 +45,7 @@ const MobileMenu = forwardRef(
           clipPath: "inset(0% 0% 100% 0%)",
           opacity: 0,
         }}
-        className={`flex lg:hidden transition-all duration-750 fixed top-0 left-0 h-screen w-full bg-[#141623F5] flex-col gap-y-10 px-3.5 md:px-5 justify-center`}
+        className={`flex lg:hidden transition-all duration-750 fixed top-0 left-0 h-screen w-full bg-darkBg/98 backdrop-blur-sm flex-col gap-y-10 px-3.5 md:px-5 justify-center`}
       >
         <MobileDropdown
           label="Company"

@@ -1,12 +1,12 @@
-"use client"
+"use client";
 import React, { memo } from "react";
 import Link from "next/link";
 
 // Reusable LinkList component to reduce duplication
 const LinkList = ({ title, links }) => (
-  <div className="flex flex-col gap-3.5 md:gap-6 text-white">
+  <div className="flex flex-col gap-3.5 md:gap-5 text-white">
     <strong className="text-bodyLarge font-normal">{title}</strong>
-    <ul className="flex flex-col gap-1.5 md:gap-4.5 text-white text-bodySmall">
+    <ul className="flex flex-col gap-1.5 md:gap-4 text-white text-bodySmall">
       {links.map(({ href, label }) => (
         <li key={href}>
           <Link
@@ -34,14 +34,10 @@ const Footer = () => {
       ],
     },
     {
-      title: "Solutions",
+      title: "Capabilities",
       links: [
-        { href: "/solutions/#legacy-packaging", label: "Legacy Packaging" },
-        { href: "/solutions/#advance-packaging", label: "Advanced Packaging" },
-        {
-          href: "/solutions/#display-technologies",
-          label: "Display Technologies",
-        },
+        { href: "/solutions", label: "Solutions" },
+        { href: "/projects", label: "Projects" },
       ],
     },
     {
@@ -55,7 +51,6 @@ const Footer = () => {
     {
       title: "Explore",
       links: [
-        { href: "/projects", label: "Projects" },
         { href: "/news-events", label: "News & Events" },
         { href: "/careers", label: "Careers" },
         { href: "/contact-us", label: "Contact Us" },
@@ -66,7 +61,7 @@ const Footer = () => {
   return (
     <footer className="h-fit w-full flex flex-col gap-10 md:gap-15 pt-10 md:pt-15 pb-10 md:pb-5 bg-darkBg">
       <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10">
-        <span className="max-w-[895px] col-span-4 md:col-span-12 lg:col-span-9 text-white text-display tracking-display leading-[105%]">
+        <span className="max-w-[895px] col-span-4 md:col-span-12 lg:col-span-9 text-white text-display tracking-display leading-[110%]">
           Shaping the Future. <br /> Powering Innovation.
         </span>
         <div className="col-span-4 md:col-span-6 lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 lg:mt-2">

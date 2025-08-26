@@ -26,11 +26,11 @@ export const useTextAnimation = (options = {}) => {
         selector = "[data-animate-text]",
         splitType = "lines",
         opacity = 0,
-        y = 10,
+        y = 20,
         duration = 0.8,
         stagger = 0.2,
         ease = "power2.out",
-        triggerStart = "top 90%",
+        triggerStart = "top 84%",
         once = true,
     } = options;
 
@@ -61,9 +61,9 @@ export const useTextAnimation = (options = {}) => {
                     stagger,
                     ease,
                     scrollTrigger: {
-                    trigger: el,
-                    start: triggerStart,
-                    once,
+                        trigger: el,
+                        start: triggerStart,
+                        once,
                     },
                 }
             );

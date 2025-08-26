@@ -7,7 +7,6 @@ const pages = () => {
   return (
     <main className="min-h-screen w-full relative">
       <NewsEvents/>
-      <PressReleases/>
     </main>
   );
 }
