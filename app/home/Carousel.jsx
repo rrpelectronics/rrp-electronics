@@ -24,7 +24,7 @@ const slides = [
       {
         icon: "/images/icons/mobile.svg",
         title: "Applications",
-        text: "IoT, mobile devices, RF, consumer electronics, automotive, and industrial systems",
+        text: "IoT, mobiles, RF, consumer electronics, automotive, & industrial systems",
       },
     ],
   },
@@ -138,7 +138,7 @@ const Carousel = () => {
               />
               <p
                 data-animate-text
-                className="capitalize text-heading4 text-black leading-[110%] mb-1 lg:mb-2"
+                className="capitalize text-heading4 text-black leading-[110%] mb-2"
               >
                 {feature.title}
               </p>
