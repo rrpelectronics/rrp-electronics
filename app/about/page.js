@@ -28,7 +28,7 @@ const page = () => {
       <ImageLayout imageLayoutData={imgLayoutData}/>
       <Impact/>
       <People/>
-      <VideoImgSection videoSrc={"/images/common/video.mp4"} heading={"State-of-the-Art Manufacturing & OSAT Facility"} text={"We nurture an environment of growth, learning, and leadership—empowering our teams to think big and innovate."}/>
+      <VideoImgSection videoSrc={"/images/about/osat-process.mp4"} heading={"State-of-the-Art Manufacturing & OSAT Facility"} text={"We nurture an environment of growth, learning, and leadership—empowering our teams to think big and innovate."}/>
     </main>
   )
 }

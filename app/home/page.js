@@ -17,7 +17,7 @@ const Home = () => {
         />
         <Carousel/>
         <Accordion/>
-        <VideoImgSection videoSrc={"/images/common/video.mp4"} heading={"Inside the \n OSAT Process"} text={"From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."}/>
+        <VideoImgSection videoSrc={"/images/home/osat-process.mp4"} heading={"Inside the \n OSAT Process"} text={"From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."}/>
         <Grid/>
         <News/>
       </main>
