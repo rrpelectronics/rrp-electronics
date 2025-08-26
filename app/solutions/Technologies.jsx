@@ -2,7 +2,7 @@
 import React from "react";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
-export default function Technologies() {
+export default function Technologies({ id }) {
 
   const { containerRef } = useTextAnimation();
 
@@ -17,7 +17,7 @@ export default function Technologies() {
   return (
     <section
       ref={containerRef}
-      id="display-technologies"
+      id={id}
       className="grid grid-cols-4 bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
     >
       <div className="col-span-4 lg:col-span-2 flex flex-col justify-start mb-10">

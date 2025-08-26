@@ -11,13 +11,13 @@ const cardItems = [
   "Focused on reliability, performance, and turnaround time",
 ];
 
-export default function Osat() {
+export default function Osat({ id }) {
   const { containerRef } = useTextAnimation();
   const imageRef = useParallax(1.2);
 
   return (
     <section
-      id="legacy-packaging"
+      id={id}
       className="w-full h-fit bg-white flex flex-col md:grid md:grid-cols-4 gap-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
     >
       <div className="col-span-2 flex flex-col justify-between">

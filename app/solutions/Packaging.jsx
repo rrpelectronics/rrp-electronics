@@ -2,10 +2,11 @@
 import React from 'react';
 import { useTextAnimation } from '@/app/hooks/UseTextAnimation';
 
-const Packaging = () => {
+const Packaging = ({ id }) => {
   const { containerRef } = useTextAnimation();
   return (
     <section
+      id={id}
       ref={containerRef}
       className="h-fit w-full grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
     >
@@ -26,7 +27,10 @@ const Packaging = () => {
         </p>
       </div>
       <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
-        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+        <p
+          data-animate-text
+          className="text-heading2 text-primary leading-[110%] tracking-heading2"
+        >
           1
         </p>
         <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
@@ -34,7 +38,10 @@ const Packaging = () => {
         </p>
       </div>
       <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
-        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+        <p
+          data-animate-text
+          className="text-heading2 text-primary leading-[110%] tracking-heading2"
+        >
           2
         </p>
         <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
@@ -42,16 +49,22 @@ const Packaging = () => {
         </p>
       </div>
       <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
-        <p data-animate-text className="text-heading2 text-primary leading-[110%] tracking-heading2">
+        <p
+          data-animate-text
+          className="text-heading2 text-primary leading-[110%] tracking-heading2"
+        >
           3
         </p>
-        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
+        <p
+          data-animate-text
+          className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black"
+        >
           Ideal for mobile, AI, automotive, and high-performance computing
           applications
         </p>
       </div>
     </section>
   );
-}
+};
 
 export default Packaging

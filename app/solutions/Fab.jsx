@@ -15,7 +15,7 @@ const cards = [
   },
 ];
 
-export default function Fab() {
+export default function Fab({ id }) {
   const sectionRef = useRef(null);
   const fixedHeaderRef = useRef(null);
   const cardsContainerRef = useRef(null);
@@ -25,6 +25,7 @@ export default function Fab() {
   console.log(headerHeight);
 
   useEffect(() => {
+    if(window.innerWidth < 768) return;
     const ctx = gsap.context(() => {
       const cardsHeight = cardsContainerRef.current.offsetHeight;
       const fixedHeaderHeight = fixedHeaderRef.current.offsetHeight;
@@ -46,7 +47,7 @@ export default function Fab() {
   return (
     <section
       ref={sectionRef}
-      id="prototype-fab"
+      id={id}
       className="bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
     >
       <div ref={containerRef} className="grid grid-cols-4 gap-5">
@@ -102,7 +103,7 @@ function Card({ title, className, icon }) {
       className={`relative flex flex-col justify-between p-4 bg-lightestGrey aspect-square w-[283px] h-[283px] ${className}`}
     >
       <img src={icon} alt="Card Icon" className="w-7 h-7 md:w-10 md:h-10" />
-      <div data-animate-text className="mt-auto text-heading4 leading-[115%]">
+      <div data-animate-text className="mt-auto text-heading4 md:text-bodyBase lg:text-heading4 leading-[115%]">
         {title}
       </div>
     </div>
