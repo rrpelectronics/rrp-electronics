@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import Banner from '@/app/components/BannerStack';
+import Banner from '@/app/components/Banner';
 import Text from '@/app/components/Text';
 import JobList from './JobList';
 import Why from './Why';

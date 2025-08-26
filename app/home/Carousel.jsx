@@ -18,13 +18,13 @@ const slides = [
       },
       {
         icon: "/images/icons/thermometer.svg",
-        title: "Thermal Efficiency",
+        title: "Thermal Performance",
         text: "Enables smooth operations.",
       },
       {
         icon: "/images/icons/mobile.svg",
         title: "Applications",
-        text: "IoT, mobile devices, RF, automotive, and industrial systems.",
+        text: "IoT, mobile devices, RF, consumer electronics, automotive, and industrial systems",
       },
     ],
   },
@@ -37,11 +37,11 @@ const slides = [
       {
         icon: "/images/icons/select-all.svg",
         title: "High Pin Count Capability",
-        text: "Suited for space-constrained designs.",
+        text: "Supports complex, high-performance chips",
       },
       {
         icon: "/images/icons/thermometer.svg",
-        title: "Thermal Efficiency",
+        title: "Thermal Management",
         text: "Ideal for high-power applications",
       },
       {
@@ -109,7 +109,7 @@ const Carousel = () => {
 
         {/* Center Image */}
         <div className="col-span-4 sm:col-span-2 flex justify-center items-center">
-          <figure className="w-full sm:w-[60%] lg:w-[30vw] aspect-[285/200] sm:aspect-square mx-auto relative">
+          <figure className="w-full sm:w-[60%] lg:w-[30vw] overflow-hidden aspect-[285/200] sm:aspect-square mx-auto relative">
             <Image
               src={slides[current].image}
               alt={slides[current].title}

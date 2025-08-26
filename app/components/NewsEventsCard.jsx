@@ -23,12 +23,13 @@ const NewsEventsCard = ({
         />
       </div>
       <p className="text-textPrimary text-caption leading-[120%] font-neueMontreal mb-4.5">
-        {date} | {source}
+        {date} {source && `| ${source}`}
       </p>
       <p className="text-bodyLarge text-black leading-[120%] mb-6 line-clamp-2 text-ellipsis">
         {title}
       </p>
       <Link
+        target='_blank'
         href={link}
         className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
       >

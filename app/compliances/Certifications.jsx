@@ -52,10 +52,10 @@ export default function Certifications() {
           </div>
           <div className="flex flex-col gap-4">
             <h3 data-animate-text className="text-heading4 leading-[115%] text-black">
-              ISO 9001:2015
+              REACH Compliance
             </h3>
             <p data-animate-text className="text-bodySmall leading-[120%] text-textPrimary">
-              Quality Management System
+              Registration, Evaluation, Authorization & Restriction of Chemicals
             </p>
           </div>
         </div>

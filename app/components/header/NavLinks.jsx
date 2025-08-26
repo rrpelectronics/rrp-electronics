@@ -8,8 +8,6 @@ const NavLinks = ({ href, label, className, pathname }) => {
     path === "/" ? "/" : path.replace(/\/$/, "");
   const isActive = normalizePathname(pathname) === normalizePathname(href);
 
-  console.log("NavLinks Debug:", { href, pathname, isActive }); // Debug log
-
   return (
     <li
       className={`cursor-pointer text-[16px] font-neueMontreal leading-[120%] capitalize transition-colors ease-in-out ${

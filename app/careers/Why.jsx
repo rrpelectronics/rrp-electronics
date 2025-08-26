@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import SectionHeader from "@/app/components/SectionHeader";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 const WHY_RRP_DATA = [
   {
@@ -48,12 +49,16 @@ const WhyItem = React.memo(({ item, idx }) => {
         className="w-8 h-8 lg:h-10 lg:w-10 col-span-4 md:col-span-1"
         loading="lazy"
       />
-      <p className="text-black text-heading4 leading-[115%] col-span-4 md:col-span-2">
+      <p
+        data-animate-text
+        className="text-black text-heading4 leading-[115%] col-span-4 md:col-span-2"
+      >
         {item.title}
       </p>
       <ul className="col-span-4 md:col-span-1 flex flex-col gap-y-2 list-disc text-textPrimary marker:text-textSecondary ml-4 md:ml-0">
         {item.points.map((point, pointIdx) => (
           <li
+            data-animate-text
             key={pointIdx}
             className="text-bodySmall leading-[120%] font-neueMontreal"
           >
@@ -66,14 +71,16 @@ const WhyItem = React.memo(({ item, idx }) => {
 });
 
 WhyItem.displayName = "WhyItem";
+
 const Why = () => {
+  const { containerRef } = useTextAnimation();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-whiteBg">
       <SectionHeader
-        heading="Why RRP? \n Where Innovation Meets \n Opportunity"
+        heading={"Why RRP? \n Where Innovation Meets \n Opportunity"}
         text="Join a team shaping the future of semiconductors. Work on cutting-edge technology, collaborate with global leaders, and accelerate your career in a dynamic, high-growth industry (make font size bigger)"
       />
-      <ul className="w-full h-fit px-3.5 md:px-5 lg:px-10">
+      <ul ref={containerRef} className="w-full h-fit px-3.5 md:px-5 lg:px-10">
         {WHY_RRP_DATA.map((item, idx) => (
           <WhyItem key={idx} item={item} idx={idx} />
         ))}

@@ -70,9 +70,9 @@ const Impact = () => {
             data-animate-text
             className="col-span-4 md:w-[90%] mt-4 md:mt-6 lg:mt-0 lg:col-span-1 2xl:w-[96%] text-bodySmall text-textPrimary leading-[120%] font-neueMontreal"
           >
-            At RRP Electronics, we believe in collaboration, continuous
-            learning, and a commitment to excellence—fostering a culture of
-            innovation and impact.
+            Through green energy practices, cleanroom infrastructure, 
+            and automation, RRP Electronics is setting new standards in sustainable, 
+            high-precision electronics production.
           </p>
         </li>
       </ul>

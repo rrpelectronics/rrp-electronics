@@ -47,14 +47,14 @@ const People = () => {
               data-animate-text
               className="text-heading4 leading-[115%] text-white"
             >
-              Our Core Values
+             Workplace Culture
             </p>
             <p
               data-animate-text
               className="text-bodySmall font-neueMontreal text-white leading-[120%]"
             >
-              Sustainability, Innovation, Integrity & Customer Focus — these
-              values guide every aspect of how we operate and grow.
+              We nurture an environment of growth, learning, and leadership—empowering our 
+              teams to think big and innovate.
             </p>
           </div>
         </div>

@@ -18,7 +18,7 @@ const cardsData = [
   {
     zIndex: 20,
     title: "Prime Location Advantage",
-    desc: "Located just 30 kilometers from Mumbai International Airport and in close proximity to major ports, our facility is strategically positioned for optimal inbound and outbound logistics.",
+    desc: "Located just 30 kilometers from Mumbai International Airport and in close proximity to major ports, our facility is strategically positioned for optimal inbound and outbound logistics. Whether by air or sea, your shipments benefit from reduced transit times and cost-effective transportation.",
     items: [
       "Fast access to international air cargo routes",
       "Immediate port connectivity for maritime shipments",
@@ -30,7 +30,7 @@ const cardsData = [
 
 export const logistics = () => {
   return (
-    <main className="min-h-screen w-full relative">
+    <main className="min-h-screen w-full relative overflow-hidden">
       <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
       <StackCards cardsData={cardsData} />
     </main>
