@@ -52,7 +52,7 @@ const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "5",
+    id: "6",
     newsEventImg: "/images/news-events/amb.webp",
     title:
       " RRP Electronics signed a groundbreaking MoU with AMB Taiwan to collaborate on memory module production.",

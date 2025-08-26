@@ -18,7 +18,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
       <div className="col-span-4 sm:col-span-2 flex flex-col justify-between h-full">
         <div className="flex flex-col">
           <p className="text-textPrimary text-caption leading-[120%] font-neueMontreal mb-4.5">
-            {date} | {source}
+            {date} {source && `| ${source}`}
           </p>
           <p className="text-bodyLarge text-black leading-[120%] mb-6 line-clamp-2 text-ellipsis">
             {title}
