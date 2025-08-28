@@ -33,10 +33,11 @@ export default function Fab({ id }) {
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: `top ${headerHeight}px`,
-          end: `${cardsHeight + 60}px +=${fixedHeaderHeight + 120}px`,
+          start: `top ${headerHeight + 65}px`,
+          end: `${cardsHeight + 60}px ${fixedHeaderHeight + 194}px`,
           pin: fixedHeaderRef.current,
           pinSpacing: false,
+          // markers: true,
         },
       });
     }, sectionRef);
