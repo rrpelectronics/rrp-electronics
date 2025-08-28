@@ -6,10 +6,12 @@ import Carousel from './Carousel';
 import Accordion from './Accordion';
 import Grid from './Grid';
 import News from './News';
+import PopupCard from '../components/pop-up';
 
 const Home = () => {
     return (
       <main className="min-h-screen w-full relative">
+        <PopupCard/>
         <Banner 
           video={"/images/home/banner-video.mp4"}
           heading={"Maharashtra’s First \n Operational OSAT Facility. \n Expanding Forward."}
