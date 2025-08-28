@@ -15,6 +15,7 @@ const cardsData = [
       "Responsive logistics support for bulk or custom orders",
     ],
     img: "/images/logistics/logistic1.webp",
+    imgPos: "object-top",
   },
   {
     zIndex: 20,
@@ -26,6 +27,7 @@ const cardsData = [
       "Reduced lead times and improved operational efficiency",
     ],
     img: "/images/logistics/logistic2.webp",
+    imgPos: "object-center",
   },
 ];
 

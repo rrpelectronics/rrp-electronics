@@ -16,6 +16,7 @@ const cardsData = [
       "Every step—from material to final test—is governed by rigorous quality checks.",
     ],
     img: "/images/compliances/quality1.webp",
+    imgPos: "object-center",
   },
   {
     zIndex: 20,
@@ -28,6 +29,7 @@ const cardsData = [
       "Our commitment to quality ensures reliable, high-performance outcomes.",
     ],
     img: "/images/compliances/quality2.webp",
+    imgPos: "object-center",
   },
   {
     zIndex: 30,
@@ -41,6 +43,7 @@ const cardsData = [
       "Root cause elimination drives consistent and reliable performance.",
     ],
     img: "/images/compliances/quality3.webp",
+    imgPos: "object-center",
   },
 ];
 

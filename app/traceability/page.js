@@ -15,6 +15,7 @@ const cardsData = [
         "Supports efficient recalls and quality audits when needed.",
       ],
       img: "/images/traceability/traceability1.webp",
+      imgPos: "object-center",
     },
     {
       zIndex: 20,
@@ -26,6 +27,7 @@ const cardsData = [
         "Instant access to critical data for audits, failure analysis, and compliance checks",
       ],
       img: "/images/traceability/traceability2.webp",
+      imgPos: "object-center",
     },
     {
       zIndex: 30,
@@ -37,6 +39,7 @@ const cardsData = [
         "Easier storage, handling, and traceability after shipment",
       ],
       img: "/images/traceability/traceability3.webp",
+      imgPos: "object-center",
     },
   ];
 
