@@ -24,7 +24,7 @@ const slides = [
       {
         icon: "/images/icons/mobile.svg",
         title: "Applications",
-        text: "IoT, mobiles, RF, consumer electronics, automotive, & industrial systems",
+        text: "IoT, mobile, RF, consumer, automotive & industrial systems",
       },
     ],
   },

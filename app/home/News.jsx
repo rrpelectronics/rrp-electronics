@@ -36,10 +36,10 @@ const News = () => {
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
       <div className="grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 mb-8 md:mb-10 items-end">
-        <h3 className="col-span-4 md:col-span-2 text-heading2 tracking-heading2 leading-[110%] max-w-[590px] mb-5 md:mb-0">
+        <h3 className="col-span-3 md:col-span-2 text-heading2 tracking-heading2 leading-[110%] max-w-[590px]">
           What's New at <br /> RRP Electronics
         </h3>
-        <div className="col-span-4 md:col-span-2 flex items-center justify-center w-fit md:ml-auto gap-4.5 lg:gap-6">
+        <div className="col-span-1 flex items-center justify-center w-fit md:ml-auto gap-4.5 lg:gap-6">
           <Link
             href={"/news-events"}
             className={`p-3 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
