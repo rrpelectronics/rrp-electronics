@@ -33,8 +33,11 @@ const Packaging = ({ id }) => {
         >
           1
         </p>
-        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
-          Ultra-compact form factors with enhanced electrical performance
+        <p
+          data-animate-text
+          className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black"
+        >
+          Access to DECA’s revolutionary packaging technologies
         </p>
       </div>
       <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
@@ -44,8 +47,11 @@ const Packaging = ({ id }) => {
         >
           2
         </p>
-        <p data-animate-text className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black">
-          Ideal for mobile, AI, automotive, and high-performance computing applications
+        <p
+          data-animate-text
+          className="text-heading4 sm:text-bodyLarge lg:text-heading4 leading-[115%] text-black"
+        >
+          Ultra-compact form factors with enhanced electrical performance
         </p>
       </div>
       <div className="bg-whiteBg flex flex-col justify-between gap-y-6 aspect-square lg:aspect-[285/400] col-span-4 lg:col-span-3 px-4 pt-4 pb-4 lg:pt-15 lg:pb-4">
