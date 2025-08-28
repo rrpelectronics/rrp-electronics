@@ -26,8 +26,7 @@ const news_data = [
   {
     id: "3",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
-    title:
-      "RRP Electronics to set up first semiconductor plant in Maharashtra’",
+    title: "RRP Electronics to set up first semiconductor plant in Maharashtra",
     date: "July 10",
     source: "The Hindu Business Line",
     link: "https://www.thehindubusinessline.com/info-tech/rrp-electronics-to-set-up-first-semiconductor-plant-in-maharashtra/article67961569.ece",
@@ -37,7 +36,7 @@ const news_data = [
     id: "4",
     newsEventImg: "/images/news-events/macronix.webp",
     title:
-      "RRP Electronics recently visited Macronix International Co., Ltd., a global leader in Non-Volatile Memory (NVM) technology.",
+      "RRP Electronics visited Macronix International, a global leader in Non-Volatile Memory (NVM) technology.",
     date: "Januray 2025",
     link: "https://www.linkedin.com/posts/rrp-electronics_rrpelectronics-osat-atmp-activity-7276855109978902529-klp6?utm_source=share&amp;utm_medium=member_ios",
     imgBgClass: "object-center",
