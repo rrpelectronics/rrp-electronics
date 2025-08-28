@@ -16,15 +16,15 @@ export default function Popup() {
     return () => clearTimeout(visibleTimer);
   }, []);
 
-  // useEffect(() => {
-  //   if (isVisible) {
-  //     const closeTimer = setTimeout(() => {
-  //       handleClose();
-  //     }, 8000);
+  useEffect(() => {
+    if (isVisible) {
+      const closeTimer = setTimeout(() => {
+        handleClose();
+      }, 8000);
 
-  //     return () => clearTimeout(closeTimer);
-  //   }
-  // }, [isVisible]);
+      return () => clearTimeout(closeTimer);
+    }
+  }, [isVisible]);
 
   const handleClose = () => {
     setIsVisible(false);
