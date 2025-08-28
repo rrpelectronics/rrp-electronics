@@ -1,6 +1,41 @@
 "use client";
-import React, { memo } from "react";
+import React from "react";
 import Link from "next/link";
+import { useFooter } from "@/app/context/FooterContext";
+
+const linkSections = [
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/our-journey", label: "Our Journey" },
+      { href: "/leadership", label: "Leadership" },
+    ],
+  },
+  {
+    title: "Capabilities",
+    links: [
+      { href: "/solutions", label: "Solutions" },
+      { href: "/projects", label: "Projects" },
+    ],
+  },
+  {
+    title: "Operations",
+    links: [
+      { href: "/compliances", label: "Quality standards & Compliances" },
+      { href: "/logistics", label: "Supply Chain & Logistics" },
+      { href: "/traceability", label: "Traceability" },
+    ],
+  },
+  {
+    title: "Explore",
+    links: [
+      { href: "/news-events", label: "News & Events" },
+      { href: "/careers", label: "Careers" },
+      { href: "/contact-us", label: "Contact Us" },
+    ],
+  },
+];
 
 // Reusable LinkList component to reduce duplication
 const LinkList = ({ title, links }) => (
@@ -23,62 +58,39 @@ const LinkList = ({ title, links }) => (
 );
 
 const Footer = () => {
-  // Data for link sections
-  const linkSections = [
-    {
-      title: "Company",
-      links: [
-        { href: "/about", label: "About Us" },
-        { href: "/our-journey", label: "Our Journey" },
-        { href: "/leadership", label: "Leadership" },
-      ],
-    },
-    {
-      title: "Capabilities",
-      links: [
-        { href: "/solutions", label: "Solutions" },
-        { href: "/projects", label: "Projects" },
-      ],
-    },
-    {
-      title: "Operations",
-      links: [
-        { href: "/compliances", label: "Quality standards & Compliances" },
-        { href: "/logistics", label: "Supply Chain & Logistics" },
-        { href: "/traceability", label: "Traceability" },
-      ],
-    },
-    {
-      title: "Explore",
-      links: [
-        { href: "/news-events", label: "News & Events" },
-        { href: "/careers", label: "Careers" },
-        { href: "/contact-us", label: "Contact Us" },
-      ],
-    },
-  ];
+  const { footerContent } = useFooter();
+
+  // Check if we should show the top section
+  const showTopSection = footerContent && footerContent.heading && footerContent.description;
 
   return (
     <footer className="h-fit w-full flex flex-col gap-10 md:gap-15 pt-10 md:pt-15 pb-10 md:pb-5 bg-darkBg">
-      <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10">
-        <span className="max-w-[895px] col-span-4 md:col-span-12 lg:col-span-9 text-white text-display tracking-display leading-[110%]">
-          Shaping the Future. <br /> Powering Innovation.
-        </span>
-        <div className="col-span-4 md:col-span-6 lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 lg:mt-2">
-          <p className="text-bodyLarge text-textSecondary font-neueMontreal leading-[120%]">
-            Powering the next generation of semiconductors with precision,
-            scale, and intelligence.
-          </p>
-          <Link
-            href="/contact-us"
-            className="text-bodySmall text-white leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
-            aria-label="Connect with Us"
-          >
-            Connect with Us
-          </Link>
+      {/* Conditional Top Section */}
+      {showTopSection && (
+        <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10 pb-7.5 md:pb-10 border-b-1 border-b-borderSecondary">
+          <span className="max-w-[895px] col-span-4 md:col-span-12 lg:col-span-9 text-white text-display tracking-display leading-[110%]">
+            {footerContent.heading.split("\n").map((line, index) => (
+              <React.Fragment key={index}>
+                {line}
+                {index < footerContent.heading.split("\n").length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </span>
+          <div className="col-span-4 md:col-span-6 lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 lg:mt-2">
+            <p className="text-bodyLarge text-textSecondary font-neueMontreal leading-[120%]">
+              {footerContent.description}
+            </p>
+            <Link
+              href={footerContent.buttonLink}
+              className="text-bodySmall text-white leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
+              aria-label={footerContent.buttonText}
+            >
+              {footerContent.buttonText}
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className="w-full h-fit pt-7.5 md:pt-10 border-t-1 border-t-borderSecondary">
+      )}
+      <div className="w-full h-fit">
         <div className="w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-x-5 items-start px-3.5 md:px-5 lg:px-10">
           <Link
             href="/"
@@ -195,4 +207,4 @@ const Footer = () => {
   );
 };
 
-export default memo(Footer);
+export default Footer;

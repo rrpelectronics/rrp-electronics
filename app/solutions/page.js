@@ -6,6 +6,7 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import Link from 'next/link';
 import Banner from '@/app/components/Banner';
 import VideoImgSection from '@/app/components/VideoImgSection';
+import { useFooter } from '@/app/context/FooterContext';
 import { useHeaderHeight } from '@/app/context/HeaderHeightContext';
 import Osat from './Osat';
 import Fab from './Fab';
@@ -18,60 +19,22 @@ const Page = () => {
   const mainRef = useRef(null);
   const solutionHeaderRef = useRef(null);
   const headerHeight = useHeaderHeight();
+  const { setFooterContent } = useFooter();
 
-  // Sticky header
+  // GSAP Pin Header
   useEffect(() => {
-    if (!solutionHeaderRef.current || !mainRef.current || headerHeight === undefined) return;
+    if (!solutionHeaderRef.current || headerHeight === undefined) return;
 
     const ctx = gsap.context(() => {
       const solutionHeaderElement = solutionHeaderRef.current;
-      const mainHeight = mainRef.current.offsetHeight;
 
       ScrollTrigger.create({
         trigger: solutionHeaderElement,
         start: `top ${headerHeight}px`,
-        end: `${mainHeight - headerHeight}px ${headerHeight}px`,
-        // markers: true,
-        onEnter: () => {
-          gsap.set(solutionHeaderElement, {
-            position: "fixed",
-            top: `${headerHeight}px`,
-            left: 0,
-            right: 0,
-            zIndex: 50,
-            width: "100%"
-          });
-        },
-        onLeave: () => {
-          gsap.set(solutionHeaderElement, {
-            position: "static",
-            top: "auto",
-            left: "auto",
-            right: "auto",
-            zIndex: "auto",
-            width: "auto"
-          });
-        },
-        onEnterBack: () => {
-          gsap.set(solutionHeaderElement, {
-            position: "fixed",
-            top: `${headerHeight}px`,
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            width: "100%"
-          });
-        },
-        onLeaveBack: () => {
-          gsap.set(solutionHeaderElement, {
-            position: "static",
-            top: "auto",
-            left: "auto",
-            right: "auto",
-            zIndex: "auto",
-            width: "auto"
-          });
-        },
+        end: "max", // Adjust this based on when you want it to unpin
+        pin: true,
+        pinSpacing: false, // Set to true if you want to maintain spacing
+        // markers: true, // Uncomment for debugging
       });
     }, solutionHeaderRef);
 
@@ -103,8 +66,9 @@ const Page = () => {
 
       function setActive(activeLink) {
         links.forEach((l) =>{
-          l.classList.remove("text-primary");}
-        );
+          l.classList.remove("text-primary");
+          l.classList.add("text-textPrimary");
+        });
         activeLink.classList.add("text-primary");
         activeLink.classList.remove("text-textPrimary");
       }
@@ -121,7 +85,7 @@ const Page = () => {
               duration: 1,
               scrollTo: {
                 y: targetEl,
-                offsetY: 100,
+                offsetY: headerHeight + 80, // Account for both main header and sticky nav
               },
               ease: "power2.out",
             });
@@ -131,7 +95,22 @@ const Page = () => {
     }, solutionHeaderRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [headerHeight]);
+
+   // Set custom footer content for solutions page
+    useEffect(() => {
+      setFooterContent({
+        heading: "Ready to Build \n With Us?",
+        description: "From concept to production, RRP Electronics delivers high-impact semiconductor solutions.",
+        buttonText: "Connect With Us",
+        buttonLink: "/contact-us"
+      });
+  
+      // Cleanup: Reset to null when component unmounts
+      return () => {
+        setFooterContent(null);
+      };
+    }, [setFooterContent]);
 
   return (
     <main ref={mainRef} className='min-h-screen w-full relative'>
@@ -142,7 +121,7 @@ const Page = () => {
       />
 
       {/* Sticky Header Nav */}
-      <div ref={solutionHeaderRef} className="bg-white min-w-full overflow-x-auto no-scrollbar px-3.5 md:px-5 lg:px-10 py-5 flex gap-4 md:gap-12 border-b border-borderPrimary items-center">
+      <div ref={solutionHeaderRef} className="bg-white min-w-full overflow-x-auto no-scrollbar px-3.5 md:px-5 lg:px-10 py-5 flex gap-4 md:gap-12 border-b border-borderPrimary items-center z-40">
         <li className="shrink-0 list-none w-fit text-bodyLarge leading-[120%] font-neueMontreal">
           <Link href={"#osat"} className="text-primary">OSAT</Link>
         </li>

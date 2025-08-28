@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { HeaderHeightProvider } from "@/app/context/HeaderHeightContext";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import { FooterProvider } from "@/app/context/FooterContext";
 
 export default function ClientLayout({ children }) {
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -37,10 +38,6 @@ export default function ClientLayout({ children }) {
 
   // Force scroll to top on page load/refresh
   useEffect(() => {
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
-
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     window.scrollTo(0, 0);
@@ -52,13 +49,13 @@ export default function ClientLayout({ children }) {
 
   return (
     <ReactLenis root>
-      <Header
-        ref={headerRef}
-      />
+      <FooterProvider>
+        <Header ref={headerRef} />
         <HeaderHeightProvider height={headerHeight}>
           {children}
         </HeaderHeightProvider>
-      <Footer/>
+        <Footer />
+      </FooterProvider>
     </ReactLenis>
   );
 }
