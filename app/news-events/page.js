@@ -1,7 +1,6 @@
 "use client"
 import React from 'react';
 import NewsEvents from './NewsEvents';
-import PressReleases from './PressReleases';
 
 const pages = () => {
   return (
