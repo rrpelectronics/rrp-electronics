@@ -18,7 +18,7 @@ const news_data = [
     id: "2",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
     title:
-      "RRP Electronics to set up first semiconductor plant in Maharashtra’",
+      "RRP Electronics to set up first semiconductor plant in Maharashtra",
     date: "July 10",
     source: "The Hindu Business Line",
     link: "https://www.thehindubusinessline.com/info-tech/rrp-electronics-to-set-up-first-semiconductor-plant-in-maharashtra/article67961569.ece",
