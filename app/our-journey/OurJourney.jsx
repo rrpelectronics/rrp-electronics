@@ -41,7 +41,7 @@ const OurJourney = () => {
     {
       date: "January, 2025",
       title: "MoU with Deca Technologies",
-      image: "/images/our-journey/mou-with-deca .webp",
+      image: "/images/our-journey/mou-with-deca.webp",
       desc: "A significant milestone – we signed a Memorandum of Understanding (MoU) with Deca Technologies, signaling the start of a high-impact collaboration.",
     },
     {
