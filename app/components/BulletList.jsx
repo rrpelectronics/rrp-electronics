@@ -10,8 +10,8 @@ const BulletList = ({ items = [] }) => {
       {items.map((text, idx) => (
         <li
           key={idx}
-          className={`flex items-center gap-2 w-[80%] ${
-          idx === 0
+          className={`flex items-center gap-2 ${
+            idx === 0
               ? "border-y-1 border-y-borderPrimary"
               : "border-b-1 border-b-borderPrimary"
           } `}
@@ -22,8 +22,8 @@ const BulletList = ({ items = [] }) => {
             className="shrink-0 w-6 h-6"
           />
           <span
-          data-animate-text
-          className={`py-4 md:py-5 text-bodyBase text-textPrimary leading-[120%] font-neueMontreal`}
+            data-animate-text
+            className={`py-4 md:py-5 text-bodyBase w-[80%] text-textPrimary leading-[120%] font-neueMontreal`}
           >
             {text}
           </span>

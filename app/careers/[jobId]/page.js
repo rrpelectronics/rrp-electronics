@@ -42,17 +42,17 @@ const JobDetailsPage = ({ params }) => {
   return (
     <main className="min-h-screen w-full relative">
       {/* Hero Section */}
-      <section className="w-full h-fit pt-25 md:pt-32 lg:pt-35 pb-15 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
-        <div ref={containerRef} className="flex flex-col gap-4 md:gap-10">
+      <section className="bg-whiteBg w-full h-fit pt-25 md:pt-32 lg:pt-35 pb-15 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
+        <div ref={containerRef} className="flex flex-col">
           <p
             data-animate-text
-            className="text-bodyLarge leading-[120%] text-textPrimary font-neueMontreal"
+            className="text-bodyLarge leading-[120%] text-textPrimary font-neueMontreal mb-8"
           >
             {job.department} / {job.type}
           </p>
           <h3
             data-animate-text
-            className="text-display text-black leading-[110%] tracking-display"
+            className="text-display text-black leading-[110%] tracking-display mb-4"
           >
             {job.title.split("\n").map((line, i) => (
               <React.Fragment key={i}>
@@ -61,6 +61,9 @@ const JobDetailsPage = ({ params }) => {
               </React.Fragment>
             ))}
           </h3>
+          <p className="text-textPrimary text-bodyLarge leading-[120%] font-neueMontreal mb-13">
+            Location: {job.location}
+          </p>
           <Link
             data-animate-text
             href={"mailto:hr@rrpelectronics.com"}
@@ -86,11 +89,6 @@ const JobDetailsPage = ({ params }) => {
             <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[80%]">
               <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal">
                 {job.description}
-              </p>
-
-              {/* Location */}
-              <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal">
-                Location: {job.location}
               </p>
 
               {/* Experience Text */}
