@@ -163,14 +163,13 @@ const Map = () => {
         </ul>
 
         {/* Desktop Map */}
-        <div className="hidden sm:block col-span-2 relative w-full aspect-square mx-auto overflow-hidden">
+        <div className="hidden sm:block col-span-2 relative w-full h-[70vh] mx-auto overflow-hidden">
           <Image
             src={"/images/logistics/map.png"}
             alt="Map Background"
             fill
             sizes="50vw"
             className="object-contain object-center"
-            style={{ left: "-5%" }}
           />
           {Object.entries(connectivityData).map(([connectivity, data]) => (
             <Image
@@ -184,7 +183,6 @@ const Map = () => {
                   ? "opacity-100"
                   : "opacity-0"
               }`}
-              style={{ left: "-5%" }}
             />
           ))}
         </div>
