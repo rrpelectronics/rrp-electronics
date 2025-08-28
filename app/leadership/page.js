@@ -13,7 +13,7 @@ const page = () => {
     setFooterContent({
       heading: "Engage with \n Our Visionary Leaders",
       description: "Our leadership is shaping semiconductor technology. Contact us to collaborate.",
-      buttonText: "Connect With Us",
+      buttonText: "Connect with Us",
       buttonLink: "/contact-us"
     });
 

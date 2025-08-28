@@ -15,7 +15,7 @@ const page = () => {
       setFooterContent({
         heading: "Be Part of \n Our Ongoing Journey",
         description: "Interested in partnering with RRP Electronics? We’d love to connect.",
-        buttonText: "Connect With Us",
+        buttonText: "Join our Journey",
         buttonLink: "/contact-us"
       });
   
