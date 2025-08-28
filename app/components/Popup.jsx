@@ -54,7 +54,7 @@ export default function Popup() {
             Close
           </button>
           <img
-            src="/Images/home/pop-up.webp"
+            src="/images/home/pop-up.webp"
             alt="Card Image"
             className="h-full w-auto"
           />

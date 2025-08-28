@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import SectionHeader from "@/app/components/SectionHeader";
-import { useTextAnimation } from "../hooks/UseTextAnimation";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 export default function Certifications() {
   const { containerRef } = useTextAnimation();
