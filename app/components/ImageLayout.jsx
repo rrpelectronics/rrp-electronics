@@ -1,13 +1,14 @@
 "use client";
-import React, { useRef } from "react";
+import React from "react";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import ParallexImage from "./ParallexImage";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useParallax } from "@/app/hooks/useParallax";
 import Image from "next/image";
 
 const ImageLayout = ({ heading, imageLayoutData = [] }) => {
-
   const { containerRef } = useTextAnimation();
+  const imageRef0 = useParallax(1);
+  const imageRef1 = useParallax(1);
 
   return (
     <section
@@ -28,18 +29,14 @@ const ImageLayout = ({ heading, imageLayoutData = [] }) => {
           >
             {imgLayout.title}
           </p>
-          <div className="relative w-full asepct-[332/249] overflow-hidden mb-4 md:mb-5">
-            {/* <Image
+          <div className="relative w-full aspect-[332/249] overflow-hidden mb-4 md:mb-5">
+            <Image
+              ref={id === 0 ? imageRef0 : imageRef1}
               src={imgLayout.src}
               alt={imgLayout.title}
               fill
               sizes="50vw"
               className="object-cover object-center z-1"
-            /> */}
-            <ParallexImage
-              imgSrc={imgLayout.src}
-              altValue={imgLayout.title}
-              imgClasses={"object-cover object-center z-1"}
             />
             {imgLayout.dates && (
               <div className="z-2 h-full w-full absolute left-0 top-0 p-5 lg:p-6 flex items-end bg-black/50">
