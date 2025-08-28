@@ -51,11 +51,17 @@ export default function Certifications() {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <h3 data-animate-text className="text-heading4 leading-[115%] text-black">
-              REACH Compliance
+            <h3
+              data-animate-text
+              className="text-heading4 leading-[115%] text-black"
+            >
+              ISO 14001:2015
             </h3>
-            <p data-animate-text className="text-bodySmall leading-[120%] text-textPrimary">
-              Registration, Evaluation, Authorization & Restriction of Chemicals
+            <p
+              data-animate-text
+              className="text-bodySmall leading-[120%] text-textPrimary"
+            >
+              Environmental Management System (EMS)
             </p>
           </div>
         </div>
