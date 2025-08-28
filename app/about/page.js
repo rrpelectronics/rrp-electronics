@@ -29,7 +29,7 @@ const page = () => {
     setFooterContent({
       heading: "Let’s Shape the Future of \n Electronics Together",
       description: "Interested in partnering with RRP Electronics? We’d love to connect.",
-      buttonText: "Connect With Us",
+      buttonText: "Connect with Us",
       buttonLink: "/contact-us"
     });
 
