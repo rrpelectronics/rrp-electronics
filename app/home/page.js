@@ -23,6 +23,7 @@ const Home = () => {
   
   return (
     <main className="min-h-screen w-full relative">
+      <PopupCard/>
       <Banner 
         video={"/images/home/banner-video.mp4"}
         heading={"Maharashtra’s First \n Operational OSAT Facility. \n Expanding Forward."}
