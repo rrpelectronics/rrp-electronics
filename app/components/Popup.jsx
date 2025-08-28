@@ -16,15 +16,15 @@ export default function Popup() {
     return () => clearTimeout(visibleTimer);
   }, []);
 
-  useEffect(() => {
-    if (isVisible) {
-      const closeTimer = setTimeout(() => {
-        handleClose();
-      }, 8000);
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     const closeTimer = setTimeout(() => {
+  //       handleClose();
+  //     }, 8000);
 
-      return () => clearTimeout(closeTimer);
-    }
-  }, [isVisible]);
+  //     return () => clearTimeout(closeTimer);
+  //   }
+  // }, [isVisible]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -46,21 +46,18 @@ export default function Popup() {
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        <button
-          onClick={handleClose}
-          className="w-full text-end text-white text-bodySmall"
-          aria-label="Close"
-        >
-          Close
-        </button>
-        <div className="w-[348px] h-[435px] aspect-[4/3] overflow-hidden">
-          <Image
+        <div className="w-[90%] sm:w-[30vw] aspect-[348/435] mx-auto overflow-hidden">
+          <button
+            onClick={handleClose}
+            className="w-full font-neueMontreal text-end text-white text-bodySmall 2xl:text-bodyLarge"
+            aria-label="Close"
+          >
+            Close
+          </button>
+          <img
             src="/Images/home/pop-up.webp"
             alt="Card Image"
-            width={348}
-            height={435}
-            className="object-cover w-full h-full"
-            priority
+            className="h-full w-auto"
           />
         </div>
       </div>
