@@ -27,9 +27,11 @@ function ContactForm() {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitData = async (data) => {
     try {
+      setIsSubmitting(true); // Start loader
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -46,8 +48,11 @@ function ContactForm() {
       console.error("EmailJS Error:", error);
       setShowSuccess(false);
       setShowError(true);
+
       // Optional: auto-hide error as well
       setTimeout(() => setShowError(false), 5000);
+    } finally {
+      setIsSubmitting(false); // Stop loader
     }
   };
 
@@ -168,7 +173,9 @@ function ContactForm() {
         </div>
 
         <div
-          className={`md:col-span-2 flex flex-col col-span-2 ${errors.requestType ? "mt-0" : "-mt-4"}`}
+          className={`md:col-span-2 flex flex-col col-span-2 ${
+            errors.requestType ? "mt-0" : "-mt-4"
+          }`}
         >
           <label
             htmlFor="message"
@@ -192,13 +199,52 @@ function ContactForm() {
         </div>
       </div>
 
-      <div className="">
+      <div className="flex justify-between items-center">
         <button
           type="submit"
-          className="w-fit bg-primary text-[16px] text-white px-6 py-3 rounded-full font-neueMontreal mt-8 cursor-pointer"
+          disabled={isSubmitting}
+          className={`w-fit bg-primary text-[16px] text-white px-6 py-3 rounded-full font-neueMontreal mt-8 cursor-pointer flex items-center justify-center gap-2`}
         >
-          Submit
+          {isSubmitting ? (
+            <>
+              <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              Submitting...
+            </>
+          ) : (
+            showSuccess ? "Submitted Successfully" : "Submit"
+          )}
         </button>
+        {showSuccess && (
+          <div
+            onClick={() => setShowSuccess(false)}
+            className="w-fit flex justify-center items-center gap-1.5 cursor-pointer text-bodySmall leading-[120%] mt-8 text-green-700 transition-all"
+          >
+            Message sent successfully!
+            <button
+              type="button"
+              className="text-green-700 hover:text-green-900 text-lg"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {showError && (
+          <div
+            onClick={() => setShowError(false)}
+            className="w-fit flex justify-center items-center gap-1.5 cursor-pointer text-bodySmall leading-[120%] mt-8 text-[#ff2929]  transition-all"
+          >
+            Failed to send message.
+            <button
+              type="button"
+              className="text-[#ff2929] hover:text-red-900 text-lg"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );
