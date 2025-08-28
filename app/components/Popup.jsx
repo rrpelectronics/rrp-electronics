@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 export default function Popup() {
