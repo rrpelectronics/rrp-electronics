@@ -1,230 +1,354 @@
 "use client";
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import UseScreenSizeMedium from "../hooks/UseScreenSizeMedium";
+import React, { useRef, useEffect, useState, createRef } from "react";
+import gsap from "gsap/all";
+import Image from "next/image";
 
 const OurJourney = () => {
   const yearRef = useRef(null);
+  const yearTextRef = useRef(null);
   const timelineRef = useRef(null);
-  const containerRef = useRef(null);
-  const [yearWidth, setYearWidth] = useState(0);
-  const [currentYear, setCurrentYear] = useState("2024");
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
+  const itemRefs = useRef([]);
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [translateX, setTranslateX] = useState(0);
-  const titleRef = useRef([]);
-  const isMedium = UseScreenSizeMedium();
+  const [yearWidth, setYearWidth] = useState(0);
+  const [itemWidth, setItemWidth] = useState(0);
+  const [gap, setGap] = useState(0);
 
-  // Enhanced timeline items with buffer for smooth infinite scroll
-  const timelineItems = useRef([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]);
-  const [renderKey, setRenderKey] = useState(0);
-
-  //Functionality for Active Dot Alignment
-  useEffect(() => {
-    const updateWidth = () => {
-      if (yearRef.current) {
-        const width = yearRef.current.getBoundingClientRect().width;
-        setYearWidth(width);
-      }
-    };
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  // Timeline data for easy reference
-  const timelineData = [
-    { year: "2024", month: "March", image: "/images/our-journey/image1.webp" },
+  const events = [
     {
-      year: "2024",
-      month: "September",
-      image: "/images/our-journey/image1.webp",
+      date: "March, 2024",
+      title: "Bhoomi Poojan Ceremony",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "The foundation of RRP Electronics was laid with a traditional Bhoomi Poojan, marking the beginning of our journey in the semiconductor domain.",
     },
     {
-      year: "2024",
-      month: "December",
-      image: "/images/our-journey/image1.webp",
+      date: "September, 2024",
+      title: "Grand Inauguration",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "RRP Electronics officially opened its doors, setting new benchmarks in semiconductor innovation and OSAT services.",
     },
     {
-      year: "2025",
-      month: "January",
-      image: "/images/our-journey/image1.webp",
+      date: "December, 2024",
+      title: "Strategic Collaborations",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "We formed key partnerships with AMB and PalmTech, expanding our capabilities and laying the groundwork for future technological advancements.",
     },
     {
-      year: "2025",
-      month: "February",
-      image: "/images/our-journey/image1.webp",
+      date: "January, 2025",
+      title: "MoU with Deca Technologies",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "A significant milestone – we signed a Memorandum of Understanding (MoU) with Deca Technologies, signaling the start of a high-impact collaboration.",
     },
     {
-      year: "2025",
-      month: "September",
-      image: "/images/our-journey/image1.webp",
+      date: "February, 2025",
+      title: "Press Conference Announcement",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "We hosted a press conference to announce the RRP–Deca partnership, highlighting our shared vision for advancing Wafer Level Packaging technologies.",
+    },
+    {
+      date: "September, 2025",
+      title: "Website Launching",
+      image: "/images/our-journey/march-2024.webp",
+      desc: "Build by Stuvio ❣️",
     },
   ];
 
-  // Get element width for calculations
-  const getElementWidth = useCallback(() => {
-    return isMedium ? 200 : 240; // Approximate width including gaps
-  }, [isMedium]);
-
-  // Get actual data index
-  const getActualIndex = (index) => index % timelineData.length;
-
-  // Render timeline element with optimized performance
-  const renderTimelineElement = useCallback(
-    (itemIndex, arrayPosition) => {
-      const actualIndex = getActualIndex(itemIndex);
-      const data = timelineData[actualIndex];
-      const isActive = arrayPosition === 0 && actualIndex === activeIndex;
-
-      return (
-        <div
-          key={`${actualIndex}-${arrayPosition}-${renderKey}`}
-          ref={(el) => {
-            if (isActive) titleRef.current[actualIndex] = el;
-          }}
-          style={isActive ? getActiveElementStyle() : getInactiveElementStyle()}
-          className={`
-          flex flex-col gap-6 justify-center cursor-pointer
-          ${isActive ? "items-start" : "items-center"}
-          ${isAnimating ? "pointer-events-none" : ""}
-        `}
-          onClick={() =>
-            !isAnimating && handleTimelineClick(actualIndex, arrayPosition)
-          }
-        >
-          <div
-            style={
-              isActive
-                ? {
-                    marginInline: isMedium
-                      ? (yearWidth - 60) / 2 - (yearWidth - 60) * 0.05
-                      : (yearWidth - 28) / 2 - (yearWidth - 28) * 0.05,
-                  }
-                : {}
-            }
-            className={`h-4.5 w-4.5 rounded-full cursor-pointer will-change-auto ${
-              isActive ? "bg-primary" : "bg-textPrimary"
-            }`}
-          />
-          <p className="text-bodyBase text-textSecondary leading-[120%] font-neueMontreal whitespace-nowrap">
-            {data.month}, {data.year}
-          </p>
-        </div>
-      );
-    },
-    [activeIndex, yearWidth, isMedium, isAnimating, renderKey]
-  );
-
-  // Get styles for active element
-  const getActiveElementStyle = () => ({
-    width: "clamp(15.375rem, 12.587rem + 12.39vw, 19.5rem)",
-    // marginRight: "clamp(1.25rem, -2.712rem + 17.61vw, 11.375rem)",
-    flexShrink: 0,
-    willChange: "width, margin",
-  });
-
-  // Get styles for inactive elements
-  const getInactiveElementStyle = () => ({
-    width: "200px",
-    marginRight: "0",
-    flexShrink: 0,
-    willChange: "width, margin",
-  });
-
-  // Ultra-smooth animation using requestAnimationFrame
-  const animateToPosition = (targetX, duration = 600) => {
-    return new Promise((resolve) => {
-      const startTime = performance.now();
-      const startX = translateX;
-      const distance = targetX - startX;
-
-      const animate = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Smooth easing function
-        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-        const currentX = startX + distance * easeOutCubic;
-
-        setTranslateX(currentX);
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          resolve();
+  // Initialize refs for each event item
+  useEffect(() => {
+    itemRefs.current = events.map(
+      (_, i) =>
+        itemRefs.current[i] || {
+          dot: createRef(),
+          date: createRef(),
+          img: createRef(),
+          title: createRef(),
+          desc: createRef(),
         }
-      };
-
-      requestAnimationFrame(animate);
-    });
-  };
-
-  // Optimized click handler
-  const handleTimelineClick = async (clickedActualIndex, clickedPosition) => {
-    if (isAnimating || clickedPosition === 0) return;
-
-    setIsAnimating(true);
-
-    // Update state immediately for instant visual feedback
-    setActiveIndex(clickedActualIndex);
-    setCurrentYear(timelineData[clickedActualIndex].year);
-
-    const elementWidth = getElementWidth();
-    const moveDistance = elementWidth * clickedPosition;
-
-    try {
-      // Phase 1: Smooth slide animation
-      await animateToPosition(-moveDistance, 500);
-
-      // Phase 2: Instant rearrangement (happens off-screen)
-      const currentItems = [...timelineItems.current];
-
-      // Rotate array to bring clicked item to front
-      for (let i = 0; i < clickedPosition; i++) {
-        const item = currentItems.shift();
-        currentItems.push(item);
-      }
-
-      timelineItems.current = currentItems;
-
-      // Reset position instantly (no visual change since items moved)
-      setTranslateX(0);
-      setRenderKey((prev) => prev + 1); // Force re-render with new order
-
-      // Small delay for DOM to settle
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    } catch (error) {
-      console.error("Animation error:", error);
-    } finally {
-      setIsAnimating(false);
-    }
-  };
-
-  // Handle next button click
-  const handleNextClick = () => {
-    if (isAnimating) return;
-
-    const nextActualIndex = (activeIndex + 1) % timelineData.length;
-    // Find the position of next item in current array
-    const nextPosition = timelineItems.current.findIndex(
-      (item) => getActualIndex(item) === nextActualIndex
     );
+  }, [events.length]);
 
-    if (nextPosition > 0) {
-      handleTimelineClick(nextActualIndex, nextPosition);
+  // Update widths and gap on mount and resize
+  useEffect(() => {
+    const updateWidths = () => {
+      if (yearRef.current) {
+        setYearWidth(yearRef.current.getBoundingClientRect().width);
+      }
+      if (timelineRef.current && timelineRef.current.children[0]) {
+        setItemWidth(
+          timelineRef.current.children[0].getBoundingClientRect().width
+        );
+      }
+      setGap(window.innerWidth >= 768 ? 48 : 28);
+    };
+    updateWidths();
+    window.addEventListener("resize", updateWidths);
+    return () => window.removeEventListener("resize", updateWidths);
+  }, []);
+
+  // Set initial styles for the first item
+  useEffect(() => {
+    if (itemRefs.current[0] && yearWidth > 0) {
+      const { dot, date, img, title, desc } = itemRefs.current[0];
+      const yearOffset = yearWidth / 2 - yearWidth * 0.18;
+      gsap.set(dot.current, {
+        marginLeft: yearOffset,
+        marginRight: yearOffset,
+        backgroundColor: "#FF5C19",
+      });
+      gsap.set(date.current, { marginLeft: 0, marginRight: 0 });
+      gsap.set([img.current, title.current, desc.current], {
+        clipPath: "inset(0% 0% 0% 0%)",
+      });
     }
-  };
+  }, [yearWidth]);
+
+  // Adjust timeline position on activeIndex, itemWidth, gap changes
+  useEffect(() => {
+    if (timelineRef.current && itemWidth > 0) {
+      gsap.set(timelineRef.current, {
+        translateX: `-${activeIndex * (itemWidth + gap)}px`,
+      });
+    }
+  }, [activeIndex, itemWidth, gap]);
+
+  // Adjust active dot margin on yearWidth change
+  useEffect(() => {
+    if (itemRefs.current[activeIndex] && yearWidth > 0) {
+      const yearOffset = yearWidth / 2 - yearWidth * 0.18;
+      gsap.set(itemRefs.current[activeIndex].dot.current, {
+        marginLeft: yearOffset,
+        marginRight: yearOffset,
+      });
+    }
+  }, [yearWidth, activeIndex]);
+
+  // Handle year countdown animation
+  useEffect(() => {
+    if (yearTextRef.current) {
+      // Extract year from current and previous event dates
+      const getYear = (date) => date.split(", ")[1].trim();
+      const currentYear = getYear(events[activeIndex].date);
+      const prevYear =
+        activeIndex > 0 ? getYear(events[activeIndex - 1]?.date) : currentYear;
+
+      // Update year text content
+      if (yearTextRef.current.textContent !== currentYear) {
+        if (currentYear !== prevYear) {
+          // Animate only when year changes
+          const tl = gsap.timeline();
+          tl.to(yearTextRef.current, {
+            yPercent: -100,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.inOut",
+            onComplete: () => {
+              yearTextRef.current.textContent = currentYear;
+              gsap.set(yearTextRef.current, {
+                yPercent: 100,
+                opacity: 0,
+              });
+            },
+          }).to(yearTextRef.current, {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.25,
+            ease: "power2.inOut",
+          });
+        } else {
+          // Directly set the year without animation if it's the same year
+          yearTextRef.current.textContent = currentYear;
+          gsap.set(yearTextRef.current, {
+            yPercent: 0,
+            opacity: 1,
+          });
+        }
+      }
+    }
+  }, [activeIndex, events]);
+
+  // Handle next click
+  useEffect(() => {
+    const handleNext = () => {
+      if (activeIndex >= events.length - 1 || itemWidth === 0) return;
+      const newIndex = activeIndex + 1;
+      const translateDistance = itemWidth + gap;
+      const yearOffset = yearWidth / 2 - yearWidth * 0.18;
+      const nextItem = itemRefs.current[newIndex];
+
+      const tl = gsap.timeline({
+        onComplete: () => setActiveIndex(newIndex),
+      });
+
+      tl.to(
+        timelineRef.current,
+        {
+          translateX: `-${newIndex * translateDistance + 0.5}px`,
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      )
+        .to(
+          nextItem.dot.current,
+          {
+            marginLeft: yearOffset,
+            marginRight: yearOffset,
+            backgroundColor: "#FF5C19",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          nextItem.date.current,
+          {
+            marginLeft: 0,
+            marginRight: 0,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          nextItem.img.current,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          nextItem.title.current,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          nextItem.desc.current,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        );
+    };
+
+    const nextButton = nextRef.current;
+    if (nextButton) {
+      nextButton.addEventListener("click", handleNext);
+    }
+    return () => {
+      if (nextButton) {
+        nextButton.removeEventListener("click", handleNext);
+      }
+    };
+  }, [activeIndex, events.length, itemWidth, gap, yearWidth]);
+
+  // Handle prev click
+  useEffect(() => {
+    const handlePrev = () => {
+      if (activeIndex <= 0 || itemWidth === 0) return;
+      const newIndex = activeIndex - 1;
+      const translateDistance = itemWidth + gap;
+      const oldItem = itemRefs.current[activeIndex];
+      const dotSize = 18; // Fixed dot width (4.5rem assuming 4px/rem)
+      const centerMargin = (itemWidth - dotSize) / 2;
+      const dateWidth = oldItem.date.current.getBoundingClientRect().width;
+      const centerDateMargin = (itemWidth - dateWidth) / 2;
+
+      const tl = gsap.timeline({
+        onComplete: () => setActiveIndex(newIndex),
+      });
+
+      tl.to(
+        timelineRef.current,
+        {
+          translateX: `-${newIndex * translateDistance}px`,
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      )
+        .to(
+          oldItem.dot.current,
+          {
+            marginLeft: centerMargin,
+            marginRight: centerMargin,
+            backgroundColor: "#7E7F86",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          oldItem.date.current,
+          {
+            marginLeft: centerDateMargin,
+            marginRight: centerDateMargin,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          oldItem.img.current,
+          {
+            clipPath: "inset(0% 0% 100% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          oldItem.title.current,
+          {
+            clipPath: "inset(0% 0% 100% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        )
+        .to(
+          oldItem.desc.current,
+          {
+            clipPath: "inset(0% 0% 100% 0%)",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "a"
+        );
+    };
+
+    const prevButton = prevRef.current;
+    if (prevButton) {
+      prevButton.addEventListener("click", handlePrev);
+    }
+    return () => {
+      if (prevButton) {
+        prevButton.removeEventListener("click", handlePrev);
+      }
+    };
+  }, [activeIndex, itemWidth, gap]);
 
   return (
-    <section className="h-full w-full flex flex-col justify-start gap-10 py-15 lg:py-25 bg-black">
-      <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-4 items-end px-3.5 md:px-10">
-        <h3 className="text-heading2 text-white leading-[110%] tracking-heading2 col-span-3">
+    <section className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg">
+      <div className="h-fit w-full col-span-4 sm:col-span-12 grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 items-end px-3.5 md:px-5 lg:px-10">
+        <h3 className="text-heading2 text-white leading-[110%] tracking-heading2 col-span-3 sm:col-span-9">
           Our Evolution at <br /> RRP Electronics
         </h3>
-        <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit">
+        <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 sm:col-span-3 w-fit ml-auto mr-0 h-fit">
           <button
-            disabled
-            className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center opacity-50"
+            ref={prevRef}
+            disabled={activeIndex === 0}
+            className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -253,13 +377,9 @@ const OurJourney = () => {
             </svg>
           </button>
           <button
-            className={`cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 rounded-full transition-all duration-200 ${
-              isAnimating
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-orange/20"
-            }`}
-            onClick={handleNextClick}
-            disabled={isAnimating}
+            ref={nextRef}
+            disabled={activeIndex === events.length - 1}
+            className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -270,7 +390,7 @@ const OurJourney = () => {
             >
               <rect width="40" height="40" rx="20" fill="#2E2E30" />
               <mask
-                id="mask0_453_1227"
+                id="mask0_453_1226"
                 maskUnits="userSpaceOnUse"
                 x="8"
                 y="8"
@@ -279,7 +399,7 @@ const OurJourney = () => {
               >
                 <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
               </mask>
-              <g mask="url(#mask0_453_1227)">
+              <g mask="url(#mask0_453_1226)">
                 <path
                   d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
                   fill="currentColor"
@@ -289,103 +409,68 @@ const OurJourney = () => {
           </button>
         </div>
       </div>
-
-      <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-4">
-        <div className="relative mb-6.5 col-span-4 px-3.5 md:px-10">
-          <h3
-            ref={yearRef}
-            className="text-display text-primary tracking-display leading-[105%] w-fit transition-all duration-300 ease-linear"
-            style={{ willChange: "contents" }}
-          >
-            {currentYear}
-          </h3>
-          <div
-            style={{ top: "calc(100% + 35px)" }}
-            className="w-full left-0 h-0.25 absolute bg-textSecondary z-1"
-          />
-        </div>
-
-        <div
-          ref={containerRef}
-          className="relative min-w-full overflow-hidden col-span-4"
-          style={{ willChange: "transform" }}
+      <div className="h-fit w-full col-span-4 sm:col-span-12 grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4">
+        <h3
+          ref={yearRef}
+          className="mb-6.5 col-span-4 sm:col-span-12 text-display text-primary tracking-display leading-[105%] w-fit px-3.5 md:px-10"
         >
+          <span ref={yearTextRef}>2024</span>
+        </h3>
+        <div className="relative w-full overflow-x-hidden no-scrollbar col-span-4 sm:col-span-12">
+          <div className="w-full h-0.25 absolute bg-textSecondary z-1 top-[9px] left-0" />
           <div
             ref={timelineRef}
-            className="flex gap-7 md:gap-8 h-fit items-start relative z-2 px-8 md:px-16"
-            style={{
-              width: "max-content",
-              transform: `translate3d(${translateX}px, 0, 0)`,
-              willChange: "transform",
-              backfaceVisibility: "hidden",
-              perspective: "1000px",
-            }}
+            className="relative flex gap-7 md:gap-12 h-fit w-fit items-start z-2 pl-3.5 md:pl-5 lg:pl-10"
           >
-            {timelineItems.current.map((itemIndex, arrayPosition) =>
-              renderTimelineElement(itemIndex, arrayPosition)
-            )}
+            {events.map((event, index) => (
+              <div
+                key={index}
+                className="w-[285px] relative flex flex-col gap-6 justify-center items-start"
+              >
+                <div
+                  ref={itemRefs.current[index]?.dot}
+                  className="h-4.5 w-4.5 bg-textSecondary rounded-full mx-auto"
+                />
+                <p
+                  ref={itemRefs.current[index]?.date}
+                  className="text-bodyBase whitespace-nowrap text-textSecondary leading-[120%] font-neueMontreal w-fit mx-auto"
+                >
+                  {event.date}
+                </p>
+                <div
+                  ref={itemRefs.current[index]?.img}
+                  className="relative w-full aspect-[246/184]"
+                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
+                >
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    sizes="246"
+                    className="object-cover object-center"
+                  />
+                </div>
+                <p
+                  ref={itemRefs.current[index]?.title}
+                  className="text-white leading-[115%] text-heading4"
+                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
+                >
+                  {event.title}
+                </p>
+                <p
+                  ref={itemRefs.current[index]?.desc}
+                  className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2"
+                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
+                >
+                  {event.desc}
+                </p>
+              </div>
+            ))}
           </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-4 gap-x-3 md:gap-x-4 px-3.5 md:px-10">
-        <div className="flex flex-col gap-6 justify-center items-start col-span-2 max-w-[22.5rem]">
-          <img
-            src={timelineData[activeIndex].image}
-            alt={getEventTitle(activeIndex)}
-            className="w-full h-full object-cover transition-opacity duration-300 ease-linear"
-            loading="lazy"
-          />
-          <p
-            className="text-white leading-[115%] text-heading4 transition-all duration-300 ease-linear"
-            style={{ willChange: "contents" }}
-          >
-            {getEventTitle(activeIndex)}
-          </p>
-          <p
-            className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2 transition-all duration-300 ease-linear"
-            style={{ willChange: "contents" }}
-          >
-            {getEventDescription(activeIndex)}
-          </p>
-        </div>
-        <div className="col-span-2 flex justify-end items-start">
-          <div
-            className="w-[285px] h-[214px] rounded-lg overflow-hidden transition-all duration-300 ease-linear"
-            style={{
-              aspectRatio: "285/214",
-              willChange: "contents",
-            }}
-          ></div>
         </div>
       </div>
     </section>
   );
-
-  // Helper functions for dynamic content
-  function getEventTitle(index) {
-    const titles = [
-      "Bhoomi Poojan Ceremony",
-      "Infrastructure Development",
-      "Technology Integration",
-      "Production Commencement",
-      "Quality Certification",
-      "Market Expansion",
-    ];
-    return titles[index] || "Bhoomi Poojan Ceremony";
-  }
-
-  function getEventDescription(index) {
-    const descriptions = [
-      "The foundation of RRP Electronics was laid with a traditional Bhoomi Poojan, marking the beginning of our journey in the semiconductor domain.",
-      "Major infrastructure development phase with state-of-the-art facilities and equipment installation for semiconductor manufacturing.",
-      "Integration of cutting-edge technology and automated systems to enhance production capabilities and quality standards.",
-      "Official commencement of production operations with first batch of high-quality semiconductor components.",
-      "Achievement of international quality certifications and compliance with global semiconductor industry standards.",
-      "Strategic expansion into new markets and establishment of partnerships with leading technology companies worldwide.",
-    ];
-    return descriptions[index] || descriptions[0];
-  }
 };
 
 export default OurJourney;

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { leadersData } from "@/app/leadersData";
+import { leadersData } from "@/app/leadership/leadersData";
 import { useAppContext } from "@/app/components/AppContext";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
@@ -49,7 +49,7 @@ const Popup = () => {
         cursor.current.style.transform = "none";
       } else {
         cursor.current.style.display = "block";
-        cursor.current.style.position = "fixed";
+        cursor.current.style.position = "absolute";
         cursor.current.style.top = "40px";
         cursor.current.style.right = "40px";
         cursor.current.style.left = "auto";
@@ -130,10 +130,11 @@ const Popup = () => {
       <div
         className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 scrollbar-hide"
         onClick={handleContentClick}
-        style={{ cursor: "auto" }}
+        style={{ cursor: "none" }}
+        data-lenis-prevent
       >
         <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start md:py-8">
-          <div className="md:col-span-2 flex justify-center items-start md:sticky md:top-8 md:h-[calc(100vh-4rem)]">
+          <div className="md:col-span-2 flex justify-center items-start md:sticky md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
             <img
               ref={popupImage}
               className="w-full max-h-[50vh] md:max-h-full object-contain"
@@ -153,7 +154,7 @@ const Popup = () => {
 
             {leadersData[selectedIndex]?.description &&
               leadersData[selectedIndex]?.description.length > 0 && (
-                <div className="space-y-4">
+                <div className="h-fit space-y-4">
                   {leadersData[selectedIndex]?.description.map((para, id) => (
                     <p
                       key={id}
