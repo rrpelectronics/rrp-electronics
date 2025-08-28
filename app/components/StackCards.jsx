@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UseScreenSizeLarge from "@/app/hooks/UseScreenSizeLarge";
 import { useHeaderHeight } from "@/app/context/HeaderHeightContext";
 import BulletList from "@/app/components/BulletList";
-import { useTextAnimation } from "../hooks/UseTextAnimation";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,7 +118,7 @@ export default function StackCards({ cardsData = [] }) {
                 alt={card.title}
                 fill
                 sizes="50vw"
-                className="object-cover object-center"
+                className={`object-cover ${card.imgPos}`}
                 priority
               />
             </div>

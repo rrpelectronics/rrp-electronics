@@ -100,7 +100,7 @@ export default function PopupCard() {
 //     if (isVisible) {
 //       const closeTimer = setTimeout(() => {
 //         handleClose();
-//       }, 12000);
+//       }, 8000);
 
 //       return () => clearTimeout(closeTimer);
 //     }

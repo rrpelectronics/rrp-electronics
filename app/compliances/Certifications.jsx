@@ -65,7 +65,7 @@
 // }
 
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import SectionHeader from "@/app/components/SectionHeader";
 import { useTextAnimation } from "../hooks/UseTextAnimation";
 import { Document, Page, pdfjs } from "react-pdf";

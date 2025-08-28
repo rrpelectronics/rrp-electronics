@@ -41,7 +41,7 @@ const OurJourney = () => {
     {
       date: "January, 2025",
       title: "MoU with Deca Technologies",
-      image: "/images/our-journey/mou-with-deca .webp",
+      image: "/images/our-journey/mou-with-deca.webp",
       desc: "A significant milestone – we signed a Memorandum of Understanding (MoU) with Deca Technologies, signaling the start of a high-impact collaboration.",
     },
     {
@@ -348,14 +348,14 @@ const OurJourney = () => {
         </h3>
       </div>
       <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5">
-        <div className="col-span-4 flex justify-between items-center px-3.5 md:px-10">
+        <div className="col-span-4 flex justify-between items-center">
           <h3
             ref={yearRef}
-            className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[110%] w-fit"
+            className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[110%] w-fit px-3.5 md:px-5 lg:px-10"
           >
             <span ref={yearTextRef}>2024</span>
           </h3>
-          <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit">
+          <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit pr-3.5 md:pr-5 lg:pr-10">
             <button
               ref={prevRef}
               disabled={activeIndex === 0}
