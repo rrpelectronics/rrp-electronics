@@ -2,6 +2,7 @@
 import React from 'react';
 import Banner from '@/app/components/BannerStack';
 import StackCards from '@/app/components/StackCards';
+import Map from './Map';
 
 const cardsData = [
   {
@@ -33,6 +34,7 @@ export const logistics = () => {
     <main className="min-h-screen w-full relative overflow-hidden">
       <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
       <StackCards cardsData={cardsData} />
+      <Map/>
     </main>
   )
 }

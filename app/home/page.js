@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useFooter } from '@/app/context/FooterContext';
 import Banner from '@/app/components/BannerStack';
 import VideoImgSection from '@/app/components/VideoImgSection';
+import Popup from '@/app/components/Popup';
 import Carousel from './Carousel';
 import Accordion from './Accordion';
 import Grid from './Grid';
@@ -18,10 +19,16 @@ const Home = () => {
       buttonText: "Connect with Us",
       buttonLink: "/contact-us"
     });
+
+    // Cleanup: Reset to null when component unmounts (optional)
+    return () => {
+      setFooterContent(null);
+    };
   }, [setFooterContent]);
-  
+
   return (
     <main className="min-h-screen w-full relative">
+      <Popup/>
       <Banner 
         video={"/images/home/banner-video.mp4"}
         heading={"Maharashtra’s First \n Operational OSAT Facility. \n Expanding Forward."}
