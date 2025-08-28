@@ -45,7 +45,7 @@ export default function Popup() {
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="w-[90%] sm:w-[30vw] aspect-[348/435] mx-auto overflow-hidden">
+        <div className="w-[90%] sm:w-[50vw] lg:w-[30vw] aspect-[348/435] mx-auto overflow-hidden">
           <button
             onClick={handleClose}
             className="w-full font-neueMontreal text-end text-white text-bodySmall 2xl:text-bodyLarge"
@@ -56,7 +56,7 @@ export default function Popup() {
           <img
             src="/images/home/pop-up.webp"
             alt="Card Image"
-            className="h-full w-auto"
+            className="h-full w-full object-contain"
           />
         </div>
       </div>
