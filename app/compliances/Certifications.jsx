@@ -65,13 +65,9 @@
 // }
 
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SectionHeader from "@/app/components/SectionHeader";
 import { useTextAnimation } from "../hooks/UseTextAnimation";
-import { Document, Page, pdfjs } from "react-pdf";
-
-// Configure pdf.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function Certifications() {
   const { containerRef } = useTextAnimation();
@@ -79,7 +75,6 @@ export default function Certifications() {
   const [modalTitle, setModalTitle] = useState("");
   const [currentFile, setCurrentFile] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [numPages, setNumPages] = useState(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -88,7 +83,6 @@ export default function Certifications() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Prevent body scroll when modal is open
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
@@ -119,12 +113,12 @@ export default function Certifications() {
     setIsModalOpen(false);
     setCurrentFile(null);
     setModalTitle("");
-    setNumPages(null);
   };
 
-  const handleLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
+  const getPdfSrc = (src) =>
+    src.includes(".pdf")
+      ? `${src}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&zoom=page-width`
+      : src;
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
@@ -137,12 +131,11 @@ export default function Certifications() {
         ref={containerRef}
         className="col-span-4 grid grid-cols-4 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-5"
       >
-        {/* ISO Card */}
         <div
           onClick={() =>
             isMobile
               ? openModal("image", "images/compliances/trial.png", "ISO 9001:2015")
-              : openModal("pdf", "images/compliances/RRP QMS.pdf", "ISO 9001:2015")
+              : openModal("pdf", "images/compliances/ems.pdf", "ISO 9001:2015")
           }
           className="cursor-pointer col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg"
         >
@@ -163,12 +156,11 @@ export default function Certifications() {
           </div>
         </div>
 
-        {/* REACH Card */}
         <div
           onClick={() =>
             isMobile
               ? openModal("image", "images/compliances/trial.png", "REACH Compliance")
-              : openModal("pdf", "images/compliances/RRP QMS.pdf", "REACH Compliance")
+              : openModal("pdf", "images/compliances/ems.pdf", "REACH Compliance")
           }
           className="cursor-pointer col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg"
         >
@@ -190,19 +182,15 @@ export default function Certifications() {
         </div>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
-        <div className="w-full h-full overflow-hidden fixed inset-0 z-50 flex items-center justify-center">
-          {/* Overlay */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-hidden">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={closeModal}
           />
-          {/* Modal Content */}
-          <div className="relative z-10 w-[70%] h-[90%] bg-white overflow-hidden flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 bg-white flex-shrink-0">
-              <h2 className="text-sm sm:text-base md:text-lg lg:text-bodyLarge text-black truncate pr-4">
+          <div className="relative z-10 bg-white flex flex-col justify-center w-[95%] md:w-[70%] h-[70vh] md:h-[90vh]">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 flex-shrink-0">
+              <h2 className="text-sm sm:text-base md:text-lg lg:text-bodyLarge text-black pr-4">
                 {modalTitle}
               </h2>
               <button
@@ -225,37 +213,22 @@ export default function Certifications() {
                 </svg>
               </button>
             </div>
-
-            {/* Body */}
-            <div className="flex-1 bg-white overflow-auto">
+            <div className="flex-1 bg-white overflow-hidden min-w-0">
               {currentFile && currentFile.type === "pdf" && !isMobile && (
-                <div className="w-full h-full overflow-auto px-4 py-2">
-                  <Document
-                    file={currentFile.src}
-                    onLoadSuccess={handleLoadSuccess}
-                    loading={<p className="text-center">Loading PDF…</p>}
-                  >
-                    {Array.from(new Array(numPages), (el, index) => (
-                      <Page
-                        key={`page_${index + 1}`}
-                        pageNumber={index + 1}
-                        width={800} // adjust scale
-                        renderAnnotationLayer={false}
-                        renderTextLayer={false}
-                      />
-                    ))}
-                  </Document>
-                </div>
+                <iframe
+                  src={getPdfSrc(currentFile.src)}
+                  className="w-full h-full border-0 bg-white min-w-0"
+                  title={modalTitle}
+                  style={{ overflow: "hidden" }}
+                />
               )}
-
               {currentFile && currentFile.type === "image" && (
-                <div className="w-full h-full flex items-center justify-center overflow-auto">
-                  <img
-                    src={currentFile.src}
-                    alt={modalTitle}
-                    className="max-w-full max-h-full object-contain bg-white"
-                  />
-                </div>
+                <img
+                  src={currentFile.src}
+                  alt={modalTitle}
+                  className="w-full h-full object-contain bg-white min-w-0"
+                  style={{ maxHeight: "100%", overflow: "hidden" }}
+                />
               )}
             </div>
           </div>
