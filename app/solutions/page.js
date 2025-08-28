@@ -113,7 +113,7 @@ const Page = () => {
     }, [setFooterContent]);
 
   return (
-    <main ref={mainRef} className='min-h-screen w-full relative'>
+    <main ref={mainRef} className='min-h-screen w-full relative overflow-x-hidden'>
       <Banner 
         imgSrc={"/images/solutions/banner.webp"} 
         heading={"Smart Solutions for a Smarter Future"} 
