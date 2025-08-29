@@ -1,9 +1,7 @@
 import "./globals.css";
 import localFont from "next/font/local";
-import { ReactLenis } from "lenis/react";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
-import { AppProvider } from "./components/AppContext";
+import { AppProvider } from "@/app/context/AppContext";
+import ClientLayout from "@/app/ClientLayout";
 
 const neueMontreal = localFont({
   src: "../public/fonts/NeueMontreal-Regular.woff",
@@ -27,11 +25,9 @@ export default function RootLayout({ children }) {
         className={`${neueMontreal.variable} ${neueMontrealMd.variable} antialiased relative`}
       >
         <AppProvider>
-          <ReactLenis root>
-            <Header />
+          <ClientLayout>
             {children}
-            <Footer />
-          </ReactLenis>
+          </ClientLayout>
         </AppProvider>
       </body>
     </html>

@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 import SectionHeader from "@/app/components/SectionHeader";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 export default function Certifications() {
+  const { containerRef } = useTextAnimation();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
       <SectionHeader
@@ -12,7 +14,10 @@ export default function Certifications() {
         }
       />
 
-      <div className="col-span-4 grid grid-cols-4 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-5">
+      <div
+        ref={containerRef}
+        className="col-span-4 grid grid-cols-4 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-5"
+      >
         <div className="col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg">
           <div className="flex justify-end">
             <img
@@ -22,10 +27,16 @@ export default function Certifications() {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <h3 className="text-heading4 leading-[115%] text-black">
+            <h3
+              data-animate-text
+              className="text-heading4 leading-[115%] text-black"
+            >
               ISO 9001:2015
             </h3>
-            <p className="text-bodySmall leading-[120%] text-textPrimary">
+            <p
+              data-animate-text
+              className="text-bodySmall leading-[120%] text-textPrimary"
+            >
               Quality Management System
             </p>
           </div>
@@ -40,11 +51,17 @@ export default function Certifications() {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <h3 className="text-heading4 leading-[115%] text-black">
-              ISO 9001:2015
+            <h3
+              data-animate-text
+              className="text-heading4 leading-[115%] text-black"
+            >
+              ISO 14001:2015
             </h3>
-            <p className="text-bodySmall leading-[120%] text-textPrimary">
-              Quality Management System
+            <p
+              data-animate-text
+              className="text-bodySmall leading-[120%] text-textPrimary"
+            >
+              Environmental Management System (EMS)
             </p>
           </div>
         </div>

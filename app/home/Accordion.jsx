@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
+import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
 const accordionData = [
   {
     id: "01",
     title: "Telecommunication",
     description: "Ultra-fast, low-latency network processing.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/telecommunication.webp",
     alt: "Telecommunication",
   },
   {
@@ -15,21 +17,21 @@ const accordionData = [
     title: "Industrial",
     description:
       "Smart grids, renewable energy integration, efficient power distribution.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/industrial.webp",
     alt: "Industrial",
   },
   {
     id: "03",
     title: "Automotive & EVs",
     description: "Smart chips for self-driving cars & battery management.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/automative_ev.webp",
     alt: "Automotive & EVs",
   },
   {
     id: "04",
     title: "Medical & Healthcare",
     description: "Next-gen diagnostic & wearable tech.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/medical_healthcare.webp",
     alt: "Medical & Healthcare",
   },
   {
@@ -37,58 +39,122 @@ const accordionData = [
     title: "Commercial",
     description:
       "Advanced IoT solutions, smart retail systems, intelligent automation.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/commercial.webp",
     alt: "Commercial",
   },
   {
     id: "06",
     title: "Advanced Computing",
     description: "Future-ready computing for complex applications.",
-    image: "/images/home/accordion-1.webp",
+    image: "/images/home/advanced_computing.webp",
     alt: "Advanced Computing",
   },
 ];
 
 const Accordion = () => {
   const [openItem, setOpenItem] = useState(0);
-  const [shouldScroll, setShouldScroll] = useState(false);
-
   const itemRefs = useRef([]);
-  const topOffset = 100; // adjust this offset as needed (e.g., fixed header height)
+  const descriptionRefs = useRef([]);
+  const imageRefs = useRef([]);
+  const isSmall = UseScreenSizeSmall();
 
   useEffect(() => {
-    if (!shouldScroll || openItem === -1) return;
+    accordionData.forEach((_, index) => {
+      const description = descriptionRefs.current[index];
+      const image = imageRefs.current[index];
+      const element = itemRefs.current[index];
 
-    const element = itemRefs.current[openItem];
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
+      const accordion_tl = gsap.timeline();
 
-      window.scrollTo({
-        top: rect.top + scrollTop - topOffset,
-        behavior: "smooth",
-      });
+      // Show content if item is open, OR if it's mobile and no item is selected and this is the first item
+      const shouldShow =
+        openItem === index || (isSmall && openItem === -1 && index === 0);
 
-      // Reset scroll flag
-      setShouldScroll(false);
-    }
-  }, [openItem, shouldScroll]);
+      if (shouldShow) {
+        accordion_tl
+          .to(
+            element,
+            {
+              rowGap: "20px",
+              duration: 0.75,
+              ease: "power2.inOut",
+            },
+            "a"
+          )
+          .to(
+            description,
+            {
+              height: "auto",
+              opacity: 1,
+              duration: 0.75,
+              marginTop: "12px",
+              ease: "power2.inOut",
+            },
+            "a"
+          )
+          .to(
+            image,
+            {
+              height: isSmall ? "30vh" : "auto",
+              opacity: 1,
+              duration: 0.75,
+              ease: "power2.inOut",
+            },
+            "a"
+          );
+      } else {
+        accordion_tl
+          .to(
+            element,
+            {
+              rowGap: "0px",
+              duration: 0.75,
+              ease: "power2.inOut",
+            },
+            "a"
+          )
+          .to(
+            description,
+            {
+              marginTop: 0,
+              height: 0,
+              opacity: 0,
+              duration: 0.75,
+              ease: "power2.inOut",
+            },
+            "a"
+          )
+          .to(
+            image,
+            {
+              height: 0,
+              opacity: 0,
+              duration: 0.75,
+              ease: "power2.inOut",
+            },
+            "a"
+          );
+      }
+    });
+  }, [openItem, isSmall]);
 
   const toggleItem = (index) => {
     const isSame = openItem === index;
-    setOpenItem(isSame ? -1 : index);
-    setShouldScroll(!isSame);
+    const newOpenItem = isSame ? -1 : index;
+    setOpenItem(newOpenItem);
   };
 
   return (
-    <section className="bg-darkBg h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
+    <section className="bg-darkBg h-[1024px] w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-center">
       <h3 className="text-white text-heading2 leading-[110%] tracking-heading2 mb-8 md:mb-10 col-span-4">
         Industries We Power <br /> The Future, Powered by RRP
       </h3>
       <ul className="grid grid-cols-4 col-span-4">
         {accordionData.map((item, index) => {
           const isOpen = openItem === index;
+          // Show content if item is open, OR if it's mobile and no item is selected and this is the first item
+          const showContent =
+            isOpen || (isSmall && openItem === -1 && index === 0);
           const isFirst = index === 0;
 
           return (
@@ -96,36 +162,41 @@ const Accordion = () => {
               key={index}
               ref={(el) => (itemRefs.current[index] = el)}
               onClick={() => toggleItem(index)}
-              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 gap-y-5 ${
+              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 ${
                 isFirst
                   ? "border-y-1 border-y-borderSecondary"
                   : "border-b-1 border-b-borderSecondary"
               }`}
             >
               <div className="col-span-4 sm:col-span-5 flex gap-2 sm:gap-6 md:gap-15 lg:gap-30">
-                <p className="text-white text-heading4 leading-[105%] hidden sm:block">
+                <p className="text-white text-heading4 leading-[110%] hidden sm:block">
                   {item.id}
                 </p>
-                <p className="text-white text-heading4 leading-[115%] flex flex-col gap-2 lg:gap-4">
-                  {item.title}
+                <div className=" flex flex-col">
+                  <p
+                    className={`text-white text-heading4 font-neueMontreal leading-[115%]`}
+                  >
+                    {item.title}
+                  </p>
                   <span
-                    className={`text-bodySmall leading-[120%] text-textSecondary transition-all duration-300 ease-in-out ${
-                      isOpen
-                        ? "overflow-visible block h-fit opacity-100"
-                        : "overflow-hidden hidden h-0 opacity-0"
+                    ref={(el) => (descriptionRefs.current[index] = el)}
+                    className={`text-bodySmall leading-[120%] text-textSecondary ${
+                      showContent ? `overflow-visible` : `overflow-hidden`
                     }`}
                   >
                     {item.description}
                   </span>
-                </p>
+                </div>
                 <button
                   onClick={() => toggleItem(index)}
                   className="ml-auto h-fit w-fit block sm:hidden"
-                  aria-expanded={isOpen}
+                  aria-expanded={showContent}
                   aria-controls={`accordion-content-${index}`}
                 >
                   <svg
-                    className={`ml-auto ${isOpen ? "rotate-180" : "rotate-0"}`}
+                    className={`ml-auto ${
+                      showContent ? "rotate-180" : "rotate-0"
+                    }`}
                     xmlns="http://www.w3.org/2000/svg"
                     width="13"
                     height="7"
@@ -141,9 +212,8 @@ const Accordion = () => {
               </div>
               <figure
                 id={`accordion-content-${index}`}
-                className={`col-span-4 sm:col-span-6 sm:mx-auto relative aspect-[285/212] sm:w-[285px] overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? "h-fit block opacity-100" : "h-0 hidden opacity-0"
-                }`}
+                ref={(el) => (imageRefs.current[index] = el)}
+                className={`col-span-4 sm:col-span-6 sm:mx-auto relative sm:aspect-[285/212] sm:w-[285px] overflow-hidden`}
               >
                 <Image
                   src={item.image}
@@ -156,12 +226,12 @@ const Accordion = () => {
               <button
                 className="cursor-pointer hidden sm:block h-fit w-fit p-2 ml-auto col-start-12 col-span-1"
                 onClick={() => toggleItem(index)}
-                aria-expanded={isOpen}
+                aria-expanded={showContent}
                 aria-controls={`accordion-content-${index}`}
               >
                 <svg
                   className={`ml-auto h-fit w-fit ${
-                    isOpen ? "rotate-180" : "rotate-0"
+                    showContent ? "rotate-180" : "rotate-0"
                   }`}
                   xmlns="http://www.w3.org/2000/svg"
                   width="13"

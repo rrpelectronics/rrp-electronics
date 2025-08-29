@@ -1,15 +1,18 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import HeadingCenter from "../components/HeadingCenter";
+import HeadingCenter from "@/app/components/HeadingCenter";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 const Grid = () => {
+
+  const { containerRef } = useTextAnimation();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-background">
       <HeadingCenter
         heading={"Our People. Our Principles. \n Our Progress."}
       />
-      <div className="min-w-full overflow-x-scroll no-scrollbar px-3.5 md:px-7.5">
+      <div ref={containerRef} className="min-w-full overflow-x-scroll no-scrollbar px-3.5 md:px-7.5">
         <div className="flex w-[996px] sm:w-[150vw] lg:w-full flex-wrap lg:grid lg:grid-cols-12">
           <div className="relative overflow-hidden w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4">
             <Image
@@ -21,7 +24,7 @@ const Grid = () => {
             />
           </div>
           <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-darkBg">
-            <p className="text-white text-heading3 tracking-heading3 leading-[115%]">
+            <p data-animate-text className="text-white text-heading3 tracking-heading3 leading-[115%]">
               Young Talent
             </p>
           </div>
@@ -35,7 +38,7 @@ const Grid = () => {
             />
           </div>
           <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-primary">
-            <p className="text-white text-heading3 tracking-heading3 leading-[115%]">
+            <p data-animate-text className="text-white text-heading3 tracking-heading3 leading-[115%]">
               Employment Generation
             </p>
           </div>
@@ -49,7 +52,7 @@ const Grid = () => {
             />
           </div>
           <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-whiteBg">
-            <p className="text-black text-heading3 tracking-heading3 leading-[115%]">
+            <p data-animate-text className="text-black text-heading3 tracking-heading3 leading-[115%]">
               Empowering Women
             </p>
           </div>

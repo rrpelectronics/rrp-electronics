@@ -1,5 +1,6 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useFooter } from '@/app/context/FooterContext';
 import Banner from '@/app/components/Banner';
 import Text from '@/app/components/Text';
 import ImageLayout from '@/app/components/ImageLayout';
@@ -21,14 +22,31 @@ const imgLayoutData = [
 ]
 
 const page = () => {
+   const { setFooterContent } = useFooter();
+
+  // Set custom footer content for about page
+  useEffect(() => {
+    setFooterContent({
+      heading: "Let’s Shape the Future of \n Electronics Together",
+      description: "Interested in partnering with RRP Electronics? We’d love to connect.",
+      buttonText: "Connect with Us",
+      buttonLink: "/contact-us"
+    });
+
+    // Cleanup: Reset to null when component unmounts (optional)
+    return () => {
+      setFooterContent(null);
+    };
+  }, [setFooterContent]);
+  
   return (
-    <main className='min-h-screen w-full relative'>
+    <main className='min-h-screen w-full'>
       <Banner imgSrc={"/images/about/banner.webp"} heading={"Pioneering Precision and \n Innovation in OSAT Services"}/>
       <Text text={"At RRP Electronics, we specialize in advanced OSAT (Outsourced Semiconductor Assembly and Test) services, combining cutting-edge technology with unwavering precision. From concept to completion, we drive innovation that powers next-gen electronics and shapes a smarter, connected future."}/>
       <ImageLayout imageLayoutData={imgLayoutData}/>
       <Impact/>
       <People/>
-      <VideoImgSection videoSrc={"/images/common/video.mp4"} heading={"State-of-the-Art Manufacturing & OSAT Facility"} text={"We nurture an environment of growth, learning, and leadership—empowering our teams to think big and innovate."}/>
+      <VideoImgSection videoSrc={"/images/about/osat-process.mp4"} heading={"State-of-the-Art Manufacturing & OSAT Facility"} text={"We nurture an environment of growth, learning, and leadership—empowering our teams to think big and innovate."}/>
     </main>
   )
 }

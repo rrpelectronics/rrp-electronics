@@ -4,8 +4,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UseScreenSizeLarge from "@/app/hooks/UseScreenSizeLarge";
-import UseScreenSizeMedium from "@/app/hooks/UseScreenSizeMedium";
+import { useHeaderHeight } from "@/app/context/HeaderHeightContext";
 import BulletList from "@/app/components/BulletList";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,10 @@ export default function StackCards({ cardsData = [] }) {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
   const isDesktop = UseScreenSizeLarge();
-  const isMedium = UseScreenSizeMedium();
+  const headerHeight = useHeaderHeight();
+  const { containerRef } = useTextAnimation();
+
+  console.log(headerHeight);
 
   useEffect(() => {
     if (!isDesktop) return;
@@ -22,7 +26,7 @@ export default function StackCards({ cardsData = [] }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
+          start: `top ${headerHeight}`,
           end: `+=${cardsData.length * 100}%`,
           pin: true,
           scrub: true,
@@ -35,6 +39,19 @@ export default function StackCards({ cardsData = [] }) {
           { yPercent: 100 },
           { yPercent: 0, duration: 0.5, ease: "linear" }
         );
+        if (i > 0) {
+          tl.to(
+            cardRefs.current[i - 1],
+            {
+              scale: 0.75,
+              filter: "blur(10px)",
+              zIndex: -1,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            "<"
+          );
+        }
       }
     }, sectionRef);
 
@@ -44,27 +61,50 @@ export default function StackCards({ cardsData = [] }) {
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full ${
-        isDesktop ? "h-screen" : "h-fit"
-      } bg-white flex flex-col gap-10 md:gap-15 items-center justify-center py-10 md:py-15`}
+      style={
+        isDesktop
+          ? {
+              height: `calc(100vh - ${headerHeight}px)`,
+            }
+          : {
+              height: "fit-content",
+            }
+      }
+      className={`relative w-full bg-white flex flex-col gap-10 md:gap-15 items-center justify-center py-10 md:py-15 overflow-hidden`}
     >
       {cardsData.map((card, id) => (
         <div
           ref={(el) => (cardRefs.current[id] = el)}
           key={id}
-          className={`px-3.5 md:px-0 md:pl-5 lg:pl-10 bg-whiteBg ${
-            isDesktop ? "absolute top-0 left-0 h-full md:h-screen" : "relative"
-          } 
-              w-full bg-white flex flex-col md:grid md:grid-cols-4 md:gap-x-5`}
-          style={isDesktop ? { zIndex: card.zIndex } : {}}
+          style={
+            isDesktop
+              ? {
+                  height: `calc(100vh - ${headerHeight}px)`,
+                  zIndex: cardsData.length - id,
+                  transformOrigin: "center center",
+                }
+              : {
+                  height: "100%",
+                }
+          }
+          className={`px-3.5 md:px-5 lg:px-10 py-10 bg-whiteBg ${
+            isDesktop ? "absolute top-0 left-0" : "relative"
+          }  w-full bg-white flex flex-col md:grid md:grid-cols-4 gap-y-7.5 md:gap-x-5 `}
         >
-          <div className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-0 py-7.5 md:pt-25 md:pb-10">
-            <div className="flex flex-col gap-5 md:gap-4">
-              <h3 className="text-heading2 text-black leading-[110%]">
+          <div
+            ref={containerRef}
+            className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-15"
+          >
+            <div className={`flex flex-col gap-5 md:gap-4`}>
+              <h3
+                data-animate-text
+                className="text-heading2 text-black leading-[110%]"
+              >
                 {card.title}
               </h3>
               <p
-                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%]`}
+                data-animate-text
+                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%] w-[80%]`}
               >
                 {card.desc}
               </p>
@@ -72,23 +112,13 @@ export default function StackCards({ cardsData = [] }) {
             <BulletList items={card.items} />
           </div>
           <div className="col-span-2 flex items-center justify-center">
-            <div
-              style={
-                isMedium
-                  ? {
-                      width: "calc(100% - 20px)",
-                    }
-                  : {
-                      width: "calc(100% - 0px)",
-                    }
-              }
-              className="relative aspect-[332/394] lg:h-screen ml-auto mr-0"
-            >
+            <div className="relative h-[50vh] md:h-full w-full ml-auto mr-0">
               <Image
                 src={card.img}
                 alt={card.title}
                 fill
-                className="object-cover object-center"
+                sizes="50vw"
+                className={`object-cover ${card.imgPos}`}
                 priority
               />
             </div>

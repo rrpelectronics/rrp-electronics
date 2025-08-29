@@ -1,185 +1,65 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { leadersData } from "@/app/leadership/leadersData";
-import { useAppContext } from "@/app/components/AppContext";
+import React, { useState, useEffect } from "react";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
-const Popup = () => {
-  const { state, setState } = useAppContext();
-  const { selectedIndex, isActive } = state;
+export default function Popup() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  let cursor = useRef();
-  let popup = useRef();
-  let popupDesc = useRef();
-  let popupImage = useRef();
-
-  UseBodyScrollLock(isActive, ".popup-content-scrollable");
-
-  function initalizePopup(index) {
-    if (
-      typeof index === "undefined" ||
-      index < 0 ||
-      index >= leadersData.length
-    ) {
-      return;
-    }
-
-    const leaders = leadersData[index];
-    if (popupDesc.current) {
-      popupDesc.current.innerHTML = leaders.description;
-    }
-    if (popupImage.current) {
-      popupImage.current.src = leaders.imgPathPopup;
-      popupImage.current.alt = leaders.name;
-    }
-  }
-
-  function moveCursor(e) {
-    if (cursor.current) {
-      const isMobile = window.innerWidth < 1152;
-
-      if (isMobile) {
-        cursor.current.style.display = "block";
-        cursor.current.style.position = "fixed";
-        cursor.current.style.top = "20px";
-        cursor.current.style.right = "40px";
-        cursor.current.style.left = "auto";
-        cursor.current.style.transform = "none";
-      } else {
-        cursor.current.style.display = "block";
-        cursor.current.style.position = "absolute";
-        cursor.current.style.top = "40px";
-        cursor.current.style.right = "40px";
-        cursor.current.style.left = "auto";
-        cursor.current.style.transform = "none";
-      }
-    }
-  }
-
-  function handleMouseLeave() {
-    const isMobile = window.innerWidth < 1152;
-    if (cursor.current && isMobile) {
-      cursor.current.style.display = "none";
-    }
-  }
-
-  useGSAP(() => {
-    let popuptl = gsap.timeline();
-
-    popuptl
-      .to(popup.current, {
-        opacity: isActive ? "1" : "0",
-        pointerEvents: isActive ? "all" : "none",
-        duration: 0.65,
-        ease: "power1.inOut",
-      })
-      .to(popupDesc.current, {
-        opacity: isActive ? "1" : "0",
-        duration: "0.65",
-      });
-  }, [isActive]);
+  // Use the body scroll lock hook
+  UseBodyScrollLock(showPopup);
 
   useEffect(() => {
-    if (typeof selectedIndex !== "undefined") {
-      initalizePopup(selectedIndex);
-    }
-  }, [selectedIndex]);
+    setShowPopup(true);
+    const visibleTimer = setTimeout(() => setIsVisible(true), 50);
+    return () => clearTimeout(visibleTimer);
+  }, []);
 
   useEffect(() => {
-    if (isActive && cursor.current) {
-      moveCursor();
+    if (isVisible) {
+      const closeTimer = setTimeout(() => {
+        handleClose();
+      }, 8000);
+
+      return () => clearTimeout(closeTimer);
     }
-  }, [isActive]);
+  }, [isVisible]);
 
   const handleClose = () => {
-    setState((prev) => ({ ...prev, isActive: false }));
+    setIsVisible(false);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 1000);
   };
 
-  const handleContentClick = (e) => {
-    e.stopPropagation();
-  };
+  if (!showPopup) return null;
 
   return (
-    <section
-      ref={popup}
-      role="presentation"
-      className="fixed inset-0 z-[70] bg-white"
-      onMouseMove={moveCursor}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClose}
+    <div
+      className={`w-full h-screen fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black/60 transition-opacity duration-1000 ease-in-out ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
     >
       <div
-        ref={cursor}
-        className="bg-primary flex justify-center items-center w-10 h-10 rounded-full fixed z-[80] cursor-pointer pointer-events-auto"
-        onClick={handleClose}
-        style={{
-          display: "none",
-          top: "40px",
-          right: "40px",
-        }}
+        className={`flex flex-col items-start gap-[6px] transition-opacity duration-1000 ease-in-out ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
       >
-        <img
-          src="/images/icons/close.svg"
-          className="w-full h-full scale-75"
-          alt="Close"
-        />
-      </div>
-
-      <div
-        className="popup-content-scrollable h-full overflow-y-auto overflow-x-hidden md:px-5 lg:px-7.5 px-3.5 scrollbar-hide"
-        onClick={handleContentClick}
-        style={{ cursor: "none" }}
-        data-lenis-prevent
-      >
-        <div className="min-h-full flex flex-col md:grid md:grid-cols-4 md:gap-4 md:items-start md:py-8">
-          <div className="md:col-span-2 flex justify-center items-start md:sticky md:top-8 md:h-[calc(100vh-4rem)] md:sticky top-0">
-            <img
-              ref={popupImage}
-              className="w-full max-h-[50vh] md:max-h-full object-contain"
-              alt=""
-            />
-          </div>
-
-          <div className="md:col-span-2 flex flex-col justify-start gap-y-6 py-8 md:py-0">
-            <div className="flex flex-col gap-y-4 mb-4">
-              <h1 className="flex flex-col gap-4 text-heading3 text-primary leading-[105%] tracking-heading3">
-                {leadersData[selectedIndex]?.name}
-              </h1>
-              <p className="text-bodySmall text-black font-neueMontreal">
-                {leadersData[selectedIndex]?.position}
-              </p>
-            </div>
-
-            {leadersData[selectedIndex]?.description &&
-              leadersData[selectedIndex]?.description.length > 0 && (
-                <div className="h-fit space-y-4">
-                  {leadersData[selectedIndex]?.description.map((para, id) => (
-                    <p
-                      key={id}
-                      className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              )}
-          </div>
+        <div className="w-[90%] sm:w-[50vw] lg:w-[30vw] aspect-[348/435] mx-auto overflow-hidden">
+          <button
+            onClick={handleClose}
+            className="w-full font-neueMontreal text-end text-white text-bodySmall 2xl:text-bodyLarge"
+            aria-label="Close"
+          >
+            Close
+          </button>
+          <img
+            src="/images/home/pop-up.webp"
+            alt="Card Image"
+            className="h-full w-full object-contain"
+          />
         </div>
       </div>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </section>
+    </div>
   );
-};
-
-export default Popup;
+}

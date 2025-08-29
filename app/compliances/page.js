@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import Banner from '@/app/components/BannerStack';
 import StackCards from '@/app/components/StackCards';
 import Certifications from './Certifications';
 
@@ -10,12 +10,13 @@ const cardsData = [
     title: "Quality Policy",
     desc: "We are committed to delivering precision-driven, globally compliant semiconductor solutions with zero compromise on quality.",
     items: [
-      "Streamlined invenWe exceed customer expectations with performance-first, precision manufacturing.tory & order management",
+      "We exceed customer expectations with performance-first, precision manufacturing.",
       "Our systems comply with global quality and regulatory standards.",
       "We continuously audit and refine processes for optimal output.",
       "Every step—from material to final test—is governed by rigorous quality checks.",
     ],
     img: "/images/compliances/quality1.webp",
+    imgPos: "object-center",
   },
   {
     zIndex: 20,
@@ -28,6 +29,7 @@ const cardsData = [
       "Our commitment to quality ensures reliable, high-performance outcomes.",
     ],
     img: "/images/compliances/quality2.webp",
+    imgPos: "object-center",
   },
   {
     zIndex: 30,
@@ -41,12 +43,13 @@ const cardsData = [
       "Root cause elimination drives consistent and reliable performance.",
     ],
     img: "/images/compliances/quality3.webp",
+    imgPos: "object-center",
   },
 ];
 
 export const compliances = () => {
   return (
-    <main className="min-h-screen w-full relative">
+    <main className="min-h-screen w-full relative overflow-hidden">
       <Banner imgSrc={"/images/compliances/banner.webp"} heading={"Driven by Excellence, \n Guided by Standards"} text={"We Deliver Semiconductors Built on a Foundation of Quality, Precision, and Compliance"}/>
       <StackCards cardsData={cardsData}/>
       <Certifications/>

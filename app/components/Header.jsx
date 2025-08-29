@@ -1,132 +1,134 @@
 "use client";
+import React, { useState, useEffect, useRef, forwardRef, memo, useCallback } from "react";
 import Link from "next/link";
-import React from "react";
+import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import UseDropdownHandlers from "@/app/hooks/UseDropdownHandlers";
+import UseMobileDetection from "@/app/hooks/UseMobileDetection";
+import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
+import Dropdown from "./header/Dropdown";
+import NavLinks from "./header/NavLinks";
+import MobileMenu from "./header/MobileMenu";
 
-const Header = () => {
+const companyLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/our-journey", label: "Our Journey" },
+  { href: "/leadership", label: "Leadership" },
+];
+
+const operationsLinks = [
+  { href: "/compliances", label: "Quality Standards & Compliances" },
+  { href: "/logistics", label: "Supply Chain & Logistics" },
+  { href: "/traceability", label: "Traceability" },
+];
+
+const navLinks = [
+  {
+    href: "/projects",
+    label: "Projects"
+  },
+  {
+    href: "/news-events",
+    label: "News & Events"
+  },
+  {
+    href: "/careers",
+    label: "Careers"
+  },
+  {
+    href: "/contact-us",
+    label: "Contact Us"
+  },
+]
+
+const Header = forwardRef((props, ref) => {
+  const pathname = usePathname();
+  const mobileMenuRef = useRef(null);
+  const isMobile = UseMobileDetection();
+  const dropdowns = UseDropdownHandlers(isMobile);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  UseBodyScrollLock(isMobileMenuOpen, ".mobile-menu-scrollable");
+
+  const toggleMobileDropdown = useCallback((key) => {
+    setOpenMobileDropdown((prev) => (prev === key ? null : key));
+  }, []);
+
+  const handleMobileMenuClose = useCallback(() => {
+    setIsMobileMenuOpen(false);
+    setOpenMobileDropdown(null);
+  }, []);
+
   return (
-    <header className="will-change-transform fixed top-0 left-0 w-full h-fit py-3 md:py-5 px-3.5 md:px-5 lg:px-10 bg-black/20 z-50 backdrop-blur-[40px]">
+    <header
+      ref={ref}
+      className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 bg-darkBg/60 z-50 backdrop-blur-[4px]"
+    >
       <nav className="flex justify-between items-center">
-        <Link
-          href={"/"}
-          className="aspect-[240/26]"
-          style={{
-            width: "clamp(4.75rem, 3.698rem + 4.67vw, 7.438rem)",
-            height: "clamp(1.75rem, 1.554rem + 0.87vw, 2.25rem)",
-          }}
-        >
+        <Link href={"/"} className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-9">
           <img
-            src="/images/common/rrplogo.png"
+            src="/images/common/rrplogo.svg"
             alt="RRP Electronics"
             className="object-contain object-center h-full w-auto"
           />
         </Link>
         <ul className="hidden lg:flex justify-center items-center lg:gap-2 xl:gap-6">
-          <li className="cursor-pointer relative p-2 text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize flex justify-center items-center gap-1">
-            Company
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <mask
-                id="mask0_401_543"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="24"
-                height="24"
-              >
-                <rect width="24" height="24" fill="#646464" />
-              </mask>
-              <g mask="url(#mask0_401_543)">
-                <path
-                  d="M11.9992 14.7069L6.69141 9.39916L7.39916 8.69141L11.9992 13.2914L16.5992 8.69141L17.3069 9.39916L11.9992 14.7069Z"
-                  fill="white"
-                  fillOpacity="0.6"
-                />
-              </g>
-            </svg>
-          </li>
-          <li className="cursor-pointer relative p-2 text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize flex justify-center items-center gap-1">
-            Solutions
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <mask
-                id="mask0_401_543"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="24"
-                height="24"
-              >
-                <rect width="24" height="24" fill="#646464" />
-              </mask>
-              <g mask="url(#mask0_401_543)">
-                <path
-                  d="M11.9992 14.7069L6.69141 9.39916L7.39916 8.69141L11.9992 13.2914L16.5992 8.69141L17.3069 9.39916L11.9992 14.7069Z"
-                  fill="white"
-                  fillOpacity="0.6"
-                />
-              </g>
-            </svg>
-          </li>
-          <li className="cursor-pointer relative p-2 text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize flex justify-center items-center gap-1">
-            Operations
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <mask
-                id="mask0_401_543"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="24"
-                height="24"
-              >
-                <rect width="24" height="24" fill="#646464" />
-              </mask>
-              <g mask="url(#mask0_401_543)">
-                <path
-                  d="M11.9992 14.7069L6.69141 9.39916L7.39916 8.69141L11.9992 13.2914L16.5992 8.69141L17.3069 9.39916L11.9992 14.7069Z"
-                  fill="white"
-                  fillOpacity="0.6"
-                />
-              </g>
-            </svg>
-          </li>
-          <li className="text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              Projects
+          <Dropdown
+            isOpen={dropdowns.isCompanyOpen}
+            onMouseEnter={() => dropdowns.handleMouseEnter("company")}
+            onMouseLeave={() => dropdowns.handleMouseLeave("company")}
+            label="Company"
+            links={companyLinks}
+            pathname={pathname}
+            onDropdownLinkClick={() => dropdowns.setIsCompanyOpen(false)}
+          />
+
+          <li
+            className={`cursor-pointer text-[16px] font-neueMontreal leading-[120%] capitalize
+            ${
+              pathname === "/solutions"
+                ? "text-primary"
+                : "text-white transition-colors ease-in-out hover:text-primary"
+            }`}
+          >
+            <Link href={"/solutions"} className={`p-2`}>
+              Solutions
             </Link>
           </li>
-          <li className="text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              News & Events
-            </Link>
-          </li>
-          <li className="text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2">
-              Careers
-            </Link>
-          </li>
-          <li className="text-[16px] text-white transition-colors ease-in-out hover:text-primary font-neueMontreal leading-[120%] capitalize">
-            <Link href={"#"} className="p-2 pr-0 ">
-              Contact
-            </Link>
-          </li>
+
+          <Dropdown
+            isOpen={dropdowns.isOperationsOpen}
+            onMouseEnter={() => dropdowns.handleMouseEnter("operations")}
+            onMouseLeave={() => dropdowns.handleMouseLeave("operations")}
+            label="Operations"
+            links={operationsLinks}
+            pathname={pathname}
+            onDropdownLinkClick={() => dropdowns.setIsOperationsOpen(false)}
+          />
+          {navLinks.map((link, idx) => (
+            <NavLinks
+              key={`${idx}-${link.label}`}
+              href={link.href}
+              label={link.label}
+              pathname={pathname}
+              className={`${idx === navLinks.length - 1 ? "pl-2 pr-0" : "p-2"}`}
+            />
+          ))}
         </ul>
-        <button className="block lg:hidden outline-0 border-none cursor-pointer">
+        <MobileMenu
+          dropDownLinks={companyLinks}
+          openMobileDropdown={openMobileDropdown}
+          toggleMobileDropdown={toggleMobileDropdown}
+          handleMobileMenuClose={handleMobileMenuClose}
+          pathname={pathname}
+          isOpen={isMobileMenuOpen}
+          ref={mobileMenuRef}
+        />
+        <button
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          className="block lg:hidden outline-0 border-none cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -155,6 +157,6 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+});
 
-export default Header;
+export default memo(Header);
