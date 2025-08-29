@@ -15,14 +15,13 @@ export default function Certifications() {
   const certifications = [
     {
       title: "ISO 9001:2015",
-      description: "Quality Management System",
-      image: "/images/compliances/trial.png",
+      description: "Quality Management System (QMS)",
+      image: "/images/compliances/qms.png",
     },
     {
-      title: "REACH Compliance",
-      description:
-        "Registration, Evaluation, Authorization & Restriction of Chemicals",
-      image: "images/compliances/trial.png",
+      title: "ISO 14001:2015",
+      description: "Environmental Management System (EMS)",
+      image: "images/compliances/ems.png",
     },
   ];
 
