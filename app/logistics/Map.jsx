@@ -68,7 +68,7 @@ const Map = () => {
   };
 
   return (
-    <section className="bg-whiteBg h-ft w-full py-10 md:py-15">
+    <section className="bg-white h-ft w-full py-10 md:py-15">
       <SectionHeader
         heading={"Strategic Connectivity"}
         text={
