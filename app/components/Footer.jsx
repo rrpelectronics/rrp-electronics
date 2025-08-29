@@ -67,7 +67,7 @@ const Footer = () => {
     <footer className="h-fit w-full flex flex-col gap-10 md:gap-15 pt-10 md:pt-15 pb-10 md:pb-5 bg-darkBg">
       {/* Conditional Top Section */}
       {showTopSection && (
-        <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10 pb-7.5 md:pb-10 border-b-1 border-b-borderSecondary">
+        <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-5 md:gap-y-6 px-3.5 md:px-5 lg:px-10 pb-9.5 md:pb-10 border-b-1 border-b-borderSecondary">
           <span className="max-w-[895px] col-span-4 md:col-span-12 lg:col-span-9 text-white text-display tracking-display leading-[110%]">
             {footerContent.heading.split("\n").map((line, index) => (
               <React.Fragment key={index}>
