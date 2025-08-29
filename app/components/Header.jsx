@@ -68,7 +68,7 @@ const Header = forwardRef((props, ref) => {
       <nav className="flex justify-between items-center">
         <Link href={"/"} className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-9">
           <img
-            src="/images/common/rrplogo.svg"
+            src="/images/common/rrplogo.png"
             alt="RRP Electronics"
             className="object-contain object-center h-full w-auto"
           />

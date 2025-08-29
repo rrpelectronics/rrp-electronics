@@ -98,7 +98,7 @@ const Footer = () => {
             aria-label="RRP Electronics Home"
           >
             <img
-              src="/images/common/rrplogo.svg"
+              src="/images/common/rrplogo.png"
               alt="RRP Electronics"
               className="object-contain object-center h-full w-auto"
               loading="lazy"
