@@ -46,6 +46,7 @@
   --text-bodyBase: clamp(1rem, 0.946rem + 0.24vw, 1.125rem);
   /*18px, 16px*/
   --text-bodySmall: clamp(0.875rem, 0.821rem + 0.24vw, 1rem);
+  --text-bodySmallest: clamp(0.75rem, 0.696rem + 0.24vw, 0.875rem);
   /*16px, 14px*/
   --text-caption: 12px;
 
@@ -74,6 +75,30 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.cursor-popup {
+  cursor: url("/images/icons/close-2.svg") 16 16, pointer;
+}
+
+select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.custom-select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 52%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url(/images/icons/arrow-down.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 .active-timeline {

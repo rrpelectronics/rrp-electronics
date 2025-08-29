@@ -4,7 +4,7 @@ import React from "react";
 
 const Banner = ({ video, imgSrc, heading, text }) => {
   return (
-    <section className="h-screen w-full sticky top-0 left-0 -z-1 overflow-hidden">
+    <section className="h-screen w-full relative overflow-hidden">
       {video && (
         <video
           autoPlay
