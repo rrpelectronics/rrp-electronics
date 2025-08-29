@@ -33,7 +33,7 @@ const cardsData = [
 
 export const logistics = () => {
   return (
-    <main className="min-h-screen w-full relative overflow-hidden">
+    <main className="min-h-screen w-full relative overflow-clip">
       <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
       <StackCards cardsData={cardsData} />
       <Map/>
