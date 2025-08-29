@@ -6,23 +6,22 @@ import Link from "next/link";
 const news_data = [
   {
     id: "1",
-    newsEventImg: "/images/news-events/deca-rrp.webp",
-    title:
-      "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
-    date: "February 26, 2025",
-    source: "The Hindu",
-    link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
-    imgBgClass: "object-top",
-  },
-  {
-    id: "2",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
-    title:
-      "RRP Electronics to set up first semiconductor plant in Maharashtra",
-    date: "July 10",
+    title: "RRP Electronics to set up first semiconductor plant in Maharashtra",
+    date: "July 2024",
     source: "The Hindu Business Line",
     link: "https://www.thehindubusinessline.com/info-tech/rrp-electronics-to-set-up-first-semiconductor-plant-in-maharashtra/article67961569.ece",
     imgBgClass: "object-center",
+  },
+  {
+    id: "2",
+    newsEventImg: "/images/news-events/deca-rrp.webp",
+    title:
+      "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
+    date: "February 2025",
+    source: "The Hindu",
+    link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
+    imgBgClass: "object-top",
   },
 ];
 

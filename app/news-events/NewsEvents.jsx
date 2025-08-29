@@ -8,7 +8,7 @@ const news_data = [
     newsEventImg: "/images/news-events/horngcom.webp",
     title:
       "HorngCom Technology Partners with RRP Electronics to Expand Semiconductor OSAT Capabilities in India",
-    date: "May, 2025",
+    date: "May 2025",
     source: "The Hindu Business Line",
     link: "https://www.thehindubusinessline.com/info-tech/horngcom-tech-rrp-electronics-sign-pact-target-12-m-revenue-in-fy26/article69597072.ece",
     imgBgClass: "object-center",
@@ -18,7 +18,7 @@ const news_data = [
     newsEventImg: "/images/news-events/deca-rrp.webp",
     title:
       "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
-    date: "February, 2025",
+    date: "February 2025",
     source: "The Hindu",
     link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
     imgBgClass: "object-top",
@@ -54,7 +54,7 @@ const news_data = [
     id: "6",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
     title: "RRP Electronics to set up first semiconductor plant in Maharashtra",
-    date: "July, 2024",
+    date: "July 2024",
     source: "The Hindu Business Line",
     link: "https://www.thehindubusinessline.com/info-tech/rrp-electronics-to-set-up-first-semiconductor-plant-in-maharashtra/article67961569.ece",
     imgBgClass: "object-center",

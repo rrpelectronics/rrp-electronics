@@ -97,7 +97,6 @@ const Page = () => {
     return () => ctx.revert();
   }, [headerHeight]);
 
-   // Set custom footer content for solutions page
     useEffect(() => {
       setFooterContent({
         heading: "Ready to Build \n With Us?",
@@ -106,7 +105,6 @@ const Page = () => {
         buttonLink: "/contact-us"
       });
   
-      // Cleanup: Reset to null when component unmounts
       return () => {
         setFooterContent(null);
       };
