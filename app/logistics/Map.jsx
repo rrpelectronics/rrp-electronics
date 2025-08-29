@@ -127,6 +127,13 @@ const Map = () => {
                       className="object-contain object-center"
                     />
                     <Image
+                      src={"/images/logistics/pointers.png"}
+                      alt="Map Background"
+                      fill
+                      sizes="50vw"
+                      className="object-contain object-center"
+                    />
+                    <Image
                       src={connectivityData[connectivity].image}
                       alt={connectivity}
                       fill
