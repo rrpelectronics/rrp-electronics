@@ -10,7 +10,7 @@ const List = () => {
           Reach Us
         </p>
         <p className="col-span-4 md:col-span-2 text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] w-[80%]">
-          A396/397, TTC Industrial Area, Mahape, Navi Mumbai, <br />
+          A-592, TTC Industrial Area, Mahape, Navi Mumbai, <br />
           Maharashtra-400710
         </p>
       </li>
@@ -20,13 +20,13 @@ const List = () => {
         </p>
         <ul className="col-span-4 md:col-span-2 flex flex-col gap-y-4 md:gap-y-5">
           <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"mailto: hello@rrpelectronics.com"}>
-              hello@rrpelectronics.com
+            <Link href={"mailto: info@rrpelectronics.com"}>
+              info@rrpelectronics.com
             </Link>
           </li>
           <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"mailto: careers@rrpelectronics.com"}>
-              careers@rrpelectronics.com
+            <Link href={"mailto: hr@rrpelectronics.com"}>
+              hr@rrpelectronics.com
             </Link>
           </li>
         </ul>
@@ -37,10 +37,7 @@ const List = () => {
         </p>
         <ul className="col-span-4 md:col-span-2 flex flex-col gap-y-4 md:gap-y-5">
           <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"tel: +91 89768 55244"}>+91 89768 55244</Link>
-          </li>
-          <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"tel: +91 86559 97802"}>+91 86559 97802</Link>
+            <Link href={"tel: +91 90048 86657"}>+91 90048 86657</Link>
           </li>
         </ul>
       </li>
