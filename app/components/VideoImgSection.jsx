@@ -7,25 +7,27 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showFloatingButton, setShowFloatingButton] = useState(false);
+  const [shouldAutoplay, setShouldAutoplay] = useState(false);
 
   const openVideo = () => setIsVideoOpen(true);
   const closeVideo = () => setIsVideoOpen(false);
 
   const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({ 
-      x: e.clientX, 
-      y: e.clientY 
-    });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
-  const handleMouseEnter = () => {
-    setShowFloatingButton(true);
-  };
+  const handleMouseEnter = () => setShowFloatingButton(true);
+  const handleMouseLeave = () => setShowFloatingButton(false);
 
-  const handleMouseLeave = () => {
-    setShowFloatingButton(false);
-  };
+  // ✅ Check screen size and set autoplay
+  useEffect(() => {
+    const checkAutoplay = () => {
+      setShouldAutoplay(window.innerWidth >= 1152);
+    };
+    checkAutoplay();
+    window.addEventListener("resize", checkAutoplay);
+    return () => window.removeEventListener("resize", checkAutoplay);
+  }, []);
 
   return (
     <>
@@ -36,7 +38,7 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
         onMouseLeave={handleMouseLeave}
         onClick={openVideo}
       >
-        {/* Floating Play Button - Follows cursor only within this section on xl screens */}
+        {/* Floating Play Button */}
         {showFloatingButton && (
           <button
             onClick={openVideo}
@@ -44,7 +46,6 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
             style={{
               left: `${mousePosition.x - 10}px`,
               top: `${mousePosition.y - 20}px`,
-              transform: "translate(0, 0)",
             }}
           >
             <div className="p-0.5 rounded flex justify-center items-center bg-white/30">
@@ -54,16 +55,20 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
           </button>
         )}
 
-        {/* Original Play Button - Hidden on xl screens and above */}
+        {/* Play Button (mobile/tablet) */}
         <div className="xl:hidden z-2 top-1/2 left-1/2 -translate-1/2 absolute opacity-100 rounded-full font-neueMontreal text-bodySmall leading-[100%] w-fit h-fit flex justify-center items-center gap-2 text-white bg-white/20">
-          <img src="/images/icons/play.svg" alt="play button" className="h-14 w-14" />
+          <img
+            src="/images/icons/play.svg"
+            alt="play button"
+            className="h-14 w-14"
+          />
         </div>
 
         {videoSrc && (
           <div className="absolute inset-0 z-0">
             <video
               className="w-full h-full object-cover object-center"
-              autoPlay
+              autoPlay={shouldAutoplay}
               muted
               loop
               playsInline
@@ -73,6 +78,7 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
             </video>
           </div>
         )}
+
         <div
           ref={containerRef}
           className="relative z-10 py-10 px-3.5 md:px-5 lg:px-10 md:py-15 h-full"
@@ -117,16 +123,8 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
             />
           </button>
           <div className="relative w-full h-full max-w-[90vw] lg:max-w-[75vw] max-h-[90vh] mx-4">
-            {/* Close Button - Positioned according to component padding */}
-
-            {/* Video Container */}
             <div className="w-full h-full rounded-lg overflow-hidden">
-              <video
-                className="w-full h-full object-contain"
-                controls
-                autoPlay
-                muted={false}
-              >
+              <video className="w-full h-full object-contain" controls autoPlay>
                 <source src={videoSrc} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
