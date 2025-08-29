@@ -9,53 +9,64 @@ const Grid = () => {
   const { containerRef } = useTextAnimation();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-background">
-      <HeadingCenter
-        heading={"Our People. Our Principles. \n Our Progress."}
-      />
-      <div ref={containerRef} className="min-w-full overflow-x-scroll no-scrollbar px-3.5 md:px-7.5">
-        <div className="flex w-[996px] sm:w-[150vw] lg:w-full flex-wrap lg:grid lg:grid-cols-12">
-          <div className="relative overflow-hidden w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4">
-            <Image
-              src={"/images/home/young-talent.webp"}
-              alt="Young Talents"
-              fill
-              sizes="50vw"
-              className="object-cover object-center"
-            />
-          </div>
-          <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-darkBg">
-            <p data-animate-text className="text-white text-heading3 tracking-heading3 leading-[115%]">
-              Young Talent
-            </p>
-          </div>
-          <div className="relative overflow-hidden w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4">
-            <Image
-              src={"/images/home/employement-generation.webp"}
-              alt="Employement Generation"
-              fill
-              sizes="50vw"
-              className="object-cover object-center"
-            />
-          </div>
-          <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-primary">
-            <p data-animate-text className="text-white text-heading3 tracking-heading3 leading-[115%]">
-              Employment Generation
-            </p>
-          </div>
-          <div className="relative overflow-hidden w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4">
-            <Image
-              src={"/images/home/women.webp"}
-              alt="85% Women Empowerment"
-              fill
-              sizes="50vw"
-              className="object-cover object-center"
-            />
-          </div>
-          <div className="flex flex-col justify-end w-[332px] sm:w-[33.33%] lg:w-full aspect-square col-span-4 p-5 lg:p-6 bg-whiteBg">
-            <p data-animate-text className="text-black text-heading3 tracking-heading3 leading-[115%]">
-              Empowering Women
-            </p>
-          </div>
+      <HeadingCenter heading={"Our People. Our Principles. \n Our Progress."} />
+      <div
+        ref={containerRef}
+        className="grid grid-cols-4 px-3.5 md:px-5 lg:px-10 gap-x-3 gap-y-6 sm:gap-y-0 sm:gap-x-0 sm:grid-cols-12"
+      >
+        <div className="relative overflow-hidden w-full aspect-square col-span-4">
+          <Image
+            src={"/images/home/young-talent.webp"}
+            alt="Young Talents"
+            fill
+            sizes="50vw"
+            className="object-cover object-center"
+          />
+          <div className="bg-black/70 absolute z-2 inset-0" />
+        </div>
+        <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-darkBg">
+          <p
+            data-animate-text
+            className="text-white text-heading4 leading-[115%]"
+          >
+            Young Talent
+          </p>
+        </div>
+        <div className="relative overflow-hidden w-full aspect-square col-span-4">
+          <Image
+            src={"/images/home/employement-generation.webp"}
+            alt="Employement Generation"
+            fill
+            sizes="50vw"
+            className="object-cover object-center"
+          />
+          <div className="bg-black/70 absolute z-2 inset-0" />
+        </div>
+        <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-primary">
+          <p
+            data-animate-text
+            className="text-white text-heading4 leading-[115%]"
+          >
+            Employment Generation
+          </p>
+        </div>
+        <div className="relative overflow-hidden w-full aspect-square col-span-4">
+          <Image
+            src={"/images/home/women.webp"}
+            alt="85% Women Empowerment"
+            fill
+            sizes="50vw"
+            className="object-cover object-center"
+          />
+          <div className="bg-black/70 absolute z-2 inset-0" />
+        </div>
+        <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-whiteBg">
+          <p
+            data-animate-text
+            className="text-black text-heading4 leading-[115%]"
+          >
+            Empowering Women
+          </p>
         </div>
       </div>
     </section>

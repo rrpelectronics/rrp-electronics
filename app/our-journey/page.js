@@ -14,7 +14,7 @@ const page = () => {
     useEffect(() => {
       setFooterContent({
         heading: "Be Part of \n Our Ongoing Journey",
-        description: "Interested in partnering with RRP Electronics? We’d love to connect.",
+        description: "RRP Electronics is evolving—let’s collaborate, invest, or grow together.",
         buttonText: "Join our Journey",
         buttonLink: "/contact-us"
       });

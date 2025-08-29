@@ -118,7 +118,7 @@ const Map = () => {
               {/* Mobile Accordion Content */}
               {openMobileItem === connectivity && (
                 <div className="block sm:hidden mt-6">
-                  <div className="aspect-square h-[36vh] mx-auto relative mb-4">
+                  <div className="h-[500px] w-full mx-auto relative mb-4">
                     <Image
                       src={"/images/logistics/map.png"}
                       alt="Map Background"
