@@ -37,7 +37,7 @@ export default function Certifications() {
               data-animate-text
               className="text-bodySmall leading-[120%] text-textPrimary"
             >
-              Quality Management System
+              Quality Management System (QMS)
             </p>
           </div>
         </div>
