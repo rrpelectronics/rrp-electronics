@@ -49,7 +49,7 @@ const cardsData = [
 
 export const compliances = () => {
   return (
-    <main className="min-h-screen w-full relative overflow-hidden">
+    <main className="min-h-screen w-full relative">
       <Banner imgSrc={"/images/compliances/banner.webp"} heading={"Driven by Excellence, \n Guided by Standards"} text={"We Deliver Semiconductors Built on a Foundation of Quality, Precision, and Compliance"}/>
       <StackCards cardsData={cardsData}/>
       <Certifications/>
