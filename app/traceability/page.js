@@ -45,7 +45,7 @@ const cardsData = [
 
 const traceability = () => {
   return (
-    <main className='min-h-screen w-full relative'>
+    <main className='min-h-screen w-full relative overflow-clip'>
       <Banner imgSrc={"/images/traceability/banner.webp"} heading={"End-to-End Traceability \n You Can Trust"} text={"Ensuring Precision, Accountability, and Quality at Every Stage of Semiconductor Manufacturing"}/> 
       <StackCards cardsData={cardsData}/>
     </main>

@@ -37,7 +37,7 @@ const List = () => {
         </p>
         <ul className="col-span-4 md:col-span-2 flex flex-col gap-y-4 md:gap-y-5">
           <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"tel: +91 90048 86657"}>+91 90048 86657</Link>
+            <Link href={"tel: +91 86558 75993"}>+91 86558 75993</Link>
           </li>
         </ul>
       </li>
