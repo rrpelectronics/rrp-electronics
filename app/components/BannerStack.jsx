@@ -13,7 +13,7 @@ const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
           playsInline
           controls={false}
           className="absolute left-0 top-0 w-full h-full object-cover object-center"
-          placeholder={placeholder}
+          poster={placeholder}
         >
           <source src={video} type="video/mp4" />
         </video>
