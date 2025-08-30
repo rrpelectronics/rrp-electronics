@@ -165,78 +165,79 @@ const OurJourney = () => {
     }
   }, [activeIndex, events]);
 
-  // Handle next click
-  useEffect(() => {
-    const handleNext = () => {
-      if (activeIndex >= events.length - 1 || itemWidth === 0) return;
-      const newIndex = activeIndex + 1;
-      const translateDistance = itemWidth + gap;
-      const yearOffset = yearWidth / 2 - yearWidth * 0.18;
-      const nextItem = itemRefs.current[newIndex];
+  // Handle next click function
+  const handleNext = () => {
+    if (activeIndex >= events.length - 1 || itemWidth === 0) return;
+    const newIndex = activeIndex + 1;
+    const translateDistance = itemWidth + gap;
+    const yearOffset = yearWidth / 2 - yearWidth * 0.18;
+    const nextItem = itemRefs.current[newIndex];
 
-      const tl = gsap.timeline({
-        onComplete: () => setActiveIndex(newIndex),
-      });
+    const tl = gsap.timeline({
+      onComplete: () => setActiveIndex(newIndex),
+    });
 
-      tl.to(
-        timelineRef.current,
+    tl.to(
+      timelineRef.current,
+      {
+        translateX: `-${newIndex * translateDistance + 0.5}px`,
+        ease: "power2.inOut",
+        duration: 1,
+      },
+      "a"
+    )
+      .to(
+        nextItem.dot.current,
         {
-          translateX: `-${newIndex * translateDistance + 0.5}px`,
+          marginLeft: yearOffset,
+          marginRight: yearOffset,
+          backgroundColor: "#FF5C19",
           ease: "power2.inOut",
           duration: 1,
         },
         "a"
       )
-        .to(
-          nextItem.dot.current,
-          {
-            marginLeft: yearOffset,
-            marginRight: yearOffset,
-            backgroundColor: "#FF5C19",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          nextItem.date.current,
-          {
-            marginLeft: 0,
-            marginRight: 0,
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          nextItem.img.current,
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          nextItem.title.current,
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          nextItem.desc.current,
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        );
-    };
+      .to(
+        nextItem.date.current,
+        {
+          marginLeft: 0,
+          marginRight: 0,
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      )
+      .to(
+        nextItem.img.current,
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      )
+      .to(
+        nextItem.title.current,
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      )
+      .to(
+        nextItem.desc.current,
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "power2.inOut",
+          duration: 1,
+        },
+        "a"
+      );
+  };
 
+  // Attach next button event listener
+  useEffect(() => {
     const nextButton = nextRef.current;
     if (nextButton) {
       nextButton.addEventListener("click", handleNext);
@@ -429,7 +430,7 @@ const OurJourney = () => {
             {events.map((event, index) => (
               <div
                 key={index}
-                className="w-[285px] relative flex flex-col gap-6 justify-center items-start"
+                className="w-[285px] relative flex flex-col gap-6 justify-center items-start "
               >
                 <div
                   ref={itemRefs.current[index]?.dot}
