@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 
-const Banner = ({ video, imgSrc, heading, text }) => {
+const Banner = ({ video, imgSrc, heading, text, placeholder }) => {
   return (
     <section className="h-screen w-full relative overflow-hidden">
       {video && (
@@ -13,6 +13,7 @@ const Banner = ({ video, imgSrc, heading, text }) => {
           playsInline
           controls={false}
           className="absolute left-0 top-0 w-full h-full object-cover object-center"
+          placeholder={placeholder}
         >
           <source src={video} type="video/mp4" />
         </video>
