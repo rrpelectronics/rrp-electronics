@@ -73,7 +73,7 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
               loop
               playsInline
               controls={false}
-              placeholder={placeholder}
+              poster={placeholder}
             >
               <source src={videoSrc} type="video/mp4" />
             </video>
