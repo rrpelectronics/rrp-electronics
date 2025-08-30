@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 
-const VideoImgSection = ({ videoSrc, heading, text }) => {
+const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
   const { containerRef } = useTextAnimation();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -73,6 +73,7 @@ const VideoImgSection = ({ videoSrc, heading, text }) => {
               loop
               playsInline
               controls={false}
+              poster={placeholder}
             >
               <source src={videoSrc} type="video/mp4" />
             </video>
