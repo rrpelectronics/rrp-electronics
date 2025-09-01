@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState, createRef } from "react";
 import gsap from "gsap/all";
 import Image from "next/image";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { events } from "./data";
 
 const OurJourney = () => {
   const yearRef = useRef(null);
@@ -18,39 +19,6 @@ const OurJourney = () => {
   const [yearWidth, setYearWidth] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
   const [gap, setGap] = useState(0);
-
-  const events = [
-    {
-      date: "March, 2024",
-      title: "Bhoomi Poojan Ceremony",
-      image: "/images/our-journey/bhoomi-poojan-ceremony.webp",
-      desc: "The foundation of RRP Electronics was laid with a traditional Bhoomi Poojan, marking the beginning of our journey in the semiconductor domain.",
-    },
-    {
-      date: "September, 2024",
-      title: "Grand Inauguration",
-      image: "/images/our-journey/grand-inauguration.webp",
-      desc: "RRP Electronics officially opened its doors, setting new benchmarks in semiconductor innovation and OSAT services.",
-    },
-    {
-      date: "December, 2024",
-      title: "Strategic Collaborations",
-      image: "/images/our-journey/strategic-collaborations.webp",
-      desc: "We formed key partnerships with AMB and PalmTech, expanding our capabilities and laying the groundwork for future technological advancements.",
-    },
-    {
-      date: "January, 2025",
-      title: "MoU with Deca Technologies",
-      image: "/images/our-journey/mou-with-deca.webp",
-      desc: "A significant milestone – we signed a Memorandum of Understanding (MoU) with Deca Technologies, signaling the start of a high-impact collaboration.",
-    },
-    {
-      date: "February, 2025",
-      title: "Press Conference Announcement",
-      image: "/images/our-journey/press-conference-announcement.webp",
-      desc: "We hosted a press conference to announce the RRP–Deca partnership, highlighting our shared vision for advancing Wafer Level Packaging technologies.",
-    },
-  ];
 
   // Initialize refs for each event item
   useEffect(() => {
@@ -135,24 +103,32 @@ const OurJourney = () => {
         if (currentYear !== prevYear) {
           // Animate only when year changes
           const tl = gsap.timeline();
-          tl.to(yearTextRef.current, {
-            yPercent: -100,
-            opacity: 0,
-            duration: 0.25,
-            ease: "power2.inOut",
-            onComplete: () => {
-              yearTextRef.current.textContent = currentYear;
-              gsap.set(yearTextRef.current, {
-                yPercent: 100,
-                opacity: 0,
-              });
+          tl.to(
+            yearTextRef.current,
+            {
+              yPercent: -100,
+              opacity: 0,
+              duration: 0.25,
+              ease: "power2.inOut",
+              onComplete: () => {
+                yearTextRef.current.textContent = currentYear;
+                gsap.set(yearTextRef.current, {
+                  yPercent: 100,
+                  opacity: 0,
+                });
+              },
             },
-          }).to(yearTextRef.current, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 0.25,
-            ease: "power2.inOut",
-          });
+            "a"
+          ).to(
+            yearTextRef.current,
+            {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.25,
+              ease: "power2.inOut",
+            },
+            "a"
+          );
         } else {
           // Directly set the year without animation if it's the same year
           yearTextRef.current.textContent = currentYear;
@@ -165,79 +141,147 @@ const OurJourney = () => {
     }
   }, [activeIndex, events]);
 
-  // Handle next click function
-  const handleNext = () => {
-    if (activeIndex >= events.length - 1 || itemWidth === 0) return;
-    const newIndex = activeIndex + 1;
+  // Handle date click animation
+  const handleDateClick = (targetIndex) => {
+    if (targetIndex === activeIndex || itemWidth === 0) return;
+
     const translateDistance = itemWidth + gap;
     const yearOffset = yearWidth / 2 - yearWidth * 0.18;
-    const nextItem = itemRefs.current[newIndex];
+    const dotSize = 18;
+    const centerMargin = (itemWidth - dotSize) / 2;
 
     const tl = gsap.timeline({
-      onComplete: () => setActiveIndex(newIndex),
+      onComplete: () => setActiveIndex(targetIndex),
     });
 
+    // Animate timeline position
     tl.to(
       timelineRef.current,
       {
-        translateX: `-${newIndex * translateDistance + 0.5}px`,
+        translateX: `-${targetIndex * translateDistance}px`,
         ease: "power2.inOut",
         duration: 1,
       },
-      "a"
-    )
-      .to(
-        nextItem.dot.current,
-        {
-          marginLeft: yearOffset,
-          marginRight: yearOffset,
-          backgroundColor: "#FF5C19",
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      )
-      .to(
-        nextItem.date.current,
-        {
-          marginLeft: 0,
-          marginRight: 0,
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      )
-      .to(
-        nextItem.img.current,
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      )
-      .to(
-        nextItem.title.current,
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      )
-      .to(
-        nextItem.desc.current,
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      );
+      "main"
+    );
+
+    // Animate items based on their relationship to target
+    events.forEach((_, index) => {
+      const item = itemRefs.current[index];
+      if (!item) return;
+
+      const dateWidth = item.date.current.getBoundingClientRect().width;
+      const centerDateMargin = (itemWidth - dateWidth) / 2;
+
+      if (index === targetIndex) {
+        // Animate target item to active state
+        tl.to(
+          item.dot.current,
+          {
+            marginLeft: yearOffset,
+            marginRight: yearOffset,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "main"
+        )
+          .to(
+            item.date.current,
+            {
+              marginLeft: 0,
+              marginRight: 0,
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.img.current,
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.title.current,
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.desc.current,
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          );
+      } else {
+        // Animate all non-target items to inactive state (hide content, keep date visible)
+        tl.to(
+          item.dot.current,
+          {
+            marginLeft: centerMargin,
+            marginRight: centerMargin,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "main"
+        )
+          .to(
+            item.date.current,
+            {
+              marginLeft: centerDateMargin,
+              marginRight: centerDateMargin,
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.img.current,
+            {
+              clipPath: "inset(0% 0% 100% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.title.current,
+            {
+              clipPath: "inset(0% 0% 100% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          )
+          .to(
+            item.desc.current,
+            {
+              clipPath: "inset(0% 0% 100% 0%)",
+              ease: "power2.inOut",
+              duration: 1,
+            },
+            "main"
+          );
+      }
+    });
   };
 
-  // Attach next button event listener
+  // Handle next click
   useEffect(() => {
+    const handleNext = () => {
+      if (activeIndex >= events.length - 1) return;
+      handleDateClick(activeIndex + 1);
+    };
+
     const nextButton = nextRef.current;
     if (nextButton) {
       nextButton.addEventListener("click", handleNext);
@@ -252,76 +296,8 @@ const OurJourney = () => {
   // Handle prev click
   useEffect(() => {
     const handlePrev = () => {
-      if (activeIndex <= 0 || itemWidth === 0) return;
-      const newIndex = activeIndex - 1;
-      const translateDistance = itemWidth + gap;
-      const oldItem = itemRefs.current[activeIndex];
-      const dotSize = 18; // Fixed dot width (4.5rem assuming 4px/rem)
-      const centerMargin = (itemWidth - dotSize) / 2;
-      const dateWidth = oldItem.date.current.getBoundingClientRect().width;
-      const centerDateMargin = (itemWidth - dateWidth) / 2;
-
-      const tl = gsap.timeline({
-        onComplete: () => setActiveIndex(newIndex),
-      });
-
-      tl.to(
-        timelineRef.current,
-        {
-          translateX: `-${newIndex * translateDistance}px`,
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        "a"
-      )
-        .to(
-          oldItem.dot.current,
-          {
-            marginLeft: centerMargin,
-            marginRight: centerMargin,
-            backgroundColor: "#7E7F86",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          oldItem.date.current,
-          {
-            marginLeft: centerDateMargin,
-            marginRight: centerDateMargin,
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          oldItem.img.current,
-          {
-            clipPath: "inset(0% 0% 100% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          oldItem.title.current,
-          {
-            clipPath: "inset(0% 0% 100% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        )
-        .to(
-          oldItem.desc.current,
-          {
-            clipPath: "inset(0% 0% 100% 0%)",
-            ease: "power2.inOut",
-            duration: 1,
-          },
-          "a"
-        );
+      if (activeIndex <= 0) return;
+      handleDateClick(activeIndex - 1);
     };
 
     const prevButton = prevRef.current;
@@ -425,23 +401,37 @@ const OurJourney = () => {
           <div className="w-full h-0.25 absolute bg-textSecondary z-1 top-[9px] left-0" />
           <div
             ref={timelineRef}
-            className="relative flex gap-7 md:gap-12 h-fit w-fit items-start z-2 pl-3.5 md:pl-5 lg:pl-10"
+            className="w-[1657px] relative flex gap-7 md:gap-12 h-fit overflow-hidden items-start z-2 pl-3.5 md:pl-5 lg:pl-10"
           >
             {events.map((event, index) => (
               <div
                 key={index}
-                className="w-[285px] relative flex flex-col gap-6 justify-center items-start "
+                className="w-[285px] relative flex flex-col gap-6 justify-center items-start"
               >
                 <div
-                  ref={itemRefs.current[index]?.dot}
-                  className="h-4.5 w-4.5 bg-textSecondary rounded-full mx-auto"
-                />
-                <p
-                  ref={itemRefs.current[index]?.date}
-                  className="text-bodyBase whitespace-nowrap text-textSecondary leading-[120%] font-neueMontreal w-fit mx-auto"
+                  onClick={() => handleDateClick(index)}
+                  className="cursor-pointer h-fit group flex flex-col gap-6 justify-center items-start"
                 >
-                  {event.date}
-                </p>
+                  <div
+                    ref={itemRefs.current[index]?.dot}
+                    className={`h-4.5 w-4.5 rounded-full mx-auto
+                    ${
+                      activeIndex === index
+                        ? "bg-primary"
+                        : "bg-textSecondary group-hover:bg-primary transition-colors duration-200"
+                    }`}
+                  />
+                  <p
+                    ref={itemRefs.current[index]?.date}
+                    className={`text-bodyBase whitespace-nowrap leading-[120%] font-neueMontreal w-fit mx-auto  ${
+                      activeIndex === index
+                        ? "text-primary"
+                        : "text-textSecondary group-hover:text-primary transition-colors duration-200"
+                    }`}
+                  >
+                    {event.date}
+                  </p>
+                </div>
                 <div
                   ref={itemRefs.current[index]?.img}
                   className="relative w-full aspect-[246/184]"
