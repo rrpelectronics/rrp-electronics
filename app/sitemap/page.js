@@ -76,7 +76,7 @@ const page = () => {
             <Link
               href={link.href}
               target="_blank"
-              className={`text-bodyBase leading-[120%] w-full flex items-center justify-between py-4 md:py-5 lg:py-6 ${
+              className={`text-bodyBase leading-[120%] text-black hover:text-primary transition-colors ease-in-out w-full flex items-center justify-between py-4 md:py-5 lg:py-6 ${
                 pathname === "/sitemap" ? "border-b-0" : "border-b-1"
               }`}
             >
