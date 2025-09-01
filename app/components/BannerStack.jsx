@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 
-const BannerStack = ({ video, imgSrc, heading, text }) => {
+const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
   return (
     <section className="h-screen w-full sticky top-0 left-0 -z-1 overflow-hidden">
       {video && (
@@ -13,6 +13,7 @@ const BannerStack = ({ video, imgSrc, heading, text }) => {
           playsInline
           controls={false}
           className="absolute left-0 top-0 w-full h-full object-cover object-center"
+          poster={placeholder}
         >
           <source src={video} type="video/mp4" />
         </video>

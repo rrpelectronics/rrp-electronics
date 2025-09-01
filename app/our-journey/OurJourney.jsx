@@ -103,24 +103,32 @@ const OurJourney = () => {
         if (currentYear !== prevYear) {
           // Animate only when year changes
           const tl = gsap.timeline();
-          tl.to(yearTextRef.current, {
-            yPercent: -100,
-            opacity: 0,
-            duration: 0.25,
-            ease: "power2.inOut",
-            onComplete: () => {
-              yearTextRef.current.textContent = currentYear;
-              gsap.set(yearTextRef.current, {
-                yPercent: 100,
-                opacity: 0,
-              });
+          tl.to(
+            yearTextRef.current,
+            {
+              yPercent: -100,
+              opacity: 0,
+              duration: 0.25,
+              ease: "power2.inOut",
+              onComplete: () => {
+                yearTextRef.current.textContent = currentYear;
+                gsap.set(yearTextRef.current, {
+                  yPercent: 100,
+                  opacity: 0,
+                });
+              },
             },
-          }, "a").to(yearTextRef.current, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 0.25,
-            ease: "power2.inOut",
-          }, "a");
+            "a"
+          ).to(
+            yearTextRef.current,
+            {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.25,
+              ease: "power2.inOut",
+            },
+            "a"
+          );
         } else {
           // Directly set the year without animation if it's the same year
           yearTextRef.current.textContent = currentYear;
