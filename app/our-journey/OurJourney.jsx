@@ -1,9 +1,11 @@
 "use client";
 import React, { useRef, useEffect, useState, createRef } from "react";
 import gsap from "gsap/all";
-import Image from "next/image";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 import { events } from "./data";
+import JourneyHeader from "@/app/components/journey/JourneyHeader";
+import JourneyYear from "@/app/components/journey/JourneyYear";
+import JourneyTimeline from "@/app/components/journey/JourneyTimeline";
 
 const OurJourney = () => {
   const yearRef = useRef(null);
@@ -34,13 +36,13 @@ const OurJourney = () => {
     );
   }, [events.length]);
 
-  // Update widths and gap on mount and resize
+  // Width + resize handling
   useEffect(() => {
     const updateWidths = () => {
       if (yearRef.current) {
         setYearWidth(yearRef.current.getBoundingClientRect().width);
       }
-      if (timelineRef.current && timelineRef.current.children[0]) {
+      if (timelineRef.current?.children[0]) {
         setItemWidth(
           timelineRef.current.children[0].getBoundingClientRect().width
         );
@@ -52,6 +54,8 @@ const OurJourney = () => {
     return () => window.removeEventListener("resize", updateWidths);
   }, []);
 
+
+  //-----TIMELINE LOGIC, On Directions Click & On Date Click
   // Set initial styles for the first item
   useEffect(() => {
     if (itemRefs.current[0] && yearWidth > 0) {
@@ -223,6 +227,7 @@ const OurJourney = () => {
             "main"
           );
       } else {
+        
         // Animate all non-target items to inactive state (hide content, keep date visible)
         tl.to(
           item.dot.current,
@@ -316,153 +321,25 @@ const OurJourney = () => {
       ref={containerRef}
       className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg"
     >
-      <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 items-end px-3.5 md:px-5 lg:px-10">
-        <h3
-          data-animate-text
-          className="text-heading2 text-white leading-[110%] tracking-heading2 col-span-3"
-        >
-          Our Evolution at <br /> RRP Electronics
-        </h3>
-      </div>
+      <JourneyHeader />
+
       <div className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5">
-        <div className="col-span-4 flex justify-between items-center">
-          <h3
-            ref={yearRef}
-            className="mb-6.5 col-span-4 text-display text-primary tracking-display leading-[110%] w-fit px-3.5 md:px-5 lg:px-10"
-          >
-            <span ref={yearTextRef}>2024</span>
-          </h3>
-          <div className="flex justify-center items-center gap-3 md:gap-4 col-span-1 w-fit ml-auto mr-0 h-fit pr-3.5 md:pr-5 lg:pr-10">
-            <button
-              ref={prevRef}
-              disabled={activeIndex === 0}
-              className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                fill="none"
-              >
-                <rect width="40" height="40" rx="20" fill="#2E2E30" />
-                <mask
-                  id="mask0_453_1226"
-                  maskUnits="userSpaceOnUse"
-                  x="8"
-                  y="8"
-                  width="24"
-                  height="24"
-                >
-                  <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_453_1226)">
-                  <path
-                    d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
-                    fill="currentColor"
-                  />
-                </g>
-              </svg>
-            </button>
-            <button
-              ref={nextRef}
-              disabled={activeIndex === events.length - 1}
-              className="cursor-pointer h-7 w-7 text-white md:h-10 md:w-10 flex justify-center items-center -scale-x-100 disabled:opacity-60 disabled:pointer-events-none disabled:cursor-not-allowed"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                fill="none"
-              >
-                <rect width="40" height="40" rx="20" fill="#2E2E30" />
-                <mask
-                  id="mask0_453_1226"
-                  maskUnits="userSpaceOnUse"
-                  x="8"
-                  y="8"
-                  width="24"
-                  height="24"
-                >
-                  <rect x="8" y="8" width="24" height="24" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_453_1226)">
-                  <path
-                    d="M22.0001 25.3078L16.6924 20L22.0001 14.6923L22.7079 15.4L18.1079 20L22.7079 24.6L22.0001 25.3078Z"
-                    fill="currentColor"
-                  />
-                </g>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className="relative w-full overflow-x-hidden no-scrollbar col-span-4">
-          <div className="w-full h-0.25 absolute bg-textSecondary z-1 top-[9px] left-0" />
-          <div
-            ref={timelineRef}
-            className="w-[1657px] relative flex gap-7 md:gap-12 h-fit overflow-hidden items-start z-2 pl-3.5 md:pl-5 lg:pl-10"
-          >
-            {events.map((event, index) => (
-              <div
-                key={index}
-                className="w-[285px] relative flex flex-col gap-6 justify-center items-start"
-              >
-                <div
-                  onClick={() => handleDateClick(index)}
-                  className="cursor-pointer h-fit group flex flex-col gap-6 justify-center items-start"
-                >
-                  <div
-                    ref={itemRefs.current[index]?.dot}
-                    className={`h-4.5 w-4.5 rounded-full mx-auto
-                    ${
-                      activeIndex === index
-                        ? "bg-primary"
-                        : "bg-textSecondary group-hover:bg-primary transition-colors duration-200"
-                    }`}
-                  />
-                  <p
-                    ref={itemRefs.current[index]?.date}
-                    className={`text-bodyBase whitespace-nowrap leading-[120%] font-neueMontreal w-fit mx-auto  ${
-                      activeIndex === index
-                        ? "text-primary"
-                        : "text-textSecondary group-hover:text-primary transition-colors duration-200"
-                    }`}
-                  >
-                    {event.date}
-                  </p>
-                </div>
-                <div
-                  ref={itemRefs.current[index]?.img}
-                  className="relative w-full aspect-[246/184]"
-                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
-                >
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    sizes="246"
-                    className="object-cover object-center"
-                  />
-                </div>
-                <p
-                  ref={itemRefs.current[index]?.title}
-                  className="text-white leading-[115%] text-heading4"
-                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
-                >
-                  {event.title}
-                </p>
-                <p
-                  ref={itemRefs.current[index]?.desc}
-                  className="text-bodySmall text-textSecondary leading-[120%] font-neueMontreal -mt-2"
-                  style={{ clipPath: "inset(0% 0% 100% 0%)" }}
-                >
-                  {event.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <JourneyYear
+          yearRef={yearRef}
+          yearTextRef={yearTextRef}
+          prevRef={prevRef}
+          nextRef={nextRef}
+          activeIndex={activeIndex}
+          total={events.length}
+        />
+
+        <JourneyTimeline
+          timelineRef={timelineRef}
+          events={events}
+          itemRefs={itemRefs}
+          activeIndex={activeIndex}
+          handleDateClick={handleDateClick}
+        />
       </div>
     </section>
   );
