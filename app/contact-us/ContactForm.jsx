@@ -111,7 +111,7 @@ function ContactForm() {
               type="text"
               {...register(field.id)}
               style={inputStyle(field.id)}
-              className="px-3 py-4.5 h-13.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"
+              className="px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"
               placeholder={field.placeholder}
             />
             {errors[field.id] && (
@@ -134,7 +134,7 @@ function ContactForm() {
             type="text"
             {...register("position")}
             style={inputStyle("position")}
-            className="px-3 py-4.5 h-13.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"
+            className="px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"
             placeholder="Enter Position"
           />
         </div>
@@ -153,7 +153,7 @@ function ContactForm() {
             id="requestType"
             {...register("requestType")}
             style={inputStyle("requestType")}
-            className="px-3 py-4.5 h-13.5 border border-[#d1d1d2] rounded-[2px] text-textPrimary text-bodySmall font-neueMontreal leading-[120%]"
+            className="px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-textPrimary text-bodySmall font-neueMontreal leading-[120%]"
           >
             <option value="">Select</option>
             <option value="Technology Partnership">
