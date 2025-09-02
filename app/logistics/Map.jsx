@@ -123,21 +123,21 @@ const Map = () => {
                       src={"/images/logistics/map.png"}
                       alt="Map Background"
                       fill
-                      sizes="50vw"
+                      sizes="100vw"
                       className="object-contain object-center"
                     />
                     <Image
                       src={"/images/logistics/pointers.png"}
                       alt="Map Background"
                       fill
-                      sizes="50vw"
+                      sizes="100vw"
                       className="object-contain object-center"
                     />
                     <Image
                       src={connectivityData[connectivity].image}
                       alt={connectivity}
                       fill
-                      sizes="50vw"
+                      sizes="100vw"
                       className="object-contain object-center"
                     />
                   </div>
@@ -175,14 +175,14 @@ const Map = () => {
             src={"/images/logistics/map.png"}
             alt="Map Background"
             fill
-            sizes="50vw"
+            sizes="100vw"
             className="object-contain object-center"
           />
           <Image
             src={"/images/logistics/pointers.png"}
             alt="Map Background"
             fill
-            sizes="50vw"
+            sizes="100vw"
             className="object-contain object-center"
           />
           {Object.entries(connectivityData).map(([connectivity, data]) => (
@@ -191,7 +191,7 @@ const Map = () => {
               src={data.image}
               alt={connectivity}
               fill
-              sizes="50vw"
+              sizes="100vw"
               className={`object-contain object-center transition-opacity duration-500 ease-in-out ${
                 activeConnectivity === connectivity
                   ? "opacity-100"

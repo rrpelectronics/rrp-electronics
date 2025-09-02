@@ -19,7 +19,7 @@ const Grid = () => {
             src={"/images/home/young-talent.webp"}
             alt="Young Talents"
             fill
-            sizes="50vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
             className="object-cover object-center"
           />
           <div className="bg-black/70 absolute z-2 inset-0" />
@@ -37,7 +37,7 @@ const Grid = () => {
             src={"/images/home/employement-generation.webp"}
             alt="Employement Generation"
             fill
-            sizes="50vw"
+            sizes="100vw"
             className="object-cover object-center"
           />
           <div className="bg-black/70 absolute z-2 inset-0" />
@@ -55,7 +55,7 @@ const Grid = () => {
             src={"/images/home/women.webp"}
             alt="85% Women Empowerment"
             fill
-            sizes="50vw"
+            sizes="100vw"
             className="object-cover object-center"
           />
           <div className="bg-black/70 absolute z-2 inset-0" />

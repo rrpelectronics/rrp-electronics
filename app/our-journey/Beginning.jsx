@@ -20,7 +20,7 @@ const Beginning = () => {
             src="/images/our-journey/beginning-top.webp"
             alt="Beginning 1"
             fill
-            sizes="25vw"
+            sizes="100vw"
             className="object-cover object-center"
           />
         </div>
@@ -80,7 +80,7 @@ const Beginning = () => {
             src="/images/our-journey/beginning-bottom.webp"
             alt="Beginning 2"
             fill
-            sizes="25vw"
+            sizes="100vw"
             className="object-cover object-center"
           />
         </div>
