@@ -4,7 +4,7 @@ import React from "react";
 
 const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
   return (
-    <section className="h-screen w-full sticky top-0 left-0 -z-1 overflow-hidden">
+    <section className="h-svh w-full sticky top-0 left-0 -z-1 overflow-hidden">
       {video && (
         <video
           autoPlay
