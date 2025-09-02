@@ -78,7 +78,7 @@ const Why = () => {
     <section className="h-fit w-full py-10 md:py-15 bg-whiteBg">
       <SectionHeader
         heading={"Why RRP? \n Where Innovation Meets \n Opportunity"}
-        text="Join a team shaping the future of semiconductors. Work on cutting-edge technology, collaborate with global leaders, and accelerate your career in a dynamic, high-growth industry (make font size bigger)"
+        text="Join a team shaping the future of semiconductors. Work on cutting-edge technology, collaborate with global leaders, and accelerate your career in a dynamic, high-growth industry."
       />
       <ul ref={containerRef} className="w-full h-fit px-3.5 md:px-5 lg:px-10">
         {WHY_RRP_DATA.map((item, idx) => (
