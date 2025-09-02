@@ -219,7 +219,7 @@ const Accordion = () => {
                   src={item.image}
                   alt={item.alt}
                   fill
-                  sizes="500px"
+                  sizes="100vw"
                   className="object-cover object-center"
                 />
               </figure>

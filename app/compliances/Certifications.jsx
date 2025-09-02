@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import SectionHeader from "@/app/components/SectionHeader";
-import { useTextAnimation } from "../hooks/UseTextAnimation";
+import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 export default function Certifications() {
   const { containerRef } = useTextAnimation();
@@ -11,6 +12,8 @@ export default function Certifications() {
     width: 0,
     height: 0,
   });
+
+  UseBodyScrollLock(isPopupOpen);
 
   const certifications = [
     {
@@ -22,6 +25,11 @@ export default function Certifications() {
       title: "ISO 14001:2015",
       description: "Environmental Management System (EMS)",
       image: "images/compliances/ems.png",
+    },
+    {
+      title: "ANSI ESD S20.20:2021 & IEC 61340 5-1",
+      description: "Electrostatic Discharge Control Program",
+      image: "/images/compliances/edcp.png",
     },
   ];
 
@@ -54,18 +62,6 @@ export default function Certifications() {
     setSelectedImage("");
     setImageDimensions({ width: 0, height: 0 });
   };
-
-  useEffect(() => {
-    if (isPopupOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isPopupOpen]);
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -104,12 +100,12 @@ export default function Certifications() {
 
           <div
             ref={containerRef}
-            className="col-span-4 grid grid-cols-4 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-5"
+            className="col-span-4 grid grid-cols-4 md:grid-cols-12 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10"
           >
             {certifications.map((cert, index) => (
               <div
                 key={index}
-                className="col-span-4 md:col-span-2 aspect-[590/290] w-full p-4 flex flex-col justify-between bg-whiteBg cursor-pointer "
+                className="col-span-4 aspect-[590/290] w-full h-[290px] p-4 flex flex-col justify-between bg-whiteBg cursor-pointer "
                 onClick={() => openPopup(cert.image)}
               >
                 <div className="flex justify-end">
@@ -119,13 +115,13 @@ export default function Certifications() {
                     className="h-7 w-7 md:h-10 md:w-10"
                   />
                 </div>
-                <div className="flex flex-col gap-4">
-                  <h3
+                <div className="flex flex-col gap-2">
+                  <p
                     data-animate-text
                     className="text-heading4 leading-[115%] text-black"
                   >
                     {cert.title}
-                  </h3>
+                  </p>
                   <p
                     data-animate-text
                     className="text-bodySmall leading-[120%] text-textPrimary"
@@ -141,11 +137,24 @@ export default function Certifications() {
 
       {isPopupOpen && (
         <div
-          className="w-full h-full fixed inset-0 z-50 flex items-center justify-center bg-opacity-75 backdrop-blur-md"
+          className={`flex flex-col gap-y-10 md:gap-y-15 w-full min-h-screen overflow-y-auto fixed inset-0 z-50 items-start justify-center bg-opacity-75 backdrop-blur-md`}
+          //if imgs are  more then one: --- py-10 md:py-15 justify-start
           onClick={closePopup}
         >
+          <button
+            onClick={closePopup}
+            className="fixed top-5 right-3.5 md:right-5 lg:right-10 z-20 rounded-full p-2 cursor-pointer"
+            style={{ isolation: "isolate" }}
+            aria-label="Close popup"
+          >
+            <img
+              src="/images/icons/close-button.svg"
+              alt="Close"
+              className="w-6 h-6"
+            />
+          </button>
           <div
-            className="relative bg-none"
+            className="relative bg-none mx-auto"
             style={{
               width:
                 imageDimensions.width > 0
@@ -155,24 +164,9 @@ export default function Certifications() {
                 imageDimensions.height > 0
                   ? `${imageDimensions.height}px`
                   : "auto",
-              maxWidth: "90vw",
-              maxHeight: "90vh",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={closePopup}
-              className="absolute -top-4 -right-4 z-20  rounded-full p-2 cursor-pointer"
-              style={{ isolation: "isolate" }}
-              aria-label="Close popup"
-            >
-              <img
-                src="/images/icons/close-button.svg"
-                alt="Close"
-                className="w-6 h-6"
-              />
-            </button>
-
             <img
               src={selectedImage}
               alt="Certification"

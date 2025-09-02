@@ -18,7 +18,7 @@ const NewsEventsCard = ({
           src={newsEventImg}
           alt={title}
           fill
-          sizes="33vw"
+          sizes="100vw"
           className={`object-cover ${imgBgclass}`}
         />
       </div>
@@ -29,7 +29,7 @@ const NewsEventsCard = ({
         {title}
       </p>
       <Link
-        target='_blank'
+        target="_blank"
         href={link}
         className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
       >

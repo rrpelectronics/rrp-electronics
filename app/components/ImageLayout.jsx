@@ -35,7 +35,7 @@ const ImageLayout = ({ heading, imageLayoutData = [] }) => {
               src={imgLayout.src}
               alt={imgLayout.title}
               fill
-              sizes="50vw"
+              sizes="100vw"
               className="object-cover object-center z-1"
             />
             {imgLayout.dates && (

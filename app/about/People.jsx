@@ -39,7 +39,7 @@ const People = () => {
             src="/images/about/people.webp"
             alt="Our Values & Culture"
             fill
-            sizes="50vw"
+            sizes="100vw"
             className="object-center object-cover z-1"
           />
           <div className="absolute top-0 left-0 z-2 p-5 lg:p-6 bg-black/70 h-full w-full flex flex-col justify-between">
@@ -47,14 +47,14 @@ const People = () => {
               data-animate-text
               className="text-heading4 leading-[115%] text-white"
             >
-             Workplace Culture
+              Workplace Culture
             </p>
             <p
               data-animate-text
               className="text-bodySmall font-neueMontreal text-white leading-[120%]"
             >
-              We nurture an environment of growth, learning, and leadership—empowering our 
-              teams to think big and innovate.
+              We nurture an environment of growth, learning, and
+              leadership—empowering our teams to think big and innovate.
             </p>
           </div>
         </div>
