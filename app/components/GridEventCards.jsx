@@ -11,7 +11,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
           src={newsEventImg}
           alt={title}
           fill
-          sizes="25vw"
+          sizes="100vw"
           className={`object-cover ${imgBgClass}`}
         />
       </div>
@@ -26,7 +26,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
         </div>
         <Link
           href={link}
-          target='_blank'
+          target="_blank"
           className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
         >
           Read More

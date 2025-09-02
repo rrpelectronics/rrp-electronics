@@ -117,7 +117,7 @@ export default function StackCards({ cardsData = [] }) {
                 src={card.img}
                 alt={card.title}
                 fill
-                sizes="50vw"
+                sizes="100vw"
                 className={`object-cover ${card.imgPos}`}
                 priority
               />

@@ -114,7 +114,7 @@ const Carousel = () => {
               src={slides[current].image}
               alt={slides[current].title}
               fill
-              sizes="585px"
+              sizes="100vw"
               className="object-contain object-center"
             />
           </figure>
