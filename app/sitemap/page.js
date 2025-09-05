@@ -65,7 +65,7 @@ const page = () => {
     <main className="@container pt-25 md:pt-32 lg:pt-35 relative w-full h-fit px-3.5 md:px-5 lg:px-10 py-10 md:py-15">
       <section className='grid grid-cols-12 gap-x-4 gap-y-6 pb-10 md:pb-15'>
         <div className={`w-full grid grid-cols-subgrid gap-x-4 gap-y-6 h-fit`}>
-          <h3 className="uppercase max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading2 leading-[110%] tracking-heading2">
+          <h3 className="max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading3 leading-[110%] tracking-heading3">
             Company
           </h3>
         </div>
@@ -99,7 +99,7 @@ const page = () => {
       </section>
       <section className='grid grid-cols-12 gap-x-4 gap-y-6 py-10 md:py-15'>
         <div className={`w-full grid grid-cols-subgrid gap-x-4 gap-y-6 h-fit`}>
-          <h3 className="uppercase max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading2 leading-[110%] tracking-heading2">
+          <h3 className="max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading3 leading-[110%] tracking-heading3">
             Capabilities
           </h3>
         </div>
@@ -133,7 +133,7 @@ const page = () => {
       </section>
       <section className='grid grid-cols-12 gap-x-4 gap-y-6 py-10 md:py-15'>
         <div className={`w-full grid grid-cols-subgrid gap-x-4 gap-y-6 h-fit`}>
-          <h3 className="uppercase max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading2 leading-[110%] tracking-heading2">
+          <h3 className="max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading3 leading-[110%] tracking-heading3">
             Operations
           </h3>
         </div>
@@ -167,7 +167,7 @@ const page = () => {
       </section>
       <section className='grid grid-cols-12 gap-x-4 gap-y-6 py-10 md:py-15'>
         <div className={`w-full grid grid-cols-subgrid gap-x-4 gap-y-6 h-fit`}>
-          <h3 className="uppercase max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading2 leading-[110%] tracking-heading2">
+          <h3 className="max-w-[288px] h-fit col-span-12 lg:col-span-3 text-heading3 leading-[110%] tracking-heading3">
             Explore
           </h3>
         </div>
