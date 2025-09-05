@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useFooter } from "@/app/context/FooterContext";
 import Banner from "@/app/components/BannerStack";
 import VideoImgSection from "@/app/components/VideoImgSection";
-import Popup from "@/app/components/Popup";
 import Carousel from "./Carousel";
 import Accordion from "./Accordion";
 import Grid from "./Grid";
@@ -29,7 +28,6 @@ const Home = () => {
 
   return (
     <main className="min-h-screen w-full relative">
-      <Popup />
       <Banner
         video={"/images/home/banner-video.mp4"}
         heading={
