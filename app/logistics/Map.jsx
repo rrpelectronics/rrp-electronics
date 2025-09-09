@@ -69,15 +69,15 @@ const Map = () => {
   };
 
   return (
-    <section className="relative bg-white h-fit w-full pt-10 md:pt-15">
+    <section className="relative bg-white h-fit w-full py-10 md:py-15">
       <SectionHeader
         heading={"Strategic Connectivity"}
         text={
           "A snapshot of RRP's well-connected location — from airports and ports to rail and expressway access — enabling efficient and timely logistics operations."
         }
       />
-      <div className="relative z-2 grid grid-cols-4 gap-x-3 md:gap-x-5 items-end px-3.5 md:px-5 h-[90vh] lg:px-10 pb-10 md:pb-15">
-        <ul className="col-span-4 sm:col-span-1 h-[342px]">
+      <div className="relative z-2 grid grid-cols-4 gap-x-3 md:gap-x-5 items-end px-3.5 md:px-5 h-[80vh] lg:px-10">
+        <ul className="col-span-4 sm:col-span-1">
           {Object.keys(connectivityData).map((connectivity) => (
             <li
               key={connectivity}
@@ -193,7 +193,7 @@ const Map = () => {
       </div>
 
       {/* Desktop Map */}
-      <div className="hidden sm:block top-[8%] left-0 absolute w-full h-[98vh] mx-auto overflow-hidden">
+      <div className="hidden sm:block top-[8%] left-0 absolute w-full h-[90vh] mx-auto overflow-hidden">
         <img
           src={"/images/logistics/map.png"}
           alt="Map Background"
