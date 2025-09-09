@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import GridEventCards from "@/app/components/GridEventCards";
 import Link from "next/link";
+import Image from "next/image";
 
 const news_data = [
   {
@@ -50,15 +51,32 @@ const News = () => {
       </div>
       <ul className="w-full h-fit grid justify-center items-stretch grid-cols-4 gap-y-7.5 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
         {getCurrentData().map((item, id) => (
-          <GridEventCards
-            key={id}
-            newsEventImg={item.newsEventImg}
-            imgBgClass={item.imgBgClass}
-            title={item.title}
-            date={item.date}
-            source={item.source}
-            link={item.link}
-          />
+          <div key={id} className="col-span-4 md:col-span-2 flex gap-4">
+            <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
+              <Image
+                src={item.newsEventImg}
+                alt={item.title}
+                fill
+                sizes="100vw"
+                className={`object-cover object-${item.imgBgClass}`}
+              />
+            </div>
+            <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1">
+              <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
+                {item.date} {item.source && `| ${item.source}`}
+              </p>
+              <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis">
+                {item.title}
+              </p>
+              <Link
+                href={item.link}
+                target="_blank"
+                className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
+              >
+                Read More
+              </Link>
+            </div>
+          </div>
         ))}
       </ul>
     </section>

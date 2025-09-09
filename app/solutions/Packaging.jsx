@@ -8,7 +8,7 @@ const Packaging = ({ id }) => {
     <section
       id={id}
       ref={containerRef}
-      className="h-fit w-full grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
+      className="bg-white h-fit w-full grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
     >
       <div className="col-span-4 sm:col-span-12 lg:col-span-3 lg:pt-15 mb-8 md:mb-10">
         <h3

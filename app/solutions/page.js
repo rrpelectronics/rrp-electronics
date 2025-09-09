@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import Link from 'next/link';
-import Banner from '@/app/components/Banner';
+import BannerStack from '@/app/components/BannerStack';
 import VideoImgSection from '@/app/components/VideoImgSection';
 import { useFooter } from '@/app/context/FooterContext';
 import { useHeaderHeight } from '@/app/context/HeaderHeightContext';
@@ -111,8 +111,8 @@ const Page = () => {
     }, [setFooterContent]);
 
   return (
-    <main ref={mainRef} className='min-h-screen w-full relative overflow-x-hidden'>
-      <Banner 
+    <main ref={mainRef} className='min-h-screen w-full relative overflow-clip'>
+      <BannerStack 
         imgSrc={"/images/solutions/banner.webp"} 
         heading={"Smart Solutions for a Smarter Future"} 
         text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."}

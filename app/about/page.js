@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useFooter } from "@/app/context/FooterContext";
-import Banner from "@/app/components/Banner";
+import BannerStack from "@/app/components/BannerStack";
 import Text from "@/app/components/Text";
 import ImageLayout from "@/app/components/ImageLayout";
 import VideoImgSection from "@/app/components/VideoImgSection";
@@ -43,8 +43,8 @@ const page = () => {
   }, [setFooterContent]);
 
   return (
-    <main className="min-h-screen w-full">
-      <Banner
+    <main className="min-h-screen w-full overflow-clip relative">
+      <BannerStack
         imgSrc={"/images/about/banner.webp"}
         heading={"Pioneering Precision and \n Innovation in OSAT Services"}
       />
