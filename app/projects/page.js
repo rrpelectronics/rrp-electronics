@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import BannerStack from '@/app/components/BannerStack';
 import Text from '@/app/components/Text';
 import ImageLayout from '@/app/components/ImageLayout';
 
@@ -27,8 +27,8 @@ const imgLayoutData = [
 
 const page = () => {
   return (
-    <main className='min-h-screen w-full'>
-      <Banner imgSrc={"/images/projects/banner.webp"} heading={"Shaping the Future – \n What’s Next for \n RRP Electronics?"}/>
+    <main className='min-h-screen w-full relative overflow-clip'>
+      <BannerStack imgSrc={"/images/projects/banner.webp"} heading={"Shaping the Future – \n What’s Next for \n RRP Electronics?"}/>
       <Text text={"At RRP Electronics, we’re always looking ahead. From cutting-edge technology rollouts to new strategic partnerships, here’s a glimpse into what’s coming next."}/>
       <ImageLayout heading={"Next-Gen Projects in the Making"} imageLayoutData={imgLayoutData}/>
     </main>

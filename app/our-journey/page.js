@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { useFooter } from '@/app/context/FooterContext';
-import Banner from '@/app/components/Banner';
+import BannerStack from '@/app/components/BannerStack';
 import Text from '@/app/components/Text';
 import Beginning from './Beginning';
 import Future from './Future';
@@ -26,8 +26,8 @@ const page = () => {
     }, [setFooterContent]);
 
   return (
-    <main className='min-h-screen w-full'>
-      <Banner
+    <main className='min-h-screen w-full relative overflow-clip'>
+      <BannerStack
         imgSrc={"/images/our-journey/banner.webp"}
         heading={"From Vision to Reality – \n A Journey of Innovation"}
       />
