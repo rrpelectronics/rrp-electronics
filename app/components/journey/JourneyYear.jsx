@@ -20,7 +20,7 @@ const JourneyYear = ({
       <button
         ref={prevRef}
         disabled={activeIndex === 0}
-        className="flex items-center justify-center rounded-full bg-[#2E2E30] text-white
+        className="flex cursor-pointer items-center justify-center rounded-full bg-[#2E2E30] text-white
              h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12
              disabled:opacity-60 disabled:pointer-events-none"
       >
@@ -38,7 +38,7 @@ const JourneyYear = ({
       <button
         ref={nextRef}
         disabled={activeIndex === total - 1}
-        className="flex items-center justify-center rounded-full bg-[#2E2E30] text-white
+        className="flex cursor-pointer items-center justify-center rounded-full bg-[#2E2E30] text-white
              h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12
              disabled:opacity-60 disabled:pointer-events-none -scale-x-100"
       >
