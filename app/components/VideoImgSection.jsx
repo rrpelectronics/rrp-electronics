@@ -12,14 +12,45 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
   const openVideo = () => setIsVideoOpen(true);
   const closeVideo = () => setIsVideoOpen(false);
 
+  useEffect(() => {
+    let scrollTimeout;
+
+    const handleScroll = () => {
+      setShowFloatingButton(false);
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setShowFloatingButton(true);
+      }, 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearTimeout(scrollTimeout);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   const handleMouseMove = (e) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
+    const container = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - container.left,
+      y: e.clientY - container.top,
+    });
+    setShowFloatingButton(true);
   };
 
-  const handleMouseEnter = () => setShowFloatingButton(true);
-  const handleMouseLeave = () => setShowFloatingButton(false);
+  const handleMouseEnter = () => {
+    setShowFloatingButton(true);
+  };
 
-  // ✅ Check screen size and set autoplay
+  const handleMouseLeave = () => {
+    setShowFloatingButton(false);
+  };
+
+
+  //Check screen size and set autoplay
   useEffect(() => {
     const checkAutoplay = () => {
       setShouldAutoplay(window.innerWidth >= 1152);
@@ -29,23 +60,32 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
     return () => window.removeEventListener("resize", checkAutoplay);
   }, []);
 
+
+
+
   return (
     <>
-      <section
-        className="relative h-[80vh] overflow-hidden cursor-pointer"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={openVideo}
-      >
-        {/* Floating Play Button */}
-        {showFloatingButton && (
+      <section className="relative h-fit overflow-hidden py-10 px-3.5 md:px-5 lg:px-10 md:py-15 bg-white">
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={openVideo}
+          ref={containerRef}
+          className="relative h-screen overflow-hidden"
+        >
+          {/* Floating Play Button */}
           <button
             onClick={openVideo}
-            className="hidden xl:flex z-20 fixed opacity-100 py-2 px-2 rounded-sm font-neueMontreal text-bodySmall leading-[100%] w-[130px] h-fit justify-center items-center gap-2 text-white bg-primary cursor-pointer pointer-events-auto"
+            className={`absolute z-30 py-2 px-2 rounded-sm font-neueMontreal text-bodySmall leading-[100%] w-[130px] h-fit flex justify-center items-center gap-2 text-white bg-primary pointer-events-auto cursor-pointer transition-opacity duration-10 ${
+              showFloatingButton
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
             style={{
-              left: `${mousePosition.x - 10}px`,
-              top: `${mousePosition.y - 20}px`,
+              left: `${mousePosition.x}px`,
+              top: `${mousePosition.y}px`,
+              transform: "translate(-10%, -50%)",
             }}
           >
             <div className="p-0.5 rounded flex justify-center items-center bg-white/30">
@@ -53,38 +93,32 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
             </div>
             Play Video
           </button>
-        )}
 
-        {/* Play Button (mobile/tablet) */}
-        <div className="xl:hidden z-2 top-1/2 left-1/2 -translate-1/2 absolute opacity-100 rounded-full font-neueMontreal text-bodySmall leading-[100%] w-fit h-fit flex justify-center items-center gap-2 text-white bg-white/20">
-          <img
-            src="/images/icons/play.svg"
-            alt="play button"
-            className="h-14 w-14"
-          />
-        </div>
-
-        {videoSrc && (
-          <div className="absolute inset-0 z-0">
-            <video
-              className="w-full h-full object-cover object-center"
-              autoPlay={shouldAutoplay}
-              muted
-              loop
-              playsInline
-              controls={false}
-              poster={placeholder}
-            >
-              <source src={videoSrc} type="video/mp4" />
-            </video>
+          {/* Play Button (mobile/tablet) */}
+          <div className="xl:hidden z-2 top-1/2 left-1/2 -translate-1/2 absolute opacity-100 rounded-full font-neueMontreal text-bodySmall leading-[100%] w-fit h-fit flex justify-center items-center gap-2 text-white bg-white/20">
+            <img
+              src="/images/icons/play.svg"
+              alt="play button"
+              className="h-14 w-14"
+            />
           </div>
-        )}
 
-        <div
-          ref={containerRef}
-          className="relative z-10 py-10 px-3.5 md:px-5 lg:px-10 md:py-15 h-full"
-        >
-          <div className="grid grid-cols-4 gap-x-3 md:gap-x-5 w-full h-full">
+          {videoSrc && (
+            <div className="absolute inset-0 z-0">
+              <video
+                className="w-full h-full object-cover object-center"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls={false}
+                poster={placeholder}
+              >
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            </div>
+          )}
+          <div className="z-2 relative grid grid-cols-4 gap-x-3 md:gap-x-5 w-full h-full py-10 px-3.5 md:px-5 lg:px-10 md:py-15">
             <h3
               data-animate-text
               className="col-span-4 lg:col-span-2 text-white text-heading2 tracking-heading2 leading-[110%] max-w-[590px]"
@@ -106,8 +140,8 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
               </p>
             </div>
           </div>
+          <div className="absolute inset-0 bg-black/80 z-1"></div>
         </div>
-        <div className="absolute inset-0 bg-black/80 z-1"></div>
       </section>
 
       {/* Video Modal */}

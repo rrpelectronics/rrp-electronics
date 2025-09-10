@@ -21,6 +21,7 @@ const OurJourney = () => {
   const [yearWidth, setYearWidth] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
   const [gap, setGap] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false); // Add animation state
 
   // Initialize refs for each event item
   useEffect(() => {
@@ -53,9 +54,7 @@ const OurJourney = () => {
     window.addEventListener("resize", updateWidths);
     return () => window.removeEventListener("resize", updateWidths);
   }, []);
-
-
-  //-----TIMELINE LOGIC, On Directions Click & On Date Click
+  
   // Set initial styles for the first item
   useEffect(() => {
     if (itemRefs.current[0] && yearWidth > 0) {
@@ -145,9 +144,12 @@ const OurJourney = () => {
     }
   }, [activeIndex, events]);
 
-  // Handle date click animation
+  // Handle date click animation with timeout protection
   const handleDateClick = (targetIndex) => {
-    if (targetIndex === activeIndex || itemWidth === 0) return;
+    // Prevent clicks during animation or if same index
+    if (isAnimating || targetIndex === activeIndex || itemWidth === 0) return;
+
+    setIsAnimating(true); // Set animation state
 
     const translateDistance = itemWidth + gap;
     const yearOffset = yearWidth / 2 - yearWidth * 0.18;
@@ -155,7 +157,13 @@ const OurJourney = () => {
     const centerMargin = (itemWidth - dotSize) / 2;
 
     const tl = gsap.timeline({
-      onComplete: () => setActiveIndex(targetIndex),
+      onComplete: () => {
+        setActiveIndex(targetIndex);
+        // Add timeout to prevent rapid clicks
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 200); // 200ms cooldown after animation completes
+      },
     });
 
     // Animate timeline position
@@ -227,7 +235,6 @@ const OurJourney = () => {
             "main"
           );
       } else {
-        
         // Animate all non-target items to inactive state (hide content, keep date visible)
         tl.to(
           item.dot.current,
@@ -280,10 +287,10 @@ const OurJourney = () => {
     });
   };
 
-  // Handle next click
+  // Handle next click with timeout protection
   useEffect(() => {
     const handleNext = () => {
-      if (activeIndex >= events.length - 1) return;
+      if (isAnimating || activeIndex >= events.length - 1) return;
       handleDateClick(activeIndex + 1);
     };
 
@@ -296,12 +303,12 @@ const OurJourney = () => {
         nextButton.removeEventListener("click", handleNext);
       }
     };
-  }, [activeIndex, events.length, itemWidth, gap, yearWidth]);
+  }, [activeIndex, events.length, itemWidth, gap, yearWidth, isAnimating]);
 
-  // Handle prev click
+  // Handle prev click with timeout protection
   useEffect(() => {
     const handlePrev = () => {
-      if (activeIndex <= 0) return;
+      if (isAnimating || activeIndex <= 0) return;
       handleDateClick(activeIndex - 1);
     };
 
@@ -314,7 +321,7 @@ const OurJourney = () => {
         prevButton.removeEventListener("click", handlePrev);
       }
     };
-  }, [activeIndex, itemWidth, gap]);
+  }, [activeIndex, itemWidth, gap, isAnimating]);
 
   return (
     <section
