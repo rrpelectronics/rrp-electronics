@@ -268,18 +268,16 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
       </ul>
 
-      <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full pl-2.5 sm:pl-4 pr-4.5 sm:pr-6 py-3 sm:py-4">
+      <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full px-2.5 sm:px-4 py-3 sm:py-4">
         <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
           <li
             className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
-              isHomeActive
-                ? "bg-white text-black"
-                : "text-white font-neueMontreal"
+              isHomeActive ? "bg-white text-black" : "text-white"
             }`}
           >
             <Link
               href="/"
-              className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 ${
+              className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 font-neueMontreal ${
                 !isHomeActive ? "hover:text-primary" : ""
               }`}
             >
@@ -291,22 +289,20 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             onMouseEnter={() => handleMouseEnter("company")}
             onMouseLeave={() => handleMouseLeave("company")}
             onClick={() => toggleSubmenu("company")}
-            className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 ${
+            className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
               isCompanyActive
                 ? "bg-white text-black"
                 : activeSubmenu === "company"
-                ? "text-primary font-neueMontreal"
-                : "text-white font-neueMontreal hover:text-primary"
+                ? "text-primary"
+                : "text-white hover:text-primary"
             }`}
           >
             <p className={`text-sm sm:text-[16px] leading-[100%]`}>Company</p>
           </li>
 
           <li
-            className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
-              isSolutionsActive
-                ? "bg-white text-black"
-                : "text-white font-neueMontreal"
+            className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 font-neueMontreal ${
+              isSolutionsActive ? "bg-white text-black" : "text-white"
             }`}
           >
             <Link
@@ -323,12 +319,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             onMouseEnter={() => handleMouseEnter("operations")}
             onMouseLeave={() => handleMouseLeave("operations")}
             onClick={() => toggleSubmenu("operations")}
-            className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 ${
+            className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
               isOperationsActive
                 ? "bg-white text-black"
                 : activeSubmenu === "operations"
-                ? "text-primary font-neueMontreal"
-                : "text-white font-neueMontreal hover:text-primary"
+                ? "text-primary"
+                : "text-white hover:text-primary"
             }`}
           >
             <p className={`text-sm sm:text-[16px] leading-[100%]`}>
