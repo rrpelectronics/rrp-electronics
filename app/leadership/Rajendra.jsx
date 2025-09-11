@@ -9,7 +9,7 @@ const RajendraUpdate = () => {
   return (
     <section
       ref={containerRef}
-      className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
+      className="bg-white h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
     >
       <div className="bg-whiteBg col-span-4 sm:col-span-2 h-[40vh] md:h-[50vh] lg:h-[70vh] relative overflow-hidden">
         <img
