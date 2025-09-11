@@ -139,7 +139,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("company")}>
           <Link
             href={"/about"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/about" ? "text-primary" : "text-white"
             }`}
           >
@@ -149,7 +149,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("company")}>
           <Link
             href={"/our-journey"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/our-journey" ? "text-primary" : "text-white"
             }`}
           >
@@ -159,7 +159,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("company")}>
           <Link
             href={"/leadership"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/leadership" ? "text-primary" : "text-white"
             }`}
           >
@@ -185,7 +185,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("operations")}>
           <Link
             href={"/compliances"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/compliances" ? "text-primary" : "text-white"
             }`}
           >
@@ -195,7 +195,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("operations")}>
           <Link
             href={"/logistics"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/logistics" ? "text-primary" : "text-white"
             }`}
           >
@@ -205,7 +205,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("operations")}>
           <Link
             href={"/traceability"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/traceability" ? "text-primary" : "text-white"
             }`}
           >
@@ -229,7 +229,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("extras")}>
           <Link
             href={"/projects"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/projects" ? "text-primary" : "text-white"
             }`}
           >
@@ -239,7 +239,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("extras")}>
           <Link
             href={"/careers"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/careers" ? "text-primary" : "text-white"
             }`}
           >
@@ -249,7 +249,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("extras")}>
           <Link
             href={"/news-events"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/news-events" ? "text-primary" : "text-white"
             }`}
           >
@@ -259,7 +259,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li onClick={() => toggleSubmenu("extras")}>
           <Link
             href={"/contact-us"}
-            className={`leading-[120%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/contact-us" ? "text-primary" : "text-white"
             }`}
           >
@@ -268,10 +268,10 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
       </ul>
 
-      <nav className="overflow-hidden w-fit flex gap-x-2 sm:gap-x-3 items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full px-2 sm:px-4 py-2 sm:py-3.5">
-        <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3">
+      <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full pl-2.5 sm:pl-4 pr-4.5 sm:pr-6 py-3 sm:py-4">
+        <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
           <li
-            className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
+            className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
               isHomeActive
                 ? "bg-white text-black"
                 : "text-white font-neueMontreal"
@@ -279,7 +279,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           >
             <Link
               href="/"
-              className={`text-sm sm:text-[16px] leading-[120%] transition-colors duration-200 ${
+              className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 ${
                 !isHomeActive ? "hover:text-primary" : ""
               }`}
             >
@@ -299,11 +299,11 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
                 : "text-white font-neueMontreal hover:text-primary"
             }`}
           >
-            <p className={`text-sm sm:text-[16px] leading-[120%]`}>Company</p>
+            <p className={`text-sm sm:text-[16px] leading-[100%]`}>Company</p>
           </li>
 
           <li
-            className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
+            className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
               isSolutionsActive
                 ? "bg-white text-black"
                 : "text-white font-neueMontreal"
@@ -311,7 +311,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           >
             <Link
               href="/solutions"
-              className={`text-sm sm:text-[16px] leading-[120%] transition-colors duration-200 ${
+              className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 ${
                 !isSolutionsActive ? "hover:text-primary" : ""
               }`}
             >
@@ -331,7 +331,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
                 : "text-white font-neueMontreal hover:text-primary"
             }`}
           >
-            <p className={`text-sm sm:text-[16px] leading-[120%]`}>
+            <p className={`text-sm sm:text-[16px] leading-[100%]`}>
               Operations
             </p>
           </li>
