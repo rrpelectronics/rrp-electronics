@@ -82,7 +82,7 @@ body {
 }
 
 .video-cursor {
-  cursor: url("/images/icons/video-cursor.svg") 59 20, pointer !important;
+  cursor: url("/images/icons/video-cursor.svg") 0 0, pointer !important;
 }
 
 select {

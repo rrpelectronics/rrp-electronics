@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
 import React from "react";
+import Header from "./Header";
 
 const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
   return (
     <section className="h-svh w-full sticky top-0 left-0 -z-1 overflow-hidden">
+      <Header/>
       {video && (
         <video
           autoPlay
@@ -35,11 +37,11 @@ const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
             </React.Fragment>
           ))}
         </h1>
-        {text && (
+        {/* {text && (
           <p className="text-white text-bodyLarge font-neueMontreal leading-[120%] col-span-4 col-start-1 sm:col-span-2 sm:col-start-3 mt-auto">
             {text}
           </p>
-        )}
+        )} */}
       </div>
     </section>
   );

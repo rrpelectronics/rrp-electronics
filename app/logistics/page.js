@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Banner from '@/app/components/BannerStack';
+import Text from '@/app/components/Text';
 import StackCards from '@/app/components/StackCards';
 import Map from './Map';
 
@@ -34,7 +35,8 @@ const cardsData = [
 export const logistics = () => {
   return (
     <main className="min-h-screen w-full relative overflow-clip">
-      <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"} text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
+      <Banner imgSrc={"/images/logistics/banner.webp"} heading={"Strategically Located for Seamless Supply Chain & Logistics"}/>
+      <Text text={"Global Reach, Local Advantage – Efficient and Reliable Delivery from the Heart of Mumbai"}/>
       <StackCards cardsData={cardsData} />
       <Map/>
     </main>
