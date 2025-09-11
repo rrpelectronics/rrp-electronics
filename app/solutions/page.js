@@ -5,6 +5,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import Link from 'next/link';
 import BannerStack from '@/app/components/BannerStack';
+import Text from '@/app/components/Text';
 import VideoImgSection from '@/app/components/VideoImgSection';
 import { useFooter } from '@/app/context/FooterContext';
 import { useHeaderHeight } from '@/app/context/HeaderHeightContext';
@@ -115,8 +116,9 @@ const Page = () => {
       <BannerStack 
         imgSrc={"/images/solutions/banner.webp"} 
         heading={"Smart Solutions for a Smarter Future"} 
-        text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."}
       />
+
+      <Text text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."}/>
 
       {/* Sticky Header Nav */}
       <div ref={solutionHeaderRef} className="bg-white min-w-full overflow-x-auto no-scrollbar px-3.5 md:px-5 lg:px-10 py-5 flex gap-4 md:gap-12 border-b border-borderPrimary items-center z-40">

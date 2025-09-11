@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Banner from '@/app/components/BannerStack';
+import Text from '@/app/components/Text';
 import StackCards from '@/app/components/StackCards';
 
 const cardsData = [
@@ -46,7 +47,8 @@ const cardsData = [
 const traceability = () => {
   return (
     <main className='min-h-screen w-full relative overflow-clip'>
-      <Banner imgSrc={"/images/traceability/banner.webp"} heading={"End-to-End Traceability \n You Can Trust"} text={"Ensuring Precision, Accountability, and Quality at Every Stage of Semiconductor Manufacturing"}/> 
+      <Banner imgSrc={"/images/traceability/banner.webp"} heading={"End-to-End Traceability \n You Can Trust"}/> 
+      <Text text={"Ensuring Precision, Accountability, and Quality at Every Stage of Semiconductor Manufacturing"}/>
       <StackCards cardsData={cardsData}/>
     </main>
   )

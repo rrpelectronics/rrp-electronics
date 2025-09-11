@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useFooter } from "@/app/context/FooterContext";
 import BannerStack from "@/app/components/BannerStack";
+import Text from "@/app/components/Text";
 import VideoImgSection from "@/app/components/VideoImgSection";
 import Carousel from "./Carousel";
 import Accordion from "./Accordion";
@@ -32,11 +33,11 @@ const Home = () => {
         heading={
           "Maharashtra’s First \n Operational OSAT Facility. \n Expanding Forward."
         }
-        text={
-          "Driving India’s semiconductor momentum with scalable, next-gen packaging and testing capabilities from the heart of Maharashtra."
-        }
         placeholder={"/images/home/banner_placeholder.webp"}
       />
+      <Text text={
+          "Driving India’s semiconductor momentum with scalable, next-gen packaging and testing capabilities from the heart of Maharashtra."
+        }/>
       <Carousel />
       <Accordion />
       <VideoImgSection
