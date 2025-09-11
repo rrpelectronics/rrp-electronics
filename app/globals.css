@@ -81,6 +81,10 @@ body {
   cursor: url("/images/icons/close-2.svg") 16 16, pointer;
 }
 
+.video-cursor {
+  cursor: url("/images/icons/video-cursor.svg") 59 20, pointer !important;
+}
+
 select {
   appearance: none;
   -moz-appearance: none;
