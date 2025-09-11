@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import NewsEventsCard from "@/app/components/NewsEventsCard";
+import GridEventCards from "@/app/components/GridEventCards";
 
 const news_data = [
   {
@@ -63,13 +63,13 @@ const news_data = [
 
 const NewsEvents = () => {
   return (
-    <section className="w-full h-fit px-3.5 md:px-5 lg:px-10">
-      <h3 className="pt-25 md:pt-32 lg:pt-35 pb-10 text-display text-black tracking-display leading-[110%]">
+    <section className="@container w-full h-fit grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 pt-25 md:pt-32 lg:pt-35 pb-10">
+      <h3 className="text-wrap text-display text-black tracking-display leading-[90%] col-span-12 @6xl:col-span-3 mb-10">
         News & Events
       </h3>
-      <ul className="w-full h-fit flex flex-wrap justify-between items-center gap-y-7.5 md:gap-y-10 gap-4 py-10 md:py-15">
+      <ul className="col-span-12 @6xl:col-span-9 grid grid-cols-4 w-full h-fit gap-y-7.5 md:gap-y-10 gap-4">
         {news_data.map((news, id) => (
-          <NewsEventsCard
+          <GridEventCards
             key={id}
             imgBgclass={news.imgBgClass}
             newsEventImg={news.newsEventImg}

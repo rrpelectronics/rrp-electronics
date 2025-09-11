@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import Banner from '@/app/components/Banner';
+import BannerStack from '@/app/components/BannerStack';
 import Text from '@/app/components/Text';
 import JobList from './JobList';
 import Why from './Why';
@@ -8,8 +8,8 @@ import Culture from './Culture';
 
 const page = () => {
   return (
-    <main className="min-h-screen w-full relative">
-      <Banner
+    <main className="min-h-screen w-full relative overflow-clip">
+      <BannerStack
         imgSrc={"/images/careers/banner.webp"}
         heading={"Be Part of the \n Semiconductor Evolution"}
       />
