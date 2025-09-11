@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 const FloatingNavbar = React.forwardRef((props, ref) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const pathname = usePathname();
+  const hoverTimeoutRef = useRef(null);
+  const leaveTimeoutRef = useRef(null);
 
   useEffect(() => {
     const allSubmenuPages = [
@@ -20,7 +22,6 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
     }
   }, [pathname]);
 
-
   // Close submenu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -31,6 +32,18 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
 
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      if (leaveTimeoutRef.current) {
+        clearTimeout(leaveTimeoutRef.current);
+      }
+    };
   }, []);
 
   // Check if current page is in company submenu
@@ -55,8 +68,60 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
     setActiveSubmenu(activeSubmenu === submenuName ? null : submenuName);
   };
 
+  // Handle hover enter for company and operations
+  const handleMouseEnter = (submenuName) => {
+    if (submenuName === "company" || submenuName === "operations") {
+      // Clear any existing timeouts
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      if (leaveTimeoutRef.current) {
+        clearTimeout(leaveTimeoutRef.current);
+      }
+
+      // Set a small delay before opening to prevent accidental triggers
+      hoverTimeoutRef.current = setTimeout(() => {
+        setActiveSubmenu(submenuName);
+      }, 150);
+    }
+  };
+
+  // Handle mouse leave for company and operations
+  const handleMouseLeave = (submenuName) => {
+    if (submenuName === "company" || submenuName === "operations") {
+      // Clear hover timeout if still pending
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+
+      // Set a longer delay before closing to allow user to move to submenu
+      leaveTimeoutRef.current = setTimeout(() => {
+        setActiveSubmenu(null);
+      }, 50);
+    }
+  };
+
+  // Handle submenu hover to keep it open
+  const handleSubmenuEnter = () => {
+    // Clear leave timeout when entering submenu
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+    }
+  };
+
+  // Handle submenu leave
+  const handleSubmenuLeave = () => {
+    // Close submenu when leaving submenu area
+    leaveTimeoutRef.current = setTimeout(() => {
+      setActiveSubmenu(null);
+    }, 50);
+  };
+
   return (
-    <header ref={ref} className="flex flex-col w-fit z-50 fixed left-1/2 -translate-x-1/2 bottom-7 md:bottom-10">
+    <header
+      ref={ref}
+      className="flex flex-col w-fit z-50 fixed left-1/2 -translate-x-1/2 bottom-7 md:bottom-10"
+    >
       {/* Company Submenu */}
       <ul
         style={{
@@ -68,6 +133,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           transition: "clip-path 0.3s ease-in-out",
         }}
         className="rounded-3xl w-full fixed left-1/2 -translate-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 border border-white/16 backdrop-blur-[12px]"
+        onMouseEnter={handleSubmenuEnter}
+        onMouseLeave={handleSubmenuLeave}
       >
         <li onClick={() => toggleSubmenu("company")}>
           <Link
@@ -112,6 +179,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           transition: "clip-path 0.3s ease-in-out",
         }}
         className="rounded-3xl w-full fixed left-1/2 -translate-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 border border-white/16 backdrop-blur-[12px]"
+        onMouseEnter={handleSubmenuEnter}
+        onMouseLeave={handleSubmenuLeave}
       >
         <li onClick={() => toggleSubmenu("operations")}>
           <Link
@@ -219,6 +288,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           </li>
 
           <li
+            onMouseEnter={() => handleMouseEnter("company")}
+            onMouseLeave={() => handleMouseLeave("company")}
             onClick={() => toggleSubmenu("company")}
             className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 ${
               isCompanyActive
@@ -249,6 +320,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           </li>
 
           <li
+            onMouseEnter={() => handleMouseEnter("operations")}
+            onMouseLeave={() => handleMouseLeave("operations")}
             onClick={() => toggleSubmenu("operations")}
             className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 ${
               isOperationsActive
