@@ -259,7 +259,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
             <li
               className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
-                isHomeActive ? "bg-white text-black" : "text-white"
+                isHomeActive ? "bg-white text-primary" : "text-white"
               }`}
             >
               <Link
@@ -276,7 +276,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               onClick={() => toggleSubmenu("company")}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isCompanyActive
-                  ? "bg-white text-black"
+                  ? "bg-white text-primary"
                   : activeSubmenu === "company"
                   ? "text-primary"
                   : "text-white hover:text-primary"
@@ -287,7 +287,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
 
             <li
               className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 font-neueMontreal ${
-                isSolutionsActive ? "bg-white text-black" : "text-white"
+                isSolutionsActive ? "bg-white text-primary" : "text-white"
               }`}
             >
               <Link
@@ -304,7 +304,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               onClick={() => toggleSubmenu("operations")}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isOperationsActive
-                  ? "bg-white text-black"
+                  ? "bg-white text-primary"
                   : activeSubmenu === "operations"
                   ? "text-primary"
                   : "text-white hover:text-primary"
