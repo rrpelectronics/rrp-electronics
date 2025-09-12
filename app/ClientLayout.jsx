@@ -63,6 +63,7 @@ export default function ClientLayout({ children }) {
             gsap.to(navbarRef.current, {
               opacity: 0,
               duration: 0.2,
+              backdropFilter: "blur(4px)",
               onComplete: () => {
                 navbarRef.current.style.display = "none";
               },
@@ -71,6 +72,7 @@ export default function ClientLayout({ children }) {
             // Footer is not visible, show navbar
             gsap.set(navbarRef.current, { display: "flex" }); // Ensure display is reset
             gsap.to(navbarRef.current, {
+              backdropFilter: "blur(4px)",
               opacity: 1,
               duration: 0.2,
             });
