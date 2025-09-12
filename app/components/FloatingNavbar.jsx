@@ -106,6 +106,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/about"}
+            onClick={() => toggleSubmenu("company")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/about" ? "text-primary" : "text-white"
             }`}
@@ -116,6 +117,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/our-journey"}
+            onClick={() => toggleSubmenu("company")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/our-journey" ? "text-primary" : "text-white"
             }`}
@@ -126,6 +128,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/leadership"}
+            onClick={() => toggleSubmenu("company")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/leadership" ? "text-primary" : "text-white"
             }`}
@@ -155,6 +158,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/compliances"}
+            onClick={() => toggleSubmenu("operations")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/compliances" ? "text-primary" : "text-white"
             }`}
@@ -165,6 +169,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/logistics"}
+            onClick={() => toggleSubmenu("operations")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/logistics" ? "text-primary" : "text-white"
             }`}
@@ -175,6 +180,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/traceability"}
+            onClick={() => toggleSubmenu("operations")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/traceability" ? "text-primary" : "text-white"
             }`}
@@ -202,6 +208,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/projects"}
+            onClick={() => toggleSubmenu("extras")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/projects" ? "text-primary" : "text-white"
             }`}
@@ -212,6 +219,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/careers"}
+            onClick={() => toggleSubmenu("extras")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/careers" ? "text-primary" : "text-white"
             }`}
@@ -222,6 +230,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/news-events"}
+            onClick={() => toggleSubmenu("extras")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/news-events" ? "text-primary" : "text-white"
             }`}
@@ -232,6 +241,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href={"/contact-us"}
+            onClick={() => toggleSubmenu("extras")}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/contact-us" ? "text-primary" : "text-white"
             }`}
