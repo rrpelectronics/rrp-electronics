@@ -15,7 +15,8 @@ const Header = forwardRef((props, ref) => {
       <nav className="flex justify-between items-center h-fit">
         {pathname === "/news-events" ||
         pathname.startsWith("/careers/") ||
-        pathname === "/contact-us" ? (
+        pathname === "/contact-us" ||
+        pathname === "/sitemap" ? (
           <Link
             href={"/"}
             className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-9"

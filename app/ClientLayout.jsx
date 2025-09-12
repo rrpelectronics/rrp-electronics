@@ -14,7 +14,7 @@ export default function ClientLayout({ children }) {
   const headerRef = useRef(null);
   const navbarRef = useRef(null);
   const footerRef = useRef(null);
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -53,33 +53,49 @@ export default function ClientLayout({ children }) {
     }
   }, []);
 
-  // GSAP animation for FloatingNavbar based on footer visibility
+  // GSAP animation for all FloatingNavbar elements based on footer visibility
   useEffect(() => {
     if (navbarRef.current && footerRef.current) {
       const observer = new IntersectionObserver(
         ([entry]) => {
+          // Get all elements from the navbar ref
+          const elements = navbarRef.current.elements || [];
+
           if (entry.isIntersecting) {
-            // Footer is visible, hide navbar
-            gsap.to(navbarRef.current, {
-              opacity: 0,
-              duration: 0.2,
-              backdropFilter: "blur(4px)",
-              onComplete: () => {
-                navbarRef.current.style.display = "none";
-              },
+            // Footer is visible, hide all navbar elements
+            elements.forEach((element) => {
+              if (element) {
+                gsap.to(element, {
+                  y: 100, // Slide down to hide
+                  opacity: 0,
+                  duration: 0.3,
+                  ease: "power2.inOut",
+                  onComplete: () => {
+                    if (element) {
+                      element.style.pointerEvents = "none";
+                    }
+                  },
+                });
+              }
             });
           } else {
-            // Footer is not visible, show navbar
-            gsap.set(navbarRef.current, { display: "flex" }); // Ensure display is reset
-            gsap.to(navbarRef.current, {
-              backdropFilter: "blur(4px)",
-              opacity: 1,
-              duration: 0.2,
+            // Footer is not visible, show all navbar elements
+            elements.forEach((element) => {
+              if (element) {
+                element.style.pointerEvents = "auto";
+                gsap.to(element, {
+                  y: 0, // Slide back to original position
+                  opacity: 1,
+                  duration: 0.3,
+                  ease: "power2.inOut",
+                });
+              }
             });
           }
         },
         {
           threshold: 0.1, // Trigger when 10% of the footer is visible
+          rootMargin: "0px 0px -50px 0px", // Add some margin for better timing
         }
       );
 
@@ -96,7 +112,7 @@ export default function ClientLayout({ children }) {
       <FooterProvider>
         {(pathname === "/news-events" ||
           pathname.startsWith("/careers/") ||
-          pathname === "/contact-us") && <Header ref={headerRef} />}
+          pathname === "/contact-us" || pathname === "/sitemap") && <Header ref={headerRef} />}
         <FloatingNavbar ref={navbarRef} />
         <HeaderHeightProvider height={headerHeight}>
           {children}

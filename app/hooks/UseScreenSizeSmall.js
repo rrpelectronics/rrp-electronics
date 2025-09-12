@@ -6,10 +6,10 @@ const UseScreenSizeSmall = () => {
 
     useEffect(() => {
         // Set initial value after component mounts
-        setIsDevice(window.innerWidth <= 640);
+        setIsDevice(window.innerWidth < 640);
 
         const handleResize = () => {
-            setIsDevice(window.innerWidth <= 640);
+            setIsDevice(window.innerWidth < 640);
         };
 
         window.addEventListener("resize", handleResize);
