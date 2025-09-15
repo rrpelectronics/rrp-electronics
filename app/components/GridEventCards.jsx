@@ -20,7 +20,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
           <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
             {date} {source && `| ${source}`}
           </p>
-          <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis">
+          <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis md:w-[80%]">
             {title}
           </p>
           <Link
