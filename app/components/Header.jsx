@@ -10,7 +10,7 @@ const Header = forwardRef((props, ref) => {
   return (
     <header
       ref={ref}
-      className="will-change-transform fixed top-0 left-0 w-full h-fit py-4 md:py-5 px-3.5 md:px-5 lg:px-10 z-60"
+      className="will-change-transform fixed top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10 z-60"
     >
       <nav className="flex justify-between items-center h-fit">
         {pathname === "/news-events" ||

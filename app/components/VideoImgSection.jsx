@@ -63,7 +63,7 @@ const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
               ))}
             </h3>
 
-            <div className="pr-3.5 md:pr-5 lg:pr-10 pt-10 md:pt-15 col-span-4 col-start-1 lg:col-span-1 lg:col-start-4 flex flex-col gap-5 lg:gap-6 justify-end lg:justify-start">
+            <div className="px-3.5 md:px-5 lg:px-10 pt-10 md:pt-15 col-span-4 col-start-1 lg:col-span-1 lg:col-start-4 flex flex-col gap-5 lg:gap-6 justify-end lg:justify-start">
               <p
                 data-animate-text
                 className="text-white text-bodyBase font-neueMontreal leading-[120%]"
