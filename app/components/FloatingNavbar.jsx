@@ -235,7 +235,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               pathname === "/news-events" ? "text-primary" : "text-white"
             }`}
           >
-            News Events
+            News & Events
           </Link>
         </li>
         <li>
