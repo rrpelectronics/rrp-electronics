@@ -9,21 +9,20 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const pathname = usePathname();
   const isMobile = UseScreenSizeSmall();
+  const hideTimeoutRef = useRef(null);
 
-  // Individual refs for each element
   const companySubmenuRef = useRef(null);
   const operationsSubmenuRef = useRef(null);
   const extrasSubmenuRef = useRef(null);
   const headerRef = useRef(null);
 
-  // Expose all refs to parent component
   useImperativeHandle(ref, () => ({
     elements: [
       companySubmenuRef.current,
       operationsSubmenuRef.current,
       extrasSubmenuRef.current,
       headerRef.current,
-    ].filter(Boolean), // Filter out null refs
+    ].filter(Boolean),
   }));
 
   useEffect(() => {
@@ -32,13 +31,11 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       ...operationsPages,
       ...extrasPages,
     ];
-
     if (!allSubmenuPages.includes(pathname)) {
       setActiveSubmenu(null);
     }
   }, [pathname]);
 
-  // Close submenu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       const elements = [
@@ -61,7 +58,6 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // Submenu pages
   const companyPages = ["/about", "/our-journey", "/leadership"];
   const operationsPages = ["/compliances", "/logistics", "/traceability"];
   const extrasPages = ["/projects", "/careers", "/news-events", "/contact-us"];
@@ -72,16 +68,17 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   const isHomeActive = pathname === "/";
   const isExtrasActive = extrasPages.includes(pathname);
 
-  const toggleSubmenu = (submenuName) => {
-    setActiveSubmenu(activeSubmenu === submenuName ? null : submenuName);
+  const handleMouseEnter = (submenuName) => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    setActiveSubmenu(submenuName);
   };
 
-  const handleSubmenuEnter = () => {
-    // Keep submenu open
-  };
-
-  const handleSubmenuLeave = () => {
-    setActiveSubmenu(null);
+  const handleMouseLeave = () => {
+    hideTimeoutRef.current = setTimeout(() => {
+      setActiveSubmenu(null);
+    }, 300); // 300ms delay before closing submenu
   };
 
   return (
@@ -100,13 +97,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           transition: "clip-path 0.3s ease-in-out",
         }}
         className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
-        onMouseEnter={handleSubmenuEnter}
-        onMouseLeave={handleSubmenuLeave}
+        onMouseEnter={() => handleMouseEnter("company")}
+        onMouseLeave={handleMouseLeave}
       >
         <li>
           <Link
-            href={"/about"}
-            onClick={() => toggleSubmenu("company")}
+            href="/about"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/about" ? "text-primary" : "text-white"
             }`}
@@ -116,8 +112,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/our-journey"}
-            onClick={() => toggleSubmenu("company")}
+            href="/our-journey"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/our-journey" ? "text-primary" : "text-white"
             }`}
@@ -127,8 +122,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/leadership"}
-            onClick={() => toggleSubmenu("company")}
+            href="/leadership"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/leadership" ? "text-primary" : "text-white"
             }`}
@@ -152,13 +146,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           transition: "clip-path 0.3s ease-in-out",
         }}
         className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
-        onMouseEnter={handleSubmenuEnter}
-        onMouseLeave={handleSubmenuLeave}
+        onMouseEnter={() => handleMouseEnter("operations")}
+        onMouseLeave={handleMouseLeave}
       >
         <li>
           <Link
-            href={"/compliances"}
-            onClick={() => toggleSubmenu("operations")}
+            href="/compliances"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/compliances" ? "text-primary" : "text-white"
             }`}
@@ -168,8 +161,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/logistics"}
-            onClick={() => toggleSubmenu("operations")}
+            href="/logistics"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/logistics" ? "text-primary" : "text-white"
             }`}
@@ -179,8 +171,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/traceability"}
-            onClick={() => toggleSubmenu("operations")}
+            href="/traceability"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/traceability" ? "text-primary" : "text-white"
             }`}
@@ -190,7 +181,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
       </ul>
 
-      {/* Extras Links on Plus Icon */}
+      {/* Extras Submenu */}
       <ul
         ref={extrasSubmenuRef}
         style={{
@@ -204,11 +195,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           transition: "clip-path 0.3s ease-in-out",
         }}
         className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
+        onMouseEnter={() => handleMouseEnter("extras")}
+        onMouseLeave={handleMouseLeave}
       >
         <li>
           <Link
-            href={"/projects"}
-            onClick={() => toggleSubmenu("extras")}
+            href="/projects"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/projects" ? "text-primary" : "text-white"
             }`}
@@ -218,8 +210,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/careers"}
-            onClick={() => toggleSubmenu("extras")}
+            href="/careers"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/careers" ? "text-primary" : "text-white"
             }`}
@@ -229,8 +220,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/news-events"}
-            onClick={() => toggleSubmenu("extras")}
+            href="/news-events"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/news-events" ? "text-primary" : "text-white"
             }`}
@@ -240,8 +230,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href={"/contact-us"}
-            onClick={() => toggleSubmenu("extras")}
+            href="/contact-us"
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/contact-us" ? "text-primary" : "text-white"
             }`}
@@ -253,7 +242,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
 
       <header
         ref={headerRef}
-        className="flex flex-col w-fit z-50 fixed left-1/2 -translate-x-1/2 bottom-7 sm:bottom-10"
+        className="flex flex-col w-fit z-60 fixed left-1/2 -translate-x-1/2 bottom-7 sm:bottom-10"
       >
         <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full px-2.5 sm:px-4 py-3 sm:py-4">
           <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
@@ -273,7 +262,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             </li>
 
             <li
-              onClick={() => toggleSubmenu("company")}
+              onMouseEnter={() => handleMouseEnter("company")}
+              onMouseLeave={handleMouseLeave}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isCompanyActive
                   ? "bg-primary text-white"
@@ -282,7 +272,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
                   : "text-white hover:text-primary"
               }`}
             >
-              <p className={`text-sm sm:text-[16px] leading-[100%]`}>Company</p>
+              <p className="text-sm sm:text-[16px] leading-[100%]">Company</p>
             </li>
 
             <li
@@ -301,7 +291,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             </li>
 
             <li
-              onClick={() => toggleSubmenu("operations")}
+              onMouseEnter={() => handleMouseEnter("operations")}
+              onMouseLeave={handleMouseLeave}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isOperationsActive
                   ? "bg-primary text-white"
@@ -310,17 +301,17 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
                   : "text-white hover:text-primary"
               }`}
             >
-              <p className={`text-sm sm:text-[16px] leading-[100%]`}>
+              <p className="text-sm sm:text-[16px] leading-[100%]">
                 Operations
               </p>
             </li>
           </ul>
 
           <li
-            onClick={() => toggleSubmenu("extras")}
+            onMouseEnter={() => handleMouseEnter("extras")}
+            onMouseLeave={handleMouseLeave}
             className="relative overflow-hidden h-3 w-3 sm:h-4 sm:w-4 cursor-pointer flex-1 flex items-center"
           >
-            {/* Plus Icon */}
             <Image
               src="/images/icons/header-menu.svg"
               alt="Header Menu"
