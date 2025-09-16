@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import UseScreenSizeSmall from "../hooks/UseScreenSizeSmall";
+import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
 const FloatingNavbar = React.forwardRef((props, ref) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
@@ -78,7 +78,13 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   const handleMouseLeave = () => {
     hideTimeoutRef.current = setTimeout(() => {
       setActiveSubmenu(null);
-    }, 300); // 300ms delay before closing submenu
+    }, 150); // 300ms delay before closing submenu
+  };
+
+  const handleSubmenuLinkClick = () => {
+    setTimeout(() => {
+      setActiveSubmenu(null);
+    }, 50);
   };
 
   return (
@@ -103,6 +109,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/about"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/about" ? "text-primary" : "text-white"
             }`}
@@ -113,6 +120,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/our-journey"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/our-journey" ? "text-primary" : "text-white"
             }`}
@@ -123,6 +131,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/leadership"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/leadership" ? "text-primary" : "text-white"
             }`}
@@ -152,6 +161,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/compliances"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/compliances" ? "text-primary" : "text-white"
             }`}
@@ -162,6 +172,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/logistics"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/logistics" ? "text-primary" : "text-white"
             }`}
@@ -172,6 +183,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/traceability"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/traceability" ? "text-primary" : "text-white"
             }`}
@@ -201,6 +213,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/projects"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/projects" ? "text-primary" : "text-white"
             }`}
@@ -211,6 +224,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/careers"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/careers" ? "text-primary" : "text-white"
             }`}
@@ -221,6 +235,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/news-events"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/news-events" ? "text-primary" : "text-white"
             }`}
@@ -231,6 +246,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <li>
           <Link
             href="/contact-us"
+            onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
               pathname === "/contact-us" ? "text-primary" : "text-white"
             }`}
