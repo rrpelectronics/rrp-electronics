@@ -42,7 +42,7 @@ const JobDetailsPage = ({ params }) => {
   return (
     <main className="min-h-screen w-full relative">
       {/* Hero Section */}
-      <section className="bg-whiteBg w-full h-fit pt-25 md:pt-30 pb-15 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
+      <section className="w-full h-fit py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
         <div ref={containerRef} className="flex flex-col">
           <p
             data-animate-text

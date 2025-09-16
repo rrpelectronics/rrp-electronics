@@ -16,6 +16,16 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   const extrasSubmenuRef = useRef(null);
   const headerRef = useRef(null);
 
+  const companyPages = ["/about", "/our-journey", "/leadership"];
+  const operationsPages = ["/compliances", "/logistics", "/traceability"];
+  const extrasPages = ["/projects", "/careers", "/news-events", "/contact-us"];
+
+  const isCompanyActive = companyPages.includes(pathname);
+  const isOperationsActive = operationsPages.includes(pathname);
+  const isSolutionsActive = pathname === "/solutions";
+  const isHomeActive = pathname === "/";
+  const isExtrasActive = extrasPages.includes(pathname);
+
   useImperativeHandle(ref, () => ({
     elements: [
       companySubmenuRef.current,
@@ -58,16 +68,6 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const companyPages = ["/about", "/our-journey", "/leadership"];
-  const operationsPages = ["/compliances", "/logistics", "/traceability"];
-  const extrasPages = ["/projects", "/careers", "/news-events", "/contact-us"];
-
-  const isCompanyActive = companyPages.includes(pathname);
-  const isOperationsActive = operationsPages.includes(pathname);
-  const isSolutionsActive = pathname === "/solutions";
-  const isHomeActive = pathname === "/";
-  const isExtrasActive = extrasPages.includes(pathname);
-
   const handleMouseEnter = (submenuName) => {
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
@@ -93,9 +93,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={companySubmenuRef}
         style={{
-          bottom: isMobile
-            ? "calc(28px + 52.6px + 8px)"
-            : "calc(40px + 65.6px + 12px)",
+          bottom: "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "company"
               ? "inset(0% 0% 0% 0%)"
@@ -145,9 +143,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={operationsSubmenuRef}
         style={{
-          bottom: isMobile
-            ? "calc(28px + 52.6px + 8px)"
-            : "calc(40px + 65.6px + 12px)",
+          bottom: "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "operations"
               ? "inset(0% 0% 0% 0%)"
@@ -197,9 +193,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={extrasSubmenuRef}
         style={{
-          bottom: isMobile
-            ? "calc(28px + 52.6px + 8px)"
-            : "calc(40px + 65.6px + 12px)",
+          bottom: "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "extras"
               ? "inset(0% 0% 0% 0%)"
