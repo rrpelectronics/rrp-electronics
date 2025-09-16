@@ -1,7 +1,6 @@
 "use client";
+import React, { useEffect, useRef } from "react";
 import { ReactLenis } from "lenis/react";
-import { useState, useEffect, useRef } from "react";
-import { HeaderHeightProvider } from "@/app/context/HeaderHeightContext";
 import FloatingNavbar from "@/app/components/FloatingNavbar";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -11,40 +10,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function ClientLayout({ children }) {
-  const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
   const navbarRef = useRef(null);
   const footerRef = useRef(null);
   const logoRef = useRef(null);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        const newHeight = headerRef.current.offsetHeight;
-        setHeaderHeight(newHeight);
-      }
-    };
-
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-
-    const observer = new MutationObserver(updateHeaderHeight);
-    if (headerRef.current) {
-      observer.observe(headerRef.current, {
-        attributes: true,
-        childList: true,
-        subtree: true,
-      });
-    }
-
-    return () => {
-      window.removeEventListener("resize", updateHeaderHeight);
-      observer.disconnect();
-    };
-  }, []);
-
-  // Force scroll to top on page load/refresh
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -55,7 +26,6 @@ export default function ClientLayout({ children }) {
     }
   }, []);
 
-  // GSAP animation for all FloatingNavbar elements based on footer visibility
   useEffect(() => {
     if (navbarRef.current && footerRef.current) {
       const observer = new IntersectionObserver(
@@ -110,11 +80,15 @@ export default function ClientLayout({ children }) {
   }, []);
 
   useEffect(() => {
+    if (!logoRef.current) return;
+
     const ctx = gsap.context(() => {
+      const logoEl = logoRef.current;
+
       const logo_tl = gsap.timeline({
         scrollTrigger: {
-          trigger: logoRef.current,
-          start: `${window.innerHeight} ${logoRef.current.offsetHeight}`,
+          trigger: logoEl,
+          start: `${window.innerHeight} ${logoEl.offsetHeight}`,
           end: `${window.innerHeight} 0%`,
           scrub: true,
         },
@@ -122,7 +96,7 @@ export default function ClientLayout({ children }) {
 
       logo_tl
         .to(
-          logoRef.current,
+          logoEl,
           {
             opacity: 0,
             ease: "power2.inOut",
@@ -130,44 +104,61 @@ export default function ClientLayout({ children }) {
           "a"
         )
         .to(
-          logoRef.current,
+          logoEl,
           {
             display: "none",
             duration: 0,
           },
           "b"
         );
-    })
-  }, [])
+    });
+
+    return () => ctx.revert();
+  }, [pathname]);
+
 
   return (
     <ReactLenis root>
       <FooterProvider>
-        <div ref={logoRef} className="z-60 will-change-transform fixed top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10">
-          <Link
-            href={"/"}
-            className="aspect-[240/26] w-21.5 h-7 lg:w-36 lg:h-12.5 flex flex-col gap-y-1"
+        {(
+          pathname === "/" ||
+          pathname === "/about" ||
+          pathname === "/our-journey" ||
+          pathname === "/leadership" ||
+          pathname === "/solutions" ||
+          pathname === "/projects" ||
+          pathname === "/compliances" ||
+          pathname === "/logistics" ||
+          pathname === "/traceability" ||
+          pathname === "/careers" 
+        ) && (
+          <div
+            ref={logoRef}
+            className="z-60 will-change-transform fixed top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10"
           >
-            <img
-              src="/images/common/rrp-logo.png"
-              alt="RRP Electronics"
-              className="object-contain object-center h-full w-auto"
-            />
-            <img
-              src="/images/common/rrp-logo-text.png"
-              alt="RRP Electronics"
-              className="object-contain object-center h-full w-auto mix-blend-difference"
-            />
-          </Link>
-        </div>
+            <Link
+              href={"/"}
+              className="aspect-[240/26] w-21.5 h-7 lg:w-36 lg:h-12.5 flex flex-col gap-y-1"
+            >
+              <img
+                src="/images/common/rrp-logo.png"
+                alt="RRP Electronics"
+                className="object-contain object-center h-full w-auto"
+              />
+              <img
+                src="/images/common/rrp-logo-text.png"
+                alt="RRP Electronics"
+                className="object-contain object-center h-full w-auto mix-blend-difference"
+              />
+            </Link>
+          </div>
+        )}
         {(pathname === "/news-events" ||
           pathname.startsWith("/careers/") ||
           pathname === "/contact-us" ||
           pathname === "/sitemap") && <Header ref={headerRef} />}
         <FloatingNavbar ref={navbarRef} />
-        <HeaderHeightProvider height={headerHeight}>
           {children}
-        </HeaderHeightProvider>
         <Footer ref={footerRef} />
       </FooterProvider>
     </ReactLenis>
