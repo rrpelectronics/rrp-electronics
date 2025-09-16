@@ -5,23 +5,6 @@ import Link from "next/link";
 const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
   return (
     <section className="h-svh w-full sticky top-0 left-0 -z-1 overflow-hidden">
-      <div className="will-change-transform fixed top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10 z-60">
-        <Link
-          href={"/"}
-          className="aspect-[240/26] w-21.5 h-7 lg:w-30 lg:h-10 flex flex-col gap-y-1"
-        >
-          <img
-            src="/images/common/rrp-logo.png"
-            alt="RRP Electronics"
-            className="object-contain object-center h-full w-auto"
-          />
-          <img
-            src="/images/common/rrp-logo-text.png"
-            alt="RRP Electronics"
-            className="object-contain object-center h-full w-auto mix-blend-difference"
-          />
-        </Link>
-      </div>
       {video && (
         <video
           autoPlay
@@ -42,7 +25,7 @@ const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
           className="object-cover object-center absolute h-full w-full inset-0"
         />
       )}
-      <div className="bg-black/70 inset-0 absolute h-full w-full" />
+      <div className="bg-black/50 inset-0 absolute h-full w-full" />
       <div className="h-full w-full grid grid-cols-4 gap-x-3 md:gap-x-5 items-center px-3.5 md:px-5 lg:px-10 py-10 relative z-1">
         <h1 className="max-w-[996px] tracking-display text-display sm:text-heading1 md:text-display text-white leading-[110%] absolute pe-3.5 md:pe-10 left-3.5 md:left-10 top-1/2 -translate-y-1/2">
           {heading.split("\n").map((line, i) => (
