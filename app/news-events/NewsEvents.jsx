@@ -63,7 +63,7 @@ const news_data = [
 
 const NewsEvents = () => {
   return (
-    <section className="@container w-full h-fit grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 pt-25 md:pt-30 pb-10">
+    <section className="@container w-full h-fit grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10">
       <h3 className="text-wrap text-display text-black tracking-display leading-[90%] col-span-12 @6xl:col-span-3 mb-10">
         News & Events
       </h3>
