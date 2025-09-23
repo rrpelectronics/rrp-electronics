@@ -34,32 +34,33 @@ export default function ClientLayout({ children }) {
           const elements = navbarRef.current.elements || [];
 
           if (entry.isIntersecting) {
-            // Footer is visible, hide all navbar elements
+            // Footer is visible → hide navbar elements
             elements.forEach((element) => {
               if (element) {
                 gsap.to(element, {
-                  y: 100, // Slide down to hide
+                  y: 100,
                   opacity: 0,
                   duration: 0.3,
                   ease: "power2.inOut",
-                  onComplete: () => {
-                    if (element) {
-                      element.style.display = "none";
-                    }
+                  onStart: () => {
+                    element.style.pointerEvents = "none"; // prevent clicks while hidden
                   },
                 });
               }
             });
           } else {
-            // Footer is not visible, show all navbar elements
+            // Footer is NOT visible → show navbar elements again
             elements.forEach((element) => {
               if (element) {
-                element.style.display = "auto";
                 gsap.to(element, {
-                  y: 0, // Slide back to original position
+                  y: 0,
                   opacity: 1,
                   duration: 0.3,
                   ease: "power2.inOut",
+                  onStart: () => {
+                    element.style.display = "block"; // or "flex" depending on your navbar
+                    element.style.pointerEvents = "auto";
+                  },
                 });
               }
             });
