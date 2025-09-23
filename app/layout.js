@@ -17,6 +17,9 @@ const neueMontrealMd = localFont({
 export const metadata = {
   title: "RRP Electronics",
   description: "RRP Electronics Limited",
+  verification: {
+    google: "Mauul6eDLnHoqbM-_J81nly1gJwbMfFLKwNvjX9UByw",
+  },
 };
 
 export default function RootLayout({ children }) {
