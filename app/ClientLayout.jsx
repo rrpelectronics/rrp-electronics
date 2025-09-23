@@ -44,7 +44,7 @@ export default function ClientLayout({ children }) {
                   ease: "power2.inOut",
                   onComplete: () => {
                     if (element) {
-                      element.style.pointerEvents = "none";
+                      element.style.display = "none";
                     }
                   },
                 });
@@ -54,7 +54,7 @@ export default function ClientLayout({ children }) {
             // Footer is not visible, show all navbar elements
             elements.forEach((element) => {
               if (element) {
-                element.style.pointerEvents = "auto";
+                element.style.display = "auto";
                 gsap.to(element, {
                   y: 0, // Slide back to original position
                   opacity: 1,

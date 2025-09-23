@@ -56,14 +56,14 @@ const page = () => {
       <ImageLayout imageLayoutData={imgLayoutData} />
       <Impact />
       <People />
-      <VideoImgSection
+      {/* <VideoImgSection
         videoSrc={"/images/about/osat-process.mp4"}
         heading={"State-of-the-Art Manufacturing & OSAT Facility"}
         text={
           "Our advanced manufacturing setup combines precision, automation, and sustainability—driving excellence in every chip we produce."
         }
         placeholder={"/images/about/osat_placeholder.webp"}
-      />
+      /> */}
     </main>
   );
 };
