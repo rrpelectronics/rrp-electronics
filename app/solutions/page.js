@@ -138,11 +138,11 @@ const Page = () => {
 
       {/* Sections */}
       <Osat id="osat"/>
-      <VideoImgSection 
+      {/* <VideoImgSection 
         videoSrc={"/images/solutions/osat-process.mp4"} 
         heading={"Inside the \n OSAT Process"} 
         text={"From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."}
-      />
+      /> */}
       <Packaging id="advanced-packaging"/>
       <Fab id="fab"/>
       <Technologies id="display"/>

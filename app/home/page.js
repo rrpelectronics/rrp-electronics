@@ -40,14 +40,14 @@ const Home = () => {
         }/>
       <Carousel />
       <Accordion />
-      <VideoImgSection
+      {/* <VideoImgSection
         videoSrc={"/images/home/osat-process.mp4"}
         heading={"Inside the \n OSAT Process"}
         text={
           "From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."
         }
         placeholder={"/images/home/osat_placeholder.webp"}
-      />
+      /> */}
       <Grid />
       <News />
     </main>
