@@ -137,7 +137,7 @@ export default function Certifications() {
 
       {isPopupOpen && (
         <div
-          className={`flex flex-col gap-y-10 md:gap-y-15 w-full min-h-screen overflow-y-auto fixed inset-0 z-50 items-start justify-center bg-opacity-75 backdrop-blur-md`}
+          className={`flex flex-col gap-y-10 md:gap-y-15 w-full min-h-screen overflow-y-auto fixed inset-0 z-60 items-start justify-center bg-opacity-75 backdrop-blur-md`}
           //if imgs are  more then one: --- py-10 md:py-15 justify-start
           onClick={closePopup}
         >
