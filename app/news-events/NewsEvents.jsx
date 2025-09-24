@@ -7,7 +7,7 @@ const news_data = [
     id: "1",
     newsEventImg: "/images/news-events/land-allotment.webp",
     title: "Maharashtra allots 100 acres to chip firm RRP Electronics",
-    date: "May 2025",
+    date: "September 2025",
     source: "The Hindu",
     link: "https://www.thehindu.com/business/maharashtra-allots-100-acres-to-chip-firm-rrp-electronics/article70043223.ece",
     imgBgClass: "object-left",
