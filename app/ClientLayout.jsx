@@ -58,7 +58,7 @@ export default function ClientLayout({ children }) {
                   duration: 0.3,
                   ease: "power2.inOut",
                   onStart: () => {
-                    element.style.display = "block"; // or "flex" depending on your navbar
+                    element.style.display = "flex"; // or "flex" depending on your navbar
                     element.style.pointerEvents = "auto";
                   },
                 });
