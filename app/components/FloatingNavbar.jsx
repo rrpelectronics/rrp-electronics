@@ -93,14 +93,16 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={companySubmenuRef}
         style={{
-          bottom: "calc(40px + 65.6px + 6.5px)",
+          bottom: isMobile
+            ? "calc(28px + 51.6px + 7px)"
+            : "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "company"
               ? "inset(0% 0% 0% 0%)"
               : "inset(100% 0% 0% 0%)",
           transition: "clip-path 0.3s ease-in-out",
         }}
-        className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
+        className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-y-2 sm:gap-y-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
         onMouseEnter={() => handleMouseEnter("company")}
         onMouseLeave={handleMouseLeave}
       >
@@ -143,14 +145,16 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={operationsSubmenuRef}
         style={{
-          bottom: "calc(40px + 65.6px + 6.5px)",
+          bottom: isMobile
+            ? "calc(28px + 51.6px + 7px)"
+            : "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "operations"
               ? "inset(0% 0% 0% 0%)"
               : "inset(100% 0% 0% 0%)",
           transition: "clip-path 0.3s ease-in-out",
         }}
-        className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
+        className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-y-2 sm:gap-y-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
         onMouseEnter={() => handleMouseEnter("operations")}
         onMouseLeave={handleMouseLeave}
       >
@@ -193,7 +197,9 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
       <ul
         ref={extrasSubmenuRef}
         style={{
-          bottom: "calc(40px + 65.6px + 6.5px)",
+          bottom: isMobile
+            ? "calc(28px + 51.6px + 7px)"
+            : "calc(40px + 65.6px + 6.5px)",
           clipPath:
             activeSubmenu === "extras"
               ? "inset(0% 0% 0% 0%)"
@@ -273,6 +279,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
 
             <li
               onMouseEnter={() => handleMouseEnter("company")}
+              // onClick={() => handleMouseEnter("company")}
               onMouseLeave={handleMouseLeave}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isCompanyActive
