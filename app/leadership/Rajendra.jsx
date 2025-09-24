@@ -35,7 +35,7 @@ const RajendraUpdate = () => {
             </p>
           </div>
           <Link
-            href={"https://www.linkedin.com/company/rrp-electronics"}
+            href={"https://www.linkedin.com/in/rajendra-chodankar-36667616"}
             target="_blank"
             className="text-textSecondary hover:text-primary transition-colors ease-in-out h-5 md:h-7 w-5 md:w-7 mt-[6px] md:mt-[12px]"
           >
