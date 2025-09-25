@@ -5,6 +5,15 @@ import GridEventCards from "@/app/components/GridEventCards";
 const news_data = [
   {
     id: "1",
+    newsEventImg: "/images/news-events/mou.webp",
+    title: "RRP Electronics signs 4 MoU to strengthen operations",
+    date: "September 2025",
+    source: "The Hindu",
+    link: "https://www.thehindu.com/business/rrp-electronics-signs-4-mou-to-strengthen-operations/article70020011.ece",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "2",
     newsEventImg: "/images/news-events/land-allotment.webp",
     title: "Maharashtra allots 100 acres to chip firm RRP Electronics",
     date: "September 2025",
@@ -13,7 +22,7 @@ const news_data = [
     imgBgClass: "object-left",
   },
   {
-    id: "2",
+    id: "3",
     newsEventImg: "/images/news-events/horngcom.webp",
     title:
       "HorngCom Technology Partners with RRP Electronics to Expand Semiconductor OSAT Capabilities in India",
@@ -23,7 +32,7 @@ const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "3",
+    id: "4",
     newsEventImg: "/images/news-events/deca-rrp.webp",
     title:
       "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
@@ -33,7 +42,7 @@ const news_data = [
     imgBgClass: "object-top",
   },
   {
-    id: "4",
+    id: "5",
     newsEventImg: "/images/news-events/macronix.webp",
     title:
       "RRP Electronics visited Macronix International, a global leader in Non-Volatile Memory (NVM) technology.",
@@ -42,7 +51,7 @@ const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "5",
+    id: "6",
     newsEventImg: "/images/news-events/palm.webp",
     title:
       "RRP Electronics signed an MoU with Palm Tech to develop advanced displays, including TFT LCDs, OLEDs, and touch panels.",
@@ -51,7 +60,7 @@ const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "6",
+    id: "7",
     newsEventImg: "/images/news-events/amb.webp",
     title:
       " RRP Electronics signed a groundbreaking MoU with AMB Taiwan to collaborate on memory module production.",
@@ -60,7 +69,7 @@ const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "7",
+    id: "8",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
     title: "RRP Electronics to set up first semiconductor plant in Maharashtra",
     date: "July 2024",
@@ -72,11 +81,11 @@ const news_data = [
 
 const NewsEvents = () => {
   return (
-    <section className="@container w-full h-fit grid grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10">
-      <h3 className="text-wrap text-display text-black tracking-display leading-[90%] col-span-12 @6xl:col-span-3 mb-10">
+    <section className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10">
+      <h3 className="text-wrap text-display text-black tracking-display leading-[90%] col-span-4 md:col-span-12 @6xl:col-span-3 mb-10">
         News & Events
       </h3>
-      <ul className="col-span-12 @6xl:col-span-9 grid grid-cols-4 w-full h-fit gap-y-7.5 md:gap-y-10 gap-4">
+      <ul className="col-span-4 md:col-span-12 @6xl:col-span-9 grid grid-cols-4 w-full h-fit gap-y-7.5 md:gap-y-10 gap-4">
         {news_data.map((news, id) => (
           <GridEventCards
             key={id}

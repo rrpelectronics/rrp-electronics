@@ -135,7 +135,7 @@ export default function ClientLayout({ children }) {
         ) && (
           <div
             ref={logoRef}
-            className="z-60 will-change-transform fixed top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10"
+            className="z-60 will-change-transform absolute top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10"
           >
             <Link
               href={"/"}
