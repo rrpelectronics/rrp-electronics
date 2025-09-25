@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link }) => {
   return (
-    <li className="col-span-4 md:col-span-2 flex gap-4">
-      <div className="col-span-4 md:col-span-2 flex gap-4">
-        <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
+    <li className="col-span-4 lg:col-span-2 gap-4">
+      <div className="grid grid-cols-4 col-span-4 md:col-span-2 items-stretch">
+        <div className="col-span-1 aspect-square w-full relative overflow-hidden rounded-md">
           <Image
             src={newsEventImg}
             alt={title}
@@ -16,7 +16,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
             className={`object-cover object-${imgBgClass}`}
           />
         </div>
-        <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1">
+        <div className="ml-4 col-span-3 flex flex-col gap-3.5 md:gap-4.5 flex-1">
           <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
             {date} {source && `| ${source}`}
           </p>
