@@ -23,6 +23,26 @@ const news_data = [
     link: "https://www.thehindu.com/business/maharashtra-allots-100-acres-to-chip-firm-rrp-electronics/article70043223.ece",
     imgBgClass: "object-left",
   },
+  {
+    id: "3",
+    newsEventImg: "/images/news-events/horngcom.webp",
+    title:
+      "HorngCom Technology Partners with RRP Electronics to Expand Semiconductor OSAT Capabilities in India",
+    date: "May 2025",
+    source: "The Hindu Business Line",
+    link: "https://www.thehindubusinessline.com/info-tech/horngcom-tech-rrp-electronics-sign-pact-target-12-m-revenue-in-fy26/article69597072.ece",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "4",
+    newsEventImg: "/images/news-events/deca-rrp.webp",
+    title:
+      "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
+    date: "February 2025",
+    source: "The Hindu",
+    link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
+    imgBgClass: "object-top",
+  },
 ];
 
 const News = () => {

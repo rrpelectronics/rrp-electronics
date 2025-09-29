@@ -66,7 +66,7 @@ export default function Fab({ id }) {
             data-animate-text
             className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%] md:w-[80%]"
           >
-            India’s Prototype Compound Semiconductor Fabrication Facility We’re
+            India’s Prototype Compound Semiconductor Fabrication Facility. We will be
             developing a state-of-the-art prototype compound semiconductor fab,
             focused on infrared (IR) detectors a foundational technology for
             aerospace, defense, medical imaging, and autonomous systems.
