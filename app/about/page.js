@@ -19,7 +19,7 @@ const imgLayoutData = [
     src: "/images/about/about2.webp",
     title: "What We Do",
     description:
-      "We provide advanced OSAT services and end-to-end semiconductor solutions—ranging from chip packaging to electronics manufacturing.Our smart infrastructure and strict quality systems ensure high-performance, reliable outcomes across industries.",
+      "We provide advanced OSAT services and end-to-end semiconductor solutions—ranging from chip packaging to electronics manufacturing. Our smart infrastructure and strict quality systems ensure high-performance, reliable outcomes across industries.",
   },
 ];
 

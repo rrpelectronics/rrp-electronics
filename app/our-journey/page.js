@@ -14,7 +14,7 @@ const page = () => {
     useEffect(() => {
       setFooterContent({
         heading: "Be Part of \n Our Ongoing Journey",
-        description: "RRP Electronics is evolving—let’s collaborate, invest, or grow together.",
+        description: "RRP Electronics is evolving—let’s collaborate, invest, and grow together.",
         buttonText: "Join our Journey",
         buttonLink: "/contact-us"
       });
@@ -33,7 +33,7 @@ const page = () => {
       />
       <Text
         text={
-          "Our journey reflects India’s ambition to be a global semiconductor hub. What started as a vision has evolved into a fully operational world-class OSAT facility, pioneering next-gen technology."
+          "Our journey reflects India’s ambition to be a global semiconductor hub. What started as a vision has evolved into a fully operational OSAT facility, pioneering next-gen technology."
         }
       />
       <Beginning/>
