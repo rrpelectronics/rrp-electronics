@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 import { JOB_DATA } from "../jobData";
+import CareersContact from "./CareersContact";
 
 const JobDetailsPage = ({ params }) => {
   const sectionRef = useRef(null);
@@ -119,6 +120,22 @@ const JobDetailsPage = ({ params }) => {
                   hr@rrpelectronics.com
                 </span>
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        className="w-full h-full px-3.5 md:px-5 lg:px-10"
+      >
+        <div className="w-full grid grid-cols-4">
+          <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
+            <div className="md:col-span-2 flex items-start">
+              <h3 className="text-heading2 text-black leading-[110%]">
+                Join Us Now
+              </h3>
+            </div>
+            <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[80%]">
+              <CareersContact/>
             </div>
           </div>
         </div>

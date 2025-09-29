@@ -22,7 +22,7 @@ const Packaging = ({ id }) => {
           className="text-bodyBase text-textPrimary font-neueMontreal leading-[120%] max-w-[590px]"
         >
           Through our collaboration with DECA Technologies a global leader in
-          advanced packaging. we bring fan-out wafer-level packaging (FOWLP) and
+          advanced packaging. we will bring fan-out wafer-level packaging (FOWLP) and
           high-density RDL interconnect innovations to the Indian market.
         </p>
       </div>
