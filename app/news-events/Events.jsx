@@ -6,7 +6,7 @@ const Events = ({ id }) => {
   return (
     <section
       id={id}
-      className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10"
+      className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 overflow-x-hidden"
     >
       <h3 className="text-wrap text-display text-black tracking-display leading-[90%] col-span-4 md:col-span-12 @6xl:col-span-3 mb-10">
         Events
@@ -16,7 +16,7 @@ const Events = ({ id }) => {
           <GridEventCards
             key={id}
             imgBgclass={events.imgBgClass}
-            newsEventImg={events.newsEventImg}
+            newsEventImg={events.newsEventBanner}
             date={events.date}
             source={events.source}
             title={events.title}
