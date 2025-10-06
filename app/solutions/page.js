@@ -98,18 +98,18 @@ const Page = () => {
     return () => ctx.revert();
   }, [headerHeight]);
 
-    useEffect(() => {
-      setFooterContent({
-        heading: "Ready to Build \n With Us?",
-        description: "From concept to production, RRP Electronics delivers high-impact semiconductor solutions.",
-        buttonText: "Connect with Us",
-        buttonLink: "/contact-us"
-      });
-  
-      return () => {
-        setFooterContent(null);
-      };
-    }, [setFooterContent]);
+  useEffect(() => {
+    setFooterContent({
+      heading: "Ready to Build \n With Us?",
+      description: "From concept to production, RRP Electronics delivers high-impact semiconductor solutions.",
+      buttonText: "Connect with Us",
+      buttonLink: "/contact-us"
+    });
+
+    return () => {
+      setFooterContent(null);
+    };
+  }, [setFooterContent]);
 
   return (
     <main ref={mainRef} className='min-h-screen w-full relative overflow-clip'>

@@ -121,8 +121,7 @@ export default function ClientLayout({ children }) {
   return (
     <ReactLenis root>
       <FooterProvider>
-        {(
-          pathname === "/" ||
+        {(pathname === "/" ||
           pathname === "/about" ||
           pathname === "/our-journey" ||
           pathname === "/leadership" ||
@@ -131,8 +130,7 @@ export default function ClientLayout({ children }) {
           pathname === "/compliances" ||
           pathname === "/logistics" ||
           pathname === "/traceability" ||
-          pathname === "/careers" 
-        ) && (
+          pathname === "/careers") && (
           <div
             ref={logoRef}
             className="z-60 will-change-transform absolute top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10"
@@ -154,12 +152,12 @@ export default function ClientLayout({ children }) {
             </Link>
           </div>
         )}
-        {(pathname === "/news-events" ||
+        {(pathname.startsWith("/news-events") ||
           pathname.startsWith("/careers/") ||
           pathname === "/contact-us" ||
           pathname === "/sitemap") && <Header ref={headerRef} />}
         <FloatingNavbar ref={navbarRef} />
-          {children}
+        {children}
         <Footer ref={footerRef} />
       </FooterProvider>
     </ReactLenis>

@@ -3,7 +3,12 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 import { JOB_DATA } from "../jobData";
-import CareersContact from "./CareersContact";
+import dynamic from "next/dynamic";
+
+const CareersContact = dynamic(
+  () => import("./CareersContact"),
+  { ssr: false }
+);
 
 const JobDetailsPage = ({ params }) => {
   const sectionRef = useRef(null);
@@ -40,6 +45,9 @@ const JobDetailsPage = ({ params }) => {
     return experienceText;
   };
 
+  // Clean job title (remove line breaks for form submission)
+  const cleanJobTitle = job.title.replace(/\n/g, "").trim();
+
   return (
     <main className="min-h-screen w-full relative">
       {/* Hero Section */}
@@ -67,7 +75,7 @@ const JobDetailsPage = ({ params }) => {
           </p>
           <Link
             data-animate-text
-            href={"mailto:hr@rrpelectronics.com"}
+            href={"#apply-now"}
             className="text-bodySmall text-white font-neueMontreal leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
           >
             Apply Now
@@ -87,7 +95,7 @@ const JobDetailsPage = ({ params }) => {
                 Description
               </h3>
             </div>
-            <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[80%]">
+            <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[90%]">
               <p className="text-textPrimary text-bodyBase leading-[120%] font-neueMontreal">
                 {job.description}
               </p>
@@ -124,22 +132,22 @@ const JobDetailsPage = ({ params }) => {
           </div>
         </div>
       </section>
-      <section
-        className="w-full h-full px-3.5 md:px-5 lg:px-10"
-      >
+      
+      {/* Contact Form Section */}
+      {/* <section id="apply-now" className="@container w-full h-full px-3.5 md:px-5 lg:px-10">
         <div className="w-full grid grid-cols-4">
           <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
             <div className="md:col-span-2 flex items-start">
-              <h3 className="text-heading2 text-black leading-[110%]">
+              <h3 className="text-heading2 text-black leading-[110%] mb-6">
                 Join Us Now
               </h3>
             </div>
-            <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[80%]">
-              <CareersContact/>
+            <div className="col-span-4 @4xl:col-span-2 flex flex-col gap-6">
+              <CareersContact jobTitle={cleanJobTitle} />
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };
