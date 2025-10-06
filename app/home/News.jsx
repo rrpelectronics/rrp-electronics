@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import GridEventCards from "@/app/components/GridEventCards";
 import Link from "next/link";
 import Image from "next/image";
+import events_data from "@/app/news-events/events_data";
 
 const news_data = [
   {
@@ -46,22 +47,44 @@ const news_data = [
 ];
 
 const News = () => {
-  const [activeTab, setActiveTab] = useState("news"); // 'press' or 'news'
+  const [activeTab, setActiveTab] = useState("news"); // 'events' or 'news'
 
   const getCurrentData = () => {
-    return activeTab === "press" ? press_data : news_data;
+    return activeTab === "events" ? events_data : news_data;
   };
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
       <div className="grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 mb-8 md:mb-10 items-end">
-        <h3 className="col-span-3 text-heading2 tracking-heading2 leading-[110%] max-w-[590px]">
+        <h3 className="col-span-3 text-heading2 tracking-heading2 leading-[110%] max-w-[590px] mb-7">
           What's New at <br /> RRP Electronics
         </h3>
-        <div className="col-span-1 flex items-center justify-center w-fit md:ml-auto mr-0 gap-4.5 lg:gap-6">
+        <div className="col-span-2 flex items-center justify-center w-fit gap-4 lg:gap-6">
+          <button
+            onClick={() => setActiveTab("news")}
+            className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+              activeTab === "news"
+                ? "text-white bg-primary border-primary"
+                : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
+            }`}
+          >
+            News
+          </button>
+          <button
+            onClick={() => setActiveTab("events")}
+            className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+              activeTab === "events"
+                ? "text-white bg-primary border-primary"
+                : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
+            }`}
+          >
+            Events
+          </button>
+        </div>
+        <div className="col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
           <Link
             href={"/news-events"}
-            className={`p-3 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
+            className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
           >
             View all
           </Link>
@@ -72,7 +95,11 @@ const News = () => {
           <div key={id} className="col-span-4 md:col-span-2 flex gap-4">
             <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
               <Image
-                src={item.newsEventImg}
+                src={
+                  activeTab === "events"
+                    ? item.newsEventBanner
+                    : item.newsEventImg
+                }
                 alt={item.title}
                 fill
                 sizes="100vw"
@@ -87,8 +114,7 @@ const News = () => {
                 {item.title}
               </p>
               <Link
-                href={item.link}
-                target="_blank"
+                href={activeTab === "events" ? `/news-events/${item.id}` : item.link}
                 className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
               >
                 Read More
