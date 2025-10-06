@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import GridEventCards from "@/app/components/GridEventCards";
 import Link from "next/link";
 import Image from "next/image";
+import events_data from "@/app/news-events/events_data";
 
 const news_data = [
   {
@@ -42,37 +43,6 @@ const news_data = [
     source: "The Hindu",
     link: "https://www.thehindu.com/business/rrp-electronics-signs-mou-with-deca-technologies-to-acquire-wafer-level-chip-packaging-capability/article69266687.ece",
     imgBgClass: "object-top",
-  },
-];
-
-const events_data = [
-  {
-    id: "1",
-    newsEventImg: "/images/news-events/mou.webp",
-    title: "RRP Electronics signs 4 MoU to strengthen operations",
-    date: "September 2025",
-    source: "The Hindu",
-    link: "https://www.thehindu.com/business/rrp-electronics-signs-4-mou-to-strengthen-operations/article70020011.ece",
-    imgBgClass: "object-center",
-  },
-  {
-    id: "2",
-    newsEventImg: "/images/news-events/land-allotment.webp",
-    title: "Maharashtra allots 100 acres to chip firm RRP Electronics",
-    date: "September 2025",
-    source: "The Hindu",
-    link: "https://www.thehindu.com/business/maharashtra-allots-100-acres-to-chip-firm-rrp-electronics/article70043223.ece",
-    imgBgClass: "object-left",
-  },
-  {
-    id: "3",
-    newsEventImg: "/images/news-events/horngcom.webp",
-    title:
-      "HorngCom Technology Partners with RRP Electronics to Expand Semiconductor OSAT Capabilities in India",
-    date: "May 2025",
-    source: "The Hindu Business Line",
-    link: "https://www.thehindubusinessline.com/info-tech/horngcom-tech-rrp-electronics-sign-pact-target-12-m-revenue-in-fy26/article69597072.ece",
-    imgBgClass: "object-center",
   },
 ];
 
@@ -125,7 +95,11 @@ const News = () => {
           <div key={id} className="col-span-4 md:col-span-2 flex gap-4">
             <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
               <Image
-                src={item.newsEventImg}
+                src={
+                  activeTab === "events"
+                    ? item.newsEventBanner
+                    : item.newsEventImg
+                }
                 alt={item.title}
                 fill
                 sizes="100vw"
@@ -140,8 +114,7 @@ const News = () => {
                 {item.title}
               </p>
               <Link
-                href={item.link}
-                target="_blank"
+                href={activeTab === "events" ? `/news-events/${item.id}` : item.link}
                 className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
               >
                 Read More
