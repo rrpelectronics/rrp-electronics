@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import GridEventCards from "@/app/components/GridEventCards";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import events_data from "@/app/news-events/events_data";
@@ -48,6 +49,7 @@ const news_data = [
 
 const News = () => {
   const [activeTab, setActiveTab] = useState("news"); // 'events' or 'news'
+  const pathname = usePathname();
 
   const getCurrentData = () => {
     return activeTab === "events" ? events_data : news_data;
@@ -113,12 +115,22 @@ const News = () => {
               <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis">
                 {item.title}
               </p>
-              <Link
-                href={activeTab === "events" ? `/news-events/${item.id}` : item.link}
-                className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
-              >
-                Read More
-              </Link>
+              {activeTab === "events" ? (
+                <Link
+                  href={`/news-events/${item.id}`}
+                  className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
+                >
+                  Read More
+                </Link>
+              ) : (
+                <Link
+                  href={item.link}
+                  target="_blank"
+                  className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
+                >
+                  Read More
+                </Link>
+              )}
             </div>
           </div>
         ))}
