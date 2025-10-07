@@ -85,7 +85,11 @@ const News = () => {
         </div>
         <div className="col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
           <Link
-            href={"/news-events"}
+            href={`${
+              activeTab === "events"
+                ? "/news-events/#events"
+                : "/news-events/#news"
+            }`}
             className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
           >
             View all
@@ -94,7 +98,20 @@ const News = () => {
       </div>
       <ul className="w-full h-fit grid justify-center items-stretch grid-cols-4 gap-y-7.5 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
         {getCurrentData().map((item, id) => (
-          <div key={id} className="col-span-4 md:col-span-2 flex gap-4">
+          <Link
+            href={`${
+              activeTab === "events"
+                ? `/news-events/${item.id}`
+                : `${item.link}`
+            }`}
+            target={`${
+              activeTab === "events"
+                ? ``
+                : `_blank`
+            }`}
+            key={id}
+            className="col-span-4 md:col-span-2 flex gap-4 cursor-pointer"
+          >
             <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
               <Image
                 src={
@@ -115,24 +132,13 @@ const News = () => {
               <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis">
                 {item.title}
               </p>
-              {activeTab === "events" ? (
-                <Link
-                  href={`/news-events/${item.id}`}
-                  className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
-                >
-                  Read More
-                </Link>
-              ) : (
-                <Link
-                  href={item.link}
-                  target="_blank"
-                  className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
-                >
-                  Read More
-                </Link>
-              )}
+              <p
+                className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
+              >
+                Read More
+              </p>
             </div>
-          </div>
+          </Link>
         ))}
       </ul>
     </section>

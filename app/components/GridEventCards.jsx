@@ -6,7 +6,7 @@ import Link from 'next/link';
 const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link, target }) => {
   return (
     <li className="col-span-4 lg:col-span-2">
-      <div className="flex gap-4 items-stretch">
+      <Link href={link} target={target} className="flex gap-4 items-stretch">
         <div className="aspect-square w-[150px] relative overflow-hidden rounded-md">
           <Image
             src={newsEventImg}
@@ -23,15 +23,13 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link, t
           <p className="text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis md:w-[90%]">
             {title}
           </p>
-          <Link
-            href={link}
-            target={target}
+          <p
             className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
           >
             Read More
-          </Link>
+          </p>
         </div>
-      </div>
+      </Link>
     </li>
   );
 }
