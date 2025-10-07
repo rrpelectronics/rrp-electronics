@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link }) => {
+const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link, target }) => {
   return (
     <li className="col-span-4 lg:col-span-2">
       <div className="flex gap-4 items-stretch">
@@ -25,7 +25,7 @@ const GridEventCards = ({ newsEventImg, imgBgClass, title, date, source, link })
           </p>
           <Link
             href={link}
-            target="_blank"
+            target={target}
             className="w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary"
           >
             Read More
