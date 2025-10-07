@@ -19,6 +19,7 @@ const News = ({ id }) => {
             source={news.source}
             title={news.title}
             link={news.link}
+            target={"_blank"}
           />
         ))}
       </ul>
