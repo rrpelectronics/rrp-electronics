@@ -66,14 +66,14 @@ const events_data = [
       conclusion: "ET Expo 2025 was a dynamic and enriching experience and we are proud to have represented RRP Electronics at a platform that is shaping the future of electronics and automotive innovation."
     },
     galleryImages: [
-      "/images/news-events/et-expo/et-expo-1.jpeg",
-      "/images/news-events/et-expo/et-expo-2.JPG",
-      "/images/news-events/et-expo/et-expo-3.jpeg",
-      "/images/news-events/et-expo/et-expo-4.jpeg",
-      "/images/news-events/et-expo/et-expo-5.jpeg",
-      "/images/news-events/et-expo/et-expo-6.jpeg",
-      "/images/news-events/et-expo/et-expo-7.jpeg",
-      "/images/news-events/et-expo/et-expo-8.jpeg"
+      "/images/news-events/et-expo/et-expo-1.webp",
+      "/images/news-events/et-expo/et-expo-2.webp",
+      "/images/news-events/et-expo/et-expo-3.webp",
+      "/images/news-events/et-expo/et-expo-4.webp",
+      "/images/news-events/et-expo/et-expo-5.webp",
+      "/images/news-events/et-expo/et-expo-6.webp",
+      "/images/news-events/et-expo/et-expo-7.webp",
+      "/images/news-events/et-expo/et-expo-8.webp"
     ]
   },
 ]
