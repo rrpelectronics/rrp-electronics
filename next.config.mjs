@@ -1,12 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'eloquent-art-0e51a537b4.media.strapiapp.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   async redirects() {
     return [
-      {
-        source: "/admin/:path*",
-        destination: "https://rrp-electronics-cms.vercel.app/:path*", // backend URL
-        permanent: false,
-      },
+      // your redirects here
     ];
   },
 };
