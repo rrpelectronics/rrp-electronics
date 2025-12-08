@@ -13,7 +13,7 @@ const RajendraUpdate = () => {
     >
       <div className="col-span-4 sm:col-span-6 lg:col-span-5 xl:col-span-4 w-full aspect-[400/475] relative overflow-hidden">
         <img
-          src={"/images/leadership/rajendra-sir-chair.webp"}
+          src={"/images/leadership/rajendra-sir.webp"}
           alt="Mr. Rajendra Chodankar"
           className="object-cover object-center h-full"
         />
