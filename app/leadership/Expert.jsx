@@ -14,9 +14,6 @@ const Expert = () => {
     >
       <SectionHeader
         heading={"Meet Our Experts"}
-        text={
-          "Our leadership consists of visionary engineers, business strategists, and industry pioneers, committed to driving RRP Electronics’ global expansion."
-        }
       />
       <div className="grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-7 px-3.5 md:px-5 lg:px-10">
         <div className="flex flex-col gap-y-4.5 col-span-4 lg:col-span-3">
