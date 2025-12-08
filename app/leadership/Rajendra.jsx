@@ -9,17 +9,17 @@ const RajendraUpdate = () => {
   return (
     <section
       ref={containerRef}
-      className="bg-white h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
+      className="bg-white h-fit w-full grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 items-stretch"
     >
-      <div className="bg-whiteBg col-span-4 sm:col-span-2 h-[40vh] md:h-[50vh] lg:h-[70vh] relative overflow-hidden">
+      <div className="col-span-4 sm:col-span-6 lg:col-span-5 xl:col-span-4 w-full aspect-[400/475] relative overflow-hidden">
         <img
-          src={"/images/leadership/rajendra-sir.webp"}
+          src={"/images/leadership/rajendra-sir-chair.webp"}
           alt="Mr. Rajendra Chodankar"
-          className="h-full w-auto mx-auto"
+          className="object-cover object-center h-full"
         />
       </div>
-      <div className="col-span-4 sm:col-span-2 flex flex-col justify-between lg:gap-y-8">
-        <div className="flex items-start justify-between">
+      <div className="col-span-4 sm:col-span-12 lg:col-span-7 lg:col-start-6 xl:col-span-7 xl:ml-[9%] flex flex-col justify-between lg:gap-y-8">
+        <div className="flex items-start justify-between mb-8 sm:mb-12 lg:mb-0">
           <div className="flex flex-col gap-y-2 md:gap-y-4">
             <h3
               data-animate-text
@@ -54,7 +54,7 @@ const RajendraUpdate = () => {
             </svg>
           </Link>
         </div>
-        <div className="text-textPrimary leading-[120%] text-bodyBase lg:text-bodyLarge font-neueMontreal mt-8 sm:mt-0 flex flex-col gap-y-4">
+        <div className="text-textPrimary leading-[120%] w-[96%] text-bodyBase lg:text-bodyLarge font-neueMontreal mt-8 sm:mt-0 flex flex-col gap-y-4">
           <p data-animate-text>
             Under the leadership of Mr. Rajendra Chodankar, RRP Electronics Ltd.
             has emerged as one of the fastest-growing players in the

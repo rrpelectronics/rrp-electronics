@@ -4,6 +4,7 @@ import { useFooter } from '@/app/context/FooterContext';
 import BannerStack from "@/app/components/BannerStack";
 import Text from "@/app/components/Text";
 import Rajendra from "./Rajendra";
+import Expert from './Expert';
 
 const page = () => {
   const { setFooterContent } = useFooter();
@@ -35,6 +36,7 @@ const page = () => {
         }
       />
       <Rajendra/>
+      <Expert/>
     </main>
   );
 };
