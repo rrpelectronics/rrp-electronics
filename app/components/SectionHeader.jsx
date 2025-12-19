@@ -12,7 +12,7 @@ const SectionHeader = ({ heading, text }) => {
     >
       <h3
         data-animate-text
-        className="col-span-4 md:col-span-3 text-heading2 tracking-heading2 leading-[110%] max-w-[590px] mb-5 md:mb-0"
+        className="col-span-4 md:col-span-3 text-heading2 tracking-heading2 leading-[110%] max-w-[590px] mb-5 lg:mb-0"
       >
         {heading.split("\n").map((line, i) => (
           <React.Fragment key={i}>
@@ -23,7 +23,7 @@ const SectionHeader = ({ heading, text }) => {
       </h3>
       <p
         data-animate-text
-        className="col-span-4 md:col-span-1 text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
+        className="col-span-4 md:col-start-1 md:col-span-3 lg:col-span-1 text-bodyBase text-textPrimary font-neueMontreal leading-[120%]"
       >
         {text}
       </p>

@@ -226,7 +226,9 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             href="/careers"
             onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/careers" ? "text-primary" : "text-white"
+              pathname.startsWith("/careers")
+                ? "text-primary"
+                : "text-white"
             }`}
           >
             Careers
@@ -234,13 +236,28 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <Link
-            href="/news-events"
+            href="/news"
             onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/news-events" ? "text-primary" : "text-white"
+              pathname.startsWith("/news")
+                ? "text-primary"
+                : "text-white"
             }`}
           >
-            News & Events
+            News
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/events"
+            onClick={handleSubmenuLinkClick}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+              pathname.startsWith("/events")
+                ? "text-primary"
+                : "text-white"
+            }`}
+          >
+            Events
           </Link>
         </li>
         <li>
