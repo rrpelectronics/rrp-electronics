@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 // Inline formatter (**bold**, _italic_, [link](url))
 // ------------------------------
 const formatInline = (text) => {
-  if (!text) return [{ type: "text", content: "" }];
+  if (!text) return [{ type: "text", content: "", key: "empty" }];
 
   // Regex to match links in format [text](url) or [url](link)
   const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -15,6 +15,7 @@ const formatInline = (text) => {
   const elements = [];
   let lastIndex = 0;
   let match;
+  let keyCounter = 0;
 
   // Process links first
   while ((match = linkRegex.exec(text)) !== null) {
@@ -26,12 +27,24 @@ const formatInline = (text) => {
       boldItalicParts.forEach((part, idx) => {
         if (part.match(boldItalicRegex)) {
           if (part.startsWith("**")) {
-            elements.push({ type: "bold", content: part.slice(2, -2) });
+            elements.push({
+              type: "bold",
+              content: part.slice(2, -2),
+              key: `bold-${keyCounter++}`,
+            });
           } else if (part.startsWith("_")) {
-            elements.push({ type: "italic", content: part.slice(1, -1) });
+            elements.push({
+              type: "italic",
+              content: part.slice(1, -1),
+              key: `italic-${keyCounter++}`,
+            });
           }
         } else if (part) {
-          elements.push({ type: "text", content: part });
+          elements.push({
+            type: "text",
+            content: part,
+            key: `text-${keyCounter++}`,
+          });
         }
       });
     }
@@ -41,6 +54,7 @@ const formatInline = (text) => {
       type: "link",
       content: match[1], // Link text
       url: match[2], // Link URL
+      key: `link-${keyCounter++}`,
     });
 
     lastIndex = match.index + match[0].length;
@@ -54,12 +68,24 @@ const formatInline = (text) => {
     boldItalicParts.forEach((part, idx) => {
       if (part.match(boldItalicRegex)) {
         if (part.startsWith("**")) {
-          elements.push({ type: "bold", content: part.slice(2, -2) });
+          elements.push({
+            type: "bold",
+            content: part.slice(2, -2),
+            key: `bold-${keyCounter++}`,
+          });
         } else if (part.startsWith("_")) {
-          elements.push({ type: "italic", content: part.slice(1, -1) });
+          elements.push({
+            type: "italic",
+            content: part.slice(1, -1),
+            key: `italic-${keyCounter++}`,
+          });
         }
       } else if (part) {
-        elements.push({ type: "text", content: part });
+        elements.push({
+          type: "text",
+          content: part,
+          key: `text-${keyCounter++}`,
+        });
       }
     });
   }
@@ -75,15 +101,15 @@ const InlineText = ({ text }) => {
 
   return (
     <>
-      {parts.map((part, idx) => {
+      {parts.map((part) => {
         if (part.type === "bold")
-          return <strong key={`bold-${idx}`}>{part.content}</strong>;
+          return <strong key={part.key}>{part.content}</strong>;
         if (part.type === "italic")
-          return <em key={`italic-${idx}`}>{part.content}</em>;
+          return <em key={part.key}>{part.content}</em>;
         if (part.type === "link")
           return (
             <a
-              key={`link-${idx}`}
+              key={part.key}
               href={part.url}
               target="_blank"
               rel="noopener noreferrer"
@@ -92,7 +118,7 @@ const InlineText = ({ text }) => {
               {part.content}
             </a>
           );
-        return <span key={`span-${idx}`}>{part.content}</span>;
+        return <span key={part.key}>{part.content}</span>;
       })}
     </>
   );
