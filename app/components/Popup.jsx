@@ -38,7 +38,7 @@ export default function Popup({ onClose }) {
       }`}
     >
       <div
-        className={`flex flex-col items-center justify-center gap-[6px] transition-opacity duration-1000 ease-in-out h-svh ${
+        className={`flex flex-col items-center justify-center gap-[6px] transition-opacity duration-1000 ease-in-out h-screen ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -50,7 +50,7 @@ export default function Popup({ onClose }) {
           Close
         </button>
         <div
-          className="w-[90%] bg-darkBg sm:w-[50vw] lg:w-[30vw] aspect-[348/440] mx-auto overflow-hidden"
+          className="w-[90%] sm:w-[50vw] lg:w-[30vw] aspect-[348/440] mx-auto overflow-hidden"
         >
           <img
             src="/images/home/popup.webp"
