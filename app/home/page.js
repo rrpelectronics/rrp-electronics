@@ -8,6 +8,7 @@ import Carousel from "./Carousel";
 import Accordion from "./Accordion";
 import Grid from "./Grid";
 import News from "./News";
+import Events from "./Events";
 
 const Home = () => {
   const { setFooterContent } = useFooter();
@@ -50,6 +51,7 @@ const Home = () => {
       /> */}
       <Grid />
       <News />
+      <Events/>
     </main>
   );
 };

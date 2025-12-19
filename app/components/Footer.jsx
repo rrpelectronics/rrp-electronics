@@ -30,7 +30,8 @@ const linkSections = [
   {
     title: "Explore",
     links: [
-      { href: "/news-events", label: "News & Events" },
+      { href: "/news", label: "News" },
+      { href: "/events", label: "Events" },
       { href: "/careers", label: "Careers" },
       { href: "/contact-us", label: "Contact Us" },
     ],

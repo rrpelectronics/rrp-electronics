@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ReactLenis } from "lenis/react";
 import FloatingNavbar from "@/app/components/FloatingNavbar";
 import Header from "@/app/components/Header";
@@ -8,6 +8,7 @@ import { FooterProvider } from "@/app/context/FooterContext";
 import { gsap } from "gsap";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Popup from "@/app/components/Popup";
 
 export default function ClientLayout({ children }) {
   const headerRef = useRef(null);
@@ -15,6 +16,8 @@ export default function ClientLayout({ children }) {
   const footerRef = useRef(null);
   const logoRef = useRef(null);
   const pathname = usePathname();
+  const [showPopup, setShowPopup] = useState(false);
+  const popupShownRef = useRef(false);
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -27,14 +30,26 @@ export default function ClientLayout({ children }) {
   }, []);
 
   useEffect(() => {
+    if (!popupShownRef.current) {
+      const popupTimer = setTimeout(() => {
+        setShowPopup(true);
+        popupShownRef.current = true;
+      }, 0);
+      return () => clearTimeout(popupTimer);
+    }
+  }, []);
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+
+  useEffect(() => {
     if (navbarRef.current && footerRef.current) {
       const observer = new IntersectionObserver(
         ([entry]) => {
-          // Get all elements from the navbar ref
           const elements = navbarRef.current.elements || [];
 
           if (entry.isIntersecting) {
-            // Footer is visible → hide navbar elements
             elements.forEach((element) => {
               if (element) {
                 gsap.to(element, {
@@ -43,13 +58,12 @@ export default function ClientLayout({ children }) {
                   duration: 0.3,
                   ease: "power2.inOut",
                   onStart: () => {
-                    element.style.pointerEvents = "none"; // prevent clicks while hidden
+                    element.style.pointerEvents = "none";
                   },
                 });
               }
             });
           } else {
-            // Footer is NOT visible → show navbar elements again
             elements.forEach((element) => {
               if (element) {
                 gsap.to(element, {
@@ -58,7 +72,7 @@ export default function ClientLayout({ children }) {
                   duration: 0.3,
                   ease: "power2.inOut",
                   onStart: () => {
-                    element.style.display = "flex"; // or "flex" depending on your navbar
+                    element.style.display = "flex";
                     element.style.pointerEvents = "auto";
                   },
                 });
@@ -67,8 +81,8 @@ export default function ClientLayout({ children }) {
           }
         },
         {
-          threshold: 0.1, // Trigger when 10% of the footer is visible
-          rootMargin: "0px 0px -50px 0px", // Add some margin for better timing
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
         }
       );
 
@@ -117,10 +131,12 @@ export default function ClientLayout({ children }) {
     return () => ctx.revert();
   }, [pathname]);
 
-
   return (
     <ReactLenis root>
       <FooterProvider>
+        {/* Popup component - shown with time interval only on first visit */}
+        {showPopup && <Popup onClose={handlePopupClose} />}
+
         {(pathname === "/" ||
           pathname === "/about" ||
           pathname === "/our-journey" ||
@@ -152,9 +168,10 @@ export default function ClientLayout({ children }) {
             </Link>
           </div>
         )}
-        {(pathname.startsWith("/news-events") ||
+        {(pathname.startsWith("/news") ||
           pathname.startsWith("/careers/") ||
           pathname === "/contact-us" ||
+          pathname.startsWith("/events") ||
           pathname === "/sitemap") && <Header ref={headerRef} />}
         <FloatingNavbar ref={navbarRef} />
         {children}
