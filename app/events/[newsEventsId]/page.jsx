@@ -88,10 +88,9 @@ const EventDetailPage = ({ params }) => {
     );
   }
 
-  const bannerImage = isMobile ? event.Thumbnail?.url || event.Thumbnail?.url :
-    event.Banner?.url || event.Banner?.url;
+  const bannerImage = isMobile ? event.Thumbnail?.url : event.Banner?.url;
   const galleryImages =
-    event.Gallery?.map((img) => img.url || img.url) || [];
+    event.Gallery?.map((img) => img?.url).filter(Boolean) || [];
   const date = new Date(event.Date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -119,7 +118,7 @@ const EventDetailPage = ({ params }) => {
           alt={event.Title}
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
       );
     }
@@ -136,7 +135,7 @@ const EventDetailPage = ({ params }) => {
 
       {bannerImage && (
         <div
-          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/514] w-full mb-6 md:mb-8 ${
+          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/600] w-full mb-6 md:mb-8 ${
             isUpcomingEvent ? "bg-whiteBg" : ""
           }`}
         >
@@ -187,13 +186,11 @@ const EventDetailPage = ({ params }) => {
             className="relative max-w-4xl max-h-[90vh] w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full h-[80vh]">
-              <Image
+            <div className="relative w-full h-[80vh] flex justify-center items-center">
+              <img
                 src={selectedImage.url}
                 alt={`Gallery image ${selectedImage.index + 1}`}
-                fill
-                className="object-contain"
-                sizes="100vw"
+                className="object-contain h-full w-auto"
               />
             </div>
           </div>
