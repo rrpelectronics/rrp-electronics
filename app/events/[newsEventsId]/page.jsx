@@ -88,10 +88,10 @@ const EventDetailPage = ({ params }) => {
     );
   }
 
-  const bannerImage = isMobile ? event.Thumbnail?.formats?.large?.url || event.Thumbnail?.url :
-    event.Banner?.formats?.large?.url || event.Banner?.url;
+  const bannerImage = isMobile ? event.Thumbnail?.url || event.Thumbnail?.url :
+    event.Banner?.url || event.Banner?.url;
   const galleryImages =
-    event.Gallery?.map((img) => img.formats?.large?.url || img.url) || [];
+    event.Gallery?.map((img) => img.url || img.url) || [];
   const date = new Date(event.Date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
