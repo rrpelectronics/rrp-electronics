@@ -1,6 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { findEventBySlug } from "@/app/utils/slugUtils";
+import { fetchEventById } from "@/app/utils/eventFetch";
 import Image from "next/image";
+import RichTextParser from "@/app/components/RichTextParser";
+
+// Helper function to determine if an event is in the future or past
+const isFutureEvent = (eventDate) => {
+  const currentDate = new Date();
+  const eventDateObj = new Date(eventDate);
+  return eventDateObj > currentDate;
+};
 
 const EventDetailPage = ({ params }) => {
   const [event, setEvent] = useState(null);
@@ -9,16 +19,22 @@ const EventDetailPage = ({ params }) => {
   const [error, setError] = useState(null);
 
   const resolvedParams = React.use(params);
-  const eventId = resolvedParams.newsEventsId;
+  const eventSlug = resolvedParams.newsEventsId;
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
+        // First try to find by slug
         const res = await fetch(
-          `https://eloquent-art-0e51a537b4.strapiapp.com/api/event?populate=*`
+          "https://eloquent-art-0e51a537b4.strapiapp.com/api/events?populate=*"
         );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch events");
+        }
+
         const data = await res.json();
-        const foundEvent = data.data.find((e) => e.id.toString() === eventId);
+        const foundEvent = findEventBySlug(data.data, eventSlug);
 
         if (!foundEvent) {
           setError("Event not found");
@@ -33,61 +49,10 @@ const EventDetailPage = ({ params }) => {
       }
     };
 
-    fetchEvent();
-  }, [eventId]);
-
-  // Function to render text with **markdown** style bold spans
-  const renderTextWithSpans = (text) => {
-    if (!text) return text;
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, index) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        const boldText = part.slice(2, -2);
-        return (
-          <span key={index} className="text-black font-semibold">
-            {boldText}
-          </span>
-        );
-      }
-      return part;
-    });
-  };
-
-  // Parse description into sections
-  const parseDescription = (description) => {
-    if (!description) return [];
-    const sections = description.split("\n\n").filter((para) => para.trim());
-
-    return sections.map((section) => {
-      // Check if section contains list items (lines starting with -)
-      const lines = section.split("\n");
-      const hasListItems = lines.some((line) => line.trim().startsWith("-"));
-
-      if (hasListItems) {
-        const listItems = [];
-        let currentText = "";
-
-        lines.forEach((line) => {
-          if (line.trim().startsWith("-")) {
-            listItems.push(line.trim().substring(1).trim());
-          } else if (line.trim()) {
-            currentText += line + " ";
-          }
-        });
-
-        return {
-          type: "list",
-          intro: currentText.trim(),
-          items: listItems,
-        };
-      }
-
-      return {
-        type: "paragraph",
-        content: section,
-      };
-    });
-  };
+    if (eventSlug) {
+      fetchEvent();
+    }
+  }, [eventSlug]);
 
   if (loading) {
     return (
@@ -113,7 +78,7 @@ const EventDetailPage = ({ params }) => {
           <h1 className="text-4xl font-bold mb-4">
             {error || "Event not found"}
           </h1>
-          <a href="/news-events" className="text-primary underline">
+          <a href="/events" className="text-primary underline">
             Back to Events
           </a>
         </div>
@@ -122,14 +87,41 @@ const EventDetailPage = ({ params }) => {
   }
 
   const bannerImage =
-    event.Thumbnail?.formats?.large?.url || event.Thumbnail?.url;
+    event.Banner?.formats?.large?.url || event.Banner?.url;
   const galleryImages =
     event.Gallery?.map((img) => img.formats?.large?.url || img.url) || [];
   const date = new Date(event.Date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
   });
-  const sections = parseDescription(event.Description);
+
+  // Determine if this is an upcoming event based on date
+  const isUpcomingEvent = isFutureEvent(event.Date);
+
+  // Render banner image based on event type
+  const renderBannerImage = () => {
+    if (isUpcomingEvent) {
+      // For upcoming events, use regular img tag with specified classes
+      return (
+        <img
+          src={bannerImage}
+          alt={event.Title}
+          className="mx-auto h-full w-auto"
+        />
+      );
+    } else {
+      // For past events, use Next.js Image component
+      return (
+        <Image
+          src={bannerImage}
+          alt={event.Title}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      );
+    }
+  };
 
   return (
     <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
@@ -141,45 +133,18 @@ const EventDetailPage = ({ params }) => {
       </div>
 
       {bannerImage && (
-        <div className="col-span-4 relative overflow-hidden h-[30vh] sm:h-[70vh] lg:h-[80vh] w-full mb-6 md:mb-8">
-          <Image
-            src={bannerImage}
-            alt={event.Title}
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
+        <div
+          className={`col-span-4 relative overflow-hidden aspect-[1440/514] w-full mb-6 md:mb-8 ${
+            isUpcomingEvent ? "bg-whiteBg" : ""
+          }`}
+        >
+          {renderBannerImage()}
         </div>
       )}
 
       <div className="col-span-4 lg:col-start-2 lg:col-span-2 flex flex-col gap-y-6 text-[#646464]">
-        {sections.map((section, index) => {
-          if (section.type === "list") {
-            return (
-              <div key={index} className="flex flex-col gap-y-4">
-                {section.intro && (
-                  <p className="text-bodyLarge leading-[130%]">
-                    {renderTextWithSpans(section.intro)}
-                  </p>
-                )}
-                <ul className="list-disc list-inside ml-4 md:ml-5 lg:ml-10 flex flex-col gap-y-3.5 md:gap-y-5 text-bodyLarge font-neueMontreal leading-[130%]">
-                  {section.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>{renderTextWithSpans(item)}</li>
-                  ))}
-                </ul>
-              </div>
-            );
-          }
-
-          return (
-            <p
-              key={index}
-              className="text-bodyLarge font-neueMontreal leading-[130%]"
-            >
-              {renderTextWithSpans(section.content)}
-            </p>
-          );
-        })}
+        {/* Using RichTextParser for event description */}
+        <RichTextParser text={event.Description} />
       </div>
 
       {galleryImages.length > 0 && (
