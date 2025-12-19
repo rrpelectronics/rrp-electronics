@@ -53,10 +53,10 @@ const Events = ({ id }) => {
     if (!showTabs) return null;
 
     return (
-      <div className="col-span-4 md:col-span-12 flex items-center justify-center w-fit gap-4 lg:gap-6 mb-10">
+      <div className="col-span-4 md:col-span-12 flex items-center justify-start flex-wrap w-fit gap-2.5 sm:gap-4 lg:gap-6 mb-7 md:mb-10">
         <button
           onClick={() => setActiveTab("all")}
-          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
             activeTab === "all"
               ? "text-white bg-primary border-primary"
               : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
@@ -66,7 +66,7 @@ const Events = ({ id }) => {
         </button>
         <button
           onClick={() => setActiveTab("past")}
-          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
             activeTab === "past"
               ? "text-white bg-primary border-primary"
               : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
@@ -76,7 +76,7 @@ const Events = ({ id }) => {
         </button>
         <button
           onClick={() => setActiveTab("upcoming")}
-          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+          className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
             activeTab === "upcoming"
               ? "text-white bg-primary border-primary"
               : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
@@ -161,7 +161,7 @@ const Events = ({ id }) => {
       id={id}
       className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 overflow-x-hidden"
     >
-      <h3 className="text-wrap text-heading1 text-black tracking-heading1 leading-[90%] col-span-4 md:col-span-12 mb-10">
+      <h3 className="text-wrap text-heading1 text-black tracking-heading1 leading-[90%] col-span-4 md:col-span-12 mb-7 md:mb-10">
         Events
       </h3>
       {content}
