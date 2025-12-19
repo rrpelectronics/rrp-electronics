@@ -1,10 +1,9 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
 
 export default function Popup({ onClose }) {
   const [isVisible, setIsVisible] = useState(false);
-  const imageWrapperRef = useRef(null);
 
   UseBodyScrollLock(isVisible);
 
@@ -14,19 +13,10 @@ export default function Popup({ onClose }) {
   }, []);
 
   useEffect(() => {
-    if (isVisible && imageWrapperRef.current) {
-      const { width, height } = imageWrapperRef.current.getBoundingClientRect();
-
-      console.log("Image parent width:", width);
-      console.log("Image parent height:", height);
-    }
-  }, [isVisible]);
-
-  useEffect(() => {
     if (isVisible) {
       const closeTimer = setTimeout(() => {
         handleClose();
-      }, 80000);
+      }, 8000);
 
       return () => clearTimeout(closeTimer);
     }
@@ -60,7 +50,6 @@ export default function Popup({ onClose }) {
           Close
         </button>
         <div
-          ref={imageWrapperRef}
           className="w-[90%] bg-darkBg sm:w-[50vw] lg:w-[30vw] aspect-[348/440] mx-auto overflow-hidden"
         >
           <img
