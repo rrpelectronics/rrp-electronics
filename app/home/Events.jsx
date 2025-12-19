@@ -110,11 +110,11 @@ const Events = () => {
         </h3>
         {/* Tabs Area */}
         {hasUpcoming && (
-          <div className="col-start-1 col-span-2 flex items-center justify-center w-fit gap-4 lg:gap-6">
+          <div className="md:col-start-1 col-span-3 md:col-span-2 flex items-center justify-center w-fit gap-2.5 sm:gap-4 lg:gap-6">
             {/* PAST TAB */}
             <button
               onClick={() => setActiveTab("upcoming")}
-              className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+              className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
                 activeTab === "upcoming"
                   ? "text-white bg-primary border-primary"
                   : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
@@ -124,7 +124,7 @@ const Events = () => {
             </button>
             <button
               onClick={() => setActiveTab("past")}
-              className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
+              className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
                 activeTab === "past"
                   ? "text-white bg-primary border-primary"
                   : "text-textPrimary border-textPrimary hover:text-primary hover:border-primary"
@@ -135,10 +135,10 @@ const Events = () => {
           </div>
         )}
         {/* VIEW ALL BUTTON */}
-        <div className="col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
+        <div className="col-span-1 md:col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
           <Link
             href={"/events"}
-            className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
+            className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
           >
             View all
           </Link>

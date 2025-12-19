@@ -4,6 +4,7 @@ import { findEventBySlug } from "@/app/utils/slugUtils";
 import { fetchEventById } from "@/app/utils/eventFetch";
 import Image from "next/image";
 import RichTextParser from "@/app/components/RichTextParser";
+import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
 // Helper function to determine if an event is in the future or past
 const isFutureEvent = (eventDate) => {
@@ -17,6 +18,7 @@ const EventDetailPage = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
+  const isMobile = UseScreenSizeSmall()
 
   const resolvedParams = React.use(params);
   const eventSlug = resolvedParams.newsEventsId;
@@ -86,7 +88,7 @@ const EventDetailPage = ({ params }) => {
     );
   }
 
-  const bannerImage =
+  const bannerImage = isMobile ? event.Thumbnail?.formats?.large?.url || event.Thumbnail?.url :
     event.Banner?.formats?.large?.url || event.Banner?.url;
   const galleryImages =
     event.Gallery?.map((img) => img.formats?.large?.url || img.url) || [];
@@ -134,7 +136,7 @@ const EventDetailPage = ({ params }) => {
 
       {bannerImage && (
         <div
-          className={`col-span-4 relative overflow-hidden aspect-[1440/514] w-full mb-6 md:mb-8 ${
+          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/514] w-full mb-6 md:mb-8 ${
             isUpcomingEvent ? "bg-whiteBg" : ""
           }`}
         >
