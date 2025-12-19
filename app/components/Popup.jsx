@@ -5,10 +5,13 @@ export default function Popup({ onClose }) {
   const [isVisible, setIsVisible] = useState(false);
   const scrollPositionRef = useRef(0);
 
+  // iOS-specific body scroll lock
   useEffect(() => {
+    // Store current scroll position
     scrollPositionRef.current =
       window.pageYOffset || document.documentElement.scrollTop;
 
+    // Lock body scroll - iOS specific approach
     const body = document.body;
     const scrollBarWidth =
       window.innerWidth - document.documentElement.clientWidth;
@@ -64,10 +67,10 @@ export default function Popup({ onClose }) {
   return (
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center transition-opacity duration-300 ease-in-out ${
-        isVisible ? "opacity-100" : "opacity-0"
+        isVisible ? "opacity-100 backdrop-blur-2xl" : "opacity-0"
       }`}
       style={{
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backgroundColor: "rgba(0, 0, 0, 0.75)",
         WebkitOverflowScrolling: "touch",
         height: "100vh",
         height: "100dvh", // Dynamic viewport height for iOS
@@ -81,15 +84,16 @@ export default function Popup({ onClose }) {
       >
         <button
           onClick={handleClose}
-          className="w-[90%] sm:w-[98%] mx-auto text-[#ff6b35] font-medium text-right cursor-pointer text-sm md:text-base active:opacity-70 transition-opacity"
+          className="w-full max-w-[98%] text-[#ff6b35] font-medium text-right cursor-pointer text-sm md:text-base mb-2 active:opacity-70 transition-opacity"
           aria-label="Close"
           style={{ WebkitTapHighlightColor: "transparent" }}
         >
           Close
         </button>
         <div
-          className="w-[90%] sm:w-[50vw] lg:w-[30vw] aspect-[348/440] mx-auto overflow-hidden"
+          className="w-full max-w-[448px] mx-auto overflow-hidden"
           style={{
+            aspectRatio: "448/566",
             WebkitUserSelect: "none",
             userSelect: "none",
           }}
@@ -97,7 +101,7 @@ export default function Popup({ onClose }) {
           <img
             src="/images/home/popup.webp"
             alt="Card Image"
-            className="h-full w-auto object-contain"
+            className="w-full h-full object-contain"
             draggable="false"
             style={{
               WebkitUserDrag: "none",
