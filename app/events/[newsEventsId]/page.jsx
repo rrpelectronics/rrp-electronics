@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { findEventBySlug } from "@/app/utils/slugUtils";
 import { fetchEventById } from "@/app/utils/eventFetch";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import RichTextParser from "@/app/components/RichTextParser";
 import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
@@ -43,6 +44,7 @@ const EventDetailPage = ({ params }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
   const isMobile = UseScreenSizeSmall();
+  const router = useRouter();
 
   const resolvedParams = React.use(params);
   const eventSlug = resolvedParams.newsEventsId;
@@ -151,6 +153,20 @@ const EventDetailPage = ({ params }) => {
 
   return (
     <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
+      <button
+        onClick={() => router.back()}
+        className="col-span-4 lg:col-start-2 flex items-center lg:col-span-2 text-[16px] leading-[130%] text-primary cursor-pointer text-left mb-6"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M15 18 9 12l6-6 1.4 1.4L11.8 12l4.6 4.6L15 18Z" />
+        </svg>
+        Go Back
+      </button>
       <h1 className="col-span-4 lg:col-start-2 lg:col-span-2 text-[32px] md:text-[48px] lg:text-[56px] leading-[110%] mb-3 md:mb-5">
         {event.Title}
       </h1>
@@ -160,8 +176,10 @@ const EventDetailPage = ({ params }) => {
 
       {bannerImage && (
         <div
-          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/600] w-full mb-6 md:mb-8 ${
-            isUpcomingEvent ? "bg-whiteBg" : ""
+          className={`col-span-4 relative overflow-hidden aspect-[400/248] w-full mb-6 md:mb-8 ${
+            isUpcomingEvent
+              ? "bg-whiteBg sm:aspect-[1440/514]"
+              : "sm:aspect-[1440/600]"
           }`}
         >
           {renderBannerImage()}
