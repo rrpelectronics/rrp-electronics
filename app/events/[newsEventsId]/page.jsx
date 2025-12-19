@@ -148,7 +148,7 @@ const EventDetailPage = ({ params }) => {
         <RichTextParser text={event.Description} />
       </div>
 
-      {galleryImages.length > 0 && (
+      {/* {galleryImages.length > 0 && (
         <div className="col-span-4 lg:col-start-2 lg:col-span-2 mt-16 md:mt-20">
           <h2 className="text-[32px] md:text-[40px] mb-8 md:mb-10">Gallery</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -241,7 +241,7 @@ const EventDetailPage = ({ params }) => {
             </svg>
           </button>
         </div>
-      )}
+      )} */}
     </main>
   );
 };
