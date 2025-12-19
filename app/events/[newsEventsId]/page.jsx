@@ -21,8 +21,6 @@ const getGalleryImageUrl = (img) => {
 
   if (isMobile) {
     return (
-      img?.formats?.small?.url ||
-      img?.formats?.medium?.url ||
       img?.formats?.large?.url ||
       img?.url ||
       "/images/news-events/placeholder.webp"
@@ -31,8 +29,6 @@ const getGalleryImageUrl = (img) => {
 
   return (
     img?.formats?.large?.url ||
-    img?.formats?.medium?.url ||
-    img?.formats?.small?.url ||
     img?.url ||
     "/images/news-events/placeholder.webp"
   );
