@@ -13,12 +13,36 @@ const isFutureEvent = (eventDate) => {
   return eventDateObj > currentDate;
 };
 
+// Helper function to get gallery image URL with fallbacks
+const getGalleryImageUrl = (img) => {
+  // For mobile, prefer smaller images
+  const isMobile = window.innerWidth < 768;
+
+  if (isMobile) {
+    return (
+      img?.formats?.small?.url ||
+      img?.formats?.medium?.url ||
+      img?.formats?.large?.url ||
+      img?.url ||
+      "/images/news-events/placeholder.webp"
+    );
+  }
+
+  return (
+    img?.formats?.large?.url ||
+    img?.formats?.medium?.url ||
+    img?.formats?.small?.url ||
+    img?.url ||
+    "/images/news-events/placeholder.webp"
+  );
+};
+
 const EventDetailPage = ({ params }) => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
-  const isMobile = UseScreenSizeSmall()
+  const isMobile = UseScreenSizeSmall();
 
   const resolvedParams = React.use(params);
   const eventSlug = resolvedParams.newsEventsId;
@@ -89,8 +113,9 @@ const EventDetailPage = ({ params }) => {
   }
 
   const bannerImage = isMobile ? event.Thumbnail?.url : event.Banner?.url;
+  // Use proper fallbacks for gallery images
   const galleryImages =
-    event.Gallery?.map((img) => img?.url).filter(Boolean) || [];
+    event.Gallery?.map((img) => getGalleryImageUrl(img)).filter(Boolean) || [];
   const date = new Date(event.Date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -164,6 +189,11 @@ const EventDetailPage = ({ params }) => {
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover"
+                  onError={(e) => {
+                    // Fallback to regular img tag if Next.js Image fails
+                    e.target.onerror = null;
+                    e.target.src = image;
+                  }}
                 />
               </div>
             ))}
@@ -191,6 +221,11 @@ const EventDetailPage = ({ params }) => {
                 src={selectedImage.url}
                 alt={`Gallery image ${selectedImage.index + 1}`}
                 className="object-contain h-full w-auto"
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  e.target.onerror = null;
+                  e.target.src = "/images/news-events/placeholder.webp";
+                }}
               />
             </div>
           </div>
