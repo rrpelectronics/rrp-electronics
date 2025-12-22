@@ -215,21 +215,15 @@ const EventDetailPage = ({ params }) => {
             isUpcomingEvent ? "bg-whiteBg" : ""
           }`}
         >
-          {isUpcomingEvent ? (
-            <img
-              src={bannerImage}
-              alt={event.Title || event.title}
-              className="w-full h-full"
-            />
-          ) : (
-            <Image
-              src={bannerImage}
-              alt={event.Title || event.title}
-              fill
-              sizes="100vw"
-              className="object-cover object-center"
-            />
-          )}
+          <img
+            src={bannerImage || "/images/news-events/placeholder.webp"}
+            alt={event.Title || event.title}
+            className={`w-full h-full ${ !isUpcomingEvent && "object-cover object-center"}`}
+            onError={(e) => {
+              // Fallback to placeholder if image fails to load
+              e.target.src = "/images/news-events/placeholder.webp";
+            }}
+          />
         </div>
       )}
 
@@ -248,16 +242,13 @@ const EventDetailPage = ({ params }) => {
                 className="aspect-square relative cursor-pointer overflow-hidden rounded-lg"
                 onClick={() => setSelectedImage({ url: image, index })}
               >
-                <Image
+                <img
                   src={image}
                   alt={`Gallery image ${index + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover"
+                  className="object-cover w-full h-full"
                   onError={(e) => {
-                    // Fallback to regular img tag if Next.js Image fails
-                    e.target.onerror = null;
-                    e.target.src = image;
+                    // Fallback to placeholder if image fails to load
+                    e.target.src = "/images/news-events/placeholder.webp";
                   }}
                 />
               </div>
