@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.4.8",
+    "next": "15.4.10",
     "nodemailer": "^7.0.10",
     "pdf-viewer": "^0.8.1",
     "pdfjs-dist": "^5.4.54",
