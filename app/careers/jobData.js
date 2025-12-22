@@ -38,5 +38,38 @@ export const JOB_DATA = [
     extraPoints: [
       "Knowledge of accounting principles, tally/ERP systems, and attention to detail will be beneficial."
     ]
+  },
+  {
+    id: 3,
+    title: "Front Desk Executive",
+    department: "Receptionist",
+    type: "Full Time", 
+    location: "Mahape, Navi Mumbai",
+    description: 
+    `Seeking a professional Front Desk Executive, with a welcoming personality, capable of handling all day-to-day front desk operations and clerical duties at our main entrance front desk. Responsible for being the face of our company for all visitors, the ideal candidate is expected to have a pleasant demeanour, yet confident enough to handle any challenging situations. 
+
+    Key Responsibilities:
+    - Greet, welcome and assist visitors by directing them to the proper personnel or department
+    - Communicate with the appropriate department about incoming visitors, and forward incoming phone calls to the concerned persons
+    - Control access via the front desk by managing office security, maintaining visitor logs, data entries, as well as other admin related day-to-day activities
+    - Ensure security protocols are maintained by internal and external personnel
+    - Ensure the reception area is neat and well organised by monitoring housekeeping
+
+    Requirements:
+    - Prior experience as an Receptionist / Front Desk Personnel
+    - Strong verbal and written communication skills
+    - Proficient in English, Hindi and Marathi languages
+    - Confident and presentable with a professional attitude
+    - Proactive and resourceful with excellent organisational skills
+    - Team player with a positive attitude
+    - Ability to multitask with an expertise in time-management skills
+    - Candidates from Navi Mumbai location preferred
+    `,
+    experienceMin: 2,
+    experienceMax: 3,
+    fresherAllowed: true,
+    extraPoints: [
+      "Knowledge of accounting principles, tally/ERP systems, and attention to detail will be beneficial."
+    ]
   }
 ];

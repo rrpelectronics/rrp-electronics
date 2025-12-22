@@ -156,7 +156,7 @@ const Events = () => {
             </button>
           </div>
         )}
-        <div className="col-span-1 md:col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
+        <div className="col-start-4 col-span-1 md:col-start-3 md:col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
           <Link
             href={"/events"}
             className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors text-primary border-primary`}
