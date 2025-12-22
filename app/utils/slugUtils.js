@@ -17,18 +17,21 @@ export const generateSlug = (title) => {
     .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 };
 
-/**
- * Find an item by slug from a list of items
- * @param {Array} items - Array of items to search through
- * @param {string} slug - The slug to search for
- * @param {string} titleField - The field name containing the title (default: 'title')
- * @returns {Object|null} - The matching item or null if not found
- */
 export const findBySlug = (items, slug, titleField = 'title') => {
   if (!items || !slug) return null;
   
   return items.find(item => {
-    const itemTitle = item[titleField];
+    // Try the specified field first
+    let itemTitle = item[titleField];
+    
+    // If not found, try 'title' or 'Title' as fallbacks
+    if (!itemTitle && titleField !== 'title') {
+      itemTitle = item['title'];
+    }
+    if (!itemTitle && titleField !== 'Title') {
+      itemTitle = item['Title'];
+    }
+    
     return itemTitle && generateSlug(itemTitle) === slug;
   });
 };
@@ -50,5 +53,6 @@ export const findJobBySlug = (jobs, slug) => {
  * @returns {Object|null} - The matching event or null if not found
  */
 export const findEventBySlug = (events, slug) => {
-  return findBySlug(events, slug, 'Title');
+  // Try 'Title' first (API data), then 'title' (hardcoded data)
+  return findBySlug(events, slug, 'Title') || findBySlug(events, slug, 'title');
 };

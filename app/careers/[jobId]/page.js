@@ -3,45 +3,17 @@ import React, { useRef, useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
 import dynamic from "next/dynamic";
-import axios from "axios";
+import JobDetailsLoading from "@/app/components/job/JobDetailsLoading";
+import RichTextParser from "@/app/components/RichTextParser";
+import { fetchJobBySlug } from "@/app/utils/jobFetch";
 
 const CareersContact = dynamic(
   () => import("./CareersContact"),
   { ssr: false }
 );
 
-// Loading skeleton component
-const JobDetailsLoading = () => (
-  <main className="min-h-screen w-full relative">
-    <section className="w-full h-fit py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
-      <div className="flex flex-col gap-4 w-full">
-        <div className="h-6 bg-gray-200 animate-pulse rounded w-1/3"></div>
-        <div className="h-16 bg-gray-200 animate-pulse rounded w-2/3"></div>
-        <div className="h-6 bg-gray-200 animate-pulse rounded w-1/4"></div>
-        <div className="h-10 bg-gray-200 animate-pulse rounded w-32"></div>
-      </div>
-    </section>
-    <section className="w-full h-full px-3.5 md:px-5 lg:px-10">
-      <div className="w-full grid grid-cols-4">
-        <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
-          <div className="md:col-span-2">
-            <div className="h-10 bg-gray-200 animate-pulse rounded w-40"></div>
-          </div>
-          <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[90%]">
-            <div className="h-4 bg-gray-200 animate-pulse rounded w-full"></div>
-            <div className="h-4 bg-gray-200 animate-pulse rounded w-full"></div>
-            <div className="h-4 bg-gray-200 animate-pulse rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 animate-pulse rounded w-full"></div>
-            <div className="h-4 bg-gray-200 animate-pulse rounded w-5/6"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-);
-
 // Main content component
-const JobDetailsContent = ({ jobId }) => {
+const JobDetailsContent = ({ jobSlug }) => {
   const sectionRef = useRef(null);
   const { containerRef } = useTextAnimation();
   
@@ -50,48 +22,24 @@ const JobDetailsContent = ({ jobId }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchJobDetails = async () => {
+    const loadJobDetails = async () => {
       try {
         setLoading(true);
-        // First fetch all jobs to find the one with matching ID
-        const response = await axios.get(
-          "https://eloquent-art-0e51a537b4.strapiapp.com/api/careers?populate=*"
-        );
-        
-        const rawData = response.data.data;
-        const item = rawData.find((job) => job.id === jobId);
-        
-        if (!item) {
-          setError("Job not found");
-          setLoading(false);
-          return;
-        }
-        
-        // Format the job data to match the previous structure
-        const formattedJob = {
-          id: item.id,
-          title: item.Role,
-          department: item.Department,
-          location: item.Location,
-          type: item.Mode === "Full" ? "Full-time" : item.Mode,
-          mode: item.Mode,
-          fresherAllowed: item.Fresher,
-          experienceMin: item.min_experience,
-          experienceMax: item.max_experience,
-          description: item.Description,
-        };
-        
-        setJob(formattedJob);
+        // Fetch job by slug with fallback
+        const jobData = await fetchJobBySlug(jobSlug);
+        setJob(jobData);
       } catch (err) {
-        setError("Failed to load job details");
+        setError("Failed to load job details: " + err.message);
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchJobDetails();
-  }, [jobId]);
+    if (jobSlug) {
+      loadJobDetails();
+    }
+  }, [jobSlug]);
 
   // Generate experience text
   const getExperienceText = () => {
@@ -131,7 +79,7 @@ const JobDetailsContent = ({ jobId }) => {
   if (error || !job) {
     return (
       <main className="min-h-screen w-full relative">
-        <section className="w-full h-fit py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-center justify-center">
+        <section className="w-full h-[70vh] py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-center justify-center">
           <div className="text-center">
             <h2 className="text-heading2 text-black mb-4">Job Not Found</h2>
             <p className="text-bodyBase text-textPrimary mb-6">
@@ -194,21 +142,14 @@ const JobDetailsContent = ({ jobId }) => {
       >
         <div className="w-full grid grid-cols-4">
           <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
-            <div className="md:col-span-2 flex items-start">
+            <div className="col-span-4 md:col-span-1 flex items-start">
               <h3 className="text-heading2 text-black leading-[110%]">
                 Description
               </h3>
             </div>
-            <div className="col-span-4 md:col-span-2 flex flex-col gap-6 w-[90%]">
-              {/* Description - Split by newlines to preserve paragraph breaks */}
-              {job.description.split('\n').filter(para => para.trim()).map((paragraph, index) => (
-                <p
-                  key={index}
-                  className="text-textPrimary text-bodyLarge leading-[120%] font-neueMontreal"
-                >
-                  {paragraph.trim()}
-                </p>
-              ))}
+            <div className="col-span-4 md:col-span-2 md:col-start-3 flex flex-col gap-6 w-[90%]">
+
+              <RichTextParser text={job.description}/>
 
               {/* Experience Text */}
               {getExperienceText() && (
@@ -236,12 +177,12 @@ const JobDetailsContent = ({ jobId }) => {
       {/* <section id="apply-now" className="@container w-full h-full px-3.5 md:px-5 lg:px-10">
         <div className="w-full grid grid-cols-4">
           <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
-            <div className="md:col-span-2 flex items-start">
+            <div className="col-span-4 md:col-span-1 flex items-start">
               <h3 className="text-heading2 text-black leading-[110%] mb-6">
                 Join Us Now
               </h3>
             </div>
-            <div className="col-span-4 @4xl:col-span-2 flex flex-col gap-6">
+            <div className="col-span-4 @4xl:col-span-3 flex flex-col gap-6">
               <CareersContact jobTitle={cleanJobTitle} />
             </div>
           </div>
@@ -254,11 +195,11 @@ const JobDetailsContent = ({ jobId }) => {
 // Main wrapper component with Suspense
 const JobDetailsPage = ({ params }) => {
   const resolvedParams = React.use(params);
-  const jobId = parseInt(resolvedParams.jobId);
+  const jobSlug = resolvedParams.jobId; // Now using slug instead of ID
 
   return (
     <Suspense fallback={<JobDetailsLoading />}>
-      <JobDetailsContent jobId={jobId} />
+      <JobDetailsContent jobSlug={jobSlug} />
     </Suspense>
   );
 };

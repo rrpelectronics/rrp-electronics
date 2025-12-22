@@ -1,3 +1,6 @@
+import axios from 'axios';
+import events_data from './eventsData.js';
+
 // Helper function to format dates safely
 const formatEventDate = (dateValue) => {
   if (!dateValue) return "Date not available";
@@ -18,42 +21,74 @@ const getEventImageUrl = (item) => {
     item.Thumbnail?.url ||
     item.thumbnail?.formats?.medium?.url ||
     item.thumbnail?.url ||
+    item.newsEventBanner || // For hardcoded data
+    item.Banner || // For hardcoded data
     "/images/news-events/placeholder.webp"
   );
 };
 
 // Helper function to determine if an event is in the future or past
 const isFutureEvent = (eventDate) => {
+  if (!eventDate) return false;
+  
   const currentDate = new Date();
-  const eventDateObj = new Date(eventDate);
-  return eventDateObj > currentDate;
+  
+  // Handle string dates like "January 2026"
+  if (typeof eventDate === "string") {
+    // Try to parse the date string
+    const eventDateObj = new Date(eventDate);
+    
+    // If parsing failed, try to create a date from month/year format
+    if (isNaN(eventDateObj.getTime())) {
+      // For formats like "January 2026", create date as first day of that month
+      const parts = eventDate.split(" ");
+      if (parts.length === 2) {
+        const [month, year] = parts;
+        const monthIndex = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ].indexOf(month);
+        
+        if (monthIndex !== -1) {
+          const constructedDate = new Date(parseInt(year), monthIndex, 1);
+          return constructedDate > currentDate;
+        }
+      }
+    } else {
+      return eventDateObj > currentDate;
+    }
+  } else {
+    // Handle Date objects or timestamps
+    const eventDateObj = new Date(eventDate);
+    return eventDateObj > currentDate;
+  }
+  
+  return false;
 };
+
+// Import hardcoded event data as fallback
+
 
 /**
  * Fetch events data from API with optional filtering by event type
+ * Falls back to hardcoded data if API fails
  */
 export const fetchEvents = async (limit = null, eventType = null) => {
   try {
-    const res = await fetch(
+    const response = await axios.get(
       "https://eloquent-art-0e51a537b4.strapiapp.com/api/events?populate=*"
     );
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch events: ${res.status} ${res.statusText}`);
-    }
-
-    const data = await res.json();
+    const data = response.data;
     
     // Filter by event type if specified
     let filteredEvents = data.data;
     if (eventType) {
       if (eventType === "upcoming") {
-        // Filter for future events
         filteredEvents = data.data.filter(event => 
           isFutureEvent(event.Date || event.PublishDate)
         );
       } else if (eventType === "past") {
-        // Filter for past events
         filteredEvents = data.data.filter(event => 
           !isFutureEvent(event.Date || event.PublishDate)
         );
@@ -79,24 +114,67 @@ export const fetchEvents = async (limit = null, eventType = null) => {
       link: item.Link || item.link || "#",
       imgBgClass: "object-cover",
       eventType: isFutureEvent(item.Date || item.PublishDate) ? "upcoming" : "past",
+      // Keep only one description field
+      description: item.Description || item.description,
+      // Keep gallery data
+      Gallery: item.Gallery || [],
+      // Keep only necessary image fields for banner/thumbnail usage
+      thumbnail: item.Thumbnail?.formats?.medium?.url || item.Thumbnail?.url || item.thumbnail?.formats?.medium?.url || item.thumbnail?.url || item.newsEventBanner || item.newsEventBanner?.url,
+      banner: item.Banner?.url || item.banner?.url || item.Banner || item.banner || item.newsEventBanner || item.newsEventBanner?.url || item.thumbnail,
     }));
   } catch (error) {
-    console.error("Error fetching events data:", error);
-    throw error;
+    // Fallback to hardcoded data
+    let filteredEvents = events_data;
+    
+    // Filter by event type if specified for hardcoded data
+    if (eventType) {
+      if (eventType === "upcoming") {
+        filteredEvents = events_data.filter(event => 
+          isFutureEvent(event.date)
+        );
+      } else if (eventType === "past") {
+        filteredEvents = events_data.filter(event => 
+          !isFutureEvent(event.date)
+        );
+      }
+    }
+    
+    // Apply limit if specified
+    if (limit) {
+      filteredEvents = filteredEvents.slice(0, limit);
+    }
+    
+    return filteredEvents.map((item) => ({
+      id: item.id.toString(),
+      newsEventImg: item.thumbnail || item.newsEventBanner || item.Banner || "/images/news-events/placeholder.webp",
+      title: item.title || "No title",
+      date: item.date || "Date not available",
+      source: item.source || "",
+      link: item.link || "#",
+      imgBgClass: "object-cover",
+      eventType: isFutureEvent(item.date) ? "upcoming" : "past", // Determine based on date for hardcoded data
+      // Keep only one description field
+      description: item.Description || item.description,
+      // Keep gallery data
+      gallery: item.Gallery || [],
+      // Keep only necessary image fields for banner/thumbnail usage
+      thumbnail: item.thumbnail || item.newsEventBanner || item.Banner,
+      banner: item.Banner || item.banner || item.newsEventBanner || item.thumbnail,
+    }));
   }
 };
 
+/**
+ * Fetch single event by ID
+ * Falls back to hardcoded data if API fails
+ */
 export const fetchEventById = async (eventId) => {
   try {
-    const res = await fetch(
+    const response = await axios.get(
       "https://eloquent-art-0e51a537b4.strapiapp.com/api/events?populate=*"
     );
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch event: ${res.status} ${res.statusText}`);
-    }
-
-    const data = await res.json();
+    const data = response.data;
     const foundEvent = data.data.find((e) => e.id.toString() === eventId);
     
     if (!foundEvent) {
@@ -105,7 +183,15 @@ export const fetchEventById = async (eventId) => {
     
     return foundEvent;
   } catch (error) {
-    console.error("Error fetching event by ID:", error);
-    throw error;
+    console.error("Error fetching event by ID from API, falling back to hardcoded data:", error);
+    
+    // Fallback to hardcoded data
+    const foundEvent = events_data.find((e) => e.id.toString() === eventId);
+    
+    if (!foundEvent) {
+      throw new Error("Event not found in hardcoded data either");
+    }
+    
+    return foundEvent;
   }
 };

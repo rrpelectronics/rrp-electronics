@@ -12,39 +12,14 @@ const NewsEventsCard = ({
   source,
   link,
   target = "_blank",
-  variant = "default", // "default" for news, "event" for events
-  id, // Add id prop for events
-  eventType = "past", // Add eventType prop to distinguish between upcoming and past events
+  variant = "default",
+  id,
+  eventType = "past",
 }) => {
-  // Determine the image aspect ratio based on variant
-  const imageAspect =
-    variant === "event" ? "aspect-[400/248]" : "aspect-square";
+
+  const imageAspect = variant === "event" ? "aspect-[400/248]" : "aspect-square";
   const imageWidth = variant === "event" ? "w-full" : "w-[150px]";
-
-  // For events, generate slug from title
-  const eventLink =
-    variant === "event" && id ? `/events/${generateSlug(title)}` : link;
-
-  // Use img tag for upcoming events, Next.js Image for past events
-  const renderImage = () => {
-    if (variant === "event" && eventType === "upcoming") {
-      // For upcoming events, use regular img tag with specified classes
-      return (
-        <img src={newsEventImg} alt={title} className="mx-auto h-full w-auto" />
-      );
-    } else {
-      // For past events and news, use Next.js Image component
-      return (
-        <Image
-          src={newsEventImg}
-          alt={title}
-          fill
-          sizes="100vw"
-          className={`object-cover object-${imgBgClass}`}
-        />
-      );
-    }
-  };
+  const eventLink = variant === "event" && id ? `/events/${generateSlug(title)}` : link;
 
   return (
     <Link
@@ -59,7 +34,13 @@ const NewsEventsCard = ({
           eventType === "upcoming" ? "bg-whiteBg" : ""
         } relative`}
       >
-        {renderImage()}
+        <Image
+          src={newsEventImg}
+          alt={title}
+          fill
+          sizes="100vw"
+          className={`object-cover object-${imgBgClass}`}
+        />
       </div>
       <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1">
         <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
