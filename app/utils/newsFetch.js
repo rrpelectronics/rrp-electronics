@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 /**
  * News data fetching utilities
  */
@@ -22,24 +24,25 @@ const getNewsImageUrl = (item) => {
     item.Thumbnail?.url ||
     item.thumbnail?.formats?.medium?.url ||
     item.thumbnail?.url ||
+    item.newsEventImg || // For hardcoded data
     "/images/news-events/placeholder.webp"
   );
 };
 
+// Import hardcoded news data as fallback
+import { news_data } from './newsData.js';
+
 /**
  * Fetch news data from API
+ * Falls back to hardcoded data if API fails
  */
 export const fetchNews = async (limit = null) => {
   try {
-    const res = await fetch(
+    const response = await axios.get(
       "https://eloquent-art-0e51a537b4.strapiapp.com/api/news?populate=*"
     );
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch news: ${res.status} ${res.statusText}`);
-    }
-
-    const data = await res.json();
+    const data = response.data;
     
     // Sort by date (newest first / latest to oldest)
     let sortedNews = data.data.sort(
@@ -63,25 +66,39 @@ export const fetchNews = async (limit = null) => {
       imgBgClass: "object-cover",
     }));
   } catch (error) {
-    console.error("Error fetching news data:", error);
-    throw error;
+    console.error("Error fetching news data from API, falling back to hardcoded data:", error);
+    
+    // Fallback to hardcoded data
+    let sortedNews = news_data;
+    
+    // Apply limit if specified
+    if (limit) {
+      sortedNews = sortedNews.slice(0, limit);
+    }
+    
+    return sortedNews.map((item) => ({
+      id: item.id.toString(),
+      newsEventImg: item.newsEventImg || "/images/news-events/placeholder.webp",
+      title: item.title || "No title",
+      date: item.date || "Date not available",
+      source: item.source || "",
+      link: item.link || "#",
+      imgBgClass: item.imgBgClass || "object-cover",
+    }));
   }
 };
 
 /**
  * Fetch single news by ID
+ * Falls back to hardcoded data if API fails
  */
 export const fetchNewsById = async (newsId) => {
   try {
-    const res = await fetch(
+    const response = await axios.get(
       "https://eloquent-art-0e51a537b4.strapiapp.com/api/news?populate=*"
     );
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch news: ${res.status} ${res.statusText}`);
-    }
-
-    const data = await res.json();
+    const data = response.data;
     const foundNews = data.data.find((n) => n.id.toString() === newsId);
     
     if (!foundNews) {
@@ -90,7 +107,15 @@ export const fetchNewsById = async (newsId) => {
     
     return foundNews;
   } catch (error) {
-    console.error("Error fetching news by ID:", error);
-    throw error;
+    console.error("Error fetching news by ID from API, falling back to hardcoded data:", error);
+    
+    // Fallback to hardcoded data
+    const foundNews = news_data.find((n) => n.id.toString() === newsId);
+    
+    if (!foundNews) {
+      throw new Error("News not found in hardcoded data either");
+    }
+    
+    return foundNews;
   }
 };

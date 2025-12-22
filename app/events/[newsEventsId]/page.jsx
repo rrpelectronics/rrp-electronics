@@ -1,37 +1,89 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { findEventBySlug } from "@/app/utils/slugUtils";
-import { fetchEventById } from "@/app/utils/eventFetch";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { findEventBySlug } from "@/app/utils/slugUtils";
+import { fetchEvents } from "@/app/utils/eventFetch";
+import Image from "next/image";
 import RichTextParser from "@/app/components/RichTextParser";
 import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
-// Helper function to determine if an event is in the future or past
 const isFutureEvent = (eventDate) => {
+  if (!eventDate) return false;
+
   const currentDate = new Date();
-  const eventDateObj = new Date(eventDate);
-  return eventDateObj > currentDate;
+
+  if (eventDate instanceof Date || typeof eventDate === "number") {
+    const eventDateObj = new Date(eventDate);
+    return eventDateObj > currentDate;
+  }
+
+  // If it's a string date
+  if (typeof eventDate === "string") {
+    const eventDateObj = new Date(eventDate);
+    if (isNaN(eventDateObj.getTime())) {
+      const parts = eventDate.split(" ");
+      if (parts.length === 2) {
+        const [month, year] = parts;
+        const monthIndex = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ].indexOf(month);
+
+        if (monthIndex !== -1) {
+          const constructedDate = new Date(parseInt(year), monthIndex, 1);
+          return constructedDate > currentDate;
+        }
+      }
+    } else {
+      return eventDateObj > currentDate;
+    }
+  }
+
+  return false;
 };
 
-// Helper function to get gallery image URL with fallbacks
 const getGalleryImageUrl = (img) => {
-  // For mobile, prefer smaller images
-  const isMobile = window.innerWidth < 768;
-
-  if (isMobile) {
-    return (
-      img?.formats?.large?.url ||
-      img?.url ||
-      "/images/news-events/placeholder.webp"
-    );
+  if (typeof img === "string") {
+    return img;
   }
 
   return (
     img?.formats?.large?.url ||
+    img?.formats?.medium?.url ||
+    img?.formats?.small?.url ||
     img?.url ||
     "/images/news-events/placeholder.webp"
   );
+};
+
+// Helper function to get banner image URL with fallbacks
+const getBannerImageUrl = (event, isMobile) => {
+  // For mobile devices, prioritize thumbnail over banner for both hardcoded and API data
+  if (isMobile) {
+    if (event.thumbnail) {
+      return event.thumbnail;
+    }
+  }
+
+  if (event.banner) {
+    return event.banner;
+  }
+
+  if (event.thumbnail) {
+    return event.thumbnail;
+  }
+
+  return "/images/news-events/placeholder.webp";
 };
 
 const EventDetailPage = ({ params }) => {
@@ -42,23 +94,16 @@ const EventDetailPage = ({ params }) => {
   const isMobile = UseScreenSizeSmall();
   const router = useRouter();
 
-  const resolvedParams = React.use(params);
-  const eventSlug = resolvedParams.newsEventsId;
+  const eventSlug = params?.newsEventsId;
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        // First try to find by slug
-        const res = await fetch(
-          "https://eloquent-art-0e51a537b4.strapiapp.com/api/events?populate=*"
-        );
+        // Fetch all events (this will use fallback if API fails)
+        const allEvents = await fetchEvents();
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch events");
-        }
-
-        const data = await res.json();
-        const foundEvent = findEventBySlug(data.data, eventSlug);
+        // Find the event by slug
+        const foundEvent = findEventBySlug(allEvents, eventSlug);
 
         if (!foundEvent) {
           setError("Event not found");
@@ -66,8 +111,7 @@ const EventDetailPage = ({ params }) => {
           setEvent(foundEvent);
         }
       } catch (err) {
-        setError("Failed to load event");
-        console.error(err);
+        setError("Failed to load event: " + err.message);
       } finally {
         setLoading(false);
       }
@@ -110,42 +154,37 @@ const EventDetailPage = ({ params }) => {
     );
   }
 
-  const bannerImage = isMobile ? event.Thumbnail?.url : event.Banner?.url;
+  const bannerImage = getBannerImageUrl(event, isMobile);
   // Use proper fallbacks for gallery images
   const galleryImages =
-    event.Gallery?.map((img) => getGalleryImageUrl(img)).filter(Boolean) || [];
-  const date = new Date(event.Date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-  });
+    (event.Gallery || event.gallery || [])
+      .map((img) => getGalleryImageUrl(img))
+      .filter(Boolean) || [];
+
+  // Handle date formatting for both API and hardcoded data
+  let date;
+  try {
+    if (event.Date) {
+      date = new Date(event.Date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      });
+    } else if (event.PublishDate) {
+      date = new Date(event.PublishDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      });
+    } else {
+      date = event.date || "Date not available";
+    }
+  } catch (e) {
+    date = event.date || "Date not available";
+  }
 
   // Determine if this is an upcoming event based on date
-  const isUpcomingEvent = isFutureEvent(event.Date);
-
-  // Render banner image based on event type
-  const renderBannerImage = () => {
-    if (isUpcomingEvent) {
-      // For upcoming events, use regular img tag with specified classes
-      return (
-        <img
-          src={bannerImage}
-          alt={event.Title}
-          className="mx-auto h-full w-auto"
-        />
-      );
-    } else {
-      // For past events, use Next.js Image component
-      return (
-        <Image
-          src={bannerImage}
-          alt={event.Title}
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      );
-    }
-  };
+  const isUpcomingEvent = isFutureEvent(
+    event.Date || event.PublishDate || event.date
+  );
 
   return (
     <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
@@ -164,7 +203,7 @@ const EventDetailPage = ({ params }) => {
         Go Back
       </button>
       <h1 className="col-span-4 lg:col-start-2 lg:col-span-2 text-[32px] md:text-[48px] lg:text-[56px] leading-[110%] mb-3 md:mb-5">
-        {event.Title}
+        {event.Title || event.title}
       </h1>
       <div className="col-span-4 lg:col-start-2 lg:col-span-2 flex items-center mb-6 md:mb-8">
         <p className="text-[16px] leading-[130%] text-[#646464]">{date}</p>
@@ -172,19 +211,31 @@ const EventDetailPage = ({ params }) => {
 
       {bannerImage && (
         <div
-          className={`col-span-4 relative overflow-hidden aspect-[400/248] w-full mb-6 md:mb-8 ${
-            isUpcomingEvent
-              ? "bg-whiteBg sm:aspect-[1440/514]"
-              : "sm:aspect-[1440/600]"
+          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/600] w-full mb-6 md:mb-8 ${
+            isUpcomingEvent ? "bg-whiteBg" : ""
           }`}
         >
-          {renderBannerImage()}
+          {isUpcomingEvent ? (
+            <img
+              src={bannerImage}
+              alt={event.Title || event.title}
+              className="w-full h-full"
+            />
+          ) : (
+            <Image
+              src={bannerImage}
+              alt={event.Title || event.title}
+              fill
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+          )}
         </div>
       )}
 
       <div className="col-span-4 lg:col-start-2 lg:col-span-2 flex flex-col gap-y-6 text-[#646464]">
         {/* Using RichTextParser for event description */}
-        <RichTextParser text={event.Description} />
+        <RichTextParser text={event.description} />
       </div>
 
       {galleryImages.length > 0 && (

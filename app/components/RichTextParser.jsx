@@ -15,7 +15,7 @@ const formatInline = (text) => {
   const elements = [];
   let lastIndex = 0;
   let match;
-  let keyCounter = 0;
+  let keyCounter = 0; // Reset key counter for each call
 
   // Process links first
   while ((match = linkRegex.exec(text)) !== null) {
@@ -191,9 +191,6 @@ const parseRichText = (text) => {
 // ------------------------------
 const RichTextParser = ({ text }) => {
   const elements = useMemo(() => parseRichText(text), [text]);
-
-  // Debugging - log the elements to see what's being generated
-  // console.log('RichTextParser elements:', elements);
 
   return (
     <>
