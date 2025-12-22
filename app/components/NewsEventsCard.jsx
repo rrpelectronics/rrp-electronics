@@ -16,10 +16,74 @@ const NewsEventsCard = ({
   id,
   eventType = "past",
 }) => {
-
-  const imageAspect = variant === "event" ? "aspect-[400/248]" : "aspect-square";
+  const imageAspect =
+    variant === "event" ? "aspect-[400/248]" : "aspect-square";
   const imageWidth = variant === "event" ? "w-full" : "w-[150px]";
-  const eventLink = variant === "event" && id ? `/events/${generateSlug(title)}` : link;
+  const eventLink =
+    variant === "event" && id ? `/events/${generateSlug(title)}` : link;
+
+  // Check if the image is from our own domain or an external domain
+  const isExternalImage =
+    newsEventImg &&
+    (newsEventImg.startsWith("http") ||
+      newsEventImg.startsWith("https") ||
+      newsEventImg.startsWith("//"));
+
+  // For external images or when Image component fails, fallback to regular img tag
+  const renderImage = () => {
+    // For upcoming events, always use regular img tag
+    if (eventType === "upcoming") {
+      return (
+        <img
+          src={newsEventImg || "/images/news-events/placeholder.webp"}
+          alt={title}
+          className={`object-cover object-${imgBgClass} w-full h-full`}
+          onError={(e) => {
+            // Fallback to placeholder if image fails to load
+            e.target.src = "/images/news-events/placeholder.webp";
+          }}
+        />
+      );
+    }
+
+    // For past events and news, try Next.js Image first, fallback to regular img
+    if (isExternalImage) {
+      // For external images, use regular img tag to avoid optimization issues
+      return (
+        <img
+          src={newsEventImg}
+          alt={title}
+          className={`object-cover object-${imgBgClass} w-full h-full`}
+          onError={(e) => {
+            // Fallback to placeholder if image fails to load
+            e.target.src = "/images/news-events/placeholder.webp";
+          }}
+        />
+      );
+    } else {
+      // For local images, try Next.js Image component first
+      return (
+        <Image
+          src={newsEventImg || "/images/news-events/placeholder.webp"}
+          alt={title}
+          fill
+          sizes="100vw"
+          className={`object-cover object-${imgBgClass}`}
+          onError={(e) => {
+            // Fallback to regular img tag if Next.js Image fails
+            e.target.parentElement.innerHTML = `
+              <img 
+                src="${newsEventImg || "/images/news-events/placeholder.webp"}" 
+                alt="${title}"
+                class="object-cover object-${imgBgClass} w-full h-full"
+                onerror="this.src='/images/news-events/placeholder.webp'"
+              />
+            `;
+          }}
+        />
+      );
+    }
+  };
 
   return (
     <Link
@@ -34,13 +98,15 @@ const NewsEventsCard = ({
           eventType === "upcoming" ? "bg-whiteBg" : ""
         } relative`}
       >
-        <Image
-          src={newsEventImg}
-          alt={title}
-          fill
-          sizes="100vw"
-          className={`object-cover object-${imgBgClass}`}
-        />
+        {newsEventImg ? (
+          renderImage()
+        ) : (
+          <img
+            src="/images/news-events/placeholder.webp"
+            alt={title}
+            className={`object-cover object-${imgBgClass} w-full h-full`}
+          />
+        )}
       </div>
       <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1">
         <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
