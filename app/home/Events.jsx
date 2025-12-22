@@ -6,7 +6,7 @@ import { fetchEvents } from "@/app/utils/eventFetch";
 import NewsEventsCard from "@/app/components/NewsEventsCard";
 import NewsEventsCardSuspense from "@/app/components/suspense/NewsEventsCardSuspense";
 
-const DataGrid = ({ activeTab }) => {
+const DataGrid = ({ activeTab, hasUpcoming }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -14,9 +14,24 @@ const DataGrid = ({ activeTab }) => {
     const loadData = async () => {
       try {
         setError(null);
-        const eventType = activeTab === "upcoming" ? "upcoming" : "past";
-        const result = await fetchEvents(3, eventType);
-        setData(result);
+        const result = await fetchEvents(100, "all");
+
+        if (!hasUpcoming) {
+          setData(result.slice(0, 3));
+          return;
+        }
+
+        const now = new Date();
+        const filteredData = result.filter((event) => {
+          const eventDate = new Date(event.date);
+          if (activeTab === "upcoming") {
+            return eventDate >= now;
+          } else {
+            return eventDate < now;
+          }
+        });
+
+        setData(filteredData.slice(0, 3));
       } catch (err) {
         setError("Failed to load data");
         console.error(err);
@@ -24,7 +39,7 @@ const DataGrid = ({ activeTab }) => {
     };
 
     loadData();
-  }, [activeTab]);
+  }, [activeTab, hasUpcoming]);
 
   if (error) {
     return (
@@ -88,8 +103,15 @@ const Events = () => {
   React.useEffect(() => {
     const checkUpcoming = async () => {
       try {
-        const upcoming = await fetchEvents(1, "upcoming");
-        setHasUpcoming(upcoming.length > 0);
+        const allEvents = await fetchEvents(100, "all");
+        const now = new Date();
+        
+        const upcomingExists = allEvents.some((event) => {
+          const eventDate = new Date(event.date);
+          return eventDate >= now;
+        });
+
+        setHasUpcoming(upcomingExists);
       } catch (err) {
         setHasUpcoming(false);
       }
@@ -134,7 +156,6 @@ const Events = () => {
             </button>
           </div>
         )}
-        {/* VIEW ALL BUTTON */}
         <div className="col-span-1 md:col-span-2 flex items-center justify-center w-fit ml-auto mr-0 gap-4.5 lg:gap-6">
           <Link
             href={"/events"}
@@ -146,7 +167,7 @@ const Events = () => {
       </div>
 
       <Suspense fallback={<NewsEventsCardSuspense variant="event" />}>
-        <DataGrid activeTab={activeTab} />
+        <DataGrid activeTab={activeTab} hasUpcoming={hasUpcoming} />
       </Suspense>
     </section>
   );
