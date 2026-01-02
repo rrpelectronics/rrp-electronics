@@ -170,12 +170,9 @@ export const fetchEvents = async (limit = null, eventType = null) => {
  */
 export const fetchEventById = async (eventId) => {
   try {
-    const response = await axios.get(
-      "https://eloquent-art-0e51a537b4.strapiapp.com/api/events?populate=*"
-    );
-
-    const data = response.data;
-    const foundEvent = data.data.find((e) => e.id.toString() === eventId);
+    // Fetch all events to get properly formatted data
+    const allEvents = await fetchEvents();
+    const foundEvent = allEvents.find((e) => e.id.toString() === eventId);
     
     if (!foundEvent) {
       throw new Error("Event not found");
@@ -192,6 +189,23 @@ export const fetchEventById = async (eventId) => {
       throw new Error("Event not found in hardcoded data either");
     }
     
-    return foundEvent;
+    // Format the found event to match the expected structure
+    return {
+      id: foundEvent.id.toString(),
+      newsEventImg: foundEvent.thumbnail || foundEvent.newsEventBanner || foundEvent.Banner || "/images/news-events/placeholder.webp",
+      title: foundEvent.title || "No title",
+      date: foundEvent.date || "Date not available",
+      source: foundEvent.source || "",
+      link: foundEvent.link || "#",
+      imgBgClass: "object-cover",
+      eventType: isFutureEvent(foundEvent.date) ? "upcoming" : "past", // Determine based on date for hardcoded data
+      // Keep only one description field
+      description: foundEvent.Description || foundEvent.description,
+      // Keep gallery data
+      gallery: foundEvent.Gallery || [],
+      // Keep only necessary image fields for banner/thumbnail usage
+      thumbnail: foundEvent.thumbnail || foundEvent.newsEventBanner || foundEvent.Banner,
+      banner: foundEvent.Banner || foundEvent.banner || foundEvent.newsEventBanner || foundEvent.thumbnail,
+    };
   }
 };
