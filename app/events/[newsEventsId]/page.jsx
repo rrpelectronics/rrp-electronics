@@ -218,7 +218,7 @@ const EventDetailPage = ({ params }) => {
           <img
             src={bannerImage || "/images/news-events/placeholder.webp"}
             alt={event.Title || event.title}
-            className={`w-full h-full ${ !isUpcomingEvent && "object-cover object-center"}`}
+            className={`w-full h-full ${ isUpcomingEvent && "object-cover object-center"}`}
             onError={(e) => {
               // Fallback to placeholder if image fails to load
               e.target.src = "/images/news-events/placeholder.webp";
