@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { findEventBySlug } from "@/app/utils/slugUtils";
-import { fetchEvents } from "@/app/utils/eventFetch";
+import { fetchEventById, fetchEvents } from "@/app/utils/eventFetch";
 import Image from "next/image";
 import RichTextParser from "@/app/components/RichTextParser";
 import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
@@ -11,15 +11,14 @@ const isFutureEvent = (eventDate) => {
   if (!eventDate) return false;
 
   const currentDate = new Date();
+  console.log("Current Date:", currentDate);
 
-  if (eventDate instanceof Date || typeof eventDate === "number") {
-    const eventDateObj = new Date(eventDate);
-    return eventDateObj > currentDate;
-  }
-
-  // If it's a string date
+  // Handle string dates from hardcoded data
   if (typeof eventDate === "string") {
+    // Try to parse the date string
     const eventDateObj = new Date(eventDate);
+
+    // If parsing failed, try to create a date from month/year format
     if (isNaN(eventDateObj.getTime())) {
       const parts = eventDate.split(" ");
       if (parts.length === 2) {
@@ -44,12 +43,15 @@ const isFutureEvent = (eventDate) => {
           return constructedDate > currentDate;
         }
       }
+      return false; // If we can't parse the string, it's not a future event
     } else {
       return eventDateObj > currentDate;
     }
   }
 
-  return false;
+  // Handle Date objects or timestamps from API
+  const eventDateObj = new Date(eventDate);
+  return eventDateObj > currentDate;
 };
 
 const getGalleryImageUrl = (img) => {
@@ -68,7 +70,6 @@ const getGalleryImageUrl = (img) => {
 
 // Helper function to get banner image URL with fallbacks
 const getBannerImageUrl = (event, isMobile) => {
-  // For mobile devices, prioritize thumbnail over banner for both hardcoded and API data
   if (isMobile) {
     if (event.thumbnail) {
       return event.thumbnail;
@@ -99,11 +100,18 @@ const EventDetailPage = ({ params }) => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        // Fetch all events (this will use fallback if API fails)
+        // Fetch the specific event by slug (converted to ID)
+        // First, we need to find the event ID from the slug
         const allEvents = await fetchEvents();
+        const eventFromList = findEventBySlug(allEvents, eventSlug);
 
-        // Find the event by slug
-        const foundEvent = findEventBySlug(allEvents, eventSlug);
+        if (!eventFromList) {
+          setError("Event not found");
+          return;
+        }
+
+        // Now fetch the properly formatted event data
+        const foundEvent = await fetchEventById(eventFromList.id);
 
         if (!foundEvent) {
           setError("Event not found");
@@ -181,10 +189,8 @@ const EventDetailPage = ({ params }) => {
     date = event.date || "Date not available";
   }
 
-  // Determine if this is an upcoming event based on date
-  const isUpcomingEvent = isFutureEvent(
-    event.Date || event.PublishDate || event.date
-  );
+  // Determine if this is an upcoming event based on the eventType field
+  const isUpcomingEvent = event.eventType === "upcoming";
 
   return (
     <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
@@ -218,7 +224,11 @@ const EventDetailPage = ({ params }) => {
           <img
             src={bannerImage || "/images/news-events/placeholder.webp"}
             alt={event.Title || event.title}
-            className={`w-full h-full ${ !isUpcomingEvent && "object-cover object-center"}`}
+            className={`${
+              isUpcomingEvent
+                ? "w-full h-full"
+                : "w-full h-full object-cover object-center"
+            }`}
             onError={(e) => {
               // Fallback to placeholder if image fails to load
               e.target.src = "/images/news-events/placeholder.webp";
