@@ -14,24 +14,9 @@ const DataGrid = ({ activeTab, hasUpcoming }) => {
     const loadData = async () => {
       try {
         setError(null);
-        const result = await fetchEvents(100, "all");
-
-        if (!hasUpcoming) {
-          setData(result.slice(0, 3));
-          return;
-        }
-
-        const now = new Date();
-        const filteredData = result.filter((event) => {
-          const eventDate = new Date(event.date);
-          if (activeTab === "upcoming") {
-            return eventDate >= now;
-          } else {
-            return eventDate < now;
-          }
-        });
-
-        setData(filteredData.slice(0, 3));
+        const eventType = hasUpcoming ? activeTab : "all";
+        const result = await fetchEvents(3, eventType);
+        setData(result);
       } catch (err) {
         setError("Failed to load data");
         console.error(err);
@@ -52,7 +37,7 @@ const DataGrid = ({ activeTab, hasUpcoming }) => {
   if (!data) {
     return (
       <ul className="w-full h-fit grid justify-center items-stretch grid-cols-4 sm:grid-cols-12 gap-y-7.5 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
-        {[1, 2, 3, 4].map((i) => (
+        {[1, 2, 3].map((i) => (
           <li key={i} className="col-span-4 sm:col-span-6 md:col-span-4">
             <NewsEventsCardSuspense variant="event" />
           </li>
@@ -64,7 +49,7 @@ const DataGrid = ({ activeTab, hasUpcoming }) => {
   if (data.length === 0) {
     return (
       <div className="text-textSecondary px-3.5 md:px-5 lg:px-10 text-heading4 flex justify-center items-center h-[75vh] lg:h-[50vh]">
-        Data not available
+        No {activeTab} events available
       </div>
     );
   }
@@ -103,15 +88,9 @@ const Events = () => {
   React.useEffect(() => {
     const checkUpcoming = async () => {
       try {
-        const allEvents = await fetchEvents(100, "all");
-        const now = new Date();
-        
-        const upcomingExists = allEvents.some((event) => {
-          const eventDate = new Date(event.date);
-          return eventDate >= now;
-        });
-
-        setHasUpcoming(upcomingExists);
+        // Fetch upcoming events using your existing filter
+        const upcomingEvents = await fetchEvents(null, "upcoming");
+        setHasUpcoming(upcomingEvents.length > 0);
       } catch (err) {
         setHasUpcoming(false);
       }
@@ -133,7 +112,7 @@ const Events = () => {
         {/* Tabs Area */}
         {hasUpcoming && (
           <div className="md:col-start-1 col-span-3 md:col-span-2 flex items-center justify-center w-fit gap-2.5 sm:gap-4 lg:gap-6">
-            {/* PAST TAB */}
+            {/* UPCOMING TAB */}
             <button
               onClick={() => setActiveTab("upcoming")}
               className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
@@ -144,6 +123,7 @@ const Events = () => {
             >
               Upcoming Events
             </button>
+            {/* PAST TAB */}
             <button
               onClick={() => setActiveTab("past")}
               className={`px-3 py-2 w-fit flex items-center justify-center rounded-full text-sm sm:text-bodySmall leading-[120%] font-neueMontreal border-1 cursor-pointer transition-colors ${
