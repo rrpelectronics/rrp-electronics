@@ -11,9 +11,13 @@ const isFutureEvent = (eventDate) => {
   if (!eventDate) return false;
 
   const currentDate = new Date();
-  console.log("Current Date:", currentDate);
 
-  // Handle string dates from hardcoded data
+  // Handle Date objects first (from updated eventsData.js)
+  if (eventDate instanceof Date) {
+    return eventDate > currentDate;
+  }
+
+  // Handle string dates from hardcoded data (like "January 2026")
   if (typeof eventDate === "string") {
     // Try to parse the date string
     const eventDateObj = new Date(eventDate);
@@ -70,6 +74,7 @@ const getGalleryImageUrl = (img) => {
 
 // Helper function to get banner image URL with fallbacks
 const getBannerImageUrl = (event, isMobile) => {
+  // For mobile devices, prioritize thumbnail over banner for both hardcoded and API data
   if (isMobile) {
     if (event.thumbnail) {
       return event.thumbnail;
@@ -182,7 +187,14 @@ const EventDetailPage = ({ params }) => {
         year: "numeric",
         month: "long",
       });
+    } else if (event.date instanceof Date) {
+      // Format Date object
+      date = event.date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      });
     } else {
+      // For string dates or fallback
       date = event.date || "Date not available";
     }
   } catch (e) {
