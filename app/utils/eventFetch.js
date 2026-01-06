@@ -33,6 +33,11 @@ const isFutureEvent = (eventDate) => {
   
   const currentDate = new Date();
   
+  // Handle Date objects first (from updated eventsData.js)
+  if (eventDate instanceof Date) {
+    return eventDate > currentDate;
+  }
+  
   // Handle string dates like "January 2026"
   if (typeof eventDate === "string") {
     // Try to parse the date string
@@ -58,7 +63,7 @@ const isFutureEvent = (eventDate) => {
       return eventDateObj > currentDate;
     }
   } else {
-    // Handle Date objects or timestamps
+    // Handle timestamps
     const eventDateObj = new Date(eventDate);
     return eventDateObj > currentDate;
   }
@@ -148,7 +153,10 @@ export const fetchEvents = async (limit = null, eventType = null) => {
       id: item.id.toString(),
       newsEventImg: item.thumbnail || item.newsEventBanner || item.Banner || "/images/news-events/placeholder.webp",
       title: item.title || "No title",
-      date: item.date || "Date not available",
+      date: item.date instanceof Date ? item.date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      }) : item.date || "Date not available",
       source: item.source || "",
       link: item.link || "#",
       imgBgClass: "object-cover",
@@ -194,7 +202,10 @@ export const fetchEventById = async (eventId) => {
       id: foundEvent.id.toString(),
       newsEventImg: foundEvent.thumbnail || foundEvent.newsEventBanner || foundEvent.Banner || "/images/news-events/placeholder.webp",
       title: foundEvent.title || "No title",
-      date: foundEvent.date || "Date not available",
+      date: foundEvent.date instanceof Date ? foundEvent.date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      }) : foundEvent.date || "Date not available",
       source: foundEvent.source || "",
       link: foundEvent.link || "#",
       imgBgClass: "object-cover",
