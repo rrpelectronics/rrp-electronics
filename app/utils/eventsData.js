@@ -4,7 +4,7 @@ const events_data = [
     newsEventBanner: "/images/news-events/vlsid-jan-2026-banner.png",
     thumbnail: "/images/news-events/vlsid-jan-2026-thumbnail.png",
     title: "VLSID 2026 Powered by RRP Electronics Limited",
-    date: new Date(2026, 0, 31), // January 2026
+    date: new Date(2026, 0, 7), // January 2026
     Description: `RRP Electronics Limited is proud to be the Main Sponsor of VLSID 2026, one of the most prestigious conferences in the field of VLSI design, semiconductor technology, and embedded systems.
 
 As a key contributor to India’s semiconductor ecosystem, our association with VLSID 2026 reflects our commitment to advancing innovation, indigenous manufacturing, and technological excellence. Through this partnership, we look forward to engaging with industry leaders, researchers, academia, and innovators to exchange ideas, showcase capabilities, and support the future of semiconductor design and manufacturing.`,

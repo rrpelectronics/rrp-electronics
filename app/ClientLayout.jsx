@@ -135,7 +135,7 @@ export default function ClientLayout({ children }) {
     <ReactLenis root>
       <FooterProvider>
         {/* Popup component - shown with time interval only on first visit */}
-        {showPopup && <Popup onClose={handlePopupClose} />}
+        {/* {showPopup && <Popup onClose={handlePopupClose} />} */}
 
         {(pathname === "/" ||
           pathname === "/about" ||
