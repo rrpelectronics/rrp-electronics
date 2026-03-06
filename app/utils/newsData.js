@@ -14,7 +14,8 @@ export const news_data = [
     title:
       "RRP Electronics locks in 101 acres in Maharashtra for mega semiconductor campus; ₹36,000 crore capex planned",
     date: "February 2026",
-    link: "https://www.linkedin.com/feed/update/urn:li:activity:7433156664146493440/",
+    link: "https://www.fortuneindia.com/technology/rrp-electronics-locks-in-101-acres-in-maharashtra-for-mega-semiconductor-campus-36000-crore-capex-planned/130918",
+    source: "Fortune India",
     imgBgClass: "object-center",
   },
   {
