@@ -27,7 +27,7 @@ const BannerStack = ({ video, imgSrc, heading, text, placeholder }) => {
       )}
       <div className="bg-black/50 inset-0 absolute h-full w-full" />
       <div className="h-full w-full grid grid-cols-4 gap-x-3 md:gap-x-5 items-center px-3.5 md:px-5 lg:px-10 py-10 relative z-1">
-        <h1 className="max-w-[996px] tracking-display text-display sm:text-heading1 md:text-display text-white leading-[110%] absolute pe-3.5 md:pe-10 left-3.5 md:left-10 top-1/2 -translate-y-1/2">
+        <h1 className="max-w-[996px] tracking-display text-display sm:text-heading1 md:text-display text-white leading-[110%] absolute pe-2 md:pe-10 left-3.5 md:left-10 top-1/2 -translate-y-1/2">
           {heading.split("\n").map((line, i) => (
             <React.Fragment key={i}>
               {line}
