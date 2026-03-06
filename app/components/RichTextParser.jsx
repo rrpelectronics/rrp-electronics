@@ -152,7 +152,7 @@ const parseRichText = (text) => {
     if (numbered) {
       if (!list || list.type !== "ol") {
         pushList();
-        list = { type: "ol", items: [] };
+        list = { type: "ol", key: `ol-list-${i}`, items: [] };
       }
       list.items.push({
         key: `ol-${i}`,
@@ -165,7 +165,7 @@ const parseRichText = (text) => {
     if (bullet) {
       if (!list || list.type !== "ul") {
         pushList();
-        list = { type: "ul", items: [] };
+        list = { type: "ul", key: `ul-list-${i}`, items: [] };
       }
       list.items.push({
         key: `ul-${i}`,

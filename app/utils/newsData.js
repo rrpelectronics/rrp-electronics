@@ -1,6 +1,42 @@
 export const news_data = [
   {
-    id: "1",
+    id: "rrp-electronics-mou-with-hcl-tech",
+    newsEventImg: "/images/news-events/vision-summit/vision-summit-5.webp",
+    title:
+      "RRP Electronics has signed a MoU with HCL Tech",
+    date: "February 2026",
+    link: "https://www.linkedin.com/feed/update/urn:li:activity:7433156664146493440/",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "rrp-electronics-locks-101-acres",
+    newsEventImg: "/images/solutions/solutions1.webp",
+    title:
+      "RRP Electronics locks in 101 acres in Maharashtra for mega semiconductor campus; ₹36,000 crore capex planned",
+    date: "February 2026",
+    link: "https://www.linkedin.com/feed/update/urn:li:activity:7433156664146493440/",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "rrp-electronics-mou-with-kleos",
+    newsEventImg: "/images/news-events/davos/davos-4.webp",
+    title:
+      "Strategic MoU with Kleos for 5G+/6G Manufacturing in India",
+    date: "January 2026",
+    link: "https://www.linkedin.com/feed/update/urn:li:activity:7419733358378676224/",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "rrp-electronics-mou-with-jps-technologies-uk",
+    newsEventImg: "/images/news-events/davos/davos-3.webp",
+    title:
+      "MoU with JPS Technologies UK for Semiconductor Packaging Facility",
+    date: "January 2026",
+    link: "https://www.linkedin.com/feed/update/urn:li:activity:7420066389169934336/",
+    imgBgClass: "object-center",
+  },
+  {
+    id: "horngcom-technology-partners-with-rrp-electronics",
     newsEventImg: "/images/news-events/horngcom.webp",
     title:
       "HorngCom Technology Partners with RRP Electronics to Expand Semiconductor OSAT Capabilities in India",
@@ -10,7 +46,7 @@ export const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "2",
+    id: "deca-technology",
     newsEventImg: "/images/news-events/deca-rrp.webp",
     title:
       "DECA Technology: Strategic Boost to India & Semiconductor Packaging Industry",
@@ -20,7 +56,7 @@ export const news_data = [
     imgBgClass: "object-top",
   },
   {
-    id: "3",
+    id: "rrp-electronics-visited-macronix-international",
     newsEventImg: "/images/news-events/macronix.webp",
     title:
       "RRP Electronics visited Macronix International, a global leader in Non-Volatile Memory (NVM) technology.",
@@ -29,7 +65,7 @@ export const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "4",
+    id: "rrp-electronics-mou-with-palm-tech",
     newsEventImg: "/images/news-events/palm.webp",
     title:
       "RRP Electronics signed an MoU with Palm Tech to develop advanced displays, including TFT LCDs, OLEDs, and touch panels.",
@@ -38,7 +74,7 @@ export const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "5",
+    id: "rrp-electronics-mou-with-amb-taiwan",
     newsEventImg: "/images/news-events/amb.webp",
     title:
       " RRP Electronics signed a groundbreaking MoU with AMB Taiwan to collaborate on memory module production.",
@@ -47,7 +83,7 @@ export const news_data = [
     imgBgClass: "object-center",
   },
   {
-    id: "6",
+    id: "first-semiconductor-plant-in-maharashtra",
     newsEventImg: "/images/news-events/first-semiconductor-plant.webp",
     title: "RRP Electronics to set up first semiconductor plant in Maharashtra",
     date: "July 2024",
