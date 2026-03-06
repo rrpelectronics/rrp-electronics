@@ -14,14 +14,17 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   const companySubmenuRef = useRef(null);
   const operationsSubmenuRef = useRef(null);
   const extrasSubmenuRef = useRef(null);
+  const newsRoomSubmenuRef = useRef(null);
   const headerRef = useRef(null);
 
-  const companyPages = ["/about", "/our-journey", "/leadership"];
+  const companyPages = ["/about", "/our-journey", "/leadership", "/solutions"];
   const operationsPages = ["/compliances", "/logistics", "/traceability"];
+  const newsRoom = ["/news", "/events", "/contact-us"];
   const extrasPages = ["/projects", "/careers", "/news-events", "/contact-us"];
 
   const isCompanyActive = companyPages.includes(pathname);
   const isOperationsActive = operationsPages.includes(pathname);
+  const isNewsRoomActive = newsRoom.includes(pathname);
   const isSolutionsActive = pathname === "/solutions";
   const isHomeActive = pathname === "/";
   const isExtrasActive = extrasPages.includes(pathname);
@@ -38,6 +41,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
   useEffect(() => {
     const allSubmenuPages = [
       ...companyPages,
+      ...newsRoom,
       ...operationsPages,
       ...extrasPages,
     ];
@@ -139,6 +143,58 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             Leadership
           </Link>
         </li>
+        <li>
+          <Link
+            href="/solutions"
+            onClick={handleSubmenuLinkClick}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+              pathname === "/solutions" ? "text-primary" : "text-white"
+            }`}
+          >
+            Solutions
+          </Link>
+        </li>
+      </ul>
+
+      {/* News Room Submenu */}
+      <ul
+        ref={newsRoomSubmenuRef}
+        style={{
+          bottom: isMobile
+            ? "calc(28px + 51.6px + 7px)"
+            : "calc(40px + 65.6px + 6.5px)",
+          clipPath:
+            activeSubmenu === "newsRoom"
+              ? "inset(0% 0% 0% 0%)"
+              : "inset(100% 0% 0% 0%)",
+          transition: "clip-path 0.3s ease-in-out",
+        }}
+        className="rounded-3xl w-[352.66px] sm:w-[460px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-y-2 sm:gap-y-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
+        onMouseEnter={() => handleMouseEnter("newsRoom")}
+        onMouseLeave={handleMouseLeave}
+      >
+        <li>
+          <Link
+            href="/news"
+            onClick={handleSubmenuLinkClick}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+              pathname === "/news" ? "text-primary" : "text-white"
+            }`}
+          >
+            News
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/events"
+            onClick={handleSubmenuLinkClick}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
+              pathname === "/events" ? "text-primary" : "text-white"
+            }`}
+          >
+            Events
+          </Link>
+        </li>
       </ul>
 
       {/* Operations Submenu */}
@@ -206,7 +262,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               : "inset(100% 0% 0% 0%)",
           transition: "clip-path 0.3s ease-in-out",
         }}
-        className="rounded-3xl w-[352.66px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
+        className="rounded-3xl w-[346.46px] sm:w-[449.66px] z-[50] fixed left-1/2 -translate-x-1/2 flex flex-col px-4 sm:px-6 gap-4 py-4 sm:py-5 bg-darkBg/70 backdrop-blur-[4px] border border-white/16"
         onMouseEnter={() => handleMouseEnter("extras")}
         onMouseLeave={handleMouseLeave}
       >
@@ -226,38 +282,10 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             href="/careers"
             onClick={handleSubmenuLinkClick}
             className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname.startsWith("/careers")
-                ? "text-primary"
-                : "text-white"
+              pathname.startsWith("/careers") ? "text-primary" : "text-white"
             }`}
           >
             Careers
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/news"
-            onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname.startsWith("/news")
-                ? "text-primary"
-                : "text-white"
-            }`}
-          >
-            News
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/events"
-            onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname.startsWith("/events")
-                ? "text-primary"
-                : "text-white"
-            }`}
-          >
-            Events
           </Link>
         </li>
         <li>
@@ -280,7 +308,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full px-2.5 sm:px-4 py-3 sm:py-4">
           <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
             <li
-              className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
+              className={`flex justify-center items-center px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
                 isHomeActive ? "bg-primary text-white" : "text-white"
               }`}
             >
@@ -298,19 +326,19 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               onMouseEnter={() => handleMouseEnter("company")}
               // onClick={() => handleMouseEnter("company")}
               onMouseLeave={handleMouseLeave}
-              className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isCompanyActive
                   ? "bg-primary text-white"
                   : activeSubmenu === "company"
-                  ? "text-primary"
-                  : "text-white hover:text-primary"
+                    ? "text-primary"
+                    : "text-white hover:text-primary"
               }`}
             >
               <p className="text-sm sm:text-[16px] leading-[100%]">Company</p>
             </li>
 
-            <li
-              className={`flex justify-center items-center px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 font-neueMontreal ${
+            {/* <li
+              className={`flex justify-center items-center px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 font-neueMontreal ${
                 isSolutionsActive ? "bg-primary text-white" : "text-white"
               }`}
             >
@@ -322,22 +350,37 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               >
                 Solutions
               </Link>
-            </li>
+            </li> */}
 
             <li
               onMouseEnter={() => handleMouseEnter("operations")}
               onMouseLeave={handleMouseLeave}
-              className={`px-2 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
                 isOperationsActive
                   ? "bg-primary text-white"
                   : activeSubmenu === "operations"
-                  ? "text-primary"
-                  : "text-white hover:text-primary"
+                    ? "text-primary"
+                    : "text-white hover:text-primary"
               }`}
             >
               <p className="text-sm sm:text-[16px] leading-[100%]">
                 Operations
               </p>
+            </li>
+
+            <li
+              onMouseEnter={() => handleMouseEnter("newsRoom")}
+              // onClick={() => handleMouseEnter("company")}
+              onMouseLeave={handleMouseLeave}
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
+                isNewsRoomActive
+                  ? "bg-primary text-white"
+                  : activeSubmenu === "newsRoom"
+                    ? "text-primary"
+                    : "text-white hover:text-primary"
+              }`}
+            >
+              <p className="text-sm sm:text-[16px] leading-[100%]">Newsroom</p>
             </li>
           </ul>
 
