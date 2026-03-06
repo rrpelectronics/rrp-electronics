@@ -115,7 +115,7 @@ const Page = () => {
     <main ref={mainRef} className='min-h-screen w-full relative overflow-clip'>
       <BannerStack 
         imgSrc={"/images/solutions/banner.webp"} 
-        heading={"Smart Solutions for a Smarter Future"} 
+        heading={"Smart Solutions \n for a Smarter Future"} 
       />
 
       <Text text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."}/>
