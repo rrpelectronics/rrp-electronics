@@ -19,7 +19,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
 
   const companyPages = ["/about", "/our-journey", "/leadership", "/solutions"];
   const operationsPages = ["/compliances", "/logistics", "/traceability"];
-  const newsRoom = ["/news", "/events", "/contact-us"];
+  const newsRoom = ["/news", "/events"];
   const extrasPages = ["/projects", "/careers", "/news-events", "/contact-us"];
 
   const isCompanyActive = companyPages.includes(pathname);
@@ -114,9 +114,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/about"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/about" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/about" ? "text-primary" : "text-white"
+              }`}
           >
             About Us
           </Link>
@@ -125,9 +124,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/our-journey"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/our-journey" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/our-journey" ? "text-primary" : "text-white"
+              }`}
           >
             Our Journey
           </Link>
@@ -136,9 +134,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/leadership"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/leadership" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/leadership" ? "text-primary" : "text-white"
+              }`}
           >
             Leadership
           </Link>
@@ -147,9 +144,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/solutions"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/solutions" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/solutions" ? "text-primary" : "text-white"
+              }`}
           >
             Solutions
           </Link>
@@ -177,9 +173,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/news"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/news" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/news" ? "text-primary" : "text-white"
+              }`}
           >
             News
           </Link>
@@ -188,12 +183,22 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/events"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/events" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/events" ? "text-primary" : "text-white"
+              }`}
           >
             Events
           </Link>
+        </li>
+        <li>
+          <a
+            href="/documents/rrp-newsletter.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleSubmenuLinkClick}
+            className="leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary text-white"
+          >
+            Newsletter
+          </a>
         </li>
       </ul>
 
@@ -218,9 +223,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/compliances"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/compliances" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/compliances" ? "text-primary" : "text-white"
+              }`}
           >
             Quality Standards & Compliances
           </Link>
@@ -229,9 +233,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/logistics"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/logistics" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/logistics" ? "text-primary" : "text-white"
+              }`}
           >
             Supply Chain & Logistics
           </Link>
@@ -240,9 +243,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/traceability"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/traceability" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/traceability" ? "text-primary" : "text-white"
+              }`}
           >
             Traceability
           </Link>
@@ -270,9 +272,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/projects"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/projects" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/projects" ? "text-primary" : "text-white"
+              }`}
           >
             Projects
           </Link>
@@ -281,9 +282,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/careers"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname.startsWith("/careers") ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname.startsWith("/careers") ? "text-primary" : "text-white"
+              }`}
           >
             Careers
           </Link>
@@ -292,9 +292,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
           <Link
             href="/contact-us"
             onClick={handleSubmenuLinkClick}
-            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${
-              pathname === "/contact-us" ? "text-primary" : "text-white"
-            }`}
+            className={`leading-[100%] font-neueMontreal text-sm sm:text-[16px] transition-colors duration-200 hover:text-primary ${pathname === "/contact-us" ? "text-primary" : "text-white"
+              }`}
           >
             Contact Us
           </Link>
@@ -308,15 +307,13 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         <nav className="overflow-hidden w-fit flex items-center bg-darkBg/70 border border-white/16 backdrop-blur-[4px] rounded-full px-2.5 sm:px-4 py-3 sm:py-4">
           <ul className="flex justify-center items-center gap-x-2 sm:gap-x-3 mr-3.5 sm:mr-5">
             <li
-              className={`flex justify-center items-center px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${
-                isHomeActive ? "bg-primary text-white" : "text-white"
-              }`}
+              className={`flex justify-center items-center px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors duration-200 ${isHomeActive ? "bg-primary text-white" : "text-white"
+                }`}
             >
               <Link
                 href="/"
-                className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 font-neueMontreal ${
-                  !isHomeActive ? "hover:text-primary" : ""
-                }`}
+                className={`text-sm sm:text-[16px] leading-[100%] transition-colors duration-200 font-neueMontreal ${!isHomeActive ? "hover:text-primary" : ""
+                  }`}
               >
                 Home
               </Link>
@@ -326,13 +323,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               onMouseEnter={() => handleMouseEnter("company")}
               // onClick={() => handleMouseEnter("company")}
               onMouseLeave={handleMouseLeave}
-              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
-                isCompanyActive
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${isCompanyActive
                   ? "bg-primary text-white"
                   : activeSubmenu === "company"
                     ? "text-primary"
                     : "text-white hover:text-primary"
-              }`}
+                }`}
             >
               <p className="text-sm sm:text-[16px] leading-[100%]">Company</p>
             </li>
@@ -355,13 +351,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
             <li
               onMouseEnter={() => handleMouseEnter("operations")}
               onMouseLeave={handleMouseLeave}
-              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
-                isOperationsActive
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${isOperationsActive
                   ? "bg-primary text-white"
                   : activeSubmenu === "operations"
                     ? "text-primary"
                     : "text-white hover:text-primary"
-              }`}
+                }`}
             >
               <p className="text-sm sm:text-[16px] leading-[100%]">
                 Operations
@@ -372,13 +367,12 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               onMouseEnter={() => handleMouseEnter("newsRoom")}
               // onClick={() => handleMouseEnter("company")}
               onMouseLeave={handleMouseLeave}
-              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${
-                isNewsRoomActive
+              className={`px-1.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer rounded-full transition-colors duration-200 font-neueMontreal ${isNewsRoomActive
                   ? "bg-primary text-white"
                   : activeSubmenu === "newsRoom"
                     ? "text-primary"
                     : "text-white hover:text-primary"
-              }`}
+                }`}
             >
               <p className="text-sm sm:text-[16px] leading-[100%]">Newsroom</p>
             </li>
@@ -394,9 +388,8 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
               alt="Header Menu"
               fill
               sizes="16px"
-              className={`h-3 sm:h-4 w-3 sm:w-4 transition-transform duration-300 ${
-                activeSubmenu === "extras" ? "-rotate-45" : ""
-              }`}
+              className={`h-3 sm:h-4 w-3 sm:w-4 transition-transform duration-300 ${activeSubmenu === "extras" ? "-rotate-45" : ""
+                }`}
             />
           </li>
         </nav>

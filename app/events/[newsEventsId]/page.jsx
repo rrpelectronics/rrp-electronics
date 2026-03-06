@@ -1,9 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { findEventBySlug } from "@/app/utils/slugUtils";
-import { fetchEventById, fetchEvents } from "@/app/utils/eventFetch";
-import Image from "next/image";
+import events_data from "@/app/utils/eventsData";
 import RichTextParser from "@/app/components/RichTextParser";
 import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
 
@@ -100,38 +98,24 @@ const EventDetailPage = ({ params }) => {
   const isMobile = UseScreenSizeSmall();
   const router = useRouter();
 
-  const eventSlug = params?.newsEventsId;
+  const resolvedParams = React.use(params);
+  const eventSlug = resolvedParams?.newsEventsId;
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        // Fetch the specific event by slug (converted to ID)
-        // First, we need to find the event ID from the slug
-        const allEvents = await fetchEvents();
-        const eventFromList = findEventBySlug(allEvents, eventSlug);
-
-        if (!eventFromList) {
-          setError("Event not found");
-          return;
-        }
-
-        // Now fetch the properly formatted event data
-        const foundEvent = await fetchEventById(eventFromList.id);
-
-        if (!foundEvent) {
-          setError("Event not found");
-        } else {
-          setEvent(foundEvent);
-        }
-      } catch (err) {
-        setError("Failed to load event: " + err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (eventSlug) {
-      fetchEvent();
+      const foundEvent = events_data.find((e) => e.id === eventSlug);
+
+      if (!foundEvent) {
+        setError("Event not found");
+      } else {
+        // Map data properties to match what the component expects
+        setEvent({
+          ...foundEvent,
+          description: foundEvent.Description || foundEvent.description,
+          banner: foundEvent.newsEventBanner || foundEvent.Banner || foundEvent.banner,
+        });
+      }
+      setLoading(false);
     }
   }, [eventSlug]);
 
@@ -220,7 +204,7 @@ const EventDetailPage = ({ params }) => {
         </svg>
         Go Back
       </button>
-      <h1 className="col-span-4 lg:col-start-2 lg:col-span-2 text-[32px] md:text-[48px] lg:text-[56px] leading-[110%] mb-3 md:mb-5">
+      <h1 className="col-span-4 lg:col-start-2 lg:col-span-2 text-[32px] md:text-[48px] leading-[110%] mb-3 md:mb-5">
         {event.Title || event.title}
       </h1>
       <div className="col-span-4 lg:col-start-2 lg:col-span-2 flex items-center mb-6 md:mb-8">
@@ -229,18 +213,16 @@ const EventDetailPage = ({ params }) => {
 
       {bannerImage && (
         <div
-          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/600] w-full mb-6 md:mb-8 ${
-            isUpcomingEvent ? "bg-whiteBg" : ""
-          }`}
+          className={`col-span-4 relative overflow-hidden aspect-[400/248] sm:aspect-[1440/600] w-full mb-6 md:mb-8 ${isUpcomingEvent ? "bg-whiteBg" : ""
+            }`}
         >
           <img
             src={bannerImage || "/images/news-events/placeholder.webp"}
             alt={event.Title || event.title}
-            className={`${
-              isUpcomingEvent
-                ? "w-full h-full"
-                : "w-full h-full object-cover object-center"
-            }`}
+            className={`${isUpcomingEvent
+              ? "w-full h-full"
+              : "w-full h-full object-cover object-center"
+              }`}
             onError={(e) => {
               // Fallback to placeholder if image fails to load
               e.target.src = "/images/news-events/placeholder.webp";

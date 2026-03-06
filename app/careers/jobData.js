@@ -1,6 +1,6 @@
 export const JOB_DATA = [
   {
-    id: 0,
+    id: "diploma-engineers-electronics",
     title: "Diploma Engineers \n (Electronics)",
     department: "Engineering",
     type: "Full Time",
@@ -12,7 +12,7 @@ export const JOB_DATA = [
     extraPoints: []
   },
   {
-    id: 1,
+    id: "supply-chain-management-scm-roles-all-levels",
     title: "Supply Chain Management \n (SCM) Roles – All Levels",
     department: "Operations",
     type: "Full Time",
@@ -26,10 +26,10 @@ export const JOB_DATA = [
     ]
   },
   {
-    id: 2,
+    id: "accounts",
     title: "Accounts",
     department: "Finance",
-    type: "Full Time", 
+    type: "Full Time",
     location: "Mahape, Navi Mumbai",
     description: "We are expanding our Accounts Department and looking for candidates who are eager to contribute to financial operations and reporting.",
     experienceMin: 2,
@@ -40,13 +40,13 @@ export const JOB_DATA = [
     ]
   },
   {
-    id: 3,
+    id: "front-desk-executive",
     title: "Front Desk Executive",
     department: "Receptionist",
-    type: "Full Time", 
+    type: "Full Time",
     location: "Mahape, Navi Mumbai",
-    description: 
-    `Seeking a professional Front Desk Executive, with a welcoming personality, capable of handling all day-to-day front desk operations and clerical duties at our main entrance front desk. Responsible for being the face of our company for all visitors, the ideal candidate is expected to have a pleasant demeanour, yet confident enough to handle any challenging situations. 
+    description:
+      `Seeking a professional Front Desk Executive, with a welcoming personality, capable of handling all day-to-day front desk operations and clerical duties at our main entrance front desk. Responsible for being the face of our company for all visitors, the ideal candidate is expected to have a pleasant demeanour, yet confident enough to handle any challenging situations. 
 
     Key Responsibilities:
     - Greet, welcome and assist visitors by directing them to the proper personnel or department
