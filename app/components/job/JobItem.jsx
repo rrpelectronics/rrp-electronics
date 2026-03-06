@@ -1,16 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { generateSlug } from "@/app/utils/slugUtils";
 
 const JobItem = React.memo(({ job }) => {
-  // Generate slug from job title
-  const jobSlug = generateSlug(job.title);
+  // Use slug ID directly
+  const jobSlug = job.id;
 
   return (
     <li
-      className={`grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-4 md:gap-y-5 ${
-        job.id === 0 ? "pt-0 pb-6 lg:pt-6" : "py-6"
-      } border-b-1 border-b-borderPrimary`}
+      className={`grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-4 md:gap-y-5 ${job.id === "diploma-engineers-electronics" ? "pt-0 pb-6 lg:pt-6" : "py-6"
+        } border-b-1 border-b-borderPrimary`}
     >
       <p
         data-animate-text
