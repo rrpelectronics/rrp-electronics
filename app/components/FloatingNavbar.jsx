@@ -191,7 +191,7 @@ const FloatingNavbar = React.forwardRef((props, ref) => {
         </li>
         <li>
           <a
-            href="/documents/rrp-newsletter.pdf"
+            href="/documents/rrp_newsletter.pdf"
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleSubmenuLinkClick}
