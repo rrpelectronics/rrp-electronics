@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const slides = [
   {
@@ -58,7 +58,7 @@ const Carousel = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const timeoutRef = useRef(null);
 
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   const handleChange = (index) => {
     setCurrent(index);

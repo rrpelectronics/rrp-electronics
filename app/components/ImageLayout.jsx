@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import { useParallax } from "@/app/hooks/useParallax";
 import Image from "next/image";
 
 const ImageLayout = ({ heading, imageLayoutData = [] }) => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   const imageRef0 = useParallax(1);
   const imageRef1 = useParallax(1);
 

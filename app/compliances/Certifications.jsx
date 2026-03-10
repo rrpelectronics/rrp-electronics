@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import SectionHeader from "@/app/components/SectionHeader";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
-import UseBodyScrollLock from "@/app/hooks/UseBodyScrollLock";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
+import useLockBodyScroll from "@/app/hooks/useLockBodyScroll";
 
 export default function Certifications() {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageDimensions, setImageDimensions] = useState({
@@ -13,7 +13,7 @@ export default function Certifications() {
     height: 0,
   });
 
-  UseBodyScrollLock(isPopupOpen);
+  useLockBodyScroll(isPopupOpen);
 
   const certifications = [
     {
@@ -82,14 +82,12 @@ export default function Certifications() {
   return (
     <>
       <section
-        className={`h-fit w-full py-10 md:py-15 bg-white relative ${
-          isPopupOpen ? "overflow-hidden" : ""
-        }`}
+        className={`h-fit w-full py-10 md:py-15 bg-white relative ${isPopupOpen ? "overflow-hidden" : ""
+          }`}
       >
         <div
-          className={`${
-            isPopupOpen ? "blur-md" : ""
-          } transition-all duration-500`}
+          className={`${isPopupOpen ? "blur-md" : ""
+            } transition-all duration-500`}
         >
           <SectionHeader
             heading={"Certifications & Standards"}

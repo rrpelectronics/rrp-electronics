@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import events_data from "@/app/utils/eventsData";
 import RichTextParser from "@/app/components/RichTextParser";
-import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
+import useSmallScreen from "@/app/hooks/useSmallScreen";
+import useLockBodyScroll from "@/app/hooks/useLockBodyScroll";
 
 const isFutureEvent = (eventDate) => {
   if (!eventDate) return false;
@@ -95,8 +96,10 @@ const EventDetailPage = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
-  const isMobile = UseScreenSizeSmall();
+  const isMobile = useSmallScreen();
   const router = useRouter();
+
+  useLockBodyScroll(!!selectedImage);
 
   const resolvedParams = React.use(params);
   const eventSlug = resolvedParams?.newsEventsId;
@@ -189,7 +192,7 @@ const EventDetailPage = ({ params }) => {
   const isUpcomingEvent = event.eventType === "upcoming";
 
   return (
-    <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
+    <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5 mt-20 lg:mt-30">
       <button
         onClick={() => router.back()}
         className="col-span-4 lg:col-start-2 flex items-center lg:col-span-2 text-[16px] leading-[130%] text-primary cursor-pointer text-left mb-6"
@@ -263,7 +266,7 @@ const EventDetailPage = ({ params }) => {
 
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/96 z-90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button

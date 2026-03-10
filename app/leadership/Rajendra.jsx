@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const RajendraUpdate = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   return (
     <section

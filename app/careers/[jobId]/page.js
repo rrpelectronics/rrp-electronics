@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import dynamic from "next/dynamic";
 import JobDetailsLoading from "@/app/components/job/JobDetailsLoading";
 import RichTextParser from "@/app/components/RichTextParser";
@@ -15,7 +15,7 @@ const CareersContact = dynamic(
 // Main content component
 const JobDetailsContent = ({ jobSlug }) => {
   const sectionRef = useRef(null);
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -101,7 +101,7 @@ const JobDetailsContent = ({ jobSlug }) => {
   const cleanJobTitle = job.title.replace(/\n/g, " ").trim();
 
   return (
-    <main className="min-h-screen w-full relative">
+    <main className="min-h-screen w-full relative mt-25 lg:mt-35">
       {/* Hero Section */}
       <section className="w-full h-fit py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
         <div ref={containerRef} className="flex flex-col">

@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import BulletList from "@/app/components/BulletList";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import { useParallax } from "@/app/hooks/useParallax";
 
 const cardItems = [
@@ -12,7 +12,7 @@ const cardItems = [
 ];
 
 export default function Osat({ id }) {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   const imageRef = useParallax(1.2);
 
   return (

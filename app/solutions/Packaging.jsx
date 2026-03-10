@@ -1,9 +1,9 @@
 "uise client";
 import React from 'react';
-import { useTextAnimation } from '@/app/hooks/UseTextAnimation';
+import { useTextAnim } from '@/app/hooks/useTextAnim';
 
 const Packaging = ({ id }) => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   return (
     <section
       id={id}
