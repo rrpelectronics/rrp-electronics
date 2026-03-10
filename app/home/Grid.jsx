@@ -2,11 +2,11 @@
 import React from "react";
 import Image from "next/image";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const Grid = () => {
 
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-background">
       <HeadingCenter heading={"Our People. Our Principles. \n Our Progress."} />

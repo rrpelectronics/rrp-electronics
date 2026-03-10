@@ -1,7 +1,7 @@
-// hooks/UseDropdownHandlers.js
+// hooks/useDropdownMenu.js
 import { useRef, useState, useCallback } from 'react';
 
-const UseDropdownHandlers = (isMobile) => {
+const useDropdownMenu = (isMobile) => {
   const timeoutRef = useRef(null);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
@@ -78,4 +78,4 @@ const UseDropdownHandlers = (isMobile) => {
   };
 };
 
-export default UseDropdownHandlers;
+export default useDropdownMenu;

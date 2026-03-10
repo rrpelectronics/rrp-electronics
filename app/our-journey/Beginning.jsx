@@ -3,10 +3,10 @@
 import React from "react";
 import Image from "next/image";
 import { useParallax } from "@/app/hooks/useParallax";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const Beginning = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   const image1Ref = useParallax(1);
   const image2Ref = useParallax(-1);
   const image3Ref = useParallax(1);

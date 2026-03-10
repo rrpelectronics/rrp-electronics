@@ -2,10 +2,10 @@
 import React from "react";
 import Image from "next/image";
 import SectionHeader from "@/app/components/SectionHeader";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const People = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-background">

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/all";
 import { useHeaderHeight } from "@/app/context/HeaderHeightContext";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +20,7 @@ export default function Fab({ id }) {
   const fixedHeaderRef = useRef(null);
   const cardsContainerRef = useRef(null);
   const headerHeight = useHeaderHeight();
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   console.log(headerHeight);
 

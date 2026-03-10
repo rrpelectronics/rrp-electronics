@@ -3,19 +3,19 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import UseScreenSizeLarge from "@/app/hooks/UseScreenSizeLarge";
+import useLargeScreen from "@/app/hooks/useLargeScreen";
 import { useHeaderHeight } from "@/app/context/HeaderHeightContext";
 import BulletList from "@/app/components/BulletList";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function StackCards({ cardsData = [] }) {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
-  const isDesktop = UseScreenSizeLarge();
+  const isDesktop = useLargeScreen();
   const headerHeight = useHeaderHeight();
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   console.log(headerHeight);
 

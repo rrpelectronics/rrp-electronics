@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import { fetchJobs } from "@/app/utils/jobFetch";
 import JobItem from "@/app/components/job/JobItem";
 import TableHeader from "@/app/components/job/TableHeader";
@@ -63,7 +63,7 @@ const JobListContent = () => {
 };
 
 const JobList = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-white">
       <HeadingCenter
