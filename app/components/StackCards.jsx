@@ -26,7 +26,7 @@ export default function StackCards({ cardsData = [] }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: `top ${headerHeight}`,
+          start: `top top`,
           end: `+=${cardsData.length * 100}%`,
           pin: true,
           scrub: true,
@@ -64,7 +64,7 @@ export default function StackCards({ cardsData = [] }) {
       style={
         isDesktop
           ? {
-              height: `calc(100vh - ${headerHeight}px)`,
+              height: `calc(100vh)`,
             }
           : {
               height: "fit-content",
@@ -79,7 +79,7 @@ export default function StackCards({ cardsData = [] }) {
           style={
             isDesktop
               ? {
-                  height: `calc(100vh - ${headerHeight}px)`,
+                  height: `calc(100vh)`,
                   zIndex: cardsData.length - id,
                   transformOrigin: "center center",
                 }
