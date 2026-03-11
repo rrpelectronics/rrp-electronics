@@ -31,13 +31,14 @@ const Page = () => {
 
       ScrollTrigger.create({
         trigger: solutionHeaderElement,
-        start: `top ${headerHeight}px`,
-        end: "max", // Adjust this based on when you want it to unpin
+        start: `top ${headerHeight - 2}px`,
+        endTrigger: document.getElementById("display") || "#display",
+        end: "top 70%", // unpins when 30% of display section comes in view
         pin: true,
         pinSpacing: false, // Set to true if you want to maintain spacing
-        // markers: true, // Uncomment for debugging
+        // markers: true, // Uncomment for debugging.
       });
-    }, solutionHeaderRef);
+    }, mainRef);
 
     return () => ctx.revert();
   }, [headerHeight]);
@@ -66,7 +67,7 @@ const Page = () => {
       });
 
       function setActive(activeLink) {
-        links.forEach((l) =>{
+        links.forEach((l) => {
           l.classList.remove("text-primary");
           l.classList.add("text-textPrimary");
         });
@@ -113,12 +114,12 @@ const Page = () => {
 
   return (
     <main ref={mainRef} className='min-h-screen w-full relative overflow-clip'>
-      <BannerStack 
-        imgSrc={"/images/solutions/banner.webp"} 
-        heading={"Smart Solutions \n for a Smarter Future"} 
+      <BannerStack
+        imgSrc={"/images/solutions/banner.webp"}
+        heading={"Smart Solutions \n for a Smarter Future"}
       />
 
-      <Text text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."}/>
+      <Text text={"At RRP Electronics, we are shaping the future of semiconductor innovation in India. Our integrated solutions span advanced OSAT capabilities, next-gen packaging, prototyping, and specialized display technologies designed to drive scalability, reliability, and real-world impact. Explore how we're enabling the next wave of electronics excellence."} />
 
       {/* Sticky Header Nav */}
       <div ref={solutionHeaderRef} className="bg-white min-w-full overflow-x-auto no-scrollbar px-3.5 md:px-5 lg:px-10 py-5 flex gap-4 md:gap-12 border-b border-borderPrimary items-center z-40">
@@ -137,15 +138,15 @@ const Page = () => {
       </div>
 
       {/* Sections */}
-      <Osat id="osat"/>
+      <Osat id="osat" />
       {/* <VideoImgSection 
         videoSrc={"/images/solutions/osat-process.mp4"} 
         heading={"Inside the \n OSAT Process"} 
         text={"From wafer to package, see how our world-class OSAT process delivers precision, performance, and scalability at every stage of chip assembly and testing."}
       /> */}
-      <Packaging id="advanced-packaging"/>
-      <Fab id="fab"/>
-      <Technologies id="display"/>
+      <Packaging id="advanced-packaging" />
+      <Fab id="fab" />
+      <Technologies id="display" />
     </main>
   )
 }

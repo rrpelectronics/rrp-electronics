@@ -8,9 +8,11 @@ import { gsap } from "gsap";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Popup from "@/app/components/Popup";
+import { HeaderHeightProvider } from "@/app/context/HeaderHeightContext";
 
 export default function ClientLayout({ children }) {
   const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const navbarRef = useRef(null);
   const footerRef = useRef(null);
   const logoRef = useRef(null);
@@ -79,12 +81,36 @@ export default function ClientLayout({ children }) {
     return () => ctx.revert();
   }, [pathname]);
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    const updateHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    resizeObserver.observe(headerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   return (
     <ReactLenis root>
       <FooterProvider>
-        <Header ref={headerRef} />
-        {children}
-        <Footer ref={footerRef} />
+        <HeaderHeightProvider height={headerHeight}>
+          <Header ref={headerRef} />
+          {children}
+          <Footer ref={footerRef} />
+        </HeaderHeightProvider>
       </FooterProvider>
     </ReactLenis>
   );
