@@ -2,6 +2,22 @@
 import React from "react";
 import { useTextAnim } from "@/app/hooks/useTextAnim";
 
+function Card({ title, icon, className }) {
+  return (
+    <div
+      className={`relative flex flex-col justify-between aspect-[294/169] h-[123px] md:h-[169px] w-full px-2 pt-2 pb-3 md:px-4 md:pt-4 md:pb-5 ${className}`}
+    >
+      <img src={icon} alt="Card Icon" className="h-7 w-7 md:h-10 md:w-10" />
+      <div
+        data-animate-text
+        className="text-heading4 text-black leading-[115%]"
+      >
+        {title}
+      </div>
+    </div>
+  );
+}
+
 export default function Technologies({ id }) {
 
   const { containerRef } = useTextAnim();
@@ -57,21 +73,5 @@ export default function Technologies({ id }) {
         ))}
       </div>
     </section>
-  );
-}
-
-function Card({ title, icon, className }) {
-  return (
-    <div
-      className={`relative flex flex-col justify-between aspect-[294/169] h-[123px] md:h-[169px] w-full p-2 md:p-4 ${className}`}
-    >
-      <img src={icon} alt="Card Icon" className="h-7 w-7 md:h-10 md:w-10" />
-      <div
-        data-animate-text
-        className="text-heading4 text-black leading-[115%]"
-      >
-        {title}
-      </div>
-    </div>
   );
 }
