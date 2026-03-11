@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
-import UseScreenSizeSmall from "@/app/hooks/UseScreenSizeSmall";
+import useSmallScreen from "@/app/hooks/useSmallScreen";
 
 const accordionData = [
   {
@@ -56,7 +56,7 @@ const Accordion = () => {
   const itemRefs = useRef([]);
   const descriptionRefs = useRef([]);
   const imageRefs = useRef([]);
-  const isSmall = UseScreenSizeSmall();
+  const isSmall = useSmallScreen();
 
   useEffect(() => {
     accordionData.forEach((_, index) => {
@@ -162,11 +162,10 @@ const Accordion = () => {
               key={index}
               ref={(el) => (itemRefs.current[index] = el)}
               onClick={() => toggleItem(index)}
-              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 ${
-                isFirst
+              className={`cursor-pointer text-white grid grid-cols-4 sm:grid-cols-12 gap-x-3 md:gap-x-4 py-6 col-span-4 sm:col-span-12 ${isFirst
                   ? "border-y-1 border-y-borderSecondary"
                   : "border-b-1 border-b-borderSecondary"
-              }`}
+                }`}
             >
               <div className="col-span-4 sm:col-span-5 flex gap-2 sm:gap-6 md:gap-15 lg:gap-30">
                 <p className="text-white text-heading4 leading-[110%] hidden sm:block">
@@ -180,9 +179,8 @@ const Accordion = () => {
                   </p>
                   <span
                     ref={(el) => (descriptionRefs.current[index] = el)}
-                    className={`text-bodySmall leading-[120%] text-textSecondary ${
-                      showContent ? `overflow-visible` : `overflow-hidden`
-                    }`}
+                    className={`text-bodySmall leading-[120%] text-textSecondary ${showContent ? `overflow-visible` : `overflow-hidden`
+                      }`}
                   >
                     {item.description}
                   </span>
@@ -194,9 +192,8 @@ const Accordion = () => {
                   aria-controls={`accordion-content-${index}`}
                 >
                   <svg
-                    className={`ml-auto ${
-                      showContent ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`ml-auto ${showContent ? "rotate-180" : "rotate-0"
+                      }`}
                     xmlns="http://www.w3.org/2000/svg"
                     width="13"
                     height="7"
@@ -230,9 +227,8 @@ const Accordion = () => {
                 aria-controls={`accordion-content-${index}`}
               >
                 <svg
-                  className={`ml-auto h-fit w-fit ${
-                    showContent ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`ml-auto h-fit w-fit ${showContent ? "rotate-180" : "rotate-0"
+                    }`}
                   xmlns="http://www.w3.org/2000/svg"
                   width="13"
                   height="7"

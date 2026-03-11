@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const VideoImgSection = ({ videoSrc, heading, text, placeholder }) => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
   const videoContainerRef = useRef(null);

@@ -167,7 +167,7 @@ const Events = ({ id }) => {
   return (
     <section
       id={id}
-      className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 overflow-x-hidden"
+      className="@container w-full h-fit grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 overflow-x-hidden mt-20 lg:mt-30"
     >
       <h3 className="text-wrap text-heading1 text-black tracking-heading1 leading-[90%] col-span-4 md:col-span-12 mb-7 md:mb-10">
         Events

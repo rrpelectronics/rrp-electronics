@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState, createRef } from "react";
 import gsap from "gsap/all";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import { events } from "./data";
 import JourneyHeader from "@/app/components/journey/JourneyHeader";
 import JourneyYear from "@/app/components/journey/JourneyYear";
@@ -13,7 +13,7 @@ const OurJourney = () => {
   const timelineRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   const itemRefs = useRef([]);
 

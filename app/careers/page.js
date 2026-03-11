@@ -11,7 +11,7 @@ const page = () => {
     <main className="min-h-screen w-full relative overflow-clip">
       <BannerStack
         imgSrc={"/images/careers/banner.webp"}
-        heading={"Be Part of the \n Semiconductor Evolution"}
+        heading={"Be Part of the \n Semiconductor \n Evolution"}
       />
       <Text
         text={

@@ -1,10 +1,10 @@
 "use client";
 import React from 'react';
 import SectionHeader from '@/app/components/SectionHeader';
-import { useTextAnimation } from '@/app/hooks/UseTextAnimation';
+import { useTextAnim } from '@/app/hooks/useTextAnim';
 
 const Future = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">

@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 export default function Technologies({ id }) {
 
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   const cards = [
     { title: "Consumer electronics", icon: "/images/icons/display1.svg" },

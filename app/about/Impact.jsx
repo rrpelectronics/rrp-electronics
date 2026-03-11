@@ -1,9 +1,9 @@
 import React from "react";
 import HeadingCenter from "@/app/components/HeadingCenter";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 
 const Impact = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full grid grid-cols-4 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-whiteBg">
       <HeadingCenter heading={"Our Impact"} />

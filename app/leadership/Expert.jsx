@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { useTextAnimation } from "@/app/hooks/UseTextAnimation";
+import { useTextAnim } from "@/app/hooks/useTextAnim";
 import SectionHeader from "../components/SectionHeader";
 import Image from "next/image";
 
 const Expert = () => {
-  const { containerRef } = useTextAnimation();
+  const { containerRef } = useTextAnim();
 
   return (
     <section

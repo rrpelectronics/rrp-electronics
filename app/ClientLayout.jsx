@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { ReactLenis } from "lenis/react";
-import FloatingNavbar from "@/app/components/FloatingNavbar";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { FooterProvider } from "@/app/context/FooterContext";
@@ -9,9 +8,11 @@ import { gsap } from "gsap";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Popup from "@/app/components/Popup";
+import { HeaderHeightProvider } from "@/app/context/HeaderHeightContext";
 
 export default function ClientLayout({ children }) {
   const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const navbarRef = useRef(null);
   const footerRef = useRef(null);
   const logoRef = useRef(null);
@@ -42,57 +43,6 @@ export default function ClientLayout({ children }) {
   const handlePopupClose = () => {
     setShowPopup(false);
   };
-
-  useEffect(() => {
-    if (navbarRef.current && footerRef.current) {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          const elements = navbarRef.current.elements || [];
-
-          if (entry.isIntersecting) {
-            elements.forEach((element) => {
-              if (element) {
-                gsap.to(element, {
-                  y: 100,
-                  opacity: 0,
-                  duration: 0.3,
-                  ease: "power2.inOut",
-                  onStart: () => {
-                    element.style.pointerEvents = "none";
-                  },
-                });
-              }
-            });
-          } else {
-            elements.forEach((element) => {
-              if (element) {
-                gsap.to(element, {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.3,
-                  ease: "power2.inOut",
-                  onStart: () => {
-                    element.style.display = "flex";
-                    element.style.pointerEvents = "auto";
-                  },
-                });
-              }
-            });
-          }
-        },
-        {
-          threshold: 0.1,
-          rootMargin: "0px 0px -50px 0px",
-        }
-      );
-
-      observer.observe(footerRef.current);
-
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, []);
 
   useEffect(() => {
     if (!logoRef.current) return;
@@ -131,51 +81,36 @@ export default function ClientLayout({ children }) {
     return () => ctx.revert();
   }, [pathname]);
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    const updateHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    resizeObserver.observe(headerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   return (
     <ReactLenis root>
       <FooterProvider>
-        {/* Popup component - shown with time interval only on first visit */}
-        {/* {showPopup && <Popup onClose={handlePopupClose} />} */}
-
-        {(pathname === "/" ||
-          pathname === "/about" ||
-          pathname === "/our-journey" ||
-          pathname === "/leadership" ||
-          pathname === "/solutions" ||
-          pathname === "/projects" ||
-          pathname === "/compliances" ||
-          pathname === "/logistics" ||
-          pathname === "/traceability" ||
-          pathname === "/careers") && (
-          <div
-            ref={logoRef}
-            className="z-60 will-change-transform absolute top-0 left-0 w-full h-fit py-3.5 md:py-5 lg:py-10 px-3.5 md:px-5 lg:px-10"
-          >
-            <Link
-              href={"/"}
-              className="aspect-[240/26] w-21.5 h-7 lg:w-36 lg:h-12.5 flex flex-col gap-y-1"
-            >
-              <img
-                src="/images/common/rrp-logo.png"
-                alt="RRP Electronics"
-                className="object-contain object-center h-full w-auto"
-              />
-              <img
-                src="/images/common/rrp-logo-text.png"
-                alt="RRP Electronics"
-                className="object-contain object-center h-full w-auto mix-blend-difference"
-              />
-            </Link>
-          </div>
-        )}
-        {(pathname.startsWith("/news") ||
-          pathname.startsWith("/careers/") ||
-          pathname === "/contact-us" ||
-          pathname.startsWith("/events") ||
-          pathname === "/sitemap") && <Header ref={headerRef} />}
-        <FloatingNavbar ref={navbarRef} />
-        {children}
-        <Footer ref={footerRef} />
+        <HeaderHeightProvider height={headerHeight}>
+          <Header ref={headerRef} />
+          {children}
+          <Footer ref={footerRef} />
+        </HeaderHeightProvider>
       </FooterProvider>
     </ReactLenis>
   );
