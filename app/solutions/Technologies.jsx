@@ -58,7 +58,7 @@ export default function Technologies({ id }) {
         </p>
       </div>
 
-      <div className="col-span-4 lg:col-span-2 grid grid-cols-2 grid-rows-2 gap-[11.25px] md:gap-5">
+      <div className="col-span-4 lg:col-span-2 grid grid-cols-2 grid-rows-2 gap-x-3 md:gap-5">
         {cards.map((card, idx) => (
           <Card
             key={idx}
