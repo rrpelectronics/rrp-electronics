@@ -1,30 +1,14 @@
-// app/api/send-application/route.js
+// app/api/send-contact/route.js
 import { NextResponse } from 'next/server';
 import { sendGraphEmail } from '@/app/utils/graphMail';
 
 export async function POST(request) {
   try {
-    const formData = await request.formData();
+    const formData = await request.json();
     
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const phone = formData.get('phone');
-    const dob = formData.get('dob');
-    const currentPincode = formData.get('currentPincode');
-    const permanentPincode = formData.get('permanentPincode');
-    const qualification = formData.get('qualification');
-    const college = formData.get('college');
-    const totalExperience = formData.get('totalExperience');
-    const currentRole = formData.get('currentRole');
-    const currentCompany = formData.get('currentCompany');
-    const ctcPA = formData.get('ctcPA');
-    const position = formData.get('position');
-    const onsite = formData.get('onsite');
-    const immediately = formData.get('immediately');
-    const noticePeriod = formData.get('noticePeriod');
-    const message = formData.get('message');
+    const { name, email, phone, company, position, requestType, message } = formData;
 
-    if (!name || !email || !phone || !position) {
+    if (!name || !email || !phone || !message) {
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
         { status: 400 }
@@ -148,46 +132,27 @@ export async function POST(request) {
         <body>
           <div class="email-container">
             <div class="header">
-              <h1>New Job Application Received</h1>
-              <p>Position: ${position}</p>
+              <h1>New Contact Inquiry</h1>
+              <p>Type: ${requestType}</p>
             </div>
             <div class="content">
               <div class="section">
-                <h2 class="section-title">Personal Information</h2>
+                <h2 class="section-title">Sender Details</h2>
                 <div class="field-row"><div class="label">Full Name:</div><div class="value">${name}</div></div>
                 <div class="field-row"><div class="label">Email Address:</div><div class="value"><a href="mailto:${email}">${email}</a></div></div>
                 <div class="field-row"><div class="label">Phone Number:</div><div class="value"><a href="tel:${phone}">${phone}</a></div></div>
-                ${dob ? `<div class="field-row"><div class="label">Date of Birth:</div><div class="value">${dob}</div></div>` : ''}
-                ${currentPincode ? `<div class="field-row"><div class="label">Current Address Pincode:</div><div class="value">${currentPincode}</div></div>` : ''}
-                ${permanentPincode ? `<div class="field-row"><div class="label">Permanent Address Pincode:</div><div class="value">${permanentPincode}</div></div>` : ''}
+                ${company ? `<div class="field-row"><div class="label">Company:</div><div class="value">${company}</div></div>` : ''}
+                ${position ? `<div class="field-row"><div class="label">Position:</div><div class="value">${position}</div></div>` : ''}
               </div>
               <div class="section">
-                <h2 class="section-title">Educational Background</h2>
-                <div class="field-row"><div class="label">Qualification:</div><div class="value">${qualification || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">College:</div><div class="value">${college || 'Not provided'}</div></div>
-              </div>
-              <div class="section">
-                <h2 class="section-title">Professional Experience</h2>
-                <div class="field-row"><div class="label">Current Role:</div><div class="value">${currentRole || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">Current Company:</div><div class="value">${currentCompany || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">Total Experience:</div><div class="value">${totalExperience || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">Current CTC (PA):</div><div class="value">${ctcPA ? `₹${ctcPA} Lakhs` : 'Not provided'}</div></div>
-              </div>
-              <div class="section">
-                <h2 class="section-title">Application Details</h2>
-                <div class="field-row"><div class="label">Position Applied For:</div><div class="value"><strong>${position}</strong></div></div>
-                <div class="field-row"><div class="label">Ready for On-site Full-time:</div><div class="value">${onsite || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">Can Start Immediately:</div><div class="value">${immediately || 'Not provided'}</div></div>
-                <div class="field-row"><div class="label">Notice Period:</div><div class="value">${noticePeriod ? `${noticePeriod} days` : 'Not provided'}</div></div>
-              </div>
-              ${message ? `
-              <div class="section">
-                <h2 class="section-title">What Unique Value Will They Bring?</h2>
+                <h2 class="section-title">Inquiry Information</h2>
+                <div class="field-row"><div class="label">Request Type:</div><div class="value">${requestType}</div></div>
+                <div class="label">Message:</div>
                 <div class="message-box"><p>${message}</p></div>
-              </div>` : ''}
+              </div>
             </div>
             <div class="footer">
-              <p>This application was submitted via RRP Electronics Career Portal</p>
+              <p>This inquiry was submitted via RRP Electronics Contact Form</p>
               <p style="margin-top: 8px; color: #999; font-size: 12px;">Received on ${new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
           </div>
@@ -195,35 +160,21 @@ export async function POST(request) {
         </html>
     `;
 
-    // Handle file attachment
-    const resumeFile = formData.get('resumeFile');
-    let attachments = [];
-    if (resumeFile && typeof resumeFile === 'object' && resumeFile.name) {
-      const arrayBuffer = await resumeFile.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      attachments.push({
-        name: resumeFile.name,
-        contentType: resumeFile.type || 'application/pdf',
-        contentBytes: buffer.toString('base64'),
-      });
-    }
-
-    // Send main application email
+    // Send main inquiry email
     await sendGraphEmail({
-      to: ['careers@rrpelectronics.com', 'jigar@stuvio.co', 'parakh@stuvio.co'],
+      to: ['info@rrpelectronics.com', 'jigar@stuvio.co', 'parakh@stuvio.co'],
       replyTo: email,
-      subject: `New Job Application: ${position} - ${name}`,
+      subject: `New Contact Inquiry: ${requestType} - ${name}`,
       html: htmlContent,
-      from: process.env.AZURE_SENDER_EMAIL,
-      attachments: attachments
+      from: process.env.AZURE_CONTACT_SENDER_EMAIL
     });
-
-    // Confirmation to applicant
+    
+    // Confirmation to user
     try {
       await sendGraphEmail({
-        from: process.env.AZURE_SENDER_EMAIL,
+        from: process.env.AZURE_CONTACT_SENDER_EMAIL,
         to: email,
-        subject: `Application Received: ${position}`,
+        subject: 'Thank You for Reaching Out to RRP Electronics',
         html: `
           <!DOCTYPE html>
           <html>
@@ -243,16 +194,16 @@ export async function POST(request) {
           </head>
           <body>
             <div class="email-container">
-              <div class="header"><h1>Thank You for Your Application!</h1></div>
+              <div class="header"><h1>We've Received Your Inquiry</h1></div>
               <div class="content">
                 <p>Dear ${name},</p>
-                <p>We have successfully received your application for the position of <strong>${position}</strong>.</p>
+                <p>Thank you for reaching out to RRP Electronics. We have successfully received your inquiry regarding <strong>${requestType}</strong>.</p>
                 <div class="highlight-box">
                   <p><strong>What happens next?</strong></p>
-                  <p style="margin-top: 8px;">Our HR team will carefully review your application and get back to you within 5-7 business days.</p>
+                  <p style="margin-top: 8px;">Our team is reviewing your message and we will get back to you with the information you need as soon as possible.</p>
                 </div>
-                <p>We appreciate your interest in joining RRP Electronics and look forward to learning more about your qualifications.</p>
-                <p style="margin-top: 24px;">Best regards,<br><strong>RRP Electronics HR Team</strong></p>
+                <p>We appreciate your interest in RRP Electronics.</p>
+                <p style="margin-top: 24px;">Best regards,<br><strong>RRP Electronics Team</strong></p>
               </div>
               <div class="footer">
                 <p>RRP Electronics</p>
@@ -261,30 +212,16 @@ export async function POST(request) {
             </div>
           </body>
           </html>
-        `,
+        `
       });
-    } catch (confirmError) {
-      console.log('⚠️ Could not send confirmation email:', confirmError.message);
+    } catch (e) {
+      console.log('Confirmation email failed', e);
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Application sent successfully'
-    });
+    return NextResponse.json({ success: true, message: 'Message sent successfully' });
 
   } catch (error) {
-    console.error('❌ Error in send-application API:', error);
-    return NextResponse.json(
-      { 
-        success: false, 
-        message: 'Failed to send application',
-        error: process.env.NODE_ENV === 'development' ? error.message : undefined
-      },
-      { status: 500 }
-    );
+    console.error('Contact API Error:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
-}
-
-export async function OPTIONS(request) {
-  return NextResponse.json({}, { status: 200 });
 }

@@ -174,7 +174,7 @@ const JobDetailsContent = ({ jobSlug }) => {
       </section>
       
       {/* Contact Form Section */}
-      {/* <section id="apply-now" className="@container w-full h-full px-3.5 md:px-5 lg:px-10">
+      <section id="apply-now" className="@container w-full h-full px-3.5 md:px-5 lg:px-10">
         <div className="w-full grid grid-cols-4">
           <div className="w-full col-span-4 flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-0 py-10 md:py-15">
             <div className="col-span-4 md:col-span-1 flex items-start">
@@ -187,7 +187,7 @@ const JobDetailsContent = ({ jobSlug }) => {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </main>
   );
 };
