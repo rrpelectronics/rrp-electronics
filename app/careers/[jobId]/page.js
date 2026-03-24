@@ -16,7 +16,7 @@ const CareersContact = dynamic(
 const JobDetailsContent = ({ jobSlug }) => {
   const sectionRef = useRef(null);
   const { containerRef } = useTextAnim();
-  
+
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,14 +44,13 @@ const JobDetailsContent = ({ jobSlug }) => {
   // Generate experience text
   const getExperienceText = () => {
     if (!job) return "";
-    
+
     let experienceText = "";
 
     if (job.experienceMin && job.experienceMax) {
       if (job.experienceMin === job.experienceMax) {
-        experienceText = `Experience: ${job.experienceMin} year${
-          job.experienceMin > 1 ? "s" : ""
-        } required`;
+        experienceText = `Experience: ${job.experienceMin} year${job.experienceMin > 1 ? "s" : ""
+          } required`;
       } else {
         experienceText = `Experience: ${job.experienceMin}–${job.experienceMax} years preferred`;
       }
@@ -127,7 +126,7 @@ const JobDetailsContent = ({ jobSlug }) => {
           </p>
           <Link
             data-animate-text
-            href={"mailto:hr@rrpelectronics.com"}
+            href={"mailto:careers@rrpelectronics.com"}
             className="text-bodySmall text-white font-neueMontreal leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
           >
             Apply Now
@@ -149,7 +148,7 @@ const JobDetailsContent = ({ jobSlug }) => {
             </div>
             <div className="col-span-4 md:col-span-2 md:col-start-3 flex flex-col gap-6 w-[90%]">
 
-              <RichTextParser text={job.description}/>
+              <RichTextParser text={job.description} />
 
               {/* Experience Text */}
               {getExperienceText() && (
@@ -172,7 +171,7 @@ const JobDetailsContent = ({ jobSlug }) => {
           </div>
         </div>
       </section>
-      
+
       {/* Contact Form Section */}
       <section id="apply-now" className="@container w-full h-full px-3.5 md:px-5 lg:px-10">
         <div className="w-full grid grid-cols-4">

@@ -25,7 +25,7 @@ const List = () => {
             </Link>
           </li>
           <li className="text-bodyLarge text-textPrimary font-neueMontreal leading-[120%] hover:text-primary transition-colors duration-300">
-            <Link href={"mailto: hr@rrpelectronics.com"}>
+            <Link href={"mailto: careers@rrpelectronics.com"}>
               careers@rrpelectronics.com
             </Link>
           </li>
