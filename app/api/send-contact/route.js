@@ -132,7 +132,7 @@ export async function POST(request) {
         <body>
           <div class="email-container">
             <div class="header">
-              <h1>New Contact Inquiry</h1>
+              <h1>New Contact Enquiry</h1>
               <p>Type: ${requestType}</p>
             </div>
             <div class="content">
@@ -145,14 +145,14 @@ export async function POST(request) {
                 ${position ? `<div class="field-row"><div class="label">Position:</div><div class="value">${position}</div></div>` : ''}
               </div>
               <div class="section">
-                <h2 class="section-title">Inquiry Information</h2>
+                <h2 class="section-title">Enquiry Information</h2>
                 <div class="field-row"><div class="label">Request Type:</div><div class="value">${requestType}</div></div>
                 <div class="label">Message:</div>
                 <div class="message-box"><p>${message}</p></div>
               </div>
             </div>
             <div class="footer">
-              <p>This inquiry was submitted via RRP Electronics Contact Form</p>
+              <p>This Enquiry was submitted via RRP Electronics Contact Form</p>
               <p style="margin-top: 8px; color: #999; font-size: 12px;">Received on ${new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
           </div>
@@ -160,11 +160,11 @@ export async function POST(request) {
         </html>
     `;
 
-    // Send main inquiry email
+    // Send main Enquiry email
     await sendGraphEmail({
       to: ['info@rrpelectronics.com', 'jigar@stuvio.co', 'parakh@stuvio.co'],
       replyTo: email,
-      subject: `New Contact Inquiry: ${requestType} - ${name}`,
+      subject: `New Contact Enquiry: ${requestType} - ${name}`,
       html: htmlContent,
       from: process.env.AZURE_CONTACT_SENDER_EMAIL
     });
@@ -194,10 +194,10 @@ export async function POST(request) {
           </head>
           <body>
             <div class="email-container">
-              <div class="header"><h1>We've Received Your Inquiry</h1></div>
+              <div class="header"><h1>We've Received Your Enquiry</h1></div>
               <div class="content">
                 <p>Dear ${name},</p>
-                <p>Thank you for reaching out to RRP Electronics. We have successfully received your inquiry regarding <strong>${requestType}</strong>.</p>
+                <p>Thank you for reaching out to RRP Electronics. We have successfully received your Enquiry regarding <strong>${requestType}</strong>.</p>
                 <div class="highlight-box">
                   <p><strong>What happens next?</strong></p>
                   <p style="margin-top: 8px;">Our team is reviewing your message and we will get back to you with the information you need as soon as possible.</p>
