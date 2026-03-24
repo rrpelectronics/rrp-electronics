@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,28 +30,30 @@ function ContactForm() {
 
   const submitData = async (data) => {
     try {
-      setIsSubmitting(true); // Start loader
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        data,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
-      setShowSuccess(true);
-      setShowError(false);
-      reset();
+      setIsSubmitting(true);
+      const response = await fetch("/api/send-contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-      // Auto-hide after 5 seconds
-      setTimeout(() => setShowSuccess(false), 5000);
+      const result = await response.json();
+
+      if (result.success) {
+        setShowSuccess(true);
+        setShowError(false);
+        reset();
+        setTimeout(() => setShowSuccess(false), 5000);
+      } else {
+        throw new Error(result.message || result.error || "Failed");
+      }
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Submission Error:", error);
       setShowSuccess(false);
       setShowError(true);
-
-      // Optional: auto-hide error as well
       setTimeout(() => setShowError(false), 5000);
     } finally {
-      setIsSubmitting(false); // Stop loader
+      setIsSubmitting(false);
     }
   };
 

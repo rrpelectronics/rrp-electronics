@@ -20,23 +20,25 @@ const createSchema = () =>
       .string()
       .regex(/^\d{6}$/, "Enter a valid 6-digit pincode"),
 
-    // DOB 18+ validation
-    dob: z.string().refine((value) => {
-      if (!value) return false;
+    // DOB 18-65 validation
+    dob: z
+      .string()
+      .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Date must be in DD/MM/YYYY format")
+      .refine((value) => {
+        if (!value) return false;
+        const [day, month, year] = value.split("/").map(Number);
+        const dob = new Date(year, month - 1, day);
+        if (isNaN(dob.getTime()) || dob.getDate() !== day || dob.getMonth() !== month - 1) return false;
 
-      const dob = new Date(value);
-      if (isNaN(dob.getTime())) return false;
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
 
-      const today = new Date();
-      const age = today.getFullYear() - dob.getFullYear();
-
-      const hasBirthdayPassed =
-        today.getMonth() > dob.getMonth() ||
-        (today.getMonth() === dob.getMonth() &&
-          today.getDate() >= dob.getDate());
-
-      return age > 18 || (age === 18 && hasBirthdayPassed);
-    }, "You must be at least 18 years old"),
+        return age >= 18 && age <= 65;
+      }, "You must be between 18 and 65 years old"),
 
     qualification: z.string().min(2, "Qualification is required."),
     college: z.string().min(2, "College is required."),
@@ -56,9 +58,9 @@ const createSchema = () =>
       .refine(
         (val) => {
           const num = Number(val.replace(/,/g, ""));
-          return num <= 100000000;
+          return num <= 99;
         },
-        { message: "CTC seems unusually high" }
+        { message: "CTC should not be more than 2 digits (Lakhs)" }
       ),
 
     position: z.string().min(2, "Position is required."),
@@ -73,11 +75,6 @@ const createSchema = () =>
       .refine((val) => Number(val) >= 0, "Must be positive")
       .refine((val) => Number(val) <= 99, "Must be less than 100")
       .refine((val) => Number.isInteger(Number(val)), "Must be a whole number"),
-
-    resumePortfolioLink: z
-      .string()
-      .nonempty("URL is required.")
-      .url("Please enter a valid URL."),
 
     message: z.string().min(2, "Message must be at least 2 characters."),
   });
@@ -105,9 +102,9 @@ const BASIC_FIELDS = [
   // NEW DOB FIELD
   {
     id: "dob",
-    label: "Date of Birth (18+)",
-    inputType: "date",
-    placeholder: "",
+    label: "Date of Birth (18-65)",
+    inputType: "text",
+    placeholder: "dd/mm/yyyy",
   },
 
   // NEW PINCODE FIELDS
@@ -152,7 +149,7 @@ const WORK_FIELDS = [
     id: "position",
     label: "Position you are applying for",
     placeholder: "Position you are applying for",
-    disabled: true,
+    readOnly: true,
   },
 ];
 
@@ -162,45 +159,59 @@ const ADDITIONAL_FIELDS = [
     label: "Notice Period (in days)",
     placeholder: "Notice Period",
   },
-  {
-    id: "resumePortfolioLink",
-    label: "Share CV link OR the LinkedIn Profile link",
-    inputType: "url",
-    placeholder: "Your CV, or LinkedIn URL",
-    className: "col-span-2"
-  },
 ];
 
 // Reusable input component
 const InputField = React.memo(
-  ({ field, register, error, inputStyle, className }) => (
-    <div
-      className={`flex flex-col mb-1 ${
-        field.className ? field.className : "col-span-2 sm:col-span-1"
-      }`}
-    >
-      <label className="text-[16px] font-neueMontreal leading-[120%] text-textPrimary mb-1.5">
-        {field.label}
-        <span className="text-[#ff2929]">*</span>
-      </label>
+  ({ field, register, error, inputStyle, setValue }) => {
+    const handleDOBChange = (e) => {
+      let value = e.target.value.replace(/\D/g, "");
+      if (value.length > 8) value = value.slice(0, 8);
+      
+      let formatted = value;
+      if (value.length > 4) {
+        formatted = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+      } else if (value.length > 2) {
+        formatted = `${value.slice(0, 2)}/${value.slice(2)}`;
+      }
+      
+      e.target.value = formatted;
+      setValue("dob", formatted, { shouldValidate: true });
+    };
 
-      <input
-        id={field.id}
-        type={field.inputType || "text"}
-        {...register(field.id)}
-        placeholder={field.placeholder}
-        disabled={field.disabled}
-        style={inputStyle(field.id)}
-        className={`px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal ${
-          field.disabled ? "bg-gray-100 cursor-not-allowed opacity-70" : ""
+    const registration = field.id === "dob" 
+      ? { ...register(field.id), onChange: handleDOBChange }
+      : register(field.id);
+
+    return (
+      <div
+        className={`flex flex-col mb-1 ${
+          field.className ? field.className : "col-span-2 sm:col-span-1"
         }`}
-      />
+      >
+        <label className="text-[16px] font-neueMontreal leading-[120%] text-textPrimary mb-1.5">
+          {field.label}
+          <span className="text-[#ff2929]">*</span>
+        </label>
 
-      {error && (
-        <span className="text-sm text-[#ff2929] mt-2">{error.message}</span>
-      )}
-    </div>
-  )
+        <input
+          id={field.id}
+          type={field.inputType || "text"}
+          {...registration}
+          placeholder={field.placeholder}
+          readOnly={field.readOnly}
+          style={inputStyle(field.id)}
+          className={`px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal ${
+            field.readOnly ? "bg-gray-100 cursor-not-allowed opacity-70" : ""
+          }`}
+        />
+
+        {error && (
+          <span className="text-sm text-[#ff2929] mt-2">{error.message}</span>
+        )}
+      </div>
+    );
+  }
 );
 
 InputField.displayName = "InputField";
@@ -224,6 +235,32 @@ function CareersContact({ jobTitle }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (
+        file.type !== "application/pdf" &&
+        file.type !== "application/msword" &&
+        file.type !==
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
+        setShowError("Only PDF, DOC, and DOCX files are allowed.");
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setShowError("File size should be less than 5MB.");
+        return;
+      }
+      setResumeFile(file);
+      setShowError(false);
+    }
+  };
+
+  const removeFile = () => {
+    setResumeFile(null);
+  };
 
   useEffect(() => {
     if (jobTitle) setValue("position", jobTitle);
@@ -243,12 +280,22 @@ function CareersContact({ jobTitle }) {
   const submitData = useCallback(
     async (data) => {
       try {
+        if (!resumeFile) {
+          setShowError(
+            "Please upload your resume PDF, DOC, and DOCX before applying.",
+          );
+          return;
+        }
         setIsSubmitting(true);
 
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
           formData.append(key, value);
         });
+
+        if (resumeFile) {
+          formData.append("resumeFile", resumeFile);
+        }
 
         const response = await fetch("/api/send-application", {
           method: "POST",
@@ -277,15 +324,15 @@ function CareersContact({ jobTitle }) {
             onsite: "",
             immediately: "",
             noticePeriod: "",
-            resumePortfolioLink: "",
             message: "",
             position: jobTitle || "",
           });
+          setResumeFile(null);
         } else {
-          setShowError(true);
+          setShowError(result.message || result.error || "Unable to process your application.");
         }
       } catch (error) {
-        setShowError(true);
+        setShowError("An error occurred. Please try again later.");
       } finally {
         setIsSubmitting(false);
       }
@@ -311,6 +358,7 @@ function CareersContact({ jobTitle }) {
             register={register}
             error={errors[field.id]}
             inputStyle={inputStyle}
+            setValue={setValue}
           />
         ))}
 
@@ -330,6 +378,7 @@ function CareersContact({ jobTitle }) {
             register={register}
             error={errors[field.id]}
             inputStyle={inputStyle}
+            setValue={setValue}
           />
         ))}
 
@@ -358,8 +407,102 @@ function CareersContact({ jobTitle }) {
             register={register}
             error={errors[field.id]}
             inputStyle={inputStyle}
+            setValue={setValue}
           />
         ))}
+
+        <div className="md:col-span-2 flex flex-col col-span-2">
+          <label className="text-[16px] mb-1.5 text-textPrimary font-neueMontreal">
+            Upload Resume (PDF, DOC, and DOCX only){" "}
+            <span className="text-[#ff2929]">*</span>
+          </label>
+          <div className="relative">
+            {!resumeFile ? (
+              <div
+                className="border-2 border-dashed border-[#d1d1d2] rounded-[2px] p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+                onClick={() => document.getElementById("resume-upload").click()}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mb-2 text-primary"
+                >
+                  <path
+                    d="M12 16V8M12 8L9 11M12 8L15 11"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <p className="text-bodySmall font-neueMontreal text-gray-500">
+                  Click to upload your resume (Max 5MB)
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between p-4 bg-orange-50 border border-primary rounded-[2px]">
+                <div className="flex items-center gap-3">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-primary"
+                  >
+                    <path
+                      d="M7 18H17V16H7V18ZM7 14H17V12H7V14ZM7 10H13V8H7V10ZM14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span className="text-bodySmall font-neueMontreal font-medium truncate max-w-[200px] md:max-w-md">
+                    {resumeFile.name}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeFile}
+                  className="p-1 hover:bg-orange-100 rounded-full transition-colors"
+                  aria-label="Remove file"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-primary"
+                  >
+                    <path
+                      d="M18 6L6 18M6 6L18 18"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
+            <input
+              id="resume-upload"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </div>
+        </div>
 
         <div className="md:col-span-2 flex flex-col col-span-2">
           <label className="text-[16px] mb-1.5 text-textPrimary font-neueMontreal ">
@@ -417,7 +560,12 @@ function CareersContact({ jobTitle }) {
             className="mt-8 text-[#ff2929] cursor-pointer"
             onClick={() => setShowError(false)}
           >
-            Unable to process your application. Try again later. ×
+            {isSubmitting
+              ? "Processing..."
+              : typeof showError === "string"
+                ? showError
+                : "Unable to process your application. Try again later."}{" "}
+            ×
           </div>
         )}
       </div>
