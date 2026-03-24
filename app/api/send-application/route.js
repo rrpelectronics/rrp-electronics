@@ -210,7 +210,7 @@ export async function POST(request) {
 
     // Send main application email
     await sendGraphEmail({
-      to: ['careers@rrpelectronics.com', 'jigar@stuvio.co', 'parakh@stuvio.co'],
+      to: ['careers@rrpelectronics.com'],
       replyTo: email,
       subject: `New Job Application: ${position} - ${name}`,
       html: htmlContent,
