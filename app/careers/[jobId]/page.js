@@ -160,12 +160,12 @@ const JobDetailsContent = ({ jobSlug }) => {
 
               {/* Apply Link */}
               <Link
-                href={"mailto:hr@rrpelectronics.com"}
+                href={"mailto:careers@rrpelectronics.com"}
                 className="leading-[110%] text-bodyLarge text-textPrimary font-neueMontreal"
               >
                 Think you're a great fit? Drop your resume at &nbsp;
                 <span className="text-primary underline decoration-solid decoration-primary">
-                  hr@rrpelectronics.com
+                  careers@rrpelectronics.com
                 </span>
               </Link>
             </div>
