@@ -5,7 +5,7 @@ import { sendGraphEmail } from '@/app/utils/graphMail';
 export async function POST(request) {
   try {
     const formData = await request.json();
-    
+
     const { name, email, phone, company, position, requestType, message } = formData;
 
     if (!name || !email || !phone || !message) {
@@ -162,13 +162,13 @@ export async function POST(request) {
 
     // Send main Enquiry email
     await sendGraphEmail({
-      to: ['info@rrpelectronics.com', 'jigar@stuvio.co', 'parakh@stuvio.co'],
+      to: ['info@rrpelectronics.com'],
       replyTo: email,
       subject: `New Contact Enquiry: ${requestType} - ${name}`,
       html: htmlContent,
       from: process.env.AZURE_CONTACT_SENDER_EMAIL
     });
-    
+
     // Confirmation to user
     try {
       await sendGraphEmail({
