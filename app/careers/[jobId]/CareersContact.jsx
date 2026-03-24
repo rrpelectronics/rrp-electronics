@@ -76,6 +76,7 @@ const createSchema = () =>
       .refine((val) => Number(val) <= 99, "Must be less than 100")
       .refine((val) => Number.isInteger(Number(val)), "Must be a whole number"),
 
+    resume: z.any().refine((file) => file && file instanceof File, "Please upload your resume."),
     message: z.string().min(2, "Message must be at least 2 characters."),
   });
 
@@ -102,7 +103,7 @@ const BASIC_FIELDS = [
   // NEW DOB FIELD
   {
     id: "dob",
-    label: "Date of Birth (18-65)",
+    label: "Date of Birth (age between 18-65)",
     inputType: "text",
     placeholder: "dd/mm/yyyy",
   },
@@ -207,7 +208,7 @@ const InputField = React.memo(
         />
 
         {error && (
-          <span className="text-sm text-[#ff2929] mt-2">{error.message}</span>
+          <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">{error.message}</span>
         )}
       </div>
     );
@@ -235,7 +236,6 @@ function CareersContact({ jobTitle }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [resumeFile, setResumeFile] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -253,13 +253,13 @@ function CareersContact({ jobTitle }) {
         setShowError("File size should be less than 5MB.");
         return;
       }
-      setResumeFile(file);
+      setValue("resume", file, { shouldValidate: true });
       setShowError(false);
     }
   };
 
   const removeFile = () => {
-    setResumeFile(null);
+    setValue("resume", null, { shouldValidate: true });
   };
 
   useEffect(() => {
@@ -280,12 +280,6 @@ function CareersContact({ jobTitle }) {
   const submitData = useCallback(
     async (data) => {
       try {
-        if (!resumeFile) {
-          setShowError(
-            "Please upload your resume PDF, DOC, and DOCX before applying.",
-          );
-          return;
-        }
         setIsSubmitting(true);
 
         const formData = new FormData();
@@ -293,8 +287,8 @@ function CareersContact({ jobTitle }) {
           formData.append(key, value);
         });
 
-        if (resumeFile) {
-          formData.append("resumeFile", resumeFile);
+        if (data.resume) {
+          formData.append("resumeFile", data.resume);
         }
 
         const response = await fetch("/api/send-application", {
@@ -326,8 +320,8 @@ function CareersContact({ jobTitle }) {
             noticePeriod: "",
             message: "",
             position: jobTitle || "",
+            resume: null
           });
-          setResumeFile(null);
         } else {
           setShowError(result.message || result.error || "Unable to process your application.");
         }
@@ -367,7 +361,7 @@ function CareersContact({ jobTitle }) {
           label="Total Experience"
           options={EXPERIENCE_OPTIONS}
           value={watch("totalExperience")}
-          onChange={(v) => setValue("totalExperience", v)}
+          onChange={(v) => setValue("totalExperience", v, { shouldValidate: true })}
           error={errors.totalExperience?.message}
         />
 
@@ -387,7 +381,7 @@ function CareersContact({ jobTitle }) {
           label="Are you ready for an on-site, full-time work?"
           options={YES_NO_OPTIONS}
           value={watch("onsite")}
-          onChange={(v) => setValue("onsite", v)}
+          onChange={(v) => setValue("onsite", v, { shouldValidate: true })}
           error={errors.onsite?.message}
         />
 
@@ -396,7 +390,7 @@ function CareersContact({ jobTitle }) {
           label="Are you able to start work immediately?"
           options={YES_NO_OPTIONS}
           value={watch("immediately")}
-          onChange={(v) => setValue("immediately", v)}
+          onChange={(v) => setValue("immediately", v, { shouldValidate: true })}
           error={errors.immediately?.message}
         />
 
@@ -417,9 +411,9 @@ function CareersContact({ jobTitle }) {
             <span className="text-[#ff2929]">*</span>
           </label>
           <div className="relative">
-            {!resumeFile ? (
+            {!watch("resume") ? (
               <div
-                className="border-2 border-dashed border-[#d1d1d2] rounded-[2px] p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+                className={`border-2 border-dashed ${errors.resume ? 'border-[#ff2929]' : 'border-[#d1d1d2]'} rounded-[2px] p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors`}
                 onClick={() => document.getElementById("resume-upload").click()}
               >
                 <svg
@@ -466,7 +460,7 @@ function CareersContact({ jobTitle }) {
                     />
                   </svg>
                   <span className="text-bodySmall font-neueMontreal font-medium truncate max-w-[200px] md:max-w-md">
-                    {resumeFile.name}
+                    {watch("resume").name}
                   </span>
                 </div>
                 <button
@@ -502,6 +496,11 @@ function CareersContact({ jobTitle }) {
               onChange={handleFileChange}
             />
           </div>
+          {errors.resume && (
+            <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">
+              {errors.resume.message}
+            </span>
+          )}
         </div>
 
         <div className="md:col-span-2 flex flex-col col-span-2">
@@ -520,7 +519,7 @@ function CareersContact({ jobTitle }) {
           />
 
           {errors.message && (
-            <span className="text-sm text-[#ff2929] mt-2">
+            <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">
               {errors.message.message}
             </span>
           )}
