@@ -2,17 +2,23 @@ import { Client } from '@microsoft/microsoft-graph-client';
 import { ConfidentialClientApplication } from '@azure/msal-node';
 import 'isomorphic-fetch';
 
-const msalConfig = {
-  auth: {
-    clientId: process.env.AZURE_CLIENT_ID,
-    authority: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}`,
-    clientSecret: process.env.AZURE_CLIENT_SECRET,
-  },
-};
-
-const pca = new ConfidentialClientApplication(msalConfig);
+let pca = null;
 
 async function getAccessToken() {
+  if (!pca) {
+    if (!process.env.AZURE_CLIENT_SECRET) {
+      throw new Error('AZURE_CLIENT_SECRET is not defined');
+    }
+    const msalConfig = {
+      auth: {
+        clientId: process.env.AZURE_CLIENT_ID,
+        authority: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}`,
+        clientSecret: process.env.AZURE_CLIENT_SECRET,
+      },
+    };
+    pca = new ConfidentialClientApplication(msalConfig);
+  }
+
   const tokenRequest = {
     scopes: ['https://graph.microsoft.com/.default'],
   };
