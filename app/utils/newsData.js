@@ -1,5 +1,14 @@
 export const news_data = [
   {
+    id: "belec-signs-mou-with-rrp-group",
+    newsEventImg: "/images/news-events/belec-rrp.jpg",
+    title: "BEL signs MoU with RRP Group to develop semiconductors, unmanned and EO systems",
+    date: "March 2026",
+    source: "The Economic Times",
+    link: "https://economictimes.indiatimes.com/news/defence/bel-signs-mou-with-rrp-group-to-develop-semiconductors-unmanned-and-eo-systems/articleshow/129794374.cms?from=mdr",
+    imgBgClass: "object-center object-contain",
+  },
+  {
     id: "rrp-electronics-mou-with-hcl-tech",
     newsEventImg: "/images/news-events/vision-summit/vision-summit-5.webp",
     title:
