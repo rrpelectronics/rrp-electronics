@@ -1,7 +1,16 @@
 import React from "react";
 import Link from "next/link";
 
-const JobItem = React.memo(({ job }) => {
+interface JobItemProps {
+  job: {
+    id: string;
+    title: string;
+    location: string;
+  };
+  index?: number;
+}
+
+const JobItem = React.memo(({ job, index }: JobItemProps) => {
   // Use slug ID directly
   const jobSlug = job.id;
 
@@ -11,15 +20,13 @@ const JobItem = React.memo(({ job }) => {
         } border-b-1 border-b-borderPrimary`}
     >
       <p
-        data-animate-text
-        className="col-span-4 lg:col-span-2 text-heading4 leading-[115%] text-black"
+                className="col-span-4 lg:col-span-2 text-heading4 leading-[115%] text-black"
       >
         {job.title}
       </p>
       <ul className="flex justify-between col-span-4 lg:col-span-2">
         <li
-          data-animate-text
-          className="text-bodyBase text-black leading-[120%] font-neueMontreal"
+                    className="text-bodyBase text-black leading-[120%] font-neueMontreal"
         >
           {job.location}
         </li>
@@ -29,14 +36,12 @@ const JobItem = React.memo(({ job }) => {
           aria-label={`View job details for ${job.title}`}
         >
           <p
-            data-animate-text
-            className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal"
+                        className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal"
           >
             Job Details
           </p>
           <img
-            data-animate-text
-            src="/images/icons/arrow_outward.svg"
+                        src="/images/icons/arrow_outward.svg"
             alt={`Job Details of ${job.title}`}
             className="h-5.5 w-5.5 md:h-6 md:w-6"
             loading="lazy"

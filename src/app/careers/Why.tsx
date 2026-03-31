@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import SectionHeader from "@/components/SectionHeader";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 const WHY_RRP_DATA = [
   {
@@ -33,7 +32,16 @@ const WHY_RRP_DATA = [
   },
 ];
 
-const WhyItem = React.memo(({ item, idx }) => {
+interface WhyItemProps {
+  item: {
+    icon: string;
+    title: string;
+    points: string[];
+  };
+  idx: number;
+}
+
+const WhyItem = React.memo(({ item, idx }: WhyItemProps) => {
   const borderClass =
     idx === 0
       ? "border-y-1 border-y-borderPrimary"
@@ -50,8 +58,7 @@ const WhyItem = React.memo(({ item, idx }) => {
         loading="lazy"
       />
       <p
-        data-animate-text
-        className="text-black text-heading4 leading-[115%] col-span-4 md:col-span-2"
+                className="text-black text-heading4 leading-[115%] col-span-4 md:col-span-2"
       >
         {item.title}
       </p>
@@ -73,14 +80,13 @@ const WhyItem = React.memo(({ item, idx }) => {
 WhyItem.displayName = "WhyItem";
 
 const Why = () => {
-  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-whiteBg">
       <SectionHeader
         heading={"Why RRP? \n Where Innovation Meets \n Opportunity"}
         text="Join a team shaping the future of semiconductors. Work on cutting-edge technology, collaborate with global leaders, and accelerate your career in a dynamic, high-growth industry."
       />
-      <ul ref={containerRef} className="w-full h-fit px-3.5 md:px-5 lg:px-10">
+      <ul className="w-full h-fit px-3.5 md:px-5 lg:px-10">
         {WHY_RRP_DATA.map((item, idx) => (
           <WhyItem key={idx} item={item} idx={idx} />
         ))}

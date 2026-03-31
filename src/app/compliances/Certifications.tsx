@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import SectionHeader from "@/components/SectionHeader";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import useLockBodyScroll from "@/hooks/useLockBodyScroll";
 
 export default function Certifications() {
-  const { containerRef } = useTextAnim();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageDimensions, setImageDimensions] = useState({
@@ -97,7 +95,6 @@ export default function Certifications() {
           />
 
           <div
-            ref={containerRef}
             className="col-span-4 grid grid-cols-4 md:grid-cols-12 gap-x-3.5 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10"
           >
             {certifications.map((cert, index) => (
@@ -115,14 +112,12 @@ export default function Certifications() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <p
-                    data-animate-text
-                    className="text-heading4 leading-[115%] text-black"
+                                        className="text-heading4 leading-[115%] text-black"
                   >
                     {cert.title}
                   </p>
                   <p
-                    data-animate-text
-                    className="text-bodySmall leading-[120%] text-textPrimary"
+                                        className="text-bodySmall leading-[120%] text-textPrimary"
                   >
                     {cert.description}
                   </p>

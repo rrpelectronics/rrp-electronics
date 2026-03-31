@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import HeadingCenter from "@/components/HeadingCenter";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 const slides = [
   {
@@ -58,7 +57,6 @@ const Carousel = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const timeoutRef = useRef(null);
 
-  const { containerRef } = useTextAnim();
 
   const handleChange = (index) => {
     setCurrent(index);
@@ -88,20 +86,17 @@ const Carousel = () => {
       <HeadingCenter heading={"Packaging Services"} />
       {/* Content grid */}
       <div
-        ref={containerRef}
         className="grid grid-cols-4 gap-y-6 gap-x-3 md:gap-x-5 col-span-4 w-full"
       >
         {/* Left Text */}
         <div className="col-span-4 sm:col-span-1">
           <p
-            data-animate-text
-            className="text-primary text-heading3 tracking-heading3 leading-[110%] mb-3 md:mb-5"
+                        className="text-primary text-heading3 tracking-heading3 leading-[110%] mb-3 md:mb-5"
           >
             {slides[current].title}
           </p>
           <p
-            data-animate-text
-            className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%]"
+                        className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%]"
           >
             {slides[current].description}
           </p>
@@ -137,14 +132,12 @@ const Carousel = () => {
                 className="w-7 h-7 lg:w-10 lg:h-10 mb-3.5 lg:mb-4"
               />
               <p
-                data-animate-text
-                className="capitalize text-heading4 text-black leading-[110%] mb-2"
+                                className="capitalize text-heading4 text-black leading-[110%] mb-2"
               >
                 {feature.title}
               </p>
               <p
-                data-animate-text
-                className="text-bodySmall font-neueMontreal text-textPrimary leading-[120%]"
+                                className="text-bodySmall font-neueMontreal text-textPrimary leading-[120%]"
               >
                 {feature.text}
               </p>

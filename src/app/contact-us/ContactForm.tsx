@@ -10,17 +10,19 @@ function ContactForm() {
     email: z.string().email("Please enter a valid email address."),
     phone: z.string().regex(/^\d{10}$/, "Enter a valid 10-digit phone number."),
     company: z.string().min(2, "Company Name must be at least 2 characters."),
-    // position: z.string().min(2, "Company Name must be at least 2 characters."),
-    requestType: z.string().nonempty("Please select request type."),
-    message: z.string().min(2, "Name must be at least 2 characters."),
+    position: z.string().optional(),
+    requestType: z.string().min(1, "Please select request type."),
+    message: z.string().min(2, "Message must be at least 2 characters."),
   });
+
+  type ContactFormData = z.infer<typeof schema>;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ContactFormData>({
     resolver: zodResolver(schema),
   });
 
@@ -61,7 +63,7 @@ function ContactForm() {
     return;
   };
 
-  const inputStyle = (fieldName) =>
+  const inputStyle = (fieldName: keyof ContactFormData) =>
     errors[fieldName] ? { border: "1px solid #ff2929", color: "#808080" } : {};
 
   return (
@@ -110,14 +112,14 @@ function ContactForm() {
             <input
               id={field.id}
               type="text"
-              {...register(field.id)}
-              style={inputStyle(field.id)}
+              {...register(field.id as keyof ContactFormData)}
+              style={inputStyle(field.id as keyof ContactFormData)}
               className="px-3 py-4.5 h-14.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"
               placeholder={field.placeholder}
             />
-            {errors[field.id] && (
+            {errors[field.id as keyof ContactFormData] && (
               <span className="text-sm text-[#ff2929] leading-[100%] mt-2 font-neueMontreal">
-                {errors[field.id].message}
+                {errors[field.id as keyof ContactFormData]?.message}
               </span>
             )}
           </div>
@@ -186,7 +188,7 @@ function ContactForm() {
           </label>
           <textarea
             id="message"
-            rows="6"
+            rows={6}
             {...register("message")}
             style={inputStyle("message")}
             className="px-3 py-4.5 border border-[#d1d1d2] rounded-[2px] text-black text-bodySmall placeholder:text-bodySmall placeholder:font-neueMontreal"

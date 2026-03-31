@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
 import HeadingCenter from "@/components/HeadingCenter";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import { fetchJobs } from "@/utils/jobFetch";
 import JobItem from "@/components/job/JobItem";
 import TableHeader from "@/components/job/TableHeader";
@@ -63,14 +62,13 @@ const JobListContent = () => {
 };
 
 const JobList = () => {
-  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full px-3.5 md:px-5 lg:px-10 py-10 md:py-15 bg-white">
       <HeadingCenter
         heading="Who We Hire"
         text="Join a team of experts driving the next generation of semiconductor packaging"
       />
-      <ul ref={containerRef} className="w-full h-fit flex flex-col">
+      <ul className="w-full h-fit flex flex-col">
         <TableHeader />
         <Suspense fallback={<JobListLoading />}>
           <JobListContent />

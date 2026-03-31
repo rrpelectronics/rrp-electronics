@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 interface VideoImgSectionProps {
   videoSrc: string;
@@ -10,7 +9,6 @@ interface VideoImgSectionProps {
 }
 
 const VideoImgSection: React.FC<VideoImgSectionProps> = ({ videoSrc, heading, text, placeholder }) => {
-  const { containerRef } = useTextAnim();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
   const videoContainerRef = useRef(null);
@@ -32,7 +30,7 @@ const VideoImgSection: React.FC<VideoImgSectionProps> = ({ videoSrc, heading, te
     <>
       <section className="relative h-fit overflow-hidden py-10 px-3.5 md:px-5 lg:px-10 md:py-15 bg-white">
         <div
-          ref={(el) => { if (el) { containerRef.current = el; videoContainerRef.current = el; } }}
+          ref={videoContainerRef}
           onClick={openVideo}
           className="relative h-screen overflow-hidden"
         >
@@ -56,8 +54,7 @@ const VideoImgSection: React.FC<VideoImgSectionProps> = ({ videoSrc, heading, te
 
           <div className="cursor-none video-cursor z-20 absolute inset-0 grid grid-cols-4 gap-x-3 md:gap-x-5 w-full h-full bg-transparent">
             <h3
-              data-animate-text
-              className="pl-3.5 md:pl-5 lg:pl-10 pt-10 md:pt-15 col-span-4 lg:col-span-2 text-white text-heading2 tracking-heading2 leading-[110%] max-w-[590px]"
+                            className="pl-3.5 md:pl-5 lg:pl-10 pt-10 md:pt-15 col-span-4 lg:col-span-2 text-white text-heading2 tracking-heading2 leading-[110%] max-w-[590px]"
             >
               {heading.split("\n").map((line, i) => (
                 <React.Fragment key={i}>
@@ -69,8 +66,7 @@ const VideoImgSection: React.FC<VideoImgSectionProps> = ({ videoSrc, heading, te
 
             <div className="px-3.5 md:px-5 lg:px-10 pt-10 md:pt-15 col-span-4 col-start-1 lg:col-span-1 lg:col-start-4 flex flex-col gap-5 lg:gap-6 justify-end lg:justify-start">
               <p
-                data-animate-text
-                className="text-white text-bodyBase font-neueMontreal leading-[120%]"
+                                className="text-white text-bodyBase font-neueMontreal leading-[120%]"
               >
                 {text}
               </p>

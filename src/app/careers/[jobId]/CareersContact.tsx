@@ -162,9 +162,26 @@ const ADDITIONAL_FIELDS = [
   },
 ];
 
+interface FieldConfig {
+  id: string;
+  label: string;
+  placeholder: string;
+  inputType?: string;
+  readOnly?: boolean;
+  className?: string;
+}
+
+interface InputFieldProps {
+  field: any;
+  register: any;
+  error?: any;
+  inputStyle: (fieldName: string) => any;
+  setValue: any;
+}
+
 // Reusable input component
 const InputField = React.memo(
-  ({ field, register, error, inputStyle, setValue }) => {
+  ({ field, register, error, inputStyle, setValue }: InputFieldProps) => {
     const handleDOBChange = (e) => {
       let value = e.target.value.replace(/\D/g, "");
       if (value.length > 8) value = value.slice(0, 8);
@@ -208,7 +225,7 @@ const InputField = React.memo(
         />
 
         {error && (
-          <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">{error.message}</span>
+          <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">{error.message?.toString()}</span>
         )}
       </div>
     );
@@ -234,7 +251,7 @@ function CareersContact({ jobTitle }) {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState<string | boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (e) => {
@@ -284,11 +301,11 @@ function CareersContact({ jobTitle }) {
 
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
-          formData.append(key, value);
+          formData.append(key, value as string | Blob);
         });
 
         if (data.resume) {
-          formData.append("resumeFile", data.resume);
+          formData.append("resumeFile", data.resume as Blob);
         }
 
         const response = await fetch("/api/send-application", {
@@ -498,7 +515,7 @@ function CareersContact({ jobTitle }) {
           </div>
           {errors.resume && (
             <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">
-              {errors.resume.message}
+              {errors.resume.message?.toString()}
             </span>
           )}
         </div>
@@ -511,7 +528,7 @@ function CareersContact({ jobTitle }) {
 
           <textarea
             id="message"
-            rows="6"
+            rows={6}
             {...register("message")}
             style={inputStyle("message")}
             className="px-3 py-4.5 border border-[#d1d1d2] rounded-[2px] placeholder:text-bodySmall placeholder:font-neueMontreal"
@@ -520,7 +537,7 @@ function CareersContact({ jobTitle }) {
 
           {errors.message && (
             <span className="text-sm text-[#ff2929] mt-2 font-neueMontreal">
-              {errors.message.message}
+              {errors.message.message?.toString()}
             </span>
           )}
         </div>

@@ -1,6 +1,12 @@
 // hooks/useParallax.js
 import { useEffect, useRef } from 'react';
 
+declare global {
+  interface Window {
+    lenis?: any;
+  }
+}
+
 export const useParallax = (speed = 1) => {
   const elementRef = useRef(null);
 

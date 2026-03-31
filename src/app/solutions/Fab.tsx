@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap/all";
 import { ScrollTrigger } from "gsap/all";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +19,6 @@ export default function Fab({ id }) {
   const fixedHeaderRef = useRef(null);
   const cardsContainerRef = useRef(null);
   const headerHeight = useHeaderHeight();
-  const { containerRef } = useTextAnim();
 
   console.log(headerHeight);
 
@@ -51,20 +49,18 @@ export default function Fab({ id }) {
       id={id}
       className="bg-white px-3.5 md:px-5 lg:px-10 py-10 md:py-15"
     >
-      <div ref={containerRef} className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-4 gap-5">
         <div
           ref={fixedHeaderRef}
           className="col-span-4 md:col-span-2 flex flex-col gap-5 h-fit"
         >
           <h3
-            data-animate-text
-            className="text-heading2 tracking-heading2 leading-[110%]"
+                        className="text-heading2 tracking-heading2 leading-[110%]"
           >
             Prototype Fab
           </h3>
           <p
-            data-animate-text
-            className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%] md:w-[80%]"
+                        className="font-neueMontreal text-bodyBase text-textPrimary leading-[120%] md:w-[80%]"
           >
             India’s Prototype Compound Semiconductor Fabrication Facility. We will be
             developing a state-of-the-art prototype compound semiconductor fab,
@@ -104,7 +100,7 @@ function Card({ title, className, icon }) {
       className={`relative flex flex-col justify-between p-4 bg-lightestGrey aspect-square w-[283px] h-[283px] ${className}`}
     >
       <img src={icon} alt="Card Icon" className="w-7 h-7 md:w-10 md:h-10" />
-      <div data-animate-text className="mt-auto text-heading4 md:text-bodyBase lg:text-heading4 leading-[115%]">
+      <div className="mt-auto text-heading4 md:text-bodyBase lg:text-heading4 leading-[115%]">
         {title}
       </div>
     </div>

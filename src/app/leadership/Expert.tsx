@@ -1,15 +1,12 @@
 "use client";
 import React from "react";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import SectionHeader from "@/components/SectionHeader";
 import Image from "next/image";
 
 const Expert = () => {
-  const { containerRef } = useTextAnim();
 
   return (
     <section
-      ref={containerRef}
       className="bg-white h-fit w-full py-10 md:py-15"
     >
       <SectionHeader

@@ -91,11 +91,11 @@ const getBannerImageUrl = (event, isMobile) => {
   return "/images/news-events/placeholder.webp";
 };
 
-const EventDetailPage = ({ params }) => {
-  const [event, setEvent] = useState(null);
+const EventDetailPage = ({ params }: { params: Promise<{ newsEventsId: string }> }) => {
+  const [event, setEvent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
   const isMobile = useSmallScreen();
   const router = useRouter();
 
@@ -114,8 +114,8 @@ const EventDetailPage = ({ params }) => {
         // Map data properties to match what the component expects
         setEvent({
           ...foundEvent,
-          description: foundEvent.Description || foundEvent.description,
-          banner: foundEvent.newsEventBanner || foundEvent.Banner || foundEvent.banner,
+          description: foundEvent.description,
+          banner: foundEvent.newsEventBanner,
         });
       }
       setLoading(false);
@@ -228,7 +228,7 @@ const EventDetailPage = ({ params }) => {
               }`}
             onError={(e) => {
               // Fallback to placeholder if image fails to load
-              e.target.src = "/images/news-events/placeholder.webp";
+              (e.target as HTMLImageElement).src = "/images/news-events/placeholder.webp";
             }}
           />
         </div>
@@ -255,7 +255,7 @@ const EventDetailPage = ({ params }) => {
                   className="object-cover w-full h-full"
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
-                    e.target.src = "/images/news-events/placeholder.webp";
+                    (e.target as HTMLImageElement).src = "/images/news-events/placeholder.webp";
                   }}
                 />
               </div>
@@ -286,8 +286,8 @@ const EventDetailPage = ({ params }) => {
                 className="object-contain h-full w-auto"
                 onError={(e) => {
                   // Fallback to placeholder if image fails to load
-                  e.target.onerror = null;
-                  e.target.src = "/images/news-events/placeholder.webp";
+                  (e.target as HTMLImageElement).onerror = null;
+                  (e.target as HTMLImageElement).src = "/images/news-events/placeholder.webp";
                 }}
               />
             </div>

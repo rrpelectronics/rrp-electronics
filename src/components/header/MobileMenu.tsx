@@ -24,7 +24,15 @@ const operationsLinks = [
   { href: "/traceability", label: "Traceability" },
 ];
 
-const MobileMenu = forwardRef(
+interface MobileMenuProps {
+  isOpen: boolean;
+  pathname: string;
+  openMobileDropdown: string | null;
+  toggleMobileDropdown: (dropdown: string) => void;
+  handleMobileMenuClose: () => void;
+}
+
+const MobileMenu = forwardRef<HTMLUListElement, MobileMenuProps>(
   (
     {
       isOpen,
@@ -83,7 +91,6 @@ const MobileMenu = forwardRef(
         ))}
         <button
           onClick={handleMobileMenuClose}
-          pathname={pathname}
           className="h-10 w-10 rounded-full fixed top-8 right-3.5 md:right-5"
         >
           <img

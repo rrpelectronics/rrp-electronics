@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState, createRef } from "react";
 import gsap from "gsap/all";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import { events } from "./data";
 import JourneyHeader from "@/components/journey/JourneyHeader";
 import JourneyYear from "@/components/journey/JourneyYear";
@@ -13,7 +12,6 @@ const OurJourney = () => {
   const timelineRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { containerRef } = useTextAnim();
 
   const itemRefs = useRef([]);
 
@@ -325,7 +323,6 @@ const OurJourney = () => {
 
   return (
     <section
-      ref={containerRef}
       className="h-fit w-full flex flex-col justify-start gap-10 py-10 md:py-15 bg-darkBg"
     >
       <JourneyHeader />
