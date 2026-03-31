@@ -1,14 +1,14 @@
 // hooks/useDropdownMenu.js
 import { useRef, useState, useCallback } from 'react';
 
-const useDropdownMenu = (isMobile) => {
-  const timeoutRef = useRef(null);
+const useDropdownMenu = (isMobile: boolean) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
 
   const handleMouseEnter = useCallback(
-    (dropdown) => {
+    (dropdown: "company" | "solutions" | "operations") => {
       if (isMobile) return;
 
       if (timeoutRef.current) {
@@ -32,7 +32,7 @@ const useDropdownMenu = (isMobile) => {
   );
 
   const handleMouseLeave = useCallback(
-    (dropdown) => {
+    (dropdown: "company" | "solutions" | "operations") => {
       if (isMobile) return;
 
       timeoutRef.current = setTimeout(() => {

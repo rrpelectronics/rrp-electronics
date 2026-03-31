@@ -1,9 +1,9 @@
 "use client";
-import { createContext, useContext } from "react";
+import { createContext, useContext, ReactNode } from "react";
 
-const HeaderHeightContext = createContext(0);
+const HeaderHeightContext = createContext<number>(0);
 
-export const HeaderHeightProvider = ({ children, height }) => (
+export const HeaderHeightProvider = ({ children, height }: { children: ReactNode; height: number }) => (
   <HeaderHeightContext.Provider value={height}>
     {children}
   </HeaderHeightContext.Provider>
