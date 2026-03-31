@@ -58,7 +58,7 @@ const LinkList = ({ title, links }) => (
   </div>
 );
 
-const Footer =  React.forwardRef((props, ref) => {
+const Footer = React.forwardRef<HTMLElement, any>((props, ref) => {
   const { footerContent } = useFooter();
 
   // Check if we should show the top section

@@ -40,7 +40,7 @@ const navItems = [
   },
 ];
 
-const Header = forwardRef((props, ref) => {
+const Header = forwardRef<HTMLElement, any>((props, ref) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -73,7 +73,7 @@ const Header = forwardRef((props, ref) => {
     }, 300); // 300ms delay to let the user visit the submenu smoothly
   };
 
-  const handleLinkClick = (e, href, target) => {
+  const handleLinkClick = (e: React.MouseEvent, href: string, target?: string) => {
     setActiveMenuIndex(null); // Close the submenu on click
     if (target === "_blank") {
       return;
