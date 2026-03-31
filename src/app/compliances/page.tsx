@@ -35,7 +35,6 @@ const cardsData = [
   {
     zIndex: 30,
     title: "Quality Foundation",
-    zIndex: 30,
     desc: "Built on a Zero-Defect Philosophy, our foundation is defined by precision, prevention, and an uncompromising commitment to excellence.",
     items: [
       "We ensure every detail is meticulously engineered for perfection.",

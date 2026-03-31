@@ -3,10 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import { useParallax } from "@/hooks/useParallax";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 const Beginning = () => {
-  const { containerRef } = useTextAnim();
   const image1Ref = useParallax(1);
   const image2Ref = useParallax(-1);
   const image3Ref = useParallax(1);
@@ -40,18 +38,15 @@ const Beginning = () => {
         </div>
 
         <div
-          ref={containerRef}
           className="flex flex-col items-center justify-center gap-5 md:gap-8 max-w-[590px] mx-auto"
         >
           <h3
-            data-animate-text
-            className="text-center text-heading2 text-black leading-[110%] tracking-heading2"
+                        className="text-center text-heading2 text-black leading-[110%] tracking-heading2"
           >
             The Beginning
           </h3>
           <p
-            data-animate-text
-            className="text-center text-bodyBase text-textPrimary leading-[120%] font-neueMontreal"
+                        className="text-center text-bodyBase text-textPrimary leading-[120%] font-neueMontreal"
           >
             RRP Electronics was founded with a mission to revolutionize India's
             semiconductor landscape. With a commitment to high-quality,

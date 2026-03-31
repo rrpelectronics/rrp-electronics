@@ -2,16 +2,13 @@
 import React from "react";
 import Image from "next/image";
 import HeadingCenter from "@/components/HeadingCenter";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 const Grid = () => {
 
-  const { containerRef } = useTextAnim();
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-background">
       <HeadingCenter heading={"Our People. Our Principles. \n Our Progress."} />
       <div
-        ref={containerRef}
         className="grid grid-cols-4 px-3.5 md:px-5 lg:px-10 gap-x-3 gap-y-6 sm:gap-y-0 sm:gap-x-0 sm:grid-cols-12"
       >
         <div className="relative overflow-hidden w-full aspect-square col-span-4">
@@ -26,8 +23,7 @@ const Grid = () => {
         </div>
         <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-darkBg">
           <p
-            data-animate-text
-            className="text-white text-heading4 leading-[115%]"
+                        className="text-white text-heading4 leading-[115%]"
           >
             Young Talent
           </p>
@@ -44,8 +40,7 @@ const Grid = () => {
         </div>
         <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-primary">
           <p
-            data-animate-text
-            className="text-white text-heading4 leading-[115%]"
+                        className="text-white text-heading4 leading-[115%]"
           >
             Employment Generation
           </p>
@@ -62,8 +57,7 @@ const Grid = () => {
         </div>
         <div className="flex flex-col justify-end w-full aspect-square col-span-4 p-5 lg:p-6 bg-whiteBg">
           <p
-            data-animate-text
-            className="text-black text-heading4 leading-[115%]"
+                        className="text-black text-heading4 leading-[115%]"
           >
             Empowering Women
           </p>

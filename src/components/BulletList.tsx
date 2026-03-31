@@ -1,12 +1,10 @@
 "use client";
 import React from 'react';
-import { useTextAnim } from '@/hooks/useTextAnim';
 
 const BulletList = ({ items = [] }) => {
-  const { containerRef } = useTextAnim();
 
   return (
-    <ul ref={containerRef}>
+    <ul>
       {items.map((text, idx) => (
         <li
           key={idx}
@@ -22,8 +20,7 @@ const BulletList = ({ items = [] }) => {
             className="shrink-0 w-6 h-6"
           />
           <span
-            data-animate-text
-            className={`py-4 md:py-5 text-bodyBase w-[80%] text-textPrimary leading-[120%] font-neueMontreal`}
+                        className={`py-4 md:py-5 text-bodyBase w-[80%] text-textPrimary leading-[120%] font-neueMontreal`}
           >
             {text}
           </span>

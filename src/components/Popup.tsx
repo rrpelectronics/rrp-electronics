@@ -1,7 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
-export default function Popup({ onClose }) {
+interface PopupProps {
+  onClose?: () => void;
+}
+
+export default function Popup({ onClose }: PopupProps) {
   const [isVisible, setIsVisible] = useState(false);
   const scrollPositionRef = useRef(0);
 
@@ -60,7 +64,7 @@ export default function Popup({ onClose }) {
   };
 
   // Prevent touch scroll on the overlay
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
   };
 
@@ -72,7 +76,6 @@ export default function Popup({ onClose }) {
       style={{
         backgroundColor: "rgba(0, 0, 0, 0.75)",
         WebkitOverflowScrolling: "touch",
-        height: "100vh",
         height: "100dvh", // Dynamic viewport height for iOS
       }}
       onTouchMove={handleTouchMove}
@@ -106,7 +109,7 @@ export default function Popup({ onClose }) {
             style={{
               WebkitUserDrag: "none",
               pointerEvents: "none",
-            }}
+            } as any}
           />
         </div>
       </div>

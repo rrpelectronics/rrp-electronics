@@ -1,10 +1,8 @@
 "use client";
 import React from 'react';
 import SectionHeader from '@/components/SectionHeader';
-import { useTextAnim } from '@/hooks/useTextAnim';
 
 const Future = () => {
-  const { containerRef } = useTextAnim();
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
@@ -12,7 +10,7 @@ const Future = () => {
         heading={"The Road Ahead – \n Innovating for the Future"}
         text={"Our journey doesn’t stop here. We are relentlessly focused on:"}
       />
-      <div ref={containerRef} className="grid grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 items-stretch">
+      <div className="grid grid-cols-12 gap-x-3 md:gap-x-5 gap-y-6 px-3.5 md:px-5 lg:px-10 items-stretch">
         <div className="md:gap-y-20 lg:gap-y-0 col-span-12 md:col-span-4 bg-whiteBg aspect-[387/290] w-full flex flex-col justify-between p-4">
           <img
             src="/images/icons/biotech.svg"

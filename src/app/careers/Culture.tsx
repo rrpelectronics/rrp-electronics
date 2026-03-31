@@ -1,10 +1,8 @@
 "use client";
 import React from 'react';
 import SectionHeader from '@/components/SectionHeader';
-import { useTextAnim } from '@/hooks/useTextAnim';
 
 const Culture = () => {
-  const { containerRef } = useTextAnim();
 
   return (
     <section className="h-fit w-full py-10 md:py-15 bg-white">
@@ -14,7 +12,7 @@ const Culture = () => {
           "At RRP Electronics, we believe that culture isn't what happens outside the work — it’s how the work happens. It’s the way we think, the way we support each other, and the way we move the industry forward together."
         }
       />
-      <ul ref={containerRef} className="grid grid-cols-4 gap-y-6 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
+      <ul className="grid grid-cols-4 gap-y-6 gap-x-3 md:gap-x-5 px-3.5 md:px-5 lg:px-10">
         <li className="col-span-4 sm:col-span-2 lg:col-span-1 w-full h-[248px] p-4 bg-whiteBg flex flex-col justify-between">
           <p data-animate-text className="text-black text-heading4 leading-[115%]">
             Curiosity Over Convention

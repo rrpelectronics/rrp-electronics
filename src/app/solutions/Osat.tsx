@@ -2,7 +2,6 @@
 import React from "react";
 import Image from "next/image";
 import BulletList from "@/components/BulletList";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import { useParallax } from "@/hooks/useParallax";
 
 const cardItems = [
@@ -12,7 +11,6 @@ const cardItems = [
 ];
 
 export default function Osat({ id }) {
-  const { containerRef } = useTextAnim();
   const imageRef = useParallax(1.2);
 
   return (
@@ -22,18 +20,15 @@ export default function Osat({ id }) {
     >
       <div className="col-span-2 flex flex-col justify-between">
         <div
-          ref={containerRef}
           className="flex flex-col gap-4 pb-20 md:pb-0 justify-between"
         >
           <h3
-            data-animate-text
-            className="text-heading2 tracking-tight font-neueMontrealMd text-black leading-[110%]"
+                        className="text-heading2 tracking-tight font-neueMontrealMd text-black leading-[110%]"
           >
             OSAT (Outsourced Semiconductor Assembly and Test)
           </h3>
           <p
-            data-animate-text
-            className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%] md:mb-10 mb-0"
+                        className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%] md:mb-10 mb-0"
           >
             We are proud to launch Maharashtra’s first dedicated OSAT facility a
             major leap forward in India’s semiconductor ecosystem. Designed for

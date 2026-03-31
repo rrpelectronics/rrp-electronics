@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useTextAnim } from "@/hooks/useTextAnim";
 import dynamic from "next/dynamic";
 import JobDetailsLoading from "@/components/job/JobDetailsLoading";
 import RichTextParser from "@/components/RichTextParser";
@@ -15,7 +14,6 @@ const CareersContact = dynamic(
 // Main content component
 const JobDetailsContent = ({ jobSlug }) => {
   const sectionRef = useRef(null);
-  const { containerRef } = useTextAnim();
 
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -103,16 +101,14 @@ const JobDetailsContent = ({ jobSlug }) => {
     <main className="min-h-screen w-full relative mt-25 lg:mt-35">
       {/* Hero Section */}
       <section className="w-full h-fit py-10 px-3.5 md:px-5 lg:px-10 flex flex-col items-start justify-center">
-        <div ref={containerRef} className="flex flex-col">
+        <div className="flex flex-col">
           <p
-            data-animate-text
-            className="text-bodyLarge leading-[120%] text-textPrimary font-neueMontreal mb-8"
+                        className="text-bodyLarge leading-[120%] text-textPrimary font-neueMontreal mb-8"
           >
             {job.department} / {job.type}
           </p>
           <h3
-            data-animate-text
-            className="text-display text-black leading-[110%] tracking-display mb-4 max-w-[840px]"
+                        className="text-display text-black leading-[110%] tracking-display mb-4 max-w-[840px]"
           >
             {job.title.split("\n").map((line, i) => (
               <React.Fragment key={i}>
@@ -125,7 +121,6 @@ const JobDetailsContent = ({ jobSlug }) => {
             Location: {job.location}
           </p>
           <Link
-            data-animate-text
             href={"mailto:careers@rrpelectronics.com"}
             className="text-bodySmall text-white font-neueMontreal leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
           >
@@ -192,7 +187,7 @@ const JobDetailsContent = ({ jobSlug }) => {
 };
 
 // Main wrapper component with Suspense
-const JobDetailsPage = ({ params }) => {
+const JobDetailsPage = ({ params }: { params: Promise<{ jobId: string }> }) => {
   const resolvedParams = React.use(params);
   const jobSlug = resolvedParams.jobId; // Now using slug instead of ID
 

@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useLargeScreen from "@/hooks/useLargeScreen";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 import BulletList from "@/components/BulletList";
-import { useTextAnim } from "@/hooks/useTextAnim";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +14,6 @@ export default function StackCards({ cardsData = [] }) {
   const cardRefs = useRef([]);
   const isDesktop = useLargeScreen();
   const headerHeight = useHeaderHeight();
-  const { containerRef } = useTextAnim();
 
   console.log(headerHeight);
 
@@ -92,19 +90,16 @@ export default function StackCards({ cardsData = [] }) {
           }  w-full bg-white flex flex-col md:grid md:grid-cols-4 gap-y-7.5 md:gap-x-5 `}
         >
           <div
-            ref={containerRef}
             className="col-span-2 flex flex-col justify-between gap-7.5 md:gap-15"
           >
             <div className={`flex flex-col gap-5 md:gap-4`}>
               <h3
-                data-animate-text
-                className="text-heading2 text-black leading-[110%]"
+                                className="text-heading2 text-black leading-[110%]"
               >
                 {card.title}
               </h3>
               <p
-                data-animate-text
-                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%] w-[80%]`}
+                                className={`text-textPrimary font-neueMontreal text-bodyBase leading-[120%] w-[80%]`}
               >
                 {card.desc}
               </p>

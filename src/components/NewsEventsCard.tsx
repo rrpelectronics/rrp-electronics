@@ -3,7 +3,20 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const NewsEventsCard = ({
+interface NewsEventsCardProps {
+  newsEventImg?: string;
+  imgBgClass?: string;
+  title: string;
+  date: string;
+  source?: string;
+  link: string;
+  target?: string;
+  variant?: "default" | "event";
+  id?: string;
+  eventType?: "past" | "upcoming";
+}
+
+const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
   newsEventImg,
   imgBgClass = "center",
   title,
@@ -39,7 +52,7 @@ const NewsEventsCard = ({
           className={`object-cover object-${imgBgClass} w-full h-full`}
           onError={(e) => {
             // Fallback to placeholder if image fails to load
-            e.target.src = "/images/news-events/placeholder.webp";
+            (e.target as HTMLImageElement).src = "/images/news-events/placeholder.webp";
           }}
         />
       );
@@ -55,7 +68,7 @@ const NewsEventsCard = ({
           className={`object-cover object-${imgBgClass} w-full h-full`}
           onError={(e) => {
             // Fallback to placeholder if image fails to load
-            e.target.src = "/images/news-events/placeholder.webp";
+            (e.target as HTMLImageElement).src = "/images/news-events/placeholder.webp";
           }}
         />
       );
@@ -70,14 +83,17 @@ const NewsEventsCard = ({
           className={`object-cover object-${imgBgClass}`}
           onError={(e) => {
             // Fallback to regular img tag if Next.js Image fails
-            e.target.parentElement.innerHTML = `
-              <img 
-                src="${newsEventImg || "/images/news-events/placeholder.webp"}" 
-                alt="${title}"
-                class="object-cover object-${imgBgClass} w-full h-full"
-                onerror="this.src='/images/news-events/placeholder.webp'"
-              />
-            `;
+            const target = e.target as HTMLImageElement;
+            if (target && target.parentElement) {
+              target.parentElement.innerHTML = `
+                <img 
+                  src="${newsEventImg || "/images/news-events/placeholder.webp"}" 
+                  alt="${title}"
+                  class="object-cover object-${imgBgClass} w-full h-full"
+                  onerror="this.src='/images/news-events/placeholder.webp'"
+                />
+              `;
+            }
           }}
         />
       );
