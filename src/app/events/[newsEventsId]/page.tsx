@@ -143,7 +143,7 @@ const EventDetailPage = ({ params }: { params: Promise<{ newsEventsId: string }>
     return (
       <main className="h-fit w-full py-10 px-3.5 md:px-5 lg:px-10 grid grid-cols-4 gap-x-3 md:gap-x-5">
         <div className="col-span-4 lg:col-start-2 lg:col-span-2 text-center">
-          <h1 className="text-4xl font-bold mb-4">
+          <h1 className="text-4xl  mb-4">
             {error || "Event not found"}
           </h1>
           <a href="/events" className="text-primary underline">

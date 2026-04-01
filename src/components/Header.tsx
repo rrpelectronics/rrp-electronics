@@ -3,6 +3,7 @@ import React, { forwardRef, memo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import useLockBodyScroll from "@/hooks/useLockBodyScroll";
+import newslettersData from "../../data/rrp_newsletter.json";
 
 const navItems = [
   {
@@ -29,14 +30,15 @@ const navItems = [
   {
     title: "Newsroom",
     links: [
-      { name: "News", href: "/news" },
-      { name: "Events", href: "/events" },
-      { name: "Newsletters", href: "/documents/rrp_newsletter.pdf", target: "_blank" },
+      { name: "News", href: "/news", target: "_self" },
+      { name: "Events", href: "/events", target: "_self" },
+      { name: "Newsletters", href: "/newsletters", target: "_self" },
     ],
   },
   {
     title: "Careers",
     href: "/careers",
+    target: "_self"
   },
 ];
 
@@ -51,6 +53,29 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
   // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileAccordionIndex, setMobileAccordionIndex] = useState(null);
+
+  // Dynamic Newsletter Link
+  const newsletterLink = React.useMemo(() => {
+    if (newslettersData && newslettersData.length === 1 && (newslettersData[0] as any).link) {
+      return { href: (newslettersData[0] as any).link, target: "_blank" };
+    }
+    return { href: "/newsletters", target: "_self" };
+  }, []);
+
+  const dynamicNavItems = React.useMemo(() => {
+    return navItems.map(item => {
+      if (item.title === "Newsroom" && item.links) {
+        return {
+          ...item,
+          links: item.links.map(link => {
+            if (link.name === "Newsletters") return { ...link, ...newsletterLink };
+            return link;
+          })
+        };
+      }
+      return item;
+    });
+  }, [newsletterLink]);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -88,8 +113,9 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
   };
 
   const isItemActive = (item) => {
-    if (item.href && pathname === item.href) return true;
-    if (item.links && item.links.some((link) => pathname === link.href)) return true;
+    if (item.href && item.href !== "/" && pathname?.startsWith(item.href)) return true;
+    if (item.href === "/" && pathname === "/") return true;
+    if (item.links && item.links.some((link) => pathname?.startsWith(link.href))) return true;
     return false;
   };
 
@@ -119,7 +145,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
         </div>
 
         <ul className="flex flex-col w-full h-full">
-          {navItems.map((item, index) => {
+          {dynamicNavItems.map((item, index) => {
             const active = isItemActive(item);
 
             if (!item.links) {
@@ -209,7 +235,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
               if (timeoutRef.current) clearTimeout(timeoutRef.current);
             }}
           >
-            {navItems.map((item, index) => {
+            {dynamicNavItems.map((item, index) => {
               const active = isItemActive(item);
 
               if (!item.links) {
@@ -218,8 +244,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
                     <Link
                       href={item.href}
                       onClick={(e) => handleLinkClick(e, item.href)}
-                      className={`text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${active ? "text-primary" : "text-black"
-                        }`}
+                      className={`text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${active ? "text-primary" : "text-black"}`}
                     >
                       {item.title}
                     </Link>
@@ -234,8 +259,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
                   onMouseEnter={() => handleMouseEnter(index)}
                 >
                   <p
-                    className={`flex items-center gap-x-1.5 justify-center text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${active || activeMenuIndex === index ? "text-primary" : "text-black"
-                      }`}
+                    className={`flex items-center gap-x-1.5 justify-center text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${active || activeMenuIndex === index ? "text-primary" : "text-black"}`}
                   >
                     {item.title}
                     <img
@@ -250,15 +274,16 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
                   >
                     <ul className="flex flex-col gap-y-6 relative w-max pointer-events-auto">
                       {item.links.map((link, lIndex) => {
-                        const linkActive = pathname === link.href;
+                        const linkActive = pathname?.startsWith(link.href);
                         return (
                           <li key={lIndex}>
                             <Link
                               href={link.href}
                               target={link.target}
                               onClick={(e) => handleLinkClick(e, link.href, link.target)}
-                              className={`text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${linkActive ? "text-primary" : "text-black"
-                                }`}
+                              className={`text-bodyBase font-neueMontreal transition-colors duration-300 cursor-pointer hover:text-primary leading-[100%] ${
+                                linkActive ? "text-primary" : "text-black"
+                              }`}
                             >
                               {link.name}
                             </Link>
@@ -273,9 +298,9 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
 
             {/* Global Constant Background exactly matched to whichever submenu is open */}
             <div
-              className={`absolute top-[calc(100%+24px)] lg:top-[calc(100%)] left-1/2 -translate-x-1/2 w-[200vw] bg-white border-t border-gray-200 shadow-md -z-10 ease-in-out ${activeMenuIndex !== null && navItems[activeMenuIndex]?.links ? 'h-[250px] opacity-100 visible' : 'h-[250px] opacity-0 invisible'}`}
+              className={`absolute top-[calc(100%+24px)] lg:top-[calc(100%)] left-1/2 -translate-x-1/2 w-[200vw] bg-white border-t border-gray-200 shadow-md -z-10 ease-in-out ${activeMenuIndex !== null && dynamicNavItems[activeMenuIndex]?.links ? 'h-[250px] opacity-100 visible' : 'h-[250px] opacity-0 invisible'}`}
               style={{
-                height: activeMenuIndex !== null && navItems[activeMenuIndex]?.links ? (navItems[activeMenuIndex].links.length * 48 + 30) + 'px' : '0px'
+                height: activeMenuIndex !== null && dynamicNavItems[activeMenuIndex]?.links ? (dynamicNavItems[activeMenuIndex].links.length * 48 + 30) + 'px' : '0px'
               }}
             />
           </ul>

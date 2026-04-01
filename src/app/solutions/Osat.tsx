@@ -23,12 +23,12 @@ export default function Osat({ id }) {
           className="flex flex-col gap-4 pb-20 md:pb-0 justify-between"
         >
           <h3
-                        className="text-heading2 tracking-tight font-neueMontrealMd text-black leading-[110%]"
+            className="text-heading2  font-neueMontrealMd text-black leading-[110%]"
           >
             OSAT (Outsourced Semiconductor Assembly and Test)
           </h3>
           <p
-                        className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%] md:mb-10 mb-0"
+            className="text-textPrimary font-neueMontreal text-bodyBase leading-[120%] md:w-[80%] md:mb-10 mb-0"
           >
             We are proud to launch Maharashtra’s first dedicated OSAT facility a
             major leap forward in India’s semiconductor ecosystem. Designed for

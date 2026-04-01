@@ -7,7 +7,7 @@ interface NewsEventsCardProps {
   newsEventImg?: string;
   imgBgClass?: string;
   title: string;
-  date: string;
+  date: any;
   source?: string;
   link: string;
   target?: string;
@@ -40,6 +40,23 @@ const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
     (newsEventImg.startsWith("http") ||
       newsEventImg.startsWith("https") ||
       newsEventImg.startsWith("//"));
+
+  const renderDate = (val: any) => {
+    if (!val) return "";
+    try {
+      if (typeof val === "string") {
+        if (!val.includes("T") && isNaN(Date.parse(val))) return val;
+      }
+      const d = new Date(val);
+      if (isNaN(d.getTime())) return String(val);
+
+      const options = { month: "long", year: "numeric" } as const;
+
+      return new Intl.DateTimeFormat("en-GB", options).format(d);
+    } catch {
+      return String(val);
+    }
+  };
 
   // For external images or when Image component fails, fallback to regular img tag
   const renderImage = () => {
@@ -123,7 +140,7 @@ const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
       </div>
       <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1">
         <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
-          {date} {source && `| ${source}`}
+          {renderDate(date)} {source && `| ${source}`}
         </p>
         <p
           className={`text-bodyLarge text-black leading-[120%] mb-2.5 line-clamp-2 text-ellipsis ${variant === "event" ? "" : "md:w-[90%]"
