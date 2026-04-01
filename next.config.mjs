@@ -6,6 +6,9 @@ const nextConfig = {
     root: path.resolve('.'),
   },
   experimental: {
+    serverActions: {
+      bodySizeLimit: '50mb'
+    }
   },
   images: {
     remotePatterns: [
