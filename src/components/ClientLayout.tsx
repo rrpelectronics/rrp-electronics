@@ -104,13 +104,15 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const isAdmin = pathname?.startsWith("/admin");
+
   return (
     <ReactLenis root>
       <FooterProvider>
         <HeaderHeightProvider height={headerHeight}>
-          <Header ref={headerRef} />
+          {!isAdmin && <Header ref={headerRef} />}
           {children}
-          <Footer ref={footerRef} />
+          {!isAdmin && <Footer ref={footerRef} />}
         </HeaderHeightProvider>
       </FooterProvider>
     </ReactLenis>
