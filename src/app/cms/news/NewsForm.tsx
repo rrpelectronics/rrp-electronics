@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { createItem, updateItem, getItemById } from "@/lib/cms-actions";
 import { uploadAsset } from "@/lib/upload-action";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 
