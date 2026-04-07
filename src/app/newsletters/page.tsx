@@ -1,91 +1,259 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import newslettersData from "../../../data/rrp_newsletter.json";
-import { Mail, Download, ExternalLink, FileText, Search } from "lucide-react";
+import { Mail, SortAsc, FileText, ChevronDown, Check, ArrowUpDown } from "lucide-react";
+import { useHeaderHeight } from "@/context/HeaderHeightContext";
 import Link from "next/link";
 
-const NewslettersPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  
-  const newsletters = React.useMemo(() => {
-    const data = [...newslettersData];
-    return data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, []);
+// Filter Chip Dropdown Component
+const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, rightAlign = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0, right: 0 });
+  const buttonRef = React.useRef(null);
+  const timeoutRef = React.useRef(null);
+  const selectedOption = options.find((opt) => opt.value === value) || options[0] || { label: "Select", value: "" };
 
-  const filteredNewsletters = newsletters.filter((n: any) =>
-    n.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    n.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const updateCoords = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.bottom,
+        left: rect.left,
+        right: (typeof window !== 'undefined' ? window.innerWidth : 1200) - rect.right,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener("scroll", updateCoords);
+      window.addEventListener("resize", updateCoords);
+    }
+    return () => {
+      window.removeEventListener("scroll", updateCoords);
+      window.removeEventListener("resize", updateCoords);
+    };
+  }, [isOpen]);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    updateCoords();
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  };
 
   return (
-    <main className="min-h-screen bg-whiteBg pt-32 pb-20 px-3.5 md:px-5 lg:px-10 font-neueMontreal animate-in fade-in duration-700">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 overflow-hidden">
-          <div className="space-y-4 max-w-2xl">
-            <h1 className="text-heading1 text-black tracking-heading1 leading-[90%]">
-              Our <span className="text-primary italic">Newsletters</span>
-            </h1>
-            <p className="text-bodyBase text-gray-600 leading-relaxed">
-              Stay updated with the latest insights, breakthroughs, and corporate milestones from RRP Electronics. Browse our archival editions below.
+    <div
+      className="relative flex-shrink-0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        ref={buttonRef}
+        type="button"
+        className={`px-5 py-2.5 rounded-full text-[16px] flex items-center gap-3 border transition-all cursor-pointer active:scale-95 ${isOpen
+          ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5"
+          : "border-gray-200 text-gray-700 bg-white hover:border-primary/50 hover:text-primary"
+          }`}
+      >
+        <div className="flex items-center gap-2 pointer-events-none">
+          {Icon && <Icon size={16} className={isOpen ? "text-primary" : "text-gray-400"} />}
+          <span className="text-gray-400">{label}:</span>
+          <span className="text-inherit">{selectedOption.label}</span>
+        </div>
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-300 pointer-events-none ${isOpen ? "rotate-180 text-primary" : "text-gray-400"}`}
+        />
+      </button>
+
+      {isOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: `${70}px`,
+            ...(rightAlign ? { right: `${coords.right}px` } : { left: `${coords.left}px` }),
+            zIndex: 9999
+          }}
+          className="animate-in fade-in slide-in-from-top-2 duration-200"
+          onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
+        >
+          <ul className="min-w-[220px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] py-3">
+            {options.map((option) => (
+              <li
+                key={option.value}
+                onClick={() => {
+                  onChange(option.value);
+                  setIsOpen(false);
+                }}
+                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-primary/5 hover:text-primary transition-colors ${value === option.value ? "text-primary bg-primary/5" : "text-gray-600"
+                  }`}
+              >
+                {option.label}
+                {value === option.value && <Check size={18} className="text-primary" />}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Mobile Unified Filter Component
+const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = React.useRef(null);
+
+  return (
+    <div className="relative flex-shrink-0">
+      <button
+        ref={buttonRef}
+        onClick={() => setIsOpen(!isOpen)}
+        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] gap-2 lg:gap-3 flex justify-center items-center border transition-all cursor-pointer ${isOpen ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5" : "border-gray-200 text-gray-700 bg-white hover:border-primary/50"}`}
+      >
+        <ArrowUpDown size={16} className={isOpen ? "text-primary" : "text-gray-400"} />
+        <span className="font-medium text-inherit">Sort</span>
+        <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : "text-gray-400"}`} />
+      </button>
+
+      {isOpen && (
+        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2">
+          <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
+          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
+            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'latest' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              Latest First
+            </li>
+            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'old' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              Oldest First
+            </li>
+            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'az' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              A-Z Title
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Simplified Newsletter Card with PDF icon and Orange theme
+const NewsletterCard = ({ title, date, link }) => {
+  return (
+    <Link
+      href={link}
+      target="_blank"
+      className="flex gap-4 items-stretch"
+    >
+      <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1 py-1 justify-between">
+        <div className="flex w-full gap-3">
+          <FileText size={32} strokeWidth={1.5} className="text-primary" />
+          <div className="flex flex-col gap-2 w-full">
+            <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
+              {date}
+            </p>
+            <p className="text-bodyLarge text-black leading-[120%] md:w-[90%] font-neueMontrealMd">
+              {title}
             </p>
           </div>
+        </div>
+        <p className="ml-11 w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary">
+          View Edition
+        </p>
+      </div>
+    </Link>
+  );
+};
 
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input
-              type="text"
-              placeholder="Search issues..."
-              className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-full outline-none focus:border-primary transition-all text-sm font-medium shadow-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+const NewslettersPage = () => {
+  const headerHeight = useHeaderHeight();
+  const [sortBy, setSortBy] = useState("latest");
+
+  // Filter and Sort newsletters
+  const sortedNewsletters = useMemo(() => {
+    let result = [...newslettersData];
+
+    // Sort
+    if (sortBy === "az") {
+      result.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortBy === "latest") {
+      result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    } else if (sortBy === "old") {
+      result.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    }
+
+    return result;
+  }, [sortBy]);
+
+  return (
+    <main style={{ marginTop: headerHeight }} className="min-h-screen bg-white">
+      {/* Sticky Filter Header */}
+      <div
+        style={{ top: headerHeight - 1 }}
+        className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-3.5 md:px-5 lg:px-10 py-4 shadow-sm"
+      >
+        <div className="flex items-center justify-between gap-10 md:gap-15 max-w-[1920px] mx-auto">
+          <div className="flex items-center gap-3 text-primary">
+            <Mail size={24} />
+            <h1 className="text-heading4 text-black font-neueMontrealMd font-medium">
+              Newsletters
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 md:pb-0 relative z-[110] flex-nowrap">
+            {/* Desktop Filters */}
+            <div className="hidden lg:flex items-center gap-3">
+              <FilterChipDropdown
+                label="Sort By"
+                icon={SortAsc}
+                value={sortBy}
+                onChange={setSortBy}
+                rightAlign={true}
+                options={[
+                  { label: "Latest First", value: "latest" },
+                  { label: "Oldest First", value: "old" },
+                  { label: "A-Z Title", value: "az" },
+                ]}
+              />
+            </div>
+
+            {/* Mobile Unified Filter */}
+            <div className="flex lg:hidden items-center">
+              <MobileUnifiedFilter sortBy={sortBy} setSortBy={setSortBy} />
+            </div>
           </div>
         </div>
-
-        {filteredNewsletters.length === 0 ? (
-          <div className="py-40 text-center space-y-4">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto text-gray-300">
-              <Mail size={40} />
-            </div>
-            <h3 className="text-xl  text-gray-400">No newsletters found</h3>
-            <button onClick={() => setSearchTerm("")} className="text-primary  hover:underline cursor-pointer">Clear search</button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredNewsletters.map((n, i) => (
-              <div
-                key={n.id}
-                className="group bg-white rounded-[2rem] p-8 border border-gray-100 shadow-xl shadow-gray-200/20 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 transition-all duration-500 flex flex-col items-start h-full"
-              >
-                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                  <FileText size={32} />
-                </div>
-
-                <div className="space-y-3 flex-1">
-                  <p className="text-xs  text-primary uppercase tracking-[0.2em]">{n.date}</p>
-                  <h3 className="text-2xl  text-gray-900 group-hover:text-primary transition-colors leading-tight">{n.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 italic">
-                    {n.description || "In-depth insights into our latest electronic manufacturing advancements and strategic growth."}
-                  </p>
-                </div>
-
-                <div className="w-full pt-10 mt-auto">
-                  <Link
-                    href={n.link}
-                    target="_blank"
-                    className="w-full group/btn flex items-center justify-between bg-gray-900 text-white rounded-2xl p-5 hover:bg-primary transition-all duration-300  tracking-wide"
-                  >
-                    <span>View Edition</span>
-                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center group-hover/btn:rotate-45 transition-transform">
-                      <ExternalLink size={18} />
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
+
+      <section className="@container w-full h-fit px-3.5 md:px-5 lg:px-10 py-12 lg:py-16">
+        <div className="max-w-[1920px] mx-auto">
+          {sortedNewsletters.length > 0 ? (
+            <ul className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-full h-fit gap-y-12 md:gap-y-16 gap-6 md:gap-10">
+              {sortedNewsletters.map((n) => (
+                <li key={n.id} className="col-span-4 sm:col-span-4 md:col-span-4 lg:col-span-6 xl:col-span-4">
+                  <NewsletterCard
+                    title={n.title}
+                    date={n.date}
+                    link={n.link}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="col-span-12 py-32 text-center">
+              <div className="inline-flex p-6 bg-gray-50 rounded-full mb-6">
+                <FileText size={32} className="text-gray-300" />
+              </div>
+              <p className="text-heading4 text-gray-400">No newsletters found.</p>
+            </div>
+          )}
+        </div>
+      </section>
     </main>
   );
 };

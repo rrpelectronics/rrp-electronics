@@ -110,7 +110,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = React.useRef(null);
-  
+
   return (
     <div className="relative flex-shrink-0">
       <button
@@ -128,22 +128,22 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab 
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
-             <li onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab==='all'? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
-                All Events
-             </li>
-             <li onClick={() => { setActiveTab('upcoming'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab==='upcoming'? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
-                Upcoming
-             </li>
-             <li onClick={() => { setActiveTab('past'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab==='past'? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
-                Past
-             </li>
+            <li onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'all' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              All Events
+            </li>
+            <li onClick={() => { setActiveTab('upcoming'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'upcoming' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              Upcoming
+            </li>
+            <li onClick={() => { setActiveTab('past'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'past' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              Past
+            </li>
 
-             <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy==='latest'||sortBy==='old'? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
-                <div className="flex items-center gap-3">Date <ArrowUpDown size={14} /></div>
-             </li>
-             <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy==='az'? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
-                <div className="flex items-center gap-3">A-Z <ArrowUpDown size={14} /></div>
-             </li>
+            <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'latest' || sortBy === 'old' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              <div className="flex items-center gap-3">Date <ArrowUpDown size={14} /></div>
+            </li>
+            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'az' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+              <div className="flex items-center gap-3">A-Z <ArrowUpDown size={14} /></div>
+            </li>
           </ul>
         </div>
       )}
@@ -277,17 +277,15 @@ const Events = ({ id }) => {
         className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-3.5 md:px-5 lg:px-10 py-4 shadow-sm"
       >
         <div className="flex items-center justify-between gap-6 max-w-[1920px] mx-auto">
-          <div className="flex items-center gap-4 text-primary">
-            <div className="p-2.5 bg-primary/10 rounded-xl">
-              <Calendar size={24} />
-            </div>
+          <div className="flex items-center gap-3 text-primary">
+            <Calendar size={24} />
             <h3 className="text-heading4 text-black  font-neueMontrealMd">
               Events
             </h3>
           </div>
 
           <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 md:pb-0 relative z-[110] flex-nowrap">
-            
+
             {/* Desktop Filters */}
             <div className="hidden lg:flex items-center gap-3">
               <FilterChipDropdown

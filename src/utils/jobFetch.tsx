@@ -1,10 +1,12 @@
-import { JOB_DATA } from "@/app/careers/jobData";
+import { getAllItems } from "@/lib/cms-actions";
+import { TABLES } from "@/lib/aws";
 
 /**
- * Fetch jobs data from local hardcoded data
+ * Fetch jobs data from local JSON database
  */
 export const fetchJobs = async () => {
-  return JOB_DATA.map((item) => ({
+  const data = await getAllItems(TABLES.CAREERS);
+  return data.map((item: any) => ({
     id: item.id,
     title: item.title,
     department: item.department,
@@ -19,13 +21,14 @@ export const fetchJobs = async () => {
 };
 
 /**
- * Fetch single job by slug from local hardcoded data
+ * Fetch single job by slug from local JSON database
  */
 export const fetchJobBySlug = async (jobSlug: string) => {
-  const foundJob = JOB_DATA.find(job => job.id === jobSlug);
+  const data = await getAllItems(TABLES.CAREERS);
+  const foundJob = data.find((job: any) => job.id === jobSlug);
 
   if (!foundJob) {
-    throw new Error("Job not found in hardcoded data");
+    throw new Error("Job not found in database");
   }
 
   return {
