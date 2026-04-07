@@ -104,7 +104,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const isAdmin = pathname?.startsWith("/admin");
+  const isAdmin = pathname?.startsWith("/cms");
 
   return (
     <ReactLenis root>

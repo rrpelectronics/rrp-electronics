@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -235,4 +236,21 @@ select {
 
   }
 
+}
+
+/* Editor Styles */
+.tiptap-content {
+  @apply prose prose-sm sm:prose-base max-w-none prose-p:my-2 prose-ul:list-disc prose-ol:list-decimal prose-a:text-[#FF5C19] prose-a:font-medium hover:prose-a:underline;
+}
+
+.ProseMirror {
+    outline: none !important;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: oklch(0.556 0 0);
+  pointer-events: none;
+  height: 0;
 }

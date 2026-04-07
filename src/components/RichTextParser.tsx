@@ -190,6 +190,21 @@ const parseRichText = (text) => {
 // MAIN COMPONENT
 // ------------------------------
 const RichTextParser = ({ text }) => {
+  const isHtml = useMemo(() => {
+    if (!text) return false;
+    // Basic detection for HTML content (Tiptap always wraps in tags like <p>)
+    return text.startsWith("<") && text.endsWith(">");
+  }, [text]);
+
+  if (isHtml) {
+    return (
+      <div 
+        className="tiptap-content"
+        dangerouslySetInnerHTML={{ __html: text }} 
+      />
+    );
+  }
+
   const elements = useMemo(() => parseRichText(text), [text]);
 
   return (

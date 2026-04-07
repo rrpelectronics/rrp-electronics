@@ -81,7 +81,7 @@ const NewsForm = () => {
 
     try {
       let finalImgUrl = formData.newsEventImg;
-      
+
       if (selectedFile) {
         setUploading(true);
         const uploadData = new FormData();
@@ -98,7 +98,7 @@ const NewsForm = () => {
       } else {
         await createItem(TABLES.NEWS, finalData);
       }
-      router.push("/admin/news");
+      router.push("/cms/news");
     } catch (err: any) {
       setError(`Failed to save news: ${err.message || "Please check your AWS connection."}`);
     } finally {
@@ -112,7 +112,7 @@ const NewsForm = () => {
   return (
     <div className="space-y-6 animate-in slide-in-from-right-4 duration-500">
       <div className="flex items-center gap-4">
-        <Link href="/admin/news" className="p-2 hover:bg-gray-100 rounded-lg transition-all text-gray-500 cursor-pointer">
+        <Link href="/cms/news" className="p-2 hover:bg-gray-100 rounded-lg transition-all text-gray-500 cursor-pointer">
           <ArrowLeft size={20} />
         </Link>
         <div>
@@ -206,7 +206,7 @@ const NewsForm = () => {
                 Article Image URL
               </label>
 
-              <div 
+              <div
                 className="aspect-square bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl overflow-hidden flex flex-col items-center justify-center relative group cursor-pointer"
                 onClick={() => !uploading && document.getElementById('file-upload')?.click()}
               >
@@ -242,9 +242,9 @@ const NewsForm = () => {
                     <p className="text-[10px] text-gray-400">PNG, JPG, WEBP, SVG, AVIF</p>
                   </div>
                 )}
-                <input 
+                <input
                   id="file-upload"
-                  type="file" 
+                  type="file"
                   accept="image/*,.svg,.webp,.avif"
                   className="hidden"
                   onChange={handleFileChange}
@@ -273,7 +273,7 @@ const NewsForm = () => {
               >
                 {loading ? "Processing..." : <><Save size={18} /> {isEdit ? "Update News" : "Publish News"}</>}
               </button>
-              <Link href="/admin/news" className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-500 py-4 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+              <Link href="/cms/news" className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-500 py-4 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
                 <X size={18} />
                 Cancel
               </Link>

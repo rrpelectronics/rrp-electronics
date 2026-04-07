@@ -1,0 +1,56 @@
+[
+  {
+    "id": "diploma-engineers-electronics",
+    "title": "Diploma Engineers (Electronics)",
+    "department": "Engineering",
+    "type": "Full Time",
+    "location": "Mahape, Navi Mumbai",
+    "description": "<p>We are looking for enthusiastic Diploma holders in Electronics Engineering to join our team. This is an excellent opportunity for freshers and trainees who want to build a career in the semiconductor and electronics domain.</p>",
+    "experienceMin": null,
+    "experienceMax": null,
+    "fresherAllowed": true,
+    "extraPoints": []
+  },
+  {
+    "id": "supply-chain-management-scm-roles-all-levels",
+    "title": "Supply Chain Management (SCM) Roles – All Levels",
+    "department": "Operations",
+    "type": "Full Time",
+    "location": "Mahape, Navi Mumbai",
+    "description": "<p>If you are passionate about managing the flow of materials and resources, we have multiple openings in our Supply Chain Management team across functions such as Purchase, Logistics, Store, and SCM operations.</p>",
+    "experienceMin": 2,
+    "experienceMax": 3,
+    "fresherAllowed": true,
+    "extraPoints": [
+      "Strong analytical, organizational, and communication skills will be an advantage."
+    ]
+  },
+  {
+    "id": "accounts",
+    "title": "Accounts",
+    "department": "Finance",
+    "type": "Full Time",
+    "location": "Mahape, Navi Mumbai",
+    "description": "<p>We are expanding our Accounts Department and looking for candidates who are eager to contribute to financial operations and reporting.</p>",
+    "experienceMin": 2,
+    "experienceMax": 3,
+    "fresherAllowed": true,
+    "extraPoints": [
+      "Knowledge of accounting principles, tally/ERP systems, and attention to detail will be beneficial."
+    ]
+  },
+  {
+    "id": "front-desk-executive",
+    "title": "Front Desk Executive",
+    "department": "Receptionist",
+    "type": "Full Time",
+    "location": "Mahape, Navi Mumbai",
+    "description": "<p>Seeking a professional Front Desk Executive, with a welcoming personality, capable of handling all day-to-day front desk operations and clerical duties at our main entrance front desk. Responsible for being the face of our company for all visitors, the ideal candidate is expected to have a pleasant demeanour, yet confident enough to handle any challenging situations.</p><h3>Key Responsibilities:</h3><ul><li>Greet, welcome and assist visitors by directing them to the proper personnel or department</li><li>Communicate with the appropriate department about incoming visitors, and forward incoming phone calls to the concerned persons</li><li>Control access via the front desk by managing office security, maintaining visitor logs, data entries, as well as other admin related day-to-day activities</li><li>Ensure security protocols are maintained by internal and external personnel</li><li>Ensure the reception area is neat and well organised by monitoring housekeeping</li></ul><h3>Requirements:</h3><ul><li>Prior experience as an Receptionist / Front Desk Personnel</li><li>Strong verbal and written communication skills</li><li>Proficient in English, Hindi and Marathi languages</li><li>Confident and presentable with a professional attitude</li><li>Proactive and resourceful with excellent organisational skills</li><li>Team player with a positive attitude</li><li>Ability to multitask with an expertise in time-management skills</li><li>Candidates from Navi Mumbai location preferred</li></ul>",
+    "experienceMin": 2,
+    "experienceMax": 3,
+    "fresherAllowed": true,
+    "extraPoints": [
+      "Knowledge of accounting principles, tally/ERP systems, and attention to detail will be beneficial."
+    ]
+  }
+]

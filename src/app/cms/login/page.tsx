@@ -18,9 +18,9 @@ const AdminLogin = () => {
     setTimeout(() => {
       if (formData.username === "admin" && formData.password === "rrp@electronics#001") {
         // Simple session mock
-        document.cookie = "admin_session=true; path=/admin";
+        document.cookie = "admin_session=true; path=/cms";
         localStorage.setItem("isLoggedIn", "true");
-        router.push("/admin");
+        router.push("/cms");
       } else {
         setError("Invalid credentials. Please try again.");
         setLoading(false);
