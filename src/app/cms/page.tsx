@@ -7,7 +7,7 @@ import ContentList from "@/components/cms/ContentList";
 import ContentForm from "@/components/cms/ContentForm";
 import DeleteModal from "@/components/cms/DeleteModal";
 import { getAllItems, createItem, updateItem, deleteItem } from "@/lib/cms-actions";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 
 const AdminDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
