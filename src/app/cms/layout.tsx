@@ -14,7 +14,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       setIsAuthChecking(false);
       return;
     }
-    
     // Check both potential keys used during migration
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || 
                        localStorage.getItem("adminSession_ele") === "active";
