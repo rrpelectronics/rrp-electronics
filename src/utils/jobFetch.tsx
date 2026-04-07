@@ -1,5 +1,5 @@
 import { getAllItems } from "@/lib/cms-actions";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 
 /**
  * Fetch jobs data from local JSON database

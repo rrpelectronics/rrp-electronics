@@ -1,5 +1,5 @@
 import { getAllItems } from '@/lib/cms-actions';
-import { TABLES } from '@/lib/aws';
+import { TABLES } from '@/lib/database-schema';
 import events_data, { EventData } from './eventsData';
 
 // Helper function to determine if an event is in the future or past

@@ -1,5 +1,5 @@
 import { getAllItems } from "@/lib/cms-actions";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 // Import hardcoded news data as fallback
 import { news_data, NewsData } from './newsData';
 

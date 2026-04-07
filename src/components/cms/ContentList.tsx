@@ -39,10 +39,10 @@ const ContentList: React.FC<ContentListProps> = ({
 
   const getCategoryLabel = () => {
      switch(category) {
-        case 'news': return 'Newsroom Repository';
-        case 'newsletters': return 'Newsletter Archive';
-        case 'events': return 'Event Chronology';
-        case 'careers': return 'Career Opportunities';
+        case 'news': return 'News';
+        case 'newsletters': return 'Newsletter';
+        case 'events': return 'Events';
+        case 'careers': return 'Careers';
         default: return 'Content Database';
      }
   }

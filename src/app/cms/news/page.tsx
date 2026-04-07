@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Plus, Search, Trash2, ExternalLink, Globe, Edit2, Loader2, Newspaper, BarChart2, ImageIcon } from "lucide-react";
 import { getAllItems, createItem, deleteItem } from "@/lib/cms-actions";
 import { uploadAsset } from "@/lib/upload-action";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

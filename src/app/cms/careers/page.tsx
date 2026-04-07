@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, ExternalLink, Loader2, MapPin, Users, Briefcase } from "lucide-react";
 import { getAllItems, createItem, deleteItem } from "@/lib/cms-actions";
-import { TABLES } from "@/lib/aws";
+import { TABLES } from "@/lib/database-schema";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
