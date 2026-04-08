@@ -66,8 +66,7 @@ const ContentList: React.FC<ContentListProps> = ({
     <div className="space-y-8 lg:space-y-12">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-8 border-b border-gray-200 pb-8 sm:pb-12">
         <div className="space-y-2">
-          <h1 className="text-body2 font-medium text-gray-900 tracking-normal">{getCategoryLabel()}</h1>
-          <p className="text-body4 font-neueMontreal text-gray-400 font-normal">Configure and index {category} metadata for public delivery.</p>
+          <h1 className="text-bodyLarge font-medium text-gray-900 tracking-normal">{getCategoryLabel()}</h1>
         </div>
         <button
           onClick={onAdd}
@@ -94,14 +93,14 @@ const ContentList: React.FC<ContentListProps> = ({
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/10">
-                <th className={cn("px-4 lg:px-10 py-5 text-gray-500 tracking-normal min-w-[300px] text-body4 font-neueMontreal font-normal", category === 'careers' && "min-w-[400px]")}>
+                <th className={cn("px-4 lg:px-10 py-5 text-gray-400 tracking-normal max-w-[280px] sm:max-w-[425px] text-body4 font-neueMontreal font-normal", category === 'careers' && "min-w-[400px]")}>
                   <div className="flex items-center gap-2.5">
                     <FileText className="w-[16px] h-[16px] text-gray-400" />
                     <span>{category === 'careers' ? 'Job Position' : 'Publication Info'}</span>
                   </div>
                 </th>
                 <th
-                  className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal font-normal text-gray-500 tracking-normal min-w-[200px] cursor-pointer hover:bg-gray-50 transition-colors group select-none"
+                  className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal font-normal text-gray-500 tracking-normal min-w-[300px] cursor-pointer hover:bg-gray-50 transition-colors group select-none"
                   onClick={() => setSortOrder(prev => prev === "desc" ? "asc" : "desc")}
                 >
                   <div className="flex items-center gap-2">

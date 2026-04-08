@@ -35,7 +35,10 @@ const AdminDashboard = () => {
     title: "",
     description: "",
     link: "",
-    gallery: [] as { url: string }[]
+    gallery: [] as { url: string }[],
+    experienceMin: undefined as number | undefined,
+    experienceMax: undefined as number | undefined,
+    fresherAllowed: true
   });
 
   const [imagePreview, setImagePreview] = useState("");
@@ -65,7 +68,10 @@ const AdminDashboard = () => {
         // Contextual mapping for common fields
         source: category === 'careers' ? (item.department || "") : (item.source || ""),
         link: category === 'careers' ? (item.location || "") : (item.link || ""),
-        date: category === 'careers' ? (item.type || "") : (item.date || "")
+        date: category === 'careers' ? (item.type || "") : (item.date || ""),
+        experienceMin: item.experienceMin,
+        experienceMax: item.experienceMax,
+        fresherAllowed: item.fresherAllowed
       }));
       setItems(mappedData);
     } catch (error) {
@@ -213,8 +219,9 @@ const AdminDashboard = () => {
         submissionData.department = formData.source;
         submissionData.location = formData.link;
         submissionData.type = formData.date;
-        // Default values for careers
-        submissionData.fresherAllowed = true;
+        submissionData.experienceMin = formData.experienceMin;
+        submissionData.experienceMax = formData.experienceMax;
+        submissionData.fresherAllowed = formData.fresherAllowed;
         submissionData.extraPoints = [];
       } else if (category === 'newsletters') {
         submissionData.image = ""; // Newsletters don't have images in this design
@@ -252,7 +259,19 @@ const AdminDashboard = () => {
 
   const resetForm = () => {
     setEditingItem(null);
-    setFormData({ id: "", image: "", date: new Date().toISOString().split('T')[0], source: "", title: "", description: "", link: "", gallery: [] });
+    setFormData({ 
+      id: "", 
+      image: "", 
+      date: new Date().toISOString().split('T')[0], 
+      source: "", 
+      title: "", 
+      description: "", 
+      link: "", 
+      gallery: [],
+      experienceMin: undefined,
+      experienceMax: undefined,
+      fresherAllowed: true
+    });
     setImagePreview("");
     setErrors({});
   };
@@ -340,7 +359,10 @@ const AdminDashboard = () => {
                   source: item.source || "",
                   description: item.description || "",
                   link: item.link || "",
-                  gallery: item.gallery || []
+                  gallery: item.gallery || [],
+                  experienceMin: item.experienceMin,
+                  experienceMax: item.experienceMax,
+                  fresherAllowed: item.fresherAllowed ?? true
                 });
                 setImagePreview(item.image || "");
                 setView("form");

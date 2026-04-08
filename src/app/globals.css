@@ -140,11 +140,11 @@
 
 body {
   font-family: var(--font-neueMontrealMd);
-  -webkit-user-select: none;
+  /* -webkit-user-select: none; */
   /* Safari */
-  -ms-user-select: none;
+  /* -ms-user-select: none; */
   /* IE 10 and IE 11 */
-  user-select: none;
+  /* user-select: none; */
 }
 
 .no-scrollbar::-webkit-scrollbar {

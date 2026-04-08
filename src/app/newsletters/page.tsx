@@ -76,7 +76,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
         <div
           style={{
             position: "fixed",
-            top: `${70}px`,
+            top: `${coords.top + 10}px`,
             ...(rightAlign ? { right: `${coords.right}px` } : { left: `${coords.left}px` }),
             zIndex: 9999
           }}
@@ -108,13 +108,37 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 // Mobile Unified Filter Component
 const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [coords, setCoords] = useState({ top: 0 });
   const buttonRef = React.useRef(null);
+
+  const updateCoords = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setCoords({ top: rect.bottom });
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener("scroll", updateCoords);
+      window.addEventListener("resize", updateCoords);
+    }
+    return () => {
+      window.removeEventListener("scroll", updateCoords);
+      window.removeEventListener("resize", updateCoords);
+    };
+  }, [isOpen]);
+
+  const handleOpen = () => {
+    updateCoords();
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="relative flex-shrink-0">
       <button
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleOpen}
         className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] gap-2 lg:gap-3 flex justify-center items-center border transition-all cursor-pointer ${isOpen ? "border-primary text-primary" : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"}`}
       >
         <ArrowUpDown size={16} className={isOpen ? "text-primary" : "text-gray-400"} />
@@ -123,7 +147,10 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
       </button>
 
       {isOpen && (
-        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max">
+        <div 
+          style={{ top: `${coords.top + 10}px` }}
+          className="fixed right-4 sm:right-5 z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
+        >
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
             <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
@@ -212,7 +239,7 @@ const NewslettersPage = () => {
       {/* Sticky Filter Header */}
       <div
         style={{ top: headerHeight - 1 }}
-        className="sticky z-40 bg-white/95 backdrop-blur-md border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
+        className="sticky z-40 bg-white border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
       >
         <div className="flex items-center justify-between gap-10 md:gap-15 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-3 text-primary">

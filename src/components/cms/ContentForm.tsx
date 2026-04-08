@@ -12,6 +12,9 @@ interface Item {
   description: string;
   link: string;
   gallery?: { url: string }[];
+  experienceMin?: number;
+  experienceMax?: number;
+  fresherAllowed?: boolean;
 }
 
 interface NewsFormProps {
@@ -78,12 +81,9 @@ const ContentForm: React.FC<NewsFormProps> = ({
         </button>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-body2 font-medium text-gray-900 tracking-normal">
-              {editingItem ? "Edit Entry Metadata" : "Create New Content Fragment"}
+            <h1 className="text-bodyLarge font-medium text-gray-900 tracking-normal capitalize">
+              {editingItem ? `Edit ${category}` : `Create ${category}`}
             </h1>
-            <p className="text-body4 font-neueMontreal text-gray-400 font-normal leading-relaxed">
-              Update the canonical publishing parameters for this {category} database record.
-            </p>
           </div>
         </div>
       </div>
@@ -143,54 +143,6 @@ const ContentForm: React.FC<NewsFormProps> = ({
           )}
 
           {/* Gallery Section - Only for Events */}
-          {category === 'events' && (
-            <div className="space-y-6 pt-4">
-              <div className="flex items-center justify-between">
-                <label className="text-body4 font-neueMontreal tracking-normal text-gray-500 flex items-center gap-2">
-                  <Plus size={16} />
-                  Event Gallery Assets
-                </label>
-                <button
-                  type="button"
-                  onClick={() => document.getElementById('gallery-upload')?.click()}
-                  className="text-[12px] font-medium text-[#FF5C19] hover:underline cursor-pointer"
-                >
-                  Upload Multi-Select
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                {formData.gallery?.map((asset, index) => (
-                  <div key={index} className="aspect-square bg-gray-50 rounded-xl border border-gray-100 overflow-hidden relative group">
-                    <img src={asset.url} className="h-full w-full object-cover" alt="" />
-                    <button
-                      type="button"
-                      onClick={() => removeGalleryItem(index)}
-                      className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => document.getElementById('gallery-upload')?.click()}
-                  className="aspect-square border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-orange-200 transition-colors group cursor-pointer"
-                >
-                  <Plus className="w-5 h-5 text-gray-300 group-hover:text-[#FF5C19]" />
-                  <span className="text-[10px] text-gray-300 font-medium uppercase tracking-normaler">Add More</span>
-                </button>
-                <input
-                  id="gallery-upload"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleGalleryUpload}
-                  className="hidden"
-                />
-              </div>
-            </div>
-          )}
 
           {/* Form Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-8">
@@ -211,7 +163,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 placeholder={category === 'careers' ? "e.g. Senior Software Engineer" : "The canonical title for this entry..."}
               />
             </div>
-            {category !== 'newsletters' && (
+            {category !== 'newsletters' && category !== 'events' && (
               <div className="gap-y-1.5 flex flex-col">
                 <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.source ? "text-red-500" : "text-gray-500")}>
                   {category === 'careers' ? "Department" : "Publisher / Source"}
@@ -252,62 +204,109 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 {category === 'careers' ? "Employment model" : "Flexible string format supported"}
               </span>
             </div>
-            <div className={cn("flex flex-col gap-y-1.5", category === 'newsletters' && "md:col-span-2")}>
-              <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.link ? "text-red-500" : "text-gray-500")}>
-                {category === 'newsletters' ? <FileText size={14} className="text-gray-400" /> : <LinkIcon size={14} className="text-gray-400" />}
-                {category === 'careers' ? "Work Location" : category === 'newsletters' ? "Newsletter PDF Document" : "Reference Link / URL"}
-              </label>
-              {category === 'newsletters' ? (
-                <div className="relative group">
-                  <div className={cn(
-                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 flex items-center gap-3 text-body4 font-neueMontreal transition-all",
-                    errors.link ? "border-red-500 bg-red-50/10" : "border-gray-200 group-hover:border-[#FF5C19]"
-                  )}>
-                    <Paperclip size={16} className={cn("shrink-0", formData.link ? "text-[#FF5C19]" : "text-gray-300")} />
-                    <span className={cn("truncate flex-1", !formData.link && "text-gray-300")}>
-                      {formData.link ? (formData.link.startsWith('data:') ? "New PDF attached" : "Current Newsletter File Linked") : "Attach Newsletter PDF"}
-                    </span>
-                    <label className="shrink-0 bg-orange-50 text-[#FF5C19] px-4 py-1.5 rounded-md text-[12px] font-medium cursor-pointer hover:bg-[#FF5C19] hover:text-white transition-all active:scale-95 shadow-sm">
-                      Browse
-                      <input
-                        type="file"
-                        accept=".pdf"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setFormData(prev => ({ ...prev, link: reader.result as string }));
-                              if (errors.link) setErrors(prev => ({ ...prev, link: false }));
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                      />
-                    </label>
+            {category !== 'events' && (
+              <div className={cn("flex flex-col gap-y-1.5", category === 'newsletters' && "md:col-span-2")}>
+                <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.link ? "text-red-500" : "text-gray-500")}>
+                  {category === 'newsletters' ? <FileText size={14} className="text-gray-400" /> : <LinkIcon size={14} className="text-gray-400" />}
+                  {category === 'careers' ? "Work Location" : category === 'newsletters' ? "Newsletter PDF Document" : "Reference Link / URL"}
+                </label>
+                {category === 'newsletters' ? (
+                  <div className="relative group">
+                    <div className={cn(
+                      "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 flex items-center gap-3 text-body4 font-neueMontreal transition-all",
+                      errors.link ? "border-red-500 bg-red-50/10" : "border-gray-200 group-hover:border-[#FF5C19]"
+                    )}>
+                      <Paperclip size={16} className={cn("shrink-0", formData.link ? "text-[#FF5C19]" : "text-gray-300")} />
+                      <span className={cn("truncate flex-1", !formData.link && "text-gray-300")}>
+                        {formData.link ? (formData.link.startsWith('data:') ? "New PDF attached" : "Current Newsletter File Linked") : "Attach Newsletter PDF"}
+                      </span>
+                      <label className="shrink-0 bg-orange-50 text-[#FF5C19] px-4 py-1.5 rounded-md text-[12px] font-medium cursor-pointer hover:bg-[#FF5C19] hover:text-white transition-all active:scale-95 shadow-sm">
+                        Browse
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setFormData(prev => ({ ...prev, link: reader.result as string }));
+                                if (errors.link) setErrors(prev => ({ ...prev, link: false }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                    {formData.link && !formData.link.startsWith('data:') && (
+                      <span className="absolute -bottom-5 left-1 text-[12px] text-gray-600 truncate max-w-full font-neueMontreal">
+                        Source: {formData.link}
+                      </span>
+                    )}
                   </div>
-                  {formData.link && !formData.link.startsWith('data:') && (
-                    <span className="absolute -bottom-5 left-1 text-[12px] text-gray-600 truncate max-w-full font-neueMontreal">
-                      Source: {formData.link}
-                    </span>
-                  )}
+                ) : (
+                  <input
+                    name="link"
+                    value={formData.link}
+                    onChange={handleInputChange}
+                    className={cn(
+                      "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                      errors.link
+                        ? "border-red-500 bg-red-50/10 focus:border-red-500"
+                        : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
+                    )}
+                    placeholder={category === 'careers' ? "e.g. Navi Mumbai, Remote" : "https://external-resource-link.com"}
+                  />
+                )}
+              </div>
+            )}
+
+            {category === 'careers' && (
+              <>
+                <div className="gap-y-1.5 flex flex-col">
+                  <label className="text-body4 font-neueMontreal tracking-normal text-gray-500 flex items-center gap-2">
+                    <Edit3 size={14} className="text-gray-400" />
+                    Min Experience (Years)
+                  </label>
+                  <input
+                    type="number"
+                    name="experienceMin"
+                    value={formData.experienceMin || ""}
+                    onChange={(e) => setFormData(prev => ({ ...prev, experienceMin: e.target.value ? parseInt(e.target.value) : undefined }))}
+                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-200"
+                    placeholder="e.g. 2"
+                  />
                 </div>
-              ) : (
-                <input
-                  name="link"
-                  value={formData.link}
-                  onChange={handleInputChange}
-                  className={cn(
-                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
-                    errors.link
-                      ? "border-red-500 bg-red-50/10 focus:border-red-500"
-                      : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
-                  )}
-                  placeholder={category === 'careers' ? "e.g. Navi Mumbai, Remote" : "https://external-resource-link.com"}
-                />
-              )}
-            </div>
+                <div className="gap-y-1.5 flex flex-col">
+                  <label className="text-body4 font-neueMontreal tracking-normal text-gray-500 flex items-center gap-2">
+                    <Edit3 size={14} className="text-gray-400" />
+                    Max Experience (Years)
+                  </label>
+                  <input
+                    type="number"
+                    name="experienceMax"
+                    value={formData.experienceMax || ""}
+                    onChange={(e) => setFormData(prev => ({ ...prev, experienceMax: e.target.value ? parseInt(e.target.value) : undefined }))}
+                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-200"
+                    placeholder="e.g. 5"
+                  />
+                </div>
+                <div className="md:col-span-2 flex items-center gap-3 pt-2">
+                  <input
+                    type="checkbox"
+                    id="fresherAllowed"
+                    checked={formData.fresherAllowed ?? true}
+                    onChange={(e) => setFormData(prev => ({ ...prev, fresherAllowed: e.target.checked }))}
+                    className="w-4 h-4 rounded border-gray-300 text-[#FF5C19] focus:ring-[#FF5C19] cursor-pointer"
+                  />
+                  <label htmlFor="fresherAllowed" className="text-body4 font-neueMontreal text-gray-600 cursor-pointer select-none">
+                    Freshers are welcome to apply
+                  </label>
+                </div>
+              </>
+            )}
             {category !== 'newsletters' && (
               <div className="md:col-span-2 gap-y-1.5 flex flex-col pt-4">
                 <label className={cn("text-body4 font-neueMontreal tracking-normal pl-1 flex items-center gap-2", errors.description ? "text-red-500" : "text-gray-500")}>
@@ -319,6 +318,54 @@ const ContentForm: React.FC<NewsFormProps> = ({
                   placeholder={category === 'careers' ? "List responsibilities, requirements, and benefits..." : "Synthesize the core message or event overview here..."}
                   className={cn(errors.description && "ring-1 ring-red-500")}
                 />
+              </div>
+            )}
+            {category === 'events' && (
+              <div className="md:col-span-2 space-y-6 pt-10 border-t border-gray-50 mt-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-body4 font-neueMontreal tracking-normal text-gray-500 flex items-center gap-2 pl-1">
+                    <Plus size={16} />
+                    Event Gallery Assets
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('gallery-upload')?.click()}
+                    className="text-[12px] font-medium text-[#FF5C19] hover:underline cursor-pointer"
+                  >
+                    Upload Multi-Select
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                  {formData.gallery?.map((asset, index) => (
+                    <div key={index} className="aspect-square bg-gray-50 rounded-xl border border-gray-100 overflow-hidden relative group">
+                      <img src={asset.url} className="h-full w-full object-cover" alt="" />
+                      <button
+                        type="button"
+                        onClick={() => removeGalleryItem(index)}
+                        className="absolute inset-0 bg-red-500/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('gallery-upload')?.click()}
+                    className="aspect-square border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-orange-200 transition-colors group cursor-pointer"
+                  >
+                    <Plus className="w-5 h-5 text-gray-300 group-hover:text-[#FF5C19]" />
+                    <span className="text-[10px] text-gray-300 font-medium uppercase tracking-normaler">Add More</span>
+                  </button>
+                  <input
+                    id="gallery-upload"
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleGalleryUpload}
+                    className="hidden"
+                  />
+                </div>
               </div>
             )}
           </div>
