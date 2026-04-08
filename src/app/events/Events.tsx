@@ -276,19 +276,44 @@ const Events = ({ id }) => {
 
   // Robust date parsing helper
   const getParsedDate = (dateStr) => {
-    if (!dateStr) return new Date(0);
-    const d = new Date(dateStr);
+    if (!dateStr || typeof dateStr !== 'string') return new Date(0);
+    const trimmed = dateStr.trim();
+    const d = new Date(trimmed);
     if (!isNaN(d.getTime())) return d;
 
-    // Try parsing DD/MM/YYYY or DD-MM-YYYY
-    const parts = dateStr.split(/[\/\-]/);
-    if (parts.length === 3) {
-      if (parts[0].length === 4) return new Date(parts[0], parts[1] - 1, parts[2]); // YYYY/MM/DD
-      if (parts[2].length === 4) return new Date(parts[2], parts[1] - 1, parts[0]); // DD/MM/YYYY
+    // Try parsing parts (supports DD/MM/YYYY, DD-MM-YYYY, DD Month YYYY, etc.)
+    const parts = trimmed.split(/[\/\-\s,.]+/).filter(Boolean);
+    
+    // Attempt to find a year
+    let year = -1;
+    let month = 0; // Default to Jan
+    let day = 1;
+
+    // Months map for name parsing
+    const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+    parts.forEach((part, i) => {
+      const num = parseInt(part);
+      if (part.length === 4 && !isNaN(num) && num > 1900) {
+        year = num;
+      } else {
+        const lower = part.toLowerCase();
+        const mIdx = monthNames.findIndex(m => lower.startsWith(m));
+        if (mIdx !== -1) {
+          month = mIdx;
+        } else if (!isNaN(num) && num > 0 && num <= 31) {
+          // If we haven't assigned day yet, or if it's the first part
+          if (day === 1 || i === 0) day = num;
+        }
+      }
+    });
+
+    if (year !== -1) {
+      return new Date(year, month, day);
     }
 
-    // Regex fallback for year
-    const yearMatch = dateStr.match(/\b(20\d{2})\b/);
+    // Regex fallback for year if all else fails
+    const yearMatch = trimmed.match(/\b(20\d{2})\b/);
     if (yearMatch) return new Date(parseInt(yearMatch[1]), 0, 1);
 
     return new Date(0);
@@ -317,9 +342,19 @@ const Events = ({ id }) => {
     if (sortBy === "az") {
       result.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "latest") {
-      result.sort((a, b) => getParsedDate(b.date).getTime() - getParsedDate(a.date).getTime());
+      result.sort((a, b) => {
+        const dateA = getParsedDate(a.date).getTime();
+        const dateB = getParsedDate(b.date).getTime();
+        if (dateA === dateB) return b.id.localeCompare(a.id); // Tie-breaker
+        return dateB - dateA;
+      });
     } else if (sortBy === "old") {
-      result.sort((a, b) => getParsedDate(a.date).getTime() - getParsedDate(b.date).getTime());
+      result.sort((a, b) => {
+        const dateA = getParsedDate(a.date).getTime();
+        const dateB = getParsedDate(b.date).getTime();
+        if (dateA === dateB) return a.id.localeCompare(b.id); // Tie-breaker
+        return dateA - dateB;
+      });
     }
 
     return result;
