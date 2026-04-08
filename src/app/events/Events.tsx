@@ -107,7 +107,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 };
 
 // Mobile Unified Filter Component
-const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab }) => {
+const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab, filters, setFilters, years }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0 });
   const buttonRef = React.useRef(null);
@@ -165,11 +165,27 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab 
               Past
             </li>
 
-            <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' || sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              <div className="flex items-center gap-3">Date <ArrowUpDown size={14} /></div>
+            <div className="h-px bg-gray-100 my-1" />
+
+            {/* Year Filters */}
+            {years.map((year) => (
+              <li 
+                key={year} 
+                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }} 
+                className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+              >
+                {year === "all" ? "All Years" : year}
+              </li>
+            ))}
+
+            <div className="h-px bg-gray-100 my-1" />
+
+            {/* Sorting */}
+            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+              Latest First
             </li>
-            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'az' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              <div className="flex items-center gap-3">A-Z <ArrowUpDown size={14} /></div>
+            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+              Oldest First
             </li>
           </ul>
         </div>
@@ -264,8 +280,14 @@ const Events = ({ id }) => {
     const y = new Set(
       events
         .map((item) => {
+          if (!item.date) return null;
           const d = new Date(item.date);
-          return isNaN(d.getTime()) ? null : d.getFullYear().toString();
+          if (!isNaN(d.getTime())) {
+            return d.getFullYear().toString();
+          }
+          // Fallback: search for a 4-digit year in the string
+          const match = item.date.match(/\b(20\d{2})\b/);
+          return match ? match[1] : null;
         })
         .filter(Boolean)
     );
@@ -344,14 +366,21 @@ const Events = ({ id }) => {
                 options={[
                   { label: "Latest", value: "latest" },
                   { label: "Oldest", value: "old" },
-                  { label: "A-Z", value: "az" },
                 ]}
               />
             </div>
 
             {/* Mobile Unified Filter */}
             <div className="flex lg:hidden items-center">
-              <MobileUnifiedFilterEvents activeTab={activeTab} setActiveTab={setActiveTab} sortBy={sortBy} setSortBy={setSortBy} />
+              <MobileUnifiedFilterEvents 
+                activeTab={activeTab} 
+                setActiveTab={setActiveTab} 
+                sortBy={sortBy} 
+                setSortBy={setSortBy} 
+                filters={filters}
+                setFilters={setFilters}
+                years={years}
+              />
             </div>
 
             {/* <FilterChipDropdown

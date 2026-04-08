@@ -107,7 +107,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 };
 
 // Mobile Unified Filter Component
-const MobileUnifiedFilterNews = ({ sortBy, setSortBy }) => {
+const MobileUnifiedFilterNews = ({ sortBy, setSortBy, filters, setFilters, years }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0 });
   const buttonRef = React.useRef(null);
@@ -154,12 +154,26 @@ const MobileUnifiedFilterNews = ({ sortBy, setSortBy }) => {
         >
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
-            <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' || sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              <div className="flex items-center gap-3">Date <ArrowUpDown size={14} /></div>
+          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
+            {/* Year Filters */}
+            {years.map((year) => (
+              <li 
+                key={year} 
+                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }} 
+                className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+              >
+                {year === "all" ? "All Years" : year}
+              </li>
+            ))}
+            
+            <div className="h-px bg-gray-100 my-1" />
+
+            {/* Sorting */}
+            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+              Latest First
             </li>
-            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'az' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              <div className="flex items-center gap-3">A-Z <ArrowUpDown size={14} /></div>
+            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+              Oldest First
             </li>
           </ul>
         </div>
@@ -247,8 +261,14 @@ const News = ({ id }) => {
     const y = new Set(
       news
         .map((item) => {
+          if (!item.date) return null;
           const d = new Date(item.date);
-          return isNaN(d.getTime()) ? null : d.getFullYear().toString();
+          if (!isNaN(d.getTime())) {
+            return d.getFullYear().toString();
+          }
+          // Fallback: search for a 4-digit year in the string (e.g., "15/03/2026")
+          const match = item.date.match(/\b(20\d{2})\b/);
+          return match ? match[1] : null;
         })
         .filter(Boolean)
     );
@@ -359,14 +379,19 @@ const News = ({ id }) => {
                 options={[
                   { label: "Latest", value: "latest" },
                   { label: "Oldest", value: "old" },
-                  { label: "A-Z", value: "az" },
                 ]}
               />
             </div>
 
             {/* Mobile Unified Filter */}
             <div className="flex lg:hidden items-center">
-              <MobileUnifiedFilterNews sortBy={sortBy} setSortBy={setSortBy} />
+              <MobileUnifiedFilterNews 
+                sortBy={sortBy} 
+                setSortBy={setSortBy} 
+                filters={filters}
+                setFilters={setFilters}
+                years={years}
+              />
             </div>
 
             {/* <FilterChipDropdown

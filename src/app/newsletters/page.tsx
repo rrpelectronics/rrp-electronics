@@ -159,9 +159,6 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
             <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Oldest First
             </li>
-            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'az' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              A-Z Title
-            </li>
           </ul>
         </div>
       )}
@@ -261,7 +258,6 @@ const NewslettersPage = () => {
                 options={[
                   { label: "Latest First", value: "latest" },
                   { label: "Oldest First", value: "old" },
-                  { label: "A-Z Title", value: "az" },
                 ]}
               />
             </div>
