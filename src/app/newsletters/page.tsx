@@ -5,6 +5,7 @@ import { TABLES } from "@/lib/database-schema";
 import { Mail, SortAsc, FileText, ChevronDown, Check, ArrowUpDown } from "lucide-react";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 import Link from "next/link";
+import NewsletterCardSuspense from "@/components/suspense/NewsletterCardSuspense";
 const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, rightAlign = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0, right: 0 });
@@ -56,8 +57,8 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
         ref={buttonRef}
         type="button"
         className={`px-5 py-2.5 rounded-full text-[16px] flex items-center gap-3 border transition-all cursor-pointer active:scale-95 ${isOpen
-          ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5"
-          : "border-gray-200 text-gray-700 bg-white hover:border-primary/50 hover:text-primary"
+          ? "border-primary text-primary"
+          : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"
           }`}
       >
         <div className="flex items-center gap-2 pointer-events-none">
@@ -79,7 +80,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
             ...(rightAlign ? { right: `${coords.right}px` } : { left: `${coords.left}px` }),
             zIndex: 9999
           }}
-          className="animate-in fade-in slide-in-from-top-2 duration-200"
+          className="animate-in fade-in slide-in-from-top-2 duration-200 h-fit w-max"
           onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
         >
           <ul className="min-w-[220px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] py-3">
@@ -90,7 +91,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
                   onChange(option.value);
                   setIsOpen(false);
                 }}
-                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-primary/5 hover:text-primary transition-colors ${value === option.value ? "text-primary bg-primary/5" : "text-gray-600"
+                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${value === option.value ? "text-primary" : "text-gray-600"
                   }`}
               >
                 {option.label}
@@ -114,7 +115,7 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] gap-2 lg:gap-3 flex justify-center items-center border transition-all cursor-pointer ${isOpen ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5" : "border-gray-200 text-gray-700 bg-white hover:border-primary/50"}`}
+        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] gap-2 lg:gap-3 flex justify-center items-center border transition-all cursor-pointer ${isOpen ? "border-primary text-primary" : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"}`}
       >
         <ArrowUpDown size={16} className={isOpen ? "text-primary" : "text-gray-400"} />
         <span className="font-medium text-inherit">Sort</span>
@@ -122,16 +123,16 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
       </button>
 
       {isOpen && (
-        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2">
+        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max">
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
-            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'latest' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Latest First
             </li>
-            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'old' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Oldest First
             </li>
-            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'az' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'az' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               A-Z Title
             </li>
           </ul>
@@ -149,20 +150,20 @@ const NewsletterCard = ({ title, date, link }) => {
       target="_blank"
       className="flex gap-4 items-stretch"
     >
-      <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1 py-1 justify-between">
+      <div className="flex flex-col flex-1 py-1 justify-between">
         <div className="flex w-full gap-3">
           <FileText size={32} strokeWidth={1.5} className="text-primary" />
           <div className="flex flex-col gap-2 w-full">
-            <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
+            {/* <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
               {date}
-            </p>
+            </p> */}
             <p className="text-bodyLarge text-black leading-[120%] md:w-[90%] font-neueMontrealMd">
               {title}
             </p>
           </div>
         </div>
         <p className="ml-11 w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary">
-          View Edition
+          View Insights
         </p>
       </div>
     </Link>
@@ -173,14 +174,18 @@ const NewslettersPage = () => {
   const headerHeight = useHeaderHeight();
   const [sortBy, setSortBy] = useState("latest");
   const [newslettersData, setNewslettersData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
+      setIsLoading(true);
       try {
         const data = await getAllItems(TABLES.NEWSLETTERS);
-        setNewslettersData(data);
+        setNewslettersData(data || []);
       } catch (err) {
         console.error("Failed to load newsletters", err);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
@@ -207,7 +212,7 @@ const NewslettersPage = () => {
       {/* Sticky Filter Header */}
       <div
         style={{ top: headerHeight - 1 }}
-        className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-3.5 md:px-5 lg:px-10 py-4 shadow-sm"
+        className="sticky z-40 bg-white/95 backdrop-blur-md border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
       >
         <div className="flex items-center justify-between gap-10 md:gap-15 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-3 text-primary">
@@ -244,7 +249,15 @@ const NewslettersPage = () => {
 
       <section className="@container w-full h-fit px-3.5 md:px-5 lg:px-10 py-12 lg:py-16">
         <div className="max-w-[1920px] mx-auto">
-          {sortedNewsletters.length > 0 ? (
+          {isLoading ? (
+            <ul className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-full h-fit gap-y-12 md:gap-y-16 gap-6 md:gap-10">
+              {[...Array(3)].map((_, i) => (
+                <li key={i} className="col-span-4 sm:col-span-4 md:col-span-4 lg:col-span-6 xl:col-span-4">
+                  <NewsletterCardSuspense />
+                </li>
+              ))}
+            </ul>
+          ) : sortedNewsletters.length > 0 ? (
             <ul className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-full h-fit gap-y-12 md:gap-y-16 gap-6 md:gap-10">
               {sortedNewsletters.map((n) => (
                 <li key={n.id} className="col-span-4 sm:col-span-4 md:col-span-4 lg:col-span-6 xl:col-span-4">

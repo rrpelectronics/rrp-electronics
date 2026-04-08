@@ -74,7 +74,7 @@ const ContentList: React.FC<ContentListProps> = ({
           className="h-11 px-4 sm:px-10 bg-[#FF5C19] text-white rounded-md text-body4 font-neueMontreal tracking-normal hover:bg-orange-600 transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 active:scale-95 whitespace-nowrap"
         >
           <Plus className="w-[18px] h-[18px]" />
-          Add New {category === 'news' ? 'News' : category === 'events' ? 'Event' : category === 'newsletters' ? 'Newsletter' : 'Record'}
+          Add {category === 'news' ? 'News' : category === 'events' ? 'Event' : category === 'newsletters' ? 'Newsletter' : 'Record'}
         </button>
       </div>
 
@@ -94,14 +94,14 @@ const ContentList: React.FC<ContentListProps> = ({
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/10">
-                <th className={cn("px-4 lg:px-10 py-5 text-gray-500 tracking-normal min-w-[300px]", category === 'careers' && "min-w-[400px]")}>
+                <th className={cn("px-4 lg:px-10 py-5 text-gray-500 tracking-normal min-w-[300px] text-body4 font-neueMontreal font-normal", category === 'careers' && "min-w-[400px]")}>
                   <div className="flex items-center gap-2.5">
                     <FileText className="w-[16px] h-[16px] text-gray-400" />
-                    <p className="text-body4 font-neueMontreal">{category === 'careers' ? 'Job Position' : 'Publication Info'}</p>
+                    <span>{category === 'careers' ? 'Job Position' : 'Publication Info'}</span>
                   </div>
                 </th>
                 <th
-                  className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal text-gray-500 tracking-normal min-w-[200px] cursor-pointer hover:bg-gray-50 transition-colors group select-none"
+                  className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal font-normal text-gray-500 tracking-normal min-w-[200px] cursor-pointer hover:bg-gray-50 transition-colors group select-none"
                   onClick={() => setSortOrder(prev => prev === "desc" ? "asc" : "desc")}
                 >
                   <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ const ContentList: React.FC<ContentListProps> = ({
                     <ArrowUpDown className={`w-[14px] h-[14px] ${sortOrder ? "text-gray-600" : "text-gray-400"} group-hover:text-[#FF5C19] transition-colors`} />
                   </div>
                 </th>
-                <th className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal text-gray-500 tracking-normal text-right min-w-[150px]">
+                <th className="px-4 lg:px-10 py-5 text-body4 font-neueMontreal font-normal text-gray-500 tracking-normal text-right min-w-[150px]">
                   <div className="flex justify-end items-center gap-2.5">
                     <Plus className="w-[16px] h-[16px] text-gray-400 rotate-45" />
                     Actions

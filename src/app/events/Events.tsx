@@ -58,8 +58,8 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
         ref={buttonRef}
         type="button"
         className={`px-5 py-2.5 rounded-full text-[16px] flex items-center gap-3 border transition-all cursor-pointer active:scale-95 ${isOpen
-          ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5"
-          : "border-gray-200 text-gray-700 bg-white hover:border-primary/50 hover:text-primary"
+          ? "border-primary text-primary"
+          : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"
           }`}
       >
         <div className="flex items-center gap-2 pointer-events-none">
@@ -81,7 +81,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
             ...(rightAlign ? { right: `${coords.right}px` } : { left: `${coords.left}px` }),
             zIndex: 9999
           }}
-          className="animate-in fade-in slide-in-from-top-2 duration-200"
+          className="animate-in fade-in slide-in-from-top-2 duration-200 h-fit w-max"
           onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
         >
           <ul className="min-w-[220px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] py-3">
@@ -92,7 +92,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
                   onChange(option.value);
                   setIsOpen(false);
                 }}
-                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-primary/5 hover:text-primary transition-colors ${value === option.value ? "text-primary font-neueMontrealMd bg-primary/5" : "text-gray-600"
+                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${value === option.value ? "text-primary font-neueMontrealMd" : "text-gray-600"
                   }`}
               >
                 {option.label}
@@ -116,7 +116,7 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab 
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] flex items-center gap-2 lg:gap-3 border transition-all cursor-pointer ${isOpen ? "border-primary text-primary bg-primary/5 ring-4 ring-primary/5" : "border-gray-200 text-gray-700 bg-white hover:border-primary/50"}`}
+        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] flex items-center gap-2 lg:gap-3 border transition-all cursor-pointer ${isOpen ? "border-primary text-primary" : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"}`}
       >
         <Filter size={16} className={isOpen ? "text-primary" : "text-gray-400"} />
         <span className="font-medium text-inherit">Filter</span>
@@ -124,24 +124,24 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab 
       </button>
 
       {isOpen && (
-        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2">
+        <div className="fixed right-4 sm:right-5 top-[70px] z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max">
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
-            <li onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'all' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'all' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               All Events
             </li>
-            <li onClick={() => { setActiveTab('upcoming'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'upcoming' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setActiveTab('upcoming'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'upcoming' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Upcoming
             </li>
-            <li onClick={() => { setActiveTab('past'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${activeTab === 'past' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setActiveTab('past'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'past' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Past
             </li>
 
-            <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'latest' || sortBy === 'old' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setSortBy(sortBy === 'latest' ? 'old' : 'latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' || sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               <div className="flex items-center gap-3">Date <ArrowUpDown size={14} /></div>
             </li>
-            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-primary/5 transition-colors ${sortBy === 'az' ? 'text-primary bg-primary/5 font-neueMontrealMd' : 'text-gray-600'}`}>
+            <li onClick={() => { setSortBy('az'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'az' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               <div className="flex items-center gap-3">A-Z <ArrowUpDown size={14} /></div>
             </li>
           </ul>
@@ -274,7 +274,7 @@ const Events = ({ id }) => {
       {/* Sticky Filter Header */}
       <div
         style={{ top: headerHeight - 1 }}
-        className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-3.5 md:px-5 lg:px-10 py-4 shadow-sm"
+        className="sticky z-40 bg-white/95 backdrop-blur-md border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
       >
         <div className="flex items-center justify-between gap-6 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-3 text-primary">
