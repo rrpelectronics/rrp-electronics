@@ -252,7 +252,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
                   >
                     <ul className="flex flex-col gap-y-6 relative w-max pointer-events-auto">
                       {item.links.map((link, lIndex) => {
-                        const linkActive = pathname?.startsWith(link.href);
+                        const linkActive = pathname === link.href || pathname?.startsWith(link.href + "/");
                         return (
                           <li key={lIndex}>
                             <Link

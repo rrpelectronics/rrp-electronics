@@ -45,7 +45,7 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 100);
+    }, 200);
   };
 
   return (
@@ -329,7 +329,7 @@ const News = ({ id }) => {
       {/* Sticky Filter Header */}
       <div
         style={{ top: headerHeight - 1 }}
-        className="sticky z-40 bg-white/95 backdrop-blur-md border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
+        className="sticky z-40 bg-white border-b px-3.5 md:px-5 lg:px-10 py-4 shadow-2xs"
       >
         <div className="flex items-center justify-between gap-10 md:gap-15 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-4 text-primary">
