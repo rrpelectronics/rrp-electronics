@@ -159,47 +159,75 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab,
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-black/0 cursor-pointer" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <div className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
-            <button type="button" onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'all' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              All Events
-            </button>
-            <button type="button" onClick={() => { setActiveTab('upcoming'); setIsOpen(false); }} className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'upcoming' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              Upcoming
-            </button>
-            <button type="button" onClick={() => { setActiveTab('past'); setIsOpen(false); }} className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'past' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
-              Past
-            </button>
+            {[
+              { label: 'All Events', value: 'all' },
+              { label: 'Upcoming', value: 'upcoming' },
+              { label: 'Past', value: 'past' }
+            ].map((tab) => (
+              <label key={tab.value} className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === tab.value ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+                <input
+                  type="radio"
+                  name="event-tab"
+                  value={tab.value}
+                  checked={activeTab === tab.value}
+                  onChange={() => {
+                    setActiveTab(tab.value);
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
+                {tab.label}
+              </label>
+            ))}
 
-            <div className="h-px bg-gray-100 my-1" />
+            <div className="h-px bg-gray-100 my-2" />
 
             {/* Year Filters */}
             {years.map((year) => (
-              <button
+              <label
                 key={year}
-                type="button"
-                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }}
                 className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
               >
+                <input
+                  type="radio"
+                  name="event-year"
+                  value={year}
+                  checked={filters.date === year}
+                  onChange={() => {
+                    setFilters({ ...filters, date: year });
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
                 {year === "all" ? "All Years" : year}
-              </button>
+              </label>
             ))}
 
-            <div className="h-px bg-gray-100 my-1" />
+            <div className="h-px bg-gray-100 my-2" />
 
             {/* Sorting */}
-            <button
-              type="button"
-              onClick={() => { setSortBy('latest'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Latest First
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSortBy('old'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Oldest First
-            </button>
+            {[
+              { label: 'Latest First', value: 'latest' },
+              { label: 'Oldest First', value: 'old' }
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === option.value ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+              >
+                <input
+                  type="radio"
+                  name="event-sort"
+                  value={option.value}
+                  checked={sortBy === option.value}
+                  onChange={() => {
+                    setSortBy(option.value);
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
+                {option.label}
+              </label>
+            ))}
           </div>
         </div>
       )}

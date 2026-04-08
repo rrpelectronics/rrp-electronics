@@ -156,38 +156,54 @@ const MobileUnifiedFilterNews = ({ sortBy, setSortBy, filters, setFilters, years
           style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
           className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
         >
-          {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-black/0 cursor-pointer" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <div className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
             {/* Year Filters */}
             {years.map((year) => (
-              <button
+              <label
                 key={year}
-                type="button"
-                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }}
                 className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
               >
+                <input
+                  type="radio"
+                  name="news-year"
+                  value={year}
+                  checked={filters.date === year}
+                  onChange={() => {
+                    setFilters({ ...filters, date: year });
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
                 {year === "all" ? "All Years" : year}
-              </button>
+              </label>
             ))}
 
-            <div className="h-px bg-gray-100 my-1" />
+            <div className="h-px bg-gray-100 my-2" />
 
             {/* Sorting */}
-            <button
-              type="button"
-              onClick={() => { setSortBy('latest'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Latest First
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSortBy('old'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Oldest First
-            </button>
+            {[
+              { label: 'Latest First', value: 'latest' },
+              { label: 'Oldest First', value: 'old' }
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === option.value ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+              >
+                <input
+                  type="radio"
+                  name="news-sort"
+                  value={option.value}
+                  checked={sortBy === option.value}
+                  onChange={() => {
+                    setSortBy(option.value);
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
+                {option.label}
+              </label>
+            ))}
           </div>
         </div>
       )}

@@ -157,20 +157,28 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
         >
           <div className="fixed inset-0 select-none bg-black/0 cursor-pointer" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
           <div className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
-            <button
-              type="button"
-              onClick={() => { setSortBy('latest'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Latest First
-            </button>
-            <button
-              type="button"
-              onClick={() => { setSortBy('old'); setIsOpen(false); }}
-              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-            >
-              Oldest First
-            </button>
+            {[
+              { label: 'Latest First', value: 'latest' },
+              { label: 'Oldest First', value: 'old' }
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === option.value ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+              >
+                <input
+                  type="radio"
+                  name="newsletter-sort"
+                  value={option.value}
+                  checked={sortBy === option.value}
+                  onChange={() => {
+                    setSortBy(option.value);
+                    setTimeout(() => setIsOpen(false), 100);
+                  }}
+                  className="sr-only"
+                />
+                {option.label}
+              </label>
+            ))}
           </div>
         </div>
       )}
