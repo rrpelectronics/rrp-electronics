@@ -30,7 +30,7 @@ const AdminDashboard = () => {
   const [formData, setFormData] = useState({
     id: "",
     image: "",
-    date: new Date().toISOString().split('T')[0],
+    date: "",
     source: "",
     title: "",
     description: "",
@@ -262,7 +262,7 @@ const AdminDashboard = () => {
     setFormData({ 
       id: "", 
       image: "", 
-      date: new Date().toISOString().split('T')[0], 
+      date: "", 
       source: "", 
       title: "", 
       description: "", 
@@ -297,7 +297,7 @@ const AdminDashboard = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19]"
+                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19] placeholder:text-gray-400"
                 placeholder="admin"
               />
             </div>
@@ -307,7 +307,7 @@ const AdminDashboard = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19]"
+                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19] placeholder:text-gray-400"
                 placeholder="••••••••"
               />
             </div>
@@ -355,7 +355,7 @@ const AdminDashboard = () => {
                   id: item.id,
                   title: item.title,
                   image: item.image || "",
-                  date: item.date || new Date().toISOString().split('T')[0],
+                  date: item.date || "",
                   source: item.source || "",
                   description: item.description || "",
                   link: item.link || "",

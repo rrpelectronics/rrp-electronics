@@ -155,7 +155,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 value={formData.title}
                 onChange={handleInputChange}
                 className={cn(
-                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-400",
                   errors.title
                     ? "border-red-500 bg-red-50/10 focus:border-red-500"
                     : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
@@ -173,7 +173,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                   value={formData.source}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-400",
                     errors.source
                       ? "border-red-500 bg-red-50/10 focus:border-red-500"
                       : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
@@ -193,7 +193,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 value={formData.date}
                 onChange={handleInputChange}
                 className={cn(
-                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-400",
                   errors.date
                     ? "border-red-500 bg-red-50/10 focus:border-red-500"
                     : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
@@ -252,7 +252,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                     value={formData.link}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                      "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-400",
                       errors.link
                         ? "border-red-500 bg-red-50/10 focus:border-red-500"
                         : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
@@ -275,7 +275,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                     name="experienceMin"
                     value={formData.experienceMin || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, experienceMin: e.target.value ? parseInt(e.target.value) : undefined }))}
-                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-200"
+                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-400"
                     placeholder="e.g. 2"
                   />
                 </div>
@@ -289,7 +289,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                     name="experienceMax"
                     value={formData.experienceMax || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, experienceMax: e.target.value ? parseInt(e.target.value) : undefined }))}
-                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-200"
+                    className="w-full h-12 lg:h-11 bg-white border border-gray-200 rounded-lg px-4 text-body4 font-neueMontreal outline-none focus:border-[#FF5C19] hover:border-gray-300 transition-all placeholder:text-gray-400"
                     placeholder="e.g. 5"
                   />
                 </div>

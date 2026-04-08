@@ -22,7 +22,7 @@ const DashboardHeader: React.FC<HeaderProps> = ({ setIsSidebarOpen }) => {
                     <span className="hidden sm:block">Console</span>
                     <span className="hidden sm:block opacity-30">/</span>
                     <span className="text-gray-900 border-b border-gray-200 hidden sm:block">Dashboard</span>
-                    <Link href="/" className="flex sm:hidden items-center gap-3 cursor-pointer">
+                    <Link href="/cms" className="flex sm:hidden items-center gap-3 cursor-pointer">
                         <span className="text-body4 font-neueMontreal tracking-normal text-gray-900 border-b border-orange-500/20">
                             RRP Electronics CMS
                         </span>

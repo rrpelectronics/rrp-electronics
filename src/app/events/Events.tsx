@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { fetchEvents } from "@/utils/eventFetch";
 import NewsEventsCard from "@/components/NewsEventsCard";
 import NewsEventsCardSuspense from "@/components/suspense/NewsEventsCardSuspense";
-import { Calendar, SortAsc, Filter, Layers, ChevronDown, Check, ArrowUpDown } from "lucide-react";
+import { Calendar, SortAsc, Filter, Layers, ChevronDown, Check, ArrowUpDown, FilterX } from "lucide-react";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 
 // Filter Chip Dropdown Component
@@ -109,13 +109,16 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 // Mobile Unified Filter Component
 const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab, filters, setFilters, years }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ top: 0 });
+  const [coords, setCoords] = useState({ top: 0, right: 0 });
   const buttonRef = React.useRef(null);
 
   const updateCoords = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({ top: rect.bottom });
+      setCoords({
+        top: rect.bottom,
+        right: (typeof window !== 'undefined' ? window.innerWidth : 375) - rect.right
+      });
     }
   };
 
@@ -148,13 +151,13 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab,
       </button>
 
       {isOpen && (
-        <div 
-          style={{ top: `${coords.top + 10}px` }}
-          className="fixed right-4 sm:right-5 z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
+        <div
+          style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
+          className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
         >
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
+          <ul className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
             <li onClick={() => { setActiveTab('all'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${activeTab === 'all' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               All Events
             </li>
@@ -169,9 +172,9 @@ const MobileUnifiedFilterEvents = ({ sortBy, setSortBy, activeTab, setActiveTab,
 
             {/* Year Filters */}
             {years.map((year) => (
-              <li 
-                key={year} 
-                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }} 
+              <li
+                key={year}
+                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }}
                 className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
               >
                 {year === "all" ? "All Years" : year}
@@ -216,23 +219,12 @@ const Events = ({ id }) => {
       try {
         setLoading(true);
         setError(null);
-
-        // Fetch all events for the current tab category
-        let eventType = null;
-        if (activeTab === "past") {
-          eventType = "past";
-        } else if (activeTab === "upcoming") {
-          eventType = "upcoming";
-        }
-
-        const eventData = await fetchEvents(null, eventType);
+        const eventData = await fetchEvents();
         setEvents(eventData);
-
-        // If on "all" tab, check if we should show tabs (based on upcoming presence)
-        if (activeTab === "all") {
-          const upcomingEvents = eventData.filter(e => e.eventType === "upcoming");
-          setShowTabs(upcomingEvents.length > 0);
-        }
+        
+        // Initial tabs check
+        const upcomingEvents = eventData.filter(e => e.eventType === "upcoming");
+        setShowTabs(upcomingEvents.length > 0);
       } catch (err) {
         setError(err.message);
         console.error("Error fetching events:", err);
@@ -242,17 +234,29 @@ const Events = ({ id }) => {
     };
 
     fetchEventsData();
-  }, [activeTab]);
+  }, []);
 
   // Filter and Sort events
   const filteredAndSortedEvents = useMemo(() => {
     let result = [...events];
 
+    // Filter by Tab (Status)
+    if (activeTab === "upcoming") {
+      result = result.filter(e => e.eventType === "upcoming");
+    } else if (activeTab === "past") {
+      result = result.filter(e => e.eventType === "past");
+    }
+
     // Filter by Date (Year)
     if (filters.date !== "all") {
       result = result.filter((item) => {
-        const year = new Date(item.date).getFullYear().toString();
-        return year === filters.date;
+        const d = new Date(item.date);
+        if (!isNaN(d.getTime())) {
+          return d.getFullYear().toString() === filters.date;
+        }
+        // Fallback: search for a 4-digit year in the string
+        const match = item.date.match(/\b(20\d{2})\b/);
+        return match ? match[1] === filters.date : false;
       });
     }
 
@@ -266,7 +270,7 @@ const Events = ({ id }) => {
     }
 
     return result;
-  }, [events, filters, sortBy]);
+  }, [events, filters, sortBy, activeTab]);
 
   // Pagination logic
   // const totalPages = Math.ceil(filteredAndSortedEvents.length / itemsPerPage);
@@ -275,6 +279,8 @@ const Events = ({ id }) => {
   //   currentPage * itemsPerPage
   // );
   const currentItems = filteredAndSortedEvents;
+
+  const isFiltered = filters.date !== "all" || sortBy !== "latest" || activeTab !== "all";
 
   const years = useMemo(() => {
     const y = new Set(
@@ -337,6 +343,19 @@ const Events = ({ id }) => {
 
             {/* Desktop Filters */}
             <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setFilters({ ...filters, date: "all" });
+                  setSortBy("latest");
+                  setActiveTab("all");
+                }}
+                disabled={!isFiltered}
+                className={`text-[16px] font-medium transition-all whitespace-nowrap flex items-center gap-1.5 mr-2 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={16} />
+                Reset
+              </button>
               <FilterChipDropdown
                 label="Status"
                 icon={Calendar}
@@ -371,12 +390,25 @@ const Events = ({ id }) => {
             </div>
 
             {/* Mobile Unified Filter */}
-            <div className="flex lg:hidden items-center">
-              <MobileUnifiedFilterEvents 
-                activeTab={activeTab} 
-                setActiveTab={setActiveTab} 
-                sortBy={sortBy} 
-                setSortBy={setSortBy} 
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                onClick={() => {
+                  setFilters({ ...filters, date: "all" });
+                  setSortBy("latest");
+                  setActiveTab("all");
+                }}
+                disabled={!isFiltered}
+                className={`text-sm lg:text-[16px] font-medium transition-all whitespace-nowrap px-2 flex items-center gap-1 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={14} />
+                Reset
+              </button>
+              <MobileUnifiedFilterEvents
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
                 filters={filters}
                 setFilters={setFilters}
                 years={years}

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { fetchNews } from "@/utils/newsFetch";
 import NewsEventsCard from "@/components/NewsEventsCard";
 import NewsEventsCardSuspense from "@/components/suspense/NewsEventsCardSuspense";
-import { Newspaper, SortAsc, Filter, Layers, Globe, ChevronDown, Check, ArrowUpDown } from "lucide-react";
+import { Newspaper, SortAsc, Filter, Layers, Globe, ChevronDown, Check, ArrowUpDown, FilterX } from "lucide-react";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 
 // Filter Chip Dropdown Component
@@ -109,13 +109,16 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 // Mobile Unified Filter Component
 const MobileUnifiedFilterNews = ({ sortBy, setSortBy, filters, setFilters, years }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ top: 0 });
+  const [coords, setCoords] = useState({ top: 0, right: 0 });
   const buttonRef = React.useRef(null);
 
   const updateCoords = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({ top: rect.bottom });
+      setCoords({
+        top: rect.bottom,
+        right: (typeof window !== 'undefined' ? window.innerWidth : 375) - rect.right
+      });
     }
   };
 
@@ -148,24 +151,24 @@ const MobileUnifiedFilterNews = ({ sortBy, setSortBy, filters, setFilters, years
       </button>
 
       {isOpen && (
-        <div 
-          style={{ top: `${coords.top + 10}px` }}
-          className="fixed right-4 sm:right-5 z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
+        <div
+          style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
+          className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
         >
           {/* Invisible overlay to strictly close upon clicking outside */}
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
+          <ul className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-y-auto max-h-[70vh] no-scrollbar">
             {/* Year Filters */}
             {years.map((year) => (
-              <li 
-                key={year} 
-                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }} 
+              <li
+                key={year}
+                onClick={() => { setFilters({ ...filters, date: year }); setIsOpen(false); }}
                 className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${filters.date === year ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
               >
                 {year === "all" ? "All Years" : year}
               </li>
             ))}
-            
+
             <div className="h-px bg-gray-100 my-1" />
 
             {/* Sorting */}
@@ -215,6 +218,8 @@ const News = ({ id }) => {
   }, []);
 
   // Filter and Sort news
+  const isFiltered = filters.date !== "all" || sortBy !== "latest";
+
   const filteredAndSortedNews = useMemo(() => {
     let result = [...news];
 
@@ -289,7 +294,7 @@ const News = ({ id }) => {
         >
           <div className="flex items-center justify-between gap-10 md:gap-15 max-w-[1920px] mx-auto">
             <div className="flex items-center gap-3 text-primary">
-              <Newspaper size={24} />  
+              <Newspaper size={24} />
               <h3 className="text-heading4 text-black font-neueMontrealMd font-medium">
                 News
               </h3>
@@ -362,6 +367,18 @@ const News = ({ id }) => {
           <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 md:pb-0 relative z-[110] flex-nowrap">
             {/* Desktop Filters */}
             <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setFilters({ ...filters, date: "all" });
+                  setSortBy("latest");
+                }}
+                disabled={!isFiltered}
+                className={`text-[16px] font-medium transition-all whitespace-nowrap flex items-center gap-1.5 mr-2 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={16} />
+                Reset
+              </button>
               <FilterChipDropdown
                 label="Year"
                 icon={Filter}
@@ -384,10 +401,22 @@ const News = ({ id }) => {
             </div>
 
             {/* Mobile Unified Filter */}
-            <div className="flex lg:hidden items-center">
-              <MobileUnifiedFilterNews 
-                sortBy={sortBy} 
-                setSortBy={setSortBy} 
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                onClick={() => {
+                  setFilters({ ...filters, date: "all" });
+                  setSortBy("latest");
+                }}
+                disabled={!isFiltered}
+                className={`text-sm lg:text-[16px] font-medium transition-all whitespace-nowrap px-2 flex items-center gap-1 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={14} />
+                Reset
+              </button>
+              <MobileUnifiedFilterNews
+                sortBy={sortBy}
+                setSortBy={setSortBy}
                 filters={filters}
                 setFilters={setFilters}
                 years={years}

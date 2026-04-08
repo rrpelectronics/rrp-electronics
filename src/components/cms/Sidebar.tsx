@@ -33,7 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   handleLogout,
 }) => {
   const menuItems = [
-    { id: "news", label: "Newsroom", icon: Newspaper },
+    { id: "news", label: "News", icon: Newspaper },
     { id: "newsletters", label: "Newsletters", icon: Mail },
     { id: "events", label: "Events", icon: CalendarDays },
     { id: "careers", label: "Careers", icon: Briefcase },
@@ -56,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         )}
       >
         <div className="h-16 flex items-center px-4 sm:px-8 border-b border-gray-100 shrink-0 bg-white">
-          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+          <Link href="/cms" className="flex items-center gap-3 cursor-pointer">
             <Zap className="w-[18px] h-[18px] text-[#FF5C19]" />
             <span className="text-body4 font-neueMontreal tracking-normal text-gray-900 border-b border-orange-500/20">
               RRP Electronics CMS

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getAllItems } from "@/lib/cms-actions";
 import { TABLES } from "@/lib/database-schema";
-import { Mail, SortAsc, FileText, ChevronDown, Check, ArrowUpDown } from "lucide-react";
+import { Mail, SortAsc, FileText, ChevronDown, Check, ArrowUpDown, FilterX } from "lucide-react";
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 import Link from "next/link";
 import NewsletterCardSuspense from "@/components/suspense/NewsletterCardSuspense";
@@ -108,13 +108,16 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
 // Mobile Unified Filter Component
 const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ top: 0 });
+  const [coords, setCoords] = useState({ top: 0, right: 0 });
   const buttonRef = React.useRef(null);
 
   const updateCoords = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({ top: rect.bottom });
+      setCoords({
+        top: rect.bottom,
+        right: (typeof window !== 'undefined' ? window.innerWidth : 375) - rect.right
+      });
     }
   };
 
@@ -147,12 +150,12 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
       </button>
 
       {isOpen && (
-        <div 
-          style={{ top: `${coords.top + 10}px` }}
-          className="fixed right-4 sm:right-5 z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
+        <div
+          style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
+          className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
         >
           <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <ul className="min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
+          <ul className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
             <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
               Latest First
             </li>
@@ -215,6 +218,8 @@ const NewslettersPage = () => {
     loadData();
   }, []);
 
+  const isFiltered = sortBy !== "latest";
+
   // Filter and Sort newsletters
   const sortedNewsletters = useMemo(() => {
     let result = [...newslettersData];
@@ -249,6 +254,17 @@ const NewslettersPage = () => {
           <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 md:pb-0 relative z-[110] flex-nowrap">
             {/* Desktop Filters */}
             <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setSortBy("latest");
+                }}
+                disabled={!isFiltered}
+                className={`text-[16px] font-medium transition-all whitespace-nowrap flex items-center gap-1.5 mr-2 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={16} />
+                Reset
+              </button>
               <FilterChipDropdown
                 label="Sort By"
                 icon={SortAsc}
@@ -263,7 +279,18 @@ const NewslettersPage = () => {
             </div>
 
             {/* Mobile Unified Filter */}
-            <div className="flex lg:hidden items-center">
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                onClick={() => {
+                  setSortBy("latest");
+                }}
+                disabled={!isFiltered}
+                className={`text-sm lg:text-[16px] font-medium transition-all whitespace-nowrap px-2 flex items-center gap-1 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
+                  }`}
+              >
+                <FilterX size={14} />
+                Reset
+              </button>
               <MobileUnifiedFilter sortBy={sortBy} setSortBy={setSortBy} />
             </div>
           </div>
