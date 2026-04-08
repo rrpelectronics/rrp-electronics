@@ -85,18 +85,19 @@ const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, 
         >
           <ul className="min-w-[220px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] py-3">
             {options.map((option) => (
-              <li
+              <button
                 key={option.value}
+                type="button"
                 onClick={() => {
                   onChange(option.value);
                   setIsOpen(false);
                 }}
-                className={`px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${value === option.value ? "text-primary" : "text-gray-600"
+                className={`w-full px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${value === option.value ? "text-primary" : "text-gray-600"
                   }`}
               >
                 {option.label}
                 {value === option.value && <Check size={18} className="text-primary" />}
-              </li>
+              </button>
             ))}
           </ul>
         </div>
@@ -154,15 +155,23 @@ const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
           style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
           className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
         >
-          <div className="fixed inset-0 select-none bg-transparent" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <ul className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
-            <li onClick={() => { setSortBy('latest'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+          <div className="fixed inset-0 select-none bg-black/0 cursor-pointer" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
+          <div className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
+            <button
+              type="button"
+              onClick={() => { setSortBy('latest'); setIsOpen(false); }}
+              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'latest' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+            >
               Latest First
-            </li>
-            <li onClick={() => { setSortBy('old'); setIsOpen(false); }} className={`px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSortBy('old'); setIsOpen(false); }}
+              className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === 'old' ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
+            >
               Oldest First
-            </li>
-          </ul>
+            </button>
+          </div>
         </div>
       )}
     </div>
