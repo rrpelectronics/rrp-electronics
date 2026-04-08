@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Save, Plus, Edit3, Loader2, Link as LinkIcon, Calendar, Info, FileImage, Briefcase } from "lucide-react";
+import { ArrowLeft, Save, Plus, Edit3, Loader2, Link as LinkIcon, Calendar, Info, FileImage, Briefcase, FileText, Paperclip } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TiptapEditor from "@/components/cms/Editor";
 
@@ -90,8 +90,8 @@ const ContentForm: React.FC<NewsFormProps> = ({
 
       <form onSubmit={onSubmit} noValidate className="space-y-12 pb-20">
         <div className="space-y-10">
-          {/* Media Section - Hide for Careers */}
-          {category !== 'careers' && (
+          {/* Media Section - Hide for Careers and Newsletters */}
+          {category !== 'careers' && category !== 'newsletters' && (
             <div className="space-y-5">
               <label className={cn("text-body4 font-neueMontreal tracking-normal pl-1 flex items-center gap-2", errors.image ? "text-red-500" : "text-gray-500")}>
                 <FileImage size={16} />
@@ -211,23 +211,25 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 placeholder={category === 'careers' ? "e.g. Senior Software Engineer" : "The canonical title for this entry..."}
               />
             </div>
-            <div className="gap-y-1.5 flex flex-col">
-              <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.source ? "text-red-500" : "text-gray-500")}>
-                {category === 'careers' ? "Department" : "Publisher / Source"}
-              </label>
-              <input
-                name="source"
-                value={formData.source}
-                onChange={handleInputChange}
-                className={cn(
-                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
-                  errors.source
-                    ? "border-red-500 bg-red-50/10 focus:border-red-500"
-                    : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
-                )}
-                placeholder={category === 'careers' ? "e.g. Engineering, Sales" : "e.g. The Economic Times, Reuters"}
-              />
-            </div>
+            {category !== 'newsletters' && (
+              <div className="gap-y-1.5 flex flex-col">
+                <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.source ? "text-red-500" : "text-gray-500")}>
+                  {category === 'careers' ? "Department" : "Publisher / Source"}
+                </label>
+                <input
+                  name="source"
+                  value={formData.source}
+                  onChange={handleInputChange}
+                  className={cn(
+                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                    errors.source
+                      ? "border-red-500 bg-red-50/10 focus:border-red-500"
+                      : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
+                  )}
+                  placeholder={category === 'careers' ? "e.g. Engineering, Sales" : "e.g. The Economic Times, Reuters"}
+                />
+              </div>
+            )}
             <div className="gap-y-1.5 flex flex-col relative">
               <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.date ? "text-red-500" : "text-gray-500")}>
                 {category === 'careers' ? <Briefcase size={14} className="text-gray-400" /> : <Calendar size={14} className="text-gray-400" />}
@@ -250,35 +252,75 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 {category === 'careers' ? "Employment model" : "Flexible string format supported"}
               </span>
             </div>
-            <div className="gap-y-1.5 flex flex-col">
+            <div className={cn("flex flex-col gap-y-1.5", category === 'newsletters' && "md:col-span-2")}>
               <label className={cn("text-body4 font-neueMontreal tracking-normal flex items-center gap-2", errors.link ? "text-red-500" : "text-gray-500")}>
-                <LinkIcon size={14} className="text-gray-400" />
-                {category === 'careers' ? "Work Location" : "Reference Link / URL"}
+                {category === 'newsletters' ? <FileText size={14} className="text-gray-400" /> : <LinkIcon size={14} className="text-gray-400" />}
+                {category === 'careers' ? "Work Location" : category === 'newsletters' ? "Newsletter PDF Document" : "Reference Link / URL"}
               </label>
-              <input
-                name="link"
-                value={formData.link}
-                onChange={handleInputChange}
-                className={cn(
-                  "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
-                  errors.link
-                    ? "border-red-500 bg-red-50/10 focus:border-red-500"
-                    : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
-                )}
-                placeholder={category === 'careers' ? "e.g. Navi Mumbai, Remote" : "https://external-resource-link.com"}
-              />
+              {category === 'newsletters' ? (
+                <div className="relative group">
+                  <div className={cn(
+                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 flex items-center gap-3 text-body4 font-neueMontreal transition-all",
+                    errors.link ? "border-red-500 bg-red-50/10" : "border-gray-200 group-hover:border-[#FF5C19]"
+                  )}>
+                    <Paperclip size={16} className={cn("shrink-0", formData.link ? "text-[#FF5C19]" : "text-gray-300")} />
+                    <span className={cn("truncate flex-1", !formData.link && "text-gray-300")}>
+                      {formData.link ? (formData.link.startsWith('data:') ? "New PDF attached" : "Current Newsletter File Linked") : "Attach Newsletter PDF"}
+                    </span>
+                    <label className="shrink-0 bg-orange-50 text-[#FF5C19] px-4 py-1.5 rounded-md text-[12px] font-medium cursor-pointer hover:bg-[#FF5C19] hover:text-white transition-all active:scale-95 shadow-sm">
+                      Browse
+                      <input
+                        type="file"
+                        accept=".pdf"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setFormData(prev => ({ ...prev, link: reader.result as string }));
+                              if (errors.link) setErrors(prev => ({ ...prev, link: false }));
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                  {formData.link && !formData.link.startsWith('data:') && (
+                    <span className="absolute -bottom-5 left-1 text-[12px] text-gray-600 truncate max-w-full font-neueMontreal">
+                      Source: {formData.link}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <input
+                  name="link"
+                  value={formData.link}
+                  onChange={handleInputChange}
+                  className={cn(
+                    "w-full h-12 lg:h-11 bg-white border rounded-lg px-4 text-body4 font-neueMontreal outline-none transition-all placeholder:text-gray-200",
+                    errors.link
+                      ? "border-red-500 bg-red-50/10 focus:border-red-500"
+                      : "border-gray-200 focus:border-[#FF5C19] hover:border-gray-300"
+                  )}
+                  placeholder={category === 'careers' ? "e.g. Navi Mumbai, Remote" : "https://external-resource-link.com"}
+                />
+              )}
             </div>
-            <div className="md:col-span-2 gap-y-1.5 flex flex-col pt-4">
-              <label className={cn("text-body4 font-neueMontreal tracking-normal pl-1 flex items-center gap-2", errors.description ? "text-red-500" : "text-gray-500")}>
-                {category === 'careers' ? "Job Description & Requirements" : "Executive Summary / Description"}
-              </label>
-              <TiptapEditor
-                value={formData.description}
-                onChange={(html) => setFormData(prev => ({ ...prev, description: html }))}
-                placeholder={category === 'careers' ? "List responsibilities, requirements, and benefits..." : "Synthesize the core message or event overview here..."}
-                className={cn(errors.description && "ring-1 ring-red-500")}
-              />
-            </div>
+            {category !== 'newsletters' && (
+              <div className="md:col-span-2 gap-y-1.5 flex flex-col pt-4">
+                <label className={cn("text-body4 font-neueMontreal tracking-normal pl-1 flex items-center gap-2", errors.description ? "text-red-500" : "text-gray-500")}>
+                  {category === 'careers' ? "Job Description & Requirements" : "Executive Summary / Description"}
+                </label>
+                <TiptapEditor
+                  value={formData.description}
+                  onChange={(html) => setFormData(prev => ({ ...prev, description: html }))}
+                  placeholder={category === 'careers' ? "List responsibilities, requirements, and benefits..." : "Synthesize the core message or event overview here..."}
+                  className={cn(errors.description && "ring-1 ring-red-500")}
+                />
+              </div>
+            )}
           </div>
         </div>
 

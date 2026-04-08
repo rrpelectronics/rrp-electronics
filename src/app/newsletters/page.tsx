@@ -147,30 +147,23 @@ const NewsletterCard = ({ title, date, link }) => {
     <Link
       href={link}
       target="_blank"
-      className="flex gap-4 items-stretch group"
+      className="flex gap-4 items-stretch"
     >
-      <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1 py-1 justify-between p-6 border border-gray-200 rounded-2xl group-hover:border-primary/30 group-hover:shadow-[0_10px_40px_rgba(255,92,25,0.08)] bg-white transition-all h-full">
-        <div className="flex w-full gap-4">
-          <div className="h-12 w-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
-            <FileText size={24} strokeWidth={1.5} className="text-primary" />
-          </div>
+      <div className="flex flex-col gap-3.5 md:gap-4.5 flex-1 py-1 justify-between">
+        <div className="flex w-full gap-3">
+          <FileText size={32} strokeWidth={1.5} className="text-primary" />
           <div className="flex flex-col gap-2 w-full">
-            <p className="text-gray-500 text-caption lg:text-sm font-neueMontreal tracking-wide uppercase">
+            <p className="text-textPrimary text-caption lg:text-bodySmallest leading-[120%] font-neueMontreal">
               {date}
             </p>
-            <p className="text-[18px] md:text-[20px] text-gray-900 leading-[130%] font-neueMontrealMd group-hover:text-primary transition-colors">
+            <p className="text-bodyLarge text-black leading-[120%] md:w-[90%] font-neueMontrealMd">
               {title}
             </p>
           </div>
         </div>
-        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-          <p className="text-sm text-primary font-neueMontreal leading-[120%] font-medium">
-            Read Newsletter
-          </p>
-          <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-gray-400">
-            <SortAsc className="w-4 h-4 rotate-90" />
-          </div>
-        </div>
+        <p className="ml-11 w-fit text-sm text-primary font-neueMontreal leading-[120%] underline decoration-solid decoration-primary">
+          View Edition
+        </p>
       </div>
     </Link>
   );
@@ -207,7 +200,7 @@ const NewslettersPage = () => {
     }
 
     return result;
-  }, [sortBy]);
+  }, [sortBy, newslettersData]);
 
   return (
     <main style={{ marginTop: headerHeight }} className="min-h-screen bg-white">

@@ -126,9 +126,14 @@ const ContentList: React.FC<ContentListProps> = ({
                   <td className="px-4 lg:px-10 py-6 lg:py-8">
                     <div className="flex items-center gap-4 lg:gap-6">
                       {category !== 'careers' && (
-                        <div className="h-16 w-16 aspect-square rounded-xl bg-gray-100 border border-gray-100 overflow-hidden shrink-0 flex items-center justify-center">
+                        <div className={cn(
+                          "h-16 w-16 aspect-square rounded-xl border border-gray-100 overflow-hidden shrink-0 flex items-center justify-center transition-all",
+                          category === 'newsletters' ? "bg-orange-50/50" : "bg-gray-100"
+                        )}>
                           {item.image ? (
                             <img src={item.image} className="h-full w-full object-cover" alt="" />
+                          ) : category === 'newsletters' ? (
+                            <FileText className="w-6 h-6 text-[#FF5C19]" />
                           ) : (
                             <div className="text-[10px] text-gray-300 font-mono text-center px-1 uppercase">No Asset</div>
                           )}

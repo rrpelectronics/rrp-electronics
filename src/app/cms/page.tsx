@@ -142,6 +142,7 @@ const AdminDashboard = () => {
       const tableName = getTableName(category);
 
       let finalImageUrl = formData.image;
+      let finalLink = formData.link;
       
       // Helper to convert base64 to File
       const base64ToFile = (base64: string, filename: string) => {
@@ -163,6 +164,15 @@ const AdminDashboard = () => {
         uploadData.append("file", imageFile);
         const result = await uploadAsset(uploadData, `cms/${category}`);
         finalImageUrl = result.url;
+      }
+
+      // Upload PDF if it's a newsletter and a new file
+      if (category === 'newsletters' && finalLink.startsWith('data:application/pdf')) {
+        const pdfFile = base64ToFile(finalLink, `newsletter-${Date.now()}.pdf`);
+        const uploadData = new FormData();
+        uploadData.append("file", pdfFile);
+        const result = await uploadAsset(uploadData, `cms/newsletters`);
+        finalLink = result.url;
       }
 
       // Upload gallery images if new
@@ -206,6 +216,11 @@ const AdminDashboard = () => {
         // Default values for careers
         submissionData.fresherAllowed = true;
         submissionData.extraPoints = [];
+      } else if (category === 'newsletters') {
+        submissionData.image = ""; // Newsletters don't have images in this design
+        submissionData.source = "";
+        submissionData.date = formData.date;
+        submissionData.link = finalLink;
       } else {
         submissionData.image = finalImageUrl;
         submissionData.source = formData.source;
