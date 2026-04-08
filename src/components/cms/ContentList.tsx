@@ -12,6 +12,9 @@ interface Item {
   description?: string;
   link?: string;
   gallery?: { url: string }[];
+  experienceMin?: number;
+  experienceMax?: number;
+  fresherAllowed?: boolean;
 }
 
 interface ContentListProps {
