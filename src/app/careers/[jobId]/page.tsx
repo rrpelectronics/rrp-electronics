@@ -121,7 +121,7 @@ const JobDetailsContent = ({ jobSlug }) => {
             Location: {job.location}
           </p>
           <Link
-            href={"mailto:careers@rrpelectronics.com"}
+            href={"#apply-now"}
             className="text-bodySmall text-white font-neueMontreal leading-[120%] bg-primary rounded-full w-fit px-4 md:px-6 py-2 md:py-3"
           >
             Apply Now
