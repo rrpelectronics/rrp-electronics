@@ -8,6 +8,7 @@ import ContentForm from "@/components/cms/ContentForm";
 import DeleteModal from "@/components/cms/DeleteModal";
 import { getAllItems, createItem, updateItem, deleteItem } from "@/lib/cms-actions";
 import { TABLES } from "@/lib/database-schema";
+import { uploadAsset } from "@/lib/upload-action";
 
 const AdminDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,7 +43,7 @@ const AdminDashboard = () => {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const getTableName = useCallback((cat: string) => {
-    switch(cat) {
+    switch (cat) {
       case 'news': return TABLES.NEWS;
       case 'events': return TABLES.EVENTS;
       case 'newsletters': return TABLES.NEWSLETTERS;
@@ -124,7 +125,7 @@ const AdminDashboard = () => {
 
   const saveItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Simple validation
     const newErrors: Record<string, boolean> = {};
     if (!formData.title) newErrors.title = true;
@@ -136,25 +137,65 @@ const AdminDashboard = () => {
     }
 
     setIsUploading(true);
-    
+
     try {
       const tableName = getTableName(category);
+
+      let finalImageUrl = formData.image;
+      
+      // Helper to convert base64 to File
+      const base64ToFile = (base64: string, filename: string) => {
+        const arr = base64.split(',');
+        const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+      };
+
+      // Upload main image if it's new (starts with data:image)
+      if (finalImageUrl.startsWith('data:image')) {
+        const imageFile = base64ToFile(finalImageUrl, `main-${Date.now()}.png`);
+        const uploadData = new FormData();
+        uploadData.append("file", imageFile);
+        const result = await uploadAsset(uploadData, `cms/${category}`);
+        finalImageUrl = result.url;
+      }
+
+      // Upload gallery images if new
+      let finalGallery = [];
+      if (formData.gallery && formData.gallery.length > 0) {
+        finalGallery = await Promise.all(formData.gallery.map(async (item, i) => {
+          if (item.url.startsWith('data:image')) {
+            const galFile = base64ToFile(item.url, `gal-${Date.now()}-${i}.png`);
+            const uploadData = new FormData();
+            uploadData.append("file", galFile);
+            const result = await uploadAsset(uploadData, `cms/${category}-gallery`);
+            return { url: result.url };
+          }
+          return item;
+        }));
+      }
+
       // Clean submission data
       const submissionData: any = {
         title: formData.title,
         description: formData.description,
-        gallery: formData.gallery
+        gallery: finalGallery
       };
 
       // Map back UI image to specific JSON field
       if (category === 'news') {
-        submissionData.newsEventImg = formData.image;
+        submissionData.newsEventImg = finalImageUrl;
         submissionData.source = formData.source;
         submissionData.date = formData.date;
         submissionData.link = formData.link;
       } else if (category === 'events') {
-        submissionData.thumbnail = formData.image;
-        submissionData.newsEventBanner = formData.image;
+        submissionData.thumbnail = finalImageUrl;
+        submissionData.newsEventBanner = finalImageUrl;
         submissionData.source = formData.source;
         submissionData.date = formData.date;
         submissionData.link = formData.link;
@@ -166,15 +207,15 @@ const AdminDashboard = () => {
         submissionData.fresherAllowed = true;
         submissionData.extraPoints = [];
       } else {
-        submissionData.image = formData.image;
+        submissionData.image = finalImageUrl;
         submissionData.source = formData.source;
         submissionData.date = formData.date;
         submissionData.link = formData.link;
       }
-      
+
       // Keep other existing fields if editing (like id or extra career details)
       const finalData = editingItem ? { ...editingItem, ...submissionData } : submissionData;
-      
+
       if (editingItem) {
         await updateItem(tableName, editingItem.id, finalData);
         toast.success("Entry updated successfully");
@@ -182,7 +223,7 @@ const AdminDashboard = () => {
         await createItem(tableName, finalData);
         toast.success("Entry published successfully");
       }
-      
+
       await loadData();
       setView("list");
       resetForm();
@@ -210,35 +251,35 @@ const AdminDashboard = () => {
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center p-6 font-inter">
         <div className="w-full max-w-[350px] space-y-8 bg-white p-12 rounded-lg shadow-sm border border-gray-100">
           <div className="text-center space-y-3">
-            <h1 className="text-body2 font-medium tracking-tight text-gray-900 border-b border-gray-100 pb-4">
+            <h1 className="text-body2 font-medium tracking-normal text-gray-900 border-b border-gray-100 pb-4">
               Admin Console
             </h1>
-            <p className="text-body4 text-gray-400 font-normal">Secure entry point</p>
+            <p className="text-body4 font-neueMontreal text-gray-400 font-normal">Secure entry point</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-body4 font-medium text-gray-500 tracking-tight pl-0.5">Username</label>
+              <label className="text-body4 font-neueMontreal text-gray-500 tracking-normal pl-0.5">Username</label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 outline-none transition-all focus:border-[#FF5C19]"
+                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19]"
                 placeholder="admin"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-body4 font-medium text-gray-500 tracking-tight pl-0.5">Password</label>
+              <label className="text-body4 font-neueMontreal text-gray-500 tracking-normal pl-0.5">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 outline-none transition-all focus:border-[#FF5C19]"
+                className="w-full h-11 bg-transparent border border-gray-200 rounded-md px-4 text-body4 font-neueMontreal outline-none transition-all focus:border-[#FF5C19]"
                 placeholder="••••••••"
               />
             </div>
             <button
               type="submit"
-              className="w-full h-11 bg-[#FF5C19] text-white rounded-md text-body4 font-medium tracking-tight hover:bg-orange-600 transition-colors cursor-pointer active:scale-98 shadow-sm"
+              className="w-full h-11 bg-[#FF5C19] text-white rounded-md text-body4 font-neueMontreal tracking-normal hover:bg-orange-600 transition-colors cursor-pointer active:scale-98 shadow-sm"
             >
               Sign in to console
             </button>

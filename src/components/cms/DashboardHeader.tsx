@@ -17,13 +17,13 @@ const DashboardHeader: React.FC<HeaderProps> = ({ setIsSidebarOpen }) => {
                 >
                     <Menu className="w-5 h-5" />
                 </button>
-                <div className="flex items-center gap-3 text-body4 font-medium text-gray-400 tracking-tight">
+                <div className="flex items-center gap-3 text-body4 font-neueMontreal text-gray-400 tracking-normal">
                     <Zap className="hidden sm:block w-[18px] h-[18px]" />
                     <span className="hidden sm:block">Console</span>
                     <span className="hidden sm:block opacity-30">/</span>
                     <span className="text-gray-900 border-b border-gray-200 hidden sm:block">Dashboard</span>
                     <Link href="/" className="flex sm:hidden items-center gap-3 cursor-pointer">
-                        <span className="text-body4 font-medium tracking-tight text-gray-900 border-b border-orange-500/20">
+                        <span className="text-body4 font-neueMontreal tracking-normal text-gray-900 border-b border-orange-500/20">
                             RRP Electronics CMS
                         </span>
                     </Link>
@@ -31,9 +31,9 @@ const DashboardHeader: React.FC<HeaderProps> = ({ setIsSidebarOpen }) => {
             </div>
             <Link
                 href="/"
-                className="text-[12px] sm:text-body4 font-medium text-[#FF5C19] hover:underline tracking-tight cursor-pointer flex items-center gap-2 bg-orange-50 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors shrink-0"
+                className="text-sm sm:text-body4 font-neueMontreal text-[#FF5C19] hover:underline tracking-normal cursor-pointer flex items-center gap-2 bg-orange-50 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors shrink-0"
             >
-                <span>View live site</span>
+                <span className="text-body4">View live site</span>
                 <Globe className="w-[14px] h-[14px]" />
             </Link>
         </header>

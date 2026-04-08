@@ -367,7 +367,7 @@ const Events = ({ id }) => {
           ) : (
             <>
               <ul className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-full h-fit gap-y-7.5 md:gap-y-10 gap-4">
-                {currentItems.map((event) => (
+                {currentItems.map((event, index) => (
                   <li key={event.id} className="col-span-4 sm:col-span-4 md:col-span-4 lg:col-span-4">
                     <NewsEventsCard
                       newsEventImg={event.newsEventImg}
@@ -379,6 +379,7 @@ const Events = ({ id }) => {
                       variant="event"
                       id={event.id}
                       eventType={event.eventType || "past"}
+                      priority={index <= 5}
                     />
                   </li>
                 ))}

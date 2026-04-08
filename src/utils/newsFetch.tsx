@@ -1,26 +1,27 @@
 import { getAllItems } from "@/lib/cms-actions";
 import { TABLES } from "@/lib/database-schema";
-// Import hardcoded news data as fallback
-import { news_data, NewsData } from './newsData';
+
+export interface NewsData {
+  id: string;
+  newsEventImg: string;
+  title: string;
+  date: string;
+  source?: string;
+  link: string;
+  imgBgClass: string;
+}
 
 /**
- * Fetch news data from AWS DynamoDB with local fallback
+ * Fetch news data from Neon database
  */
 export const fetchNews = async (limit: number | null = null) => {
-  let sortedNews = [];
+  let sortedNews: any[] = [];
   
   try {
-    // Try fetching from AWS first
-    const awsNews = await getAllItems(TABLES.NEWS);
-    if (awsNews && awsNews.length > 0) {
-      sortedNews = awsNews;
-    } else {
-      // Fallback to local data
-      sortedNews = news_data;
-    }
+    sortedNews = await getAllItems(TABLES.NEWS);
   } catch (error) {
-    console.error("AWS news fetch failed, falling back to local:", error);
-    sortedNews = news_data;
+    console.error("News fetch failed:", error);
+    sortedNews = [];
   }
 
   if (limit) {
@@ -43,15 +44,12 @@ export const fetchNews = async (limit: number | null = null) => {
  */
 export const fetchNewsById = async (newsId: string) => {
   try {
-    const awsNews = await getAllItems(TABLES.NEWS);
-    const item = awsNews.find((n) => n.id.toString() === newsId);
+    const allNews = await getAllItems(TABLES.NEWS);
+    const item = allNews.find((n: any) => n.id.toString() === newsId);
     if (item) return item;
-  } catch (err) {}
-  
-  const foundNews = news_data.find((n) => n.id.toString() === newsId);
-  if (!foundNews) {
-    throw new Error("News not found");
+  } catch (err) {
+    console.error("News fetch by ID failed:", err);
   }
-  return foundNews;
+  
+  throw new Error("News not found");
 };
-

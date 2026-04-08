@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { 
-  Newspaper, 
-  ChevronRight, 
-  LogOut, 
-  Zap, 
-  X, 
-  Mail, 
-  CalendarDays, 
-  Briefcase 
+import {
+  Newspaper,
+  ChevronRight,
+  LogOut,
+  Zap,
+  X,
+  Mail,
+  CalendarDays,
+  Briefcase
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="h-16 flex items-center px-4 sm:px-8 border-b border-gray-100 shrink-0 bg-white">
           <Link href="/" className="flex items-center gap-3 cursor-pointer">
             <Zap className="w-[18px] h-[18px] text-[#FF5C19]" />
-            <span className="text-body4 font-medium tracking-tight text-gray-900 border-b border-orange-500/20">
+            <span className="text-body4 font-neueMontreal tracking-normal text-gray-900 border-b border-orange-500/20">
               RRP Electronics CMS
             </span>
           </Link>
@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         <div className="flex-1 px-4 py-8 space-y-2">
           {menuItems.map((item) => (
             <button
@@ -88,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             >
               <div className="flex items-center gap-3">
                 <item.icon className="w-[16px] h-[16px]" />
-                <span className="text-body4 tracking-tight">{item.label}</span>
+                <span className="text-body4 font-neueMontreal tracking-normal">{item.label}</span>
               </div>
               {category === item.id && <ChevronRight className="w-[14px] h-[14px] text-orange-600" />}
             </button>
@@ -98,7 +98,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="px-4 sm:px-6 py-6 border-t border-gray-200 mt-auto bg-gray-100">
           <button
             onClick={handleLogout}
-            className="shadow-sm w-full flex items-center gap-2 px-4 py-3 text-body4 font-medium tracking-tight text-gray-400 hover:text-red-500 transition-colors cursor-pointer bg-white/20 rounded-md border border-gray-100"
+            className="shadow-sm w-full flex items-center gap-2 px-4 py-3 text-body4 font-neueMontreal tracking-normal text-gray-400 hover:text-red-500 transition-colors cursor-pointer bg-white/20 rounded-md border border-gray-100"
           >
             <LogOut className="w-[16px] h-[16px]" />
             Sign out

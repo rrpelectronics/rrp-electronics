@@ -14,6 +14,7 @@ interface NewsEventsCardProps {
   variant?: "default" | "event";
   id?: string;
   eventType?: "past" | "upcoming";
+  priority?: boolean;
 }
 
 const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
@@ -27,12 +28,15 @@ const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
   variant = "default",
   id,
   eventType = "past",
+  priority = false,
 }) => {
   const imageAspect =
     variant === "event" ? "aspect-[400/248]" : "aspect-square";
   const imageWidth = variant === "event" ? "w-full" : "w-[150px]";
   const eventLink =
     variant === "event" && id ? `/events/${id}` : link;
+  // Internal event pages should open in the same tab
+  const linkTarget = variant === "event" && id ? "_self" : target;
 
   // Check if the image is from our own domain or an external domain
   const isExternalImage =
@@ -96,7 +100,8 @@ const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
           src={newsEventImg || "/images/news-events/placeholder.webp"}
           alt={title}
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={priority}
           className={`object-cover object-${imgBgClass}`}
           onError={(e) => {
             // Fallback to regular img tag if Next.js Image fails
@@ -120,7 +125,7 @@ const NewsEventsCard: React.FC<NewsEventsCardProps> = ({
   return (
     <Link
       href={eventLink}
-      target={target}
+      target={linkTarget}
       className={`flex ${variant === "event" ? "flex-col gap-4" : "gap-4"
         } items-stretch`}
     >

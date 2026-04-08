@@ -363,7 +363,7 @@ const News = ({ id }) => {
         <div className="max-w-[1920px] mx-auto">
           <ul className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 w-full h-fit gap-y-7.5 md:gap-y-10 gap-4">
             {currentItems.length > 0 ? (
-              currentItems.map((newsItem) => {
+              currentItems.map((newsItem, index) => {
                 if (!newsItem.newsEventImg || newsItem.newsEventImg.trim() === "")
                   return null;
 
@@ -378,6 +378,7 @@ const News = ({ id }) => {
                       link={newsItem.link}
                       target="_blank"
                       id={newsItem.id}
+                      priority={index <= 5}
                     />
                   </li>
                 );

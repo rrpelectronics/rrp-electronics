@@ -28,7 +28,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, itemTitle, onClose, o
               <AlertTriangle className="w-8 h-8 text-red-500" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Delete Confirmation</h3>
-            <p className="text-gray-500 text-body4 leading-relaxed">
+            <p className="text-gray-500 text-body4 font-neueMontreal leading-relaxed">
               Are you sure you want to permanently delete{" "}
               <span className="font-medium text-gray-900 italic">"{itemTitle}"</span>? This action cannot be undone.
             </p>
@@ -37,13 +37,13 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, itemTitle, onClose, o
           <div className="grid grid-cols-2 gap-3 mt-8">
             <button
               onClick={onClose}
-              className="h-12 px-4 rounded-xl text-body4 font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+              className="h-12 px-4 rounded-xl text-body4 font-neueMontreal text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className="h-12 px-4 rounded-xl text-body4 font-medium text-white bg-red-500 hover:bg-red-600 transition-all shadow-md shadow-red-500/20 active:scale-95 cursor-pointer"
+              className="h-12 px-4 rounded-xl text-body4 font-neueMontreal text-white bg-red-500 hover:bg-red-600 transition-all shadow-md shadow-red-500/20 active:scale-95 cursor-pointer"
             >
               Yes, Delete
             </button>

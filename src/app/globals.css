@@ -87,6 +87,7 @@
   --text-bodySmallest: clamp(0.75rem, 0.696rem + 0.24vw, 0.875rem);
   /*16px, 14px*/
   --text-caption: 12px;
+  --text-body4: 16px;
 
   /* Letter Spacing */
   --tracking-display: clamp(-0.06rem, 0.005rem + 0.24vw, -0.2rem); /*-0.6px, -3.2px*/
@@ -240,7 +241,28 @@ select {
 
 /* Editor Styles */
 .tiptap-content {
-  @apply prose prose-sm sm:prose-base max-w-none prose-p:my-2 prose-ul:list-disc prose-ol:list-decimal prose-a:text-[#FF5C19] prose-a:font-medium hover:prose-a:underline;
+  @apply max-w-none text-textPrimary font-neueMontreal;
+  font-size: var(--text-bodyLarge);
+  line-height: 120%;
+}
+.tiptap-content p {
+  @apply my-2;
+}
+.tiptap-content ul {
+  @apply list-disc pl-6 space-y-2;
+}
+.tiptap-content ol {
+  @apply list-decimal pl-6 space-y-2;
+}
+.tiptap-content a {
+  @apply text-[#FF5C19] font-medium hover:underline;
+}
+.tiptap-content h3 {
+  @apply font-neueMontrealMd mt-4 mb-2 text-textPrimary;
+  font-size: var(--text-bodyLarge);
+}
+.tiptap-content strong {
+  @apply font-neueMontrealMd text-textPrimary;
 }
 
 .ProseMirror {

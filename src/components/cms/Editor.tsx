@@ -5,14 +5,14 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import { 
-  Bold, 
-  Italic, 
-  Underline as UnderlineIcon, 
-  List, 
-  ListOrdered, 
-  Link as LinkIcon, 
-  Undo, 
+import {
+  Bold,
+  Italic,
+  Underline as UnderlineIcon,
+  List,
+  ListOrdered,
+  Link as LinkIcon,
+  Undo,
   Redo,
   Heading1,
   Heading2
@@ -70,9 +70,9 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         <UnderlineIcon size={18} />
       </button>
-      
+
       <div className="w-px h-6 bg-gray-200 mx-1" />
-      
+
       <button
         type="button"
         onClick={(e) => { e.preventDefault(); editor.chain().focus().toggleHeading({ level: 1 }).run(); }}
@@ -95,7 +95,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         <Heading2 size={18} />
       </button>
-      
+
       <div className="w-px h-6 bg-gray-200 mx-1" />
 
       <button
@@ -120,7 +120,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
       >
         <ListOrdered size={18} />
       </button>
-      
+
       <div className="w-px h-6 bg-gray-200 mx-1" />
 
       <button
@@ -136,7 +136,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
       </button>
 
       <div className="flex-1" />
-      
+
       <button
         type="button"
         onClick={(e) => { e.preventDefault(); editor.chain().focus().undo().run(); }}
@@ -182,7 +182,7 @@ const TiptapEditor: React.FC<EditorProps> = ({ value, onChange, placeholder, cla
     editorProps: {
       attributes: {
         class: cn(
-          "prose prose-sm max-w-none focus:outline-none min-h-[250px] p-6 text-body4 leading-relaxed font-inter",
+          "prose prose-sm max-w-none focus:outline-none min-h-[250px] p-6 text-body4 font-neueMontreal leading-relaxed font-inter",
           className
         ),
       },

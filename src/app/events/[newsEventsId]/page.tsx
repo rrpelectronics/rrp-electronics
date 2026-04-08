@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import events_data from "@/utils/eventsData";
+import { fetchEventById } from "@/utils/eventFetch";
 import RichTextParser from "@/components/RichTextParser";
 import useSmallScreen from "@/hooks/useSmallScreen";
 import useLockBodyScroll from "@/hooks/useLockBodyScroll";
@@ -106,19 +106,19 @@ const EventDetailPage = ({ params }: { params: Promise<{ newsEventsId: string }>
 
   useEffect(() => {
     if (eventSlug) {
-      const foundEvent = events_data.find((e) => e.id === eventSlug);
-
-      if (!foundEvent) {
-        setError("Event not found");
-      } else {
-        // Map data properties to match what the component expects
-        setEvent({
-          ...foundEvent,
-          description: foundEvent.description,
-          banner: foundEvent.newsEventBanner,
+      fetchEventById(eventSlug)
+        .then((foundEvent) => {
+          setEvent({
+            ...foundEvent,
+            description: foundEvent.description,
+            banner: foundEvent.banner,
+          });
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Event not found");
+          setLoading(false);
         });
-      }
-      setLoading(false);
     }
   }, [eventSlug]);
 

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { AppProvider } from "@/context/AppContext";
 import ClientLayout from "@/components/ClientLayout";
+import { Toaster } from "sonner";
 
 const neueMontreal = localFont({
   src: "../../public/fonts/NeueMontreal-Regular.woff",
@@ -55,6 +56,7 @@ export default function RootLayout({ children }) {
       >
         <AppProvider>
           <ClientLayout>
+            <Toaster richColors position="top-center" />
             {children}
           </ClientLayout>
         </AppProvider>

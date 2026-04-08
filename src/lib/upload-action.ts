@@ -1,41 +1,32 @@
 "use server";
-import { v2 as cloudinary } from 'cloudinary';
+import { put } from '@vercel/blob';
 
-// Cloudinary connection configuration
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
+/**
+ * Upload a file to Vercel Blob storage.
+ * Replaces the previous Cloudinary upload.
+ * 
+ * @param formData - FormData containing a "file" field
+ * @param folder - Optional folder prefix for organization
+ * @returns Object with the public URL of the uploaded file
+ */
 export async function uploadAsset(formData: FormData, folder: string = "uploads") {
   try {
     const file = formData.get("file") as File;
     if (!file) throw new Error("No file found in submission");
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    // Create a clean filename with folder prefix
+    const timestamp = Date.now();
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const pathname = `${folder}/${timestamp}-${safeName}`;
 
-    // Upload buffer directly to Cloudinary via upload_stream
-    const url = await new Promise<string>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: folder, resource_type: "auto" },
-        (error, result) => {
-          if (error) {
-             reject(error);
-          } else if (result?.secure_url) {
-             resolve(result.secure_url);
-          } else {
-             reject(new Error("Unknown error during upload"));
-          }
-        }
-      );
-      uploadStream.end(buffer);
+    // Upload to Vercel Blob
+    const blob = await put(pathname, file, {
+      access: 'public',
     });
 
-    return { url };
+    return { url: blob.url };
   } catch (error: any) {
-    console.error("Cloudinary Server Upload Error:", error);
-    throw new Error(error.message || "Failed to upload file to Cloudinary");
+    console.error("Vercel Blob Upload Error:", error);
+    throw new Error(error.message || "Failed to upload file to Vercel Blob");
   }
 }

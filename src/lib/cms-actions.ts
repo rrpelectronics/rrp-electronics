@@ -1,104 +1,166 @@
 "use server";
-import fs from 'fs/promises';
-import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { TABLES } from "./database-schema";
+import { getDb } from './db';
+import { TABLES, CREATE_TABLE_SQL } from './database-schema';
 
-const getFilePath = async (tableName: string) => {
-  const dirPath = path.join(process.cwd(), 'data');
-  try {
-    await fs.access(dirPath);
-  } catch {
-    await fs.mkdir(dirPath, { recursive: true });
-  }
-  return path.join(dirPath, `${tableName}.json`);
+/**
+ * Valid columns per table — prevents inserting/updating non-existent columns.
+ */
+const TABLE_COLUMNS: Record<string, string[]> = {
+  [TABLES.NEWS]: ['id', 'title', 'date', 'source', 'link', 'newsEventImg', 'imgBgClass', 'description'],
+  [TABLES.EVENTS]: ['id', 'title', 'date', 'source', 'link', 'thumbnail', 'newsEventBanner', 'newsEventImg', 'banner', 'description', 'gallery', 'eventType'],
+  [TABLES.CAREERS]: ['id', 'title', 'department', 'type', 'location', 'description', 'link', 'experienceMin', 'experienceMax', 'fresherAllowed', 'extraPoints'],
+  [TABLES.NEWSLETTERS]: ['id', 'title', 'date', 'description', 'link'],
 };
 
-const _readDB = async (tableName: string) => {
-  const filePath = await getFilePath(tableName);
-  try {
-    const data = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
-      await fs.writeFile(filePath, '[]', 'utf-8');
-      return [];
+/**
+ * Filter data to only include valid columns for the given table.
+ */
+function filterColumns(tableName: string, data: Record<string, any>): Record<string, any> {
+  const validCols = TABLE_COLUMNS[tableName];
+  if (!validCols) return data;
+  const filtered: Record<string, any> = {};
+  for (const key of Object.keys(data)) {
+    if (validCols.includes(key)) {
+      filtered[key] = data[key];
     }
-    throw error;
   }
-};
+  return filtered;
+}
 
-const _writeDB = async (tableName: string, data: any[]) => {
-  const filePath = await getFilePath(tableName);
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
-};
+/**
+ * Ensure the table exists before any operation.
+ */
+async function ensureTable(tableName: string) {
+  const sql = getDb();
+  const createSql = CREATE_TABLE_SQL[tableName];
+  if (createSql) {
+    await sql.query(createSql);
+  }
+}
 
+/**
+ * Parse JSONB fields that may come back as strings or already-parsed objects.
+ */
+function parseRow(row: any) {
+  if (!row) return row;
+  const parsed = { ...row };
+  // Only parse JSONB fields if they exist in the row
+  if ('gallery' in parsed) {
+    parsed.gallery = typeof parsed.gallery === 'string' ? JSON.parse(parsed.gallery) : (parsed.gallery || []);
+  }
+  if ('extraPoints' in parsed) {
+    parsed.extraPoints = typeof parsed.extraPoints === 'string' ? JSON.parse(parsed.extraPoints) : (parsed.extraPoints || []);
+  }
+  return parsed;
+}
+
+/**
+ * Get all items from a Neon Postgres table.
+ * sql.query() returns rows directly as an array (not { rows }).
+ */
 export const getAllItems = async (tableName: string) => {
   try {
-    return await _readDB(tableName);
+    await ensureTable(tableName);
+    const sql = getDb();
+    const rows = await sql.query(`SELECT * FROM ${tableName} ORDER BY created_at DESC`);
+    return rows.map(parseRow);
   } catch (error) {
-    console.error(`Error fetching items from local JSON (${tableName}):`, error);
+    console.error(`Error fetching items from ${tableName}:`, error);
     return [];
   }
 };
 
+/**
+ * Get a single item by ID.
+ */
 export const getItemById = async (tableName: string, id: string) => {
   try {
-    const items = await _readDB(tableName);
-    return items.find((item: any) => item.id === id) || null;
+    await ensureTable(tableName);
+    const sql = getDb();
+    const rows = await sql.query(`SELECT * FROM ${tableName} WHERE id = $1`, [id]);
+    if (rows.length === 0) return null;
+    return parseRow(rows[0]);
   } catch (error) {
-    console.error(`Error fetching item ${id} from local JSON (${tableName}):`, error);
+    console.error(`Error fetching item ${id} from ${tableName}:`, error);
     return null;
   }
 };
 
+/**
+ * Create a new item in the table.
+ */
 export const createItem = async (tableName: string, data: any) => {
   try {
-    const id = uuidv4();
-    const newItem = {
-      ...data,
-      id
-    };
+    await ensureTable(tableName);
+    const sql = getDb();
+    const id = data.id || uuidv4();
+    const newItem = filterColumns(tableName, { ...data, id });
 
-    const items = await _readDB(tableName);
-    items.push(newItem);
-    await _writeDB(tableName, items);
+    const keys = Object.keys(newItem);
+    const quotedCols = keys.map(k => `"${k}"`).join(', ');
+    const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ');
+    const values = keys.map(k => {
+      const val = newItem[k];
+      if (Array.isArray(val) || (typeof val === 'object' && val !== null)) {
+        return JSON.stringify(val);
+      }
+      return val;
+    });
 
+    await sql.query(`INSERT INTO ${tableName} (${quotedCols}) VALUES (${placeholders})`, values);
     return newItem;
   } catch (error) {
-    console.error(`Error creating local JSON item in ${tableName}:`, error);
+    console.error(`Error creating item in ${tableName}:`, error);
     throw error;
   }
 };
 
+/**
+ * Update an existing item by ID.
+ */
 export const updateItem = async (tableName: string, id: string, data: any) => {
   try {
-    const items = await _readDB(tableName);
-    const index = items.findIndex((item: any) => item.id === id);
+    await ensureTable(tableName);
+    const sql = getDb();
 
-    if (index === -1) throw new Error("Item not found");
+    const rawData = { ...data };
+    delete rawData.id;
+    delete rawData.created_at;
+    const updateData = filterColumns(tableName, rawData);
 
-    items[index] = { ...items[index], ...data };
+    const keys = Object.keys(updateData);
+    if (keys.length === 0) return data;
 
-    await _writeDB(tableName, items);
-    return items[index];
+    const setClauses = keys.map((k, i) => `"${k}" = $${i + 1}`).join(', ');
+    const values = keys.map(k => {
+      const val = updateData[k];
+      if (Array.isArray(val) || (typeof val === 'object' && val !== null)) {
+        return JSON.stringify(val);
+      }
+      return val;
+    });
+    values.push(id);
+
+    await sql.query(`UPDATE ${tableName} SET ${setClauses} WHERE id = $${keys.length + 1}`, values);
+    return { ...data, id };
   } catch (error) {
-    console.error(`Error updating local JSON item ${id} in ${tableName}:`, error);
+    console.error(`Error updating item ${id} in ${tableName}:`, error);
     throw error;
   }
 };
 
+/**
+ * Delete an item by ID.
+ */
 export const deleteItem = async (tableName: string, id: string) => {
   try {
-    const items = await _readDB(tableName);
-    const updatedItems = items.filter((item: any) => item.id !== id);
-
-    if (items.length !== updatedItems.length) {
-      await _writeDB(tableName, updatedItems);
-    }
+    await ensureTable(tableName);
+    const sql = getDb();
+    await sql.query(`DELETE FROM ${tableName} WHERE id = $1`, [id]);
     return true;
   } catch (error) {
-    console.error(`Error deleting local JSON item ${id} from ${tableName}:`, error);
+    console.error(`Error deleting item ${id} from ${tableName}:`, error);
     throw error;
   }
 };
