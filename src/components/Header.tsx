@@ -3,7 +3,6 @@ import React, { forwardRef, memo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import useLockBodyScroll from "@/hooks/useLockBodyScroll";
-import newslettersData from "../../data/rrp_newsletter.json";
 
 const navItems = [
   {
@@ -54,28 +53,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileAccordionIndex, setMobileAccordionIndex] = useState(null);
 
-  // Dynamic Newsletter Link
-  const newsletterLink = React.useMemo(() => {
-    if (newslettersData && newslettersData.length === 1 && (newslettersData[0] as any).link) {
-      return { href: (newslettersData[0] as any).link, target: "_blank" };
-    }
-    return { href: "/newsletters", target: "_self" };
-  }, []);
-
-  const dynamicNavItems = React.useMemo(() => {
-    return navItems.map(item => {
-      if (item.title === "Newsroom" && item.links) {
-        return {
-          ...item,
-          links: item.links.map(link => {
-            if (link.name === "Newsletters") return { ...link, ...newsletterLink };
-            return link;
-          })
-        };
-      }
-      return item;
-    });
-  }, [newsletterLink]);
+  const dynamicNavItems = navItems;
 
   // Close mobile menu when route changes
   useEffect(() => {
