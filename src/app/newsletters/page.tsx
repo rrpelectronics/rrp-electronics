@@ -237,6 +237,26 @@ const NewslettersPage = () => {
 
   const isFiltered = sortBy !== "latest";
 
+  // Robust date parsing helper
+  const getParsedDate = (dateStr) => {
+    if (!dateStr) return new Date(0);
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+
+    // Try parsing DD/MM/YYYY or DD-MM-YYYY
+    const parts = dateStr.split(/[\/\-]/);
+    if (parts.length === 3) {
+      if (parts[0].length === 4) return new Date(parts[0], parts[1] - 1, parts[2]); // YYYY/MM/DD
+      if (parts[2].length === 4) return new Date(parts[2], parts[1] - 1, parts[0]); // DD/MM/YYYY
+    }
+
+    // Regex fallback for year
+    const yearMatch = dateStr.match(/\b(20\d{2})\b/);
+    if (yearMatch) return new Date(parseInt(yearMatch[1]), 0, 1);
+
+    return new Date(0);
+  };
+
   // Filter and Sort newsletters
   const sortedNewsletters = useMemo(() => {
     let result = [...newslettersData];
@@ -245,9 +265,9 @@ const NewslettersPage = () => {
     if (sortBy === "az") {
       result.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "latest") {
-      result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      result.sort((a, b) => getParsedDate(b.date).getTime() - getParsedDate(a.date).getTime());
     } else if (sortBy === "old") {
-      result.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      result.sort((a, b) => getParsedDate(a.date).getTime() - getParsedDate(b.date).getTime());
     }
 
     return result;

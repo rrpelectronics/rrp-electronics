@@ -243,6 +243,34 @@ const News = ({ id }) => {
     fetchNewsData();
   }, []);
 
+  // Robust date parsing helper
+  const getParsedDate = (dateStr) => {
+    if (!dateStr) return new Date(0);
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d;
+
+    // Try parsing DD/MM/YYYY or DD-MM-YYYY
+    const parts = dateStr.split(/[\/\-]/);
+    if (parts.length === 3) {
+      // If first part is 4 digits, assume YYYY/MM/DD
+      if (parts[0].length === 4) {
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+      }
+      // If last part is 4 digits, assume DD/MM/YYYY
+      if (parts[2].length === 4) {
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+      }
+    }
+
+    // Regex fallback for year
+    const yearMatch = dateStr.match(/\b(20\d{2})\b/);
+    if (yearMatch) {
+      return new Date(parseInt(yearMatch[1]), 0, 1);
+    }
+
+    return new Date(0);
+  };
+
   // Filter and Sort news
   const isFiltered = filters.date !== "all" || sortBy !== "latest";
 
@@ -257,8 +285,8 @@ const News = ({ id }) => {
     // Filter by Date (Year)
     if (filters.date !== "all") {
       result = result.filter((item) => {
-        const year = new Date(item.date).getFullYear().toString();
-        return year === filters.date;
+        const d = getParsedDate(item.date);
+        return d.getFullYear().toString() === filters.date;
       });
     }
 
@@ -266,9 +294,9 @@ const News = ({ id }) => {
     if (sortBy === "az") {
       result.sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortBy === "latest") {
-      result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      result.sort((a, b) => getParsedDate(b.date).getTime() - getParsedDate(a.date).getTime());
     } else if (sortBy === "old") {
-      result.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      result.sort((a, b) => getParsedDate(a.date).getTime() - getParsedDate(b.date).getTime());
     }
 
     return result;
