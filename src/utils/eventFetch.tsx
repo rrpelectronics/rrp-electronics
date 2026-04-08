@@ -77,28 +77,46 @@ export const fetchEvents = async (limit: number | null = null, eventType: "upcom
     }
   }
 
-  // Helper to parse date string to timestamp for sorting
-  const getSortTime = (dateVal: string | null | undefined) => {
-    if (!dateVal) return 0;
-    const d = new Date(dateVal);
-    if (!isNaN(d.getTime())) return d.getTime();
-    
-    // Fallback for special formats
-    const parts = dateVal.split(" ");
-    if (parts.length === 2) {
-      const monthIndex = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ].indexOf(parts[0]);
-      if (monthIndex !== -1) {
-        return new Date(parseInt(parts[1]), monthIndex, 1).getTime();
+  // Robust date parsing helper for sorting
+  const getParsedDate = (dateStr: string) => {
+    if (!dateStr || typeof dateStr !== 'string') return new Date(0);
+    const trimmed = dateStr.trim();
+    const d = new Date(trimmed);
+    if (!isNaN(d.getTime())) return d;
+
+    const parts = trimmed.split(/[\/\-\s,.]+/).filter(Boolean);
+    let year = -1;
+    let month = 0;
+    let day = 1;
+    const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+    parts.forEach((part, i) => {
+      const num = parseInt(part);
+      if (part.length === 4 && !isNaN(num) && num > 1900) {
+        year = num;
+      } else {
+        const lower = part.toLowerCase();
+        const mIdx = monthNames.findIndex(m => lower.startsWith(m));
+        if (mIdx !== -1) month = mIdx;
+        else if (!isNaN(num) && num > 0 && num <= 31) {
+          if (day === 1 || i === 0) day = num;
+        }
       }
-    }
-    return 0;
+    });
+
+    if (year !== -1) return new Date(year, month, day);
+    const yearMatch = trimmed.match(/\b(20\d{2})\b/);
+    if (yearMatch) return new Date(parseInt(yearMatch[1]), 0, 1);
+    return new Date(0);
   };
 
-  // Sort by date descending
-  filteredEvents.sort((a, b) => getSortTime(b.date) - getSortTime(a.date));
+  // Sort by date descending (latest first)
+  filteredEvents.sort((a, b) => {
+    const dateA = getParsedDate(a.date).getTime();
+    const dateB = getParsedDate(b.date).getTime();
+    if (dateA === dateB) return b.id - a.id;
+    return dateB - dateA;
+  });
 
   // Apply limit
   if (limit) {
