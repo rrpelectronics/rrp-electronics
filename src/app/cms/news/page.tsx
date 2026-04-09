@@ -1,107 +1,101 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Trash2, ExternalLink, Globe, Edit2, Loader2, Newspaper, BarChart2, ImageIcon } from "lucide-react";
-import { getAllItems, createItem, deleteItem } from "@/lib/cms-actions";
+import { Plus, Search, Trash2, Globe, Newspaper, BarChart2, Loader2, ImageIcon } from "lucide-react";
+import { getAllItems, createItem, deleteItem, updateItem } from "@/lib/cms-actions";
 import { uploadAsset } from "@/lib/upload-action";
 import { TABLES } from "@/lib/database-schema";
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useCMSManager } from "@/hooks/useCMSManager";
+import { CMSHeader } from "@/components/cms/shared/CMSHeader";
+import { CMSStatGrid } from "@/components/cms/shared/CMSStatGrid";
+import { CMSItemCard } from "@/components/cms/shared/CMSItemCard";
 
 export default function NewsCMS() {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
+  const {
+    items: news,
+    loading,
+    saving,
+    isAdding,
+    setIsAdding,
+    editingId,
+    setEditingId,
+    refresh: fetchNews,
+    remove: deleteNews
+  } = useCMSManager(TABLES.NEWS);
+
   const [search, setSearch] = useState("");
-  const [formData, setFormData] = useState({ title: "", date: "", source: "", link: "", newsEventImg: "" });
-  const [selectedThumbnail, setSelectedThumbnail] = useState<File | null>(null);
-  const [previewThumbnail, setPreviewThumbnail] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ title: "", date: "", source: "RRP Electronics", link: "", newsEventImg: "" });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => { fetchNews(); }, []);
-
-  const fetchNews = async () => {
-    setLoading(true);
-    const data = await getAllItems(TABLES.NEWS);
-    setNews(data);
-    setLoading(false);
+  const handleEdit = (item: any) => {
+    setFormData({ title: item.title, date: item.date, source: item.source, link: item.link, newsEventImg: item.newsEventImg });
+    setEditingId(item.id);
+    setIsAdding(true);
   };
 
   const handleThumbnailChange = (e: any) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setSelectedThumbnail(file);
-    setPreviewThumbnail(URL.createObjectURL(file));
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const handleAdd = async (e: any) => {
     e.preventDefault();
-    setSaving(true);
+    setUploading(true);
     try {
       let finalImg = formData.newsEventImg;
-      if (selectedThumbnail) {
-        setUploading(true);
+      if (selectedFile) {
         const uploadData = new FormData();
-        uploadData.append("file", selectedThumbnail);
+        uploadData.append("file", selectedFile);
         const { url } = await uploadAsset(uploadData, "news");
         finalImg = url;
-        setUploading(false);
       }
-      await createItem(TABLES.NEWS, { ...formData, newsEventImg: finalImg });
-      setFormData({ title: "", date: "", source: "", link: "", newsEventImg: "" });
-      setSelectedThumbnail(null);
-      setPreviewThumbnail(null);
+      
+      const payload = { ...formData, newsEventImg: finalImg };
+      
+      if (editingId) {
+        await updateItem(TABLES.NEWS, editingId, payload);
+      } else {
+        await createItem(TABLES.NEWS, payload);
+      }
+
+      setFormData({ title: "", date: "", source: "RRP Electronics", link: "", newsEventImg: "" });
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      setEditingId(null);
       setIsAdding(false);
       fetchNews();
-    } catch { alert("Error saving news"); }
-    finally { setSaving(false); setUploading(false); }
-  };
-
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this article?")) return;
-    await deleteItem(TABLES.NEWS, id);
-    setNews(news.filter(n => n.id !== id));
+    } catch { 
+      alert("Error saving news"); 
+    } finally { 
+      setUploading(false); 
+    }
   };
 
   const filtered = news.filter(n => n.title?.toLowerCase().includes(search.toLowerCase()));
 
+  const stats = [
+    { label: "Total Articles", value: news.length, icon: Newspaper, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "This Year", value: news.filter(n => n.date?.includes("2025")).length, icon: BarChart2, color: "text-green-600", bg: "bg-green-50" },
+    { label: "Sources", value: [...new Set(news.map(n => n.source))].length, icon: Globe, color: "text-purple-600", bg: "bg-purple-50" },
+  ];
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl ">News Articles</h2>
-          <p className="text-sm text-muted-foreground mt-1">Manage press releases and newsroom content</p>
-        </div>
-        <Button onClick={() => setIsAdding(true)} className="gap-2 rounded-xl shadow-lg shadow-primary/20">
-          <Plus size={16} /> Add Article
-        </Button>
-      </div>
+      <CMSHeader 
+        title="News Articles" 
+        subtitle="Manage press releases and newsroom content" 
+        onAdd={() => setIsAdding(true)} 
+        buttonText="Add Article" 
+      />
 
-      {/* Stats row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {[
-          { label: "Total Articles", value: news.length, icon: Newspaper, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "This Month", value: news.filter(n => n.date?.includes(new Date().getFullYear())).length, icon: BarChart2, color: "text-purple-600", bg: "bg-purple-50" },
-          { label: "Sources", value: [...new Set(news.map(n => n.source))].length, icon: Globe, color: "text-emerald-600", bg: "bg-emerald-50" },
-        ].map((s, i) => (
-          <Card key={i} className="border-border/50">
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className={`w-9 h-9 ${s.bg} rounded-xl flex items-center justify-center ${s.color} flex-shrink-0`}>
-                <s.icon size={18} />
-              </div>
-              <div>
-                <p className="text-2xl leading-none">{s.value}</p>
-                <p className="text-xs text-muted-foreground font-medium mt-0.5">{s.label}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <CMSStatGrid stats={stats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Article List */}
@@ -133,36 +127,12 @@ export default function NewsCMS() {
           ) : (
             <div className="space-y-3">
               {filtered.map(item => (
-                <Card key={item.id} className="border-border/50 group hover:border-primary/30 hover:shadow-md transition-all duration-300">
-                  <CardContent className="p-4 flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-muted flex-shrink-0 border border-border/50">
-                      {item.newsEventImg ? (
-                        <img src={item.newsEventImg} alt="" className="w-full h-full object-contain p-1" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                          <Newspaper size={20} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-foreground truncate group-hover:text-primary transition-colors text-sm">{item.title}</p>
-                      <div className="flex items-center gap-3 mt-1.5">
-                        <Badge variant="outline" className="text-[10px] rounded-lg ">{item.date}</Badge>
-                        {item.source && <span className="text-xs text-muted-foreground font-medium flex items-center gap-1"><Globe size={10} /> {item.source}</span>}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {item.link && (
-                        <Button render={<Link href={item.link} target="_blank" />} variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:text-primary">
-                          <ExternalLink size={14} />
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive" onClick={() => handleDelete(item.id)}>
-                        <Trash2 size={14} />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <CMSItemCard 
+                  key={item.id} 
+                  item={item} 
+                  onEdit={() => handleEdit(item)}
+                  onDelete={() => deleteNews(item.id)} 
+                />
               ))}
             </div>
           )}
@@ -204,11 +174,11 @@ export default function NewsCMS() {
                     <div className="flex items-center justify-between">
                       <label className="text-[11px] text-muted-foreground uppercase tracking-[0.1em]">Thumbnail</label>
                     </div>
-                    {(previewThumbnail || formData.newsEventImg) ? (
+                    {(previewUrl || formData.newsEventImg) ? (
                       <div className="relative mt-2 h-32 w-full rounded-xl overflow-hidden border border-border group bg-muted/30">
-                        <img src={previewThumbnail || formData.newsEventImg} alt="Preview" className="w-full h-full object-contain p-2 group-hover:scale-105 transition-all duration-500" />
+                        <img src={previewUrl || formData.newsEventImg} alt="Preview" className="w-full h-full object-contain p-2 group-hover:scale-105 transition-all duration-500" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
-                          <button type="button" onClick={() => { setPreviewThumbnail(null); setSelectedThumbnail(null); setFormData(f => ({...f, newsEventImg: ""})); }} className="bg-red-500/90 text-white p-2 text-xs flex items-center gap-2 cursor-pointer rounded-lg">
+                          <button type="button" onClick={() => { setPreviewUrl(null); setSelectedFile(null); setFormData(f => ({...f, newsEventImg: ""})); }} className="bg-red-500/90 text-white p-2 text-xs flex items-center gap-2 cursor-pointer rounded-lg">
                             <Trash2 size={14} /> Remove
                           </button>
                         </div>

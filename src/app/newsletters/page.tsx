@@ -6,185 +6,11 @@ import { Mail, SortAsc, FileText, ChevronDown, Check, ArrowUpDown, FilterX } fro
 import { useHeaderHeight } from "@/context/HeaderHeightContext";
 import Link from "next/link";
 import NewsletterCardSuspense from "@/components/suspense/NewsletterCardSuspense";
-const FilterChipDropdown = ({ value, onChange, options = [], label, icon: Icon, rightAlign = false }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ top: 0, left: 0, right: 0 });
-  const buttonRef = React.useRef(null);
-  const timeoutRef = React.useRef(null);
-  const selectedOption = options.find((opt) => opt.value === value) || options[0] || { label: "Select", value: "" };
+import FilterChipDropdown from "@/components/common/FilterChipDropdown";
+import { useContentFilter } from "@/hooks/useContentFilter";
 
-  const updateCoords = () => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom,
-        left: rect.left,
-        right: (typeof window !== 'undefined' ? window.innerWidth : 1200) - rect.right,
-      });
-    }
-  };
 
-  useEffect(() => {
-    if (isOpen) {
-      window.addEventListener("scroll", updateCoords);
-      window.addEventListener("resize", updateCoords);
-    }
-    return () => {
-      window.removeEventListener("scroll", updateCoords);
-      window.removeEventListener("resize", updateCoords);
-    };
-  }, [isOpen]);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    updateCoords();
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 100);
-  };
-
-  return (
-    <div
-      className="relative flex-shrink-0"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button
-        ref={buttonRef}
-        type="button"
-        className={`px-5 py-2.5 rounded-full text-[16px] flex items-center gap-3 border transition-all cursor-pointer active:scale-95 ${isOpen
-          ? "border-primary text-primary"
-          : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"
-          }`}
-      >
-        <div className="flex items-center gap-2 pointer-events-none">
-          {Icon && <Icon size={16} className={isOpen ? "text-primary" : "text-gray-400"} />}
-          <span className="text-gray-400">{label}:</span>
-          <span className="text-inherit">{selectedOption.label}</span>
-        </div>
-        <ChevronDown
-          size={16}
-          className={`transition-transform duration-300 pointer-events-none ${isOpen ? "rotate-180 text-primary" : "text-gray-400"}`}
-        />
-      </button>
-
-      {isOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: `${coords.top + 10}px`,
-            ...(rightAlign ? { right: `${coords.right}px` } : { left: `${coords.left}px` }),
-            zIndex: 9999
-          }}
-          className="animate-in fade-in slide-in-from-top-2 duration-200 h-fit w-max"
-          onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
-        >
-          <ul className="min-w-[220px] bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] py-3">
-            {options.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  onChange(option.value);
-                  setIsOpen(false);
-                }}
-                className={`w-full px-5 py-3 text-[16px] cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${value === option.value ? "text-primary" : "text-gray-600"
-                  }`}
-              >
-                {option.label}
-                {value === option.value && <Check size={18} className="text-primary" />}
-              </button>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Mobile Unified Filter Component
-const MobileUnifiedFilter = ({ sortBy, setSortBy }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ top: 0, right: 0 });
-  const buttonRef = React.useRef(null);
-
-  const updateCoords = () => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom,
-        right: (typeof window !== 'undefined' ? window.innerWidth : 375) - rect.right
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      window.addEventListener("scroll", updateCoords);
-      window.addEventListener("resize", updateCoords);
-    }
-    return () => {
-      window.removeEventListener("scroll", updateCoords);
-      window.removeEventListener("resize", updateCoords);
-    };
-  }, [isOpen]);
-
-  const handleOpen = () => {
-    updateCoords();
-    setIsOpen(!isOpen);
-  };
-
-  return (
-    <div className="relative flex-shrink-0">
-      <button
-        ref={buttonRef}
-        onClick={handleOpen}
-        className={`px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full text-sm lg:text-[16px] gap-2 lg:gap-3 flex justify-center items-center border transition-all cursor-pointer ${isOpen ? "border-primary text-primary" : "border-gray-200 text-gray-700 bg-white hover:border-gray-900"}`}
-      >
-        <ArrowUpDown size={16} className={isOpen ? "text-primary" : "text-gray-400"} />
-        <span className="font-medium text-inherit">Sort</span>
-        <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : "text-gray-400"}`} />
-      </button>
-
-      {isOpen && (
-        <div
-          style={{ top: `${coords.top + 10}px`, right: `${coords.right}px` }}
-          className="fixed z-[9999] animate-in fade-in slide-in-from-top-2 h-fit w-max"
-        >
-          <div className="fixed inset-0 select-none bg-black/0 cursor-pointer" onClick={() => setIsOpen(false)} style={{ zIndex: -1 }} />
-          <div className="relative z-10 min-w-full bg-white border border-gray-100 rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] py-3 overflow-hidden">
-            {[
-              { label: 'Latest First', value: 'latest' },
-              { label: 'Oldest First', value: 'old' }
-            ].map((option) => (
-              <label
-                key={option.value}
-                className={`w-full px-4 py-2.5 text-sm cursor-pointer flex items-center justify-between hover:bg-gray-50 transition-colors ${sortBy === option.value ? 'text-primary font-neueMontrealMd' : 'text-gray-600'}`}
-              >
-                <input
-                  type="radio"
-                  name="newsletter-sort"
-                  value={option.value}
-                  checked={sortBy === option.value}
-                  onChange={() => {
-                    setSortBy(option.value);
-                    setTimeout(() => setIsOpen(false), 100);
-                  }}
-                  className="sr-only"
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+import { MobileUnifiedFilter } from "@/components/common/MobileUnifiedFilter";
 
 // Simplified Newsletter Card with PDF icon and Orange theme
 const NewsletterCard = ({ title, date, link }) => {
@@ -216,97 +42,15 @@ const NewsletterCard = ({ title, date, link }) => {
 
 const NewslettersPage = () => {
   const headerHeight = useHeaderHeight();
-  const [sortBy, setSortBy] = useState("latest");
-  const [newslettersData, setNewslettersData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      setIsLoading(true);
-      try {
-        const data = await getAllItems(TABLES.NEWSLETTERS);
-        setNewslettersData(data || []);
-      } catch (err) {
-        console.error("Failed to load newsletters", err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadData();
-  }, []);
-
-  const isFiltered = sortBy !== "latest";
-
-  // Robust date parsing helper
-  const getParsedDate = (dateStr) => {
-    if (!dateStr || typeof dateStr !== 'string') return new Date(0);
-    const trimmed = dateStr.trim();
-    const d = new Date(trimmed);
-    if (!isNaN(d.getTime())) return d;
-
-    // Try parsing parts (supports DD/MM/YYYY, DD-MM-YYYY, DD Month YYYY, etc.)
-    const parts = trimmed.split(/[\/\-\s,.]+/).filter(Boolean);
-    
-    // Attempt to find a year
-    let year = -1;
-    let month = 0; // Default to Jan
-    let day = 1;
-
-    // Months map for name parsing
-    const monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-
-    parts.forEach((part, i) => {
-      const num = parseInt(part);
-      if (part.length === 4 && !isNaN(num) && num > 1900) {
-        year = num;
-      } else {
-        const lower = part.toLowerCase();
-        const mIdx = monthNames.findIndex(m => lower.startsWith(m));
-        if (mIdx !== -1) {
-          month = mIdx;
-        } else if (!isNaN(num) && num > 0 && num <= 31) {
-          // If we haven't assigned day yet, or if it's the first part
-          if (day === 1 || i === 0) day = num;
-        }
-      }
-    });
-
-    if (year !== -1) {
-      return new Date(year, month, day);
-    }
-
-    // Regex fallback for year if all else fails
-    const yearMatch = trimmed.match(/\b(20\d{2})\b/);
-    if (yearMatch) return new Date(parseInt(yearMatch[1]), 0, 1);
-
-    return new Date(0);
-  };
-
-  // Filter and Sort newsletters
-  const sortedNewsletters = useMemo(() => {
-    let result = [...newslettersData];
-
-    // Sort
-    if (sortBy === "az") {
-      result.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortBy === "latest") {
-      result.sort((a, b) => {
-        const dateA = getParsedDate(a.date).getTime();
-        const dateB = getParsedDate(b.date).getTime();
-        if (dateA === dateB) return b.id.localeCompare(a.id); // Tie-breaker
-        return dateB - dateA;
-      });
-    } else if (sortBy === "old") {
-      result.sort((a, b) => {
-        const dateA = getParsedDate(a.date).getTime();
-        const dateB = getParsedDate(b.date).getTime();
-        if (dateA === dateB) return a.id.localeCompare(b.id); // Tie-breaker
-        return dateA - dateB;
-      });
-    }
-
-    return result;
-  }, [sortBy, newslettersData]);
+  
+  const {
+     filteredItems: sortedNewsletters,
+     loading: isLoading,
+     sortBy,
+     setSortBy,
+     isFiltered,
+     reset
+  } = useContentFilter(() => getAllItems(TABLES.NEWSLETTERS), { date: "all" });
 
   return (
     <main style={{ marginTop: headerHeight }} className="min-h-screen bg-white">
@@ -327,9 +71,7 @@ const NewslettersPage = () => {
             {/* Desktop Filters */}
             <div className="hidden lg:flex items-center gap-3">
               <button
-                onClick={() => {
-                  setSortBy("latest");
-                }}
+                onClick={reset}
                 disabled={!isFiltered}
                 className={`text-[16px] font-medium transition-all whitespace-nowrap flex items-center gap-1.5 mr-2 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
                   }`}
@@ -353,9 +95,7 @@ const NewslettersPage = () => {
             {/* Mobile Unified Filter */}
             <div className="flex lg:hidden items-center gap-2">
               <button
-                onClick={() => {
-                  setSortBy("latest");
-                }}
+                onClick={reset}
                 disabled={!isFiltered}
                 className={`text-sm lg:text-[16px] font-medium transition-all whitespace-nowrap px-2 flex items-center gap-1 ${isFiltered ? "text-primary hover:opacity-70 cursor-pointer" : "text-gray-400 cursor-default opacity-50"
                   }`}
@@ -363,7 +103,22 @@ const NewslettersPage = () => {
                 <FilterX size={14} />
                 Reset
               </button>
-              <MobileUnifiedFilter sortBy={sortBy} setSortBy={setSortBy} />
+              <MobileUnifiedFilter 
+                buttonLabel="Sort"
+                icon={ArrowUpDown}
+                sections={[
+                  {
+                    id: "sort",
+                    radioName: "newsletter-sort",
+                    value: sortBy,
+                    onChange: setSortBy,
+                    options: [
+                      { label: "Latest First", value: "latest" },
+                      { label: "Oldest First", value: "old" },
+                    ]
+                  }
+                ]}
+              />
             </div>
           </div>
         </div>

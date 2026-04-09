@@ -131,7 +131,7 @@ const ContentForm: React.FC<NewsFormProps> = ({
                 </div>
                 <div className="space-y-3 flex-1">
                   <p className={cn("text-body4 font-neueMontreal", errors.image ? "text-red-600" : "text-gray-900")}>
-                    Upload Feature Image
+                    Upload Thumbnail Image
                   </p>
                   <p className="text-body4 font-neueMontreal text-gray-400 font-normal leading-relaxed max-w-md">
                     This image represents the entry in the list and grid views.

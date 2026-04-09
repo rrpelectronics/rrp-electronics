@@ -1,22 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Plus, Trash2, ExternalLink, Calendar, Globe, Edit2, Loader2, ImageIcon, MapPin, Upload } from "lucide-react";
-import { getAllItems, createItem, deleteItem, updateItem } from "@/lib/cms-actions";
+import React, { useState } from "react";
+import { Plus, Trash2, Calendar, Globe, Edit2, Loader2, ImageIcon, MapPin } from "lucide-react";
+import { createItem, updateItem } from "@/lib/cms-actions";
 import { uploadAsset } from "@/lib/upload-action";
 import { TABLES } from "@/lib/database-schema";
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { CMSHeader } from "@/components/cms/shared/CMSHeader";
+import { CMSStatGrid } from "@/components/cms/shared/CMSStatGrid";
+import { CMSItemCard } from "@/components/cms/shared/CMSItemCard";
+import { useCMSManager } from "@/hooks/useCMSManager";
 
 export default function EventsCMS() {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const {
+    items: events,
+    loading,
+    saving,
+    isAdding,
+    setIsAdding,
+    editingId,
+    setEditingId,
+    refresh: fetchEvents,
+    remove: deleteEvent
+  } = useCMSManager(TABLES.EVENTS);
+
   const [tab, setTab] = useState("all");
   const [formData, setFormData] = useState({ title: "", date: "", source: "RRP Events", link: "", thumbnail: "", banner: "", gallery: [] as string[], eventType: "upcoming", description: "" });
   const [uploading, setUploading] = useState(false);
@@ -30,14 +39,12 @@ export default function EventsCMS() {
   const [selectedGalleryFiles, setSelectedGalleryFiles] = useState<File[]>([]);
   const [previewGallery, setPreviewGallery] = useState<string[]>([]);
 
-  useEffect(() => { fetchEvents(); }, []);
-
-  const fetchEvents = async () => {
-    setLoading(true);
-    const data = await getAllItems(TABLES.EVENTS);
-    setEvents(data);
-    setLoading(false);
-  };
+  // Simplified stats
+  const stats = [
+    { label: "Total Events", value: events.length, icon: Calendar, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "Upcoming", value: events.filter(e => e.eventType === "upcoming").length, icon: Globe, color: "text-green-600", bg: "bg-green-50" },
+    { label: "Past Events", value: events.filter(e => e.eventType === "past").length, icon: MapPin, color: "text-purple-600", bg: "bg-purple-50" },
+  ];
 
   const handleThumbnailChange = (e: any) => {
     const file = e.target.files?.[0];
@@ -71,7 +78,7 @@ export default function EventsCMS() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setSaving(true);
+    setUploading(true);
     try {
       let finalThumbnail = formData.thumbnail;
       let finalBanner = formData.banner;
@@ -112,7 +119,7 @@ export default function EventsCMS() {
     } catch (err: any) { 
         alert("Error saving event: " + err.message); 
     }
-    finally { setSaving(false); setUploading(false); }
+    finally { setUploading(false); }
   };
 
   const resetForm = () => {
@@ -128,7 +135,6 @@ export default function EventsCMS() {
   };
 
   const handleEdit = (ev: any) => {
-    // legacy support for newsEventImg if thumbnail isn't explicitly set from previous local iterations
     const thumb = ev.thumbnail || ev.newsEventImg || "";
     setFormData({ 
       title: ev.title || "", 
@@ -145,27 +151,23 @@ export default function EventsCMS() {
     setIsAdding(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this event?")) return;
-    await deleteItem(TABLES.EVENTS, id);
-    setEvents(events.filter(e => e.id !== id));
+  const handleDelete = async (id: string) => {
+    await deleteEvent(id);
+    fetchEvents();
   };
 
   const filtered = tab === "all" ? events : events.filter(e => e.eventType === tab);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl  ">Events</h2>
-          <p className="text-sm text-muted-foreground mt-1">Coordinate upcoming and past corporate events</p>
-        </div>
-        {!isAdding && (
-          <Button onClick={() => setIsAdding(true)} className="gap-2 rounded-xl shadow-lg shadow-primary/20">
-            <Plus size={16} /> Add Event
-          </Button>
-        )}
-      </div>
+      <CMSHeader 
+        title="Events" 
+        subtitle="Coordinate upcoming and past corporate events" 
+        onAdd={() => setIsAdding(true)} 
+        buttonText="Add Event" 
+      />
+
+      <CMSStatGrid stats={stats} />
 
       {/* Tab filter */}
       <div className="flex gap-2 p-1 bg-muted rounded-xl w-fit">
@@ -173,7 +175,7 @@ export default function EventsCMS() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-1.5 rounded-lg text-xs  uppercase tracking-widest transition-all cursor-pointer ${tab === t ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+            className={`px-4 py-1.5 rounded-lg text-xs uppercase tracking-widest transition-all cursor-pointer ${tab === t ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
           >
             {t}
           </button>
@@ -200,43 +202,14 @@ export default function EventsCMS() {
           ) : (
             <div className={`grid grid-cols-1 ${!isAdding ? "md:grid-cols-2 xl:grid-cols-3" : ""} gap-4`}>
               {filtered.map(ev => (
-                <Card key={ev.id} className="border-border/50 group hover:border-primary/30 hover:shadow-md transition-all duration-300 overflow-hidden">
-                  <div className="relative h-36 bg-muted">
-                    {(ev.thumbnail || ev.newsEventImg) ? (
-                      <img src={ev.thumbnail || ev.newsEventImg} alt="" className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground/30">
-                        <ImageIcon size={32} />
-                      </div>
-                    )}
-                    <div className="absolute top-3 left-3">
-                      <Badge className={ev.eventType === "upcoming" ? "bg-green-500 hover:bg-green-500 text-white border-0" : "bg-secondary text-secondary-foreground"}>
-                        {ev.eventType}
-                      </Badge>
-                    </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <p className=" text-sm text-foreground group-hover:text-primary transition-colors leading-snug mb-2">{ev.title}</p>
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground flex items-center gap-1.5"><Calendar size={11} className="text-primary" /> {ev.date}</p>
-                      {ev.source && <p className="text-xs text-muted-foreground flex items-center gap-1.5"><Globe size={11} className="text-primary/50" /> {ev.source}</p>}
-                    </div>
-                    <Separator className="my-3" />
-                    <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="sm" className="gap-1.5 h-7 text-xs rounded-lg flex-1" onClick={() => handleEdit(ev)}>
-                        <Edit2 size={12} /> Edit
-                      </Button>
-                      {ev.link && (
-                        <Button render={<Link href={ev.link} target="_blank" />} variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-muted-foreground hover:text-primary">
-                          <ExternalLink size={12} />
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-muted-foreground hover:text-destructive" onClick={() => handleDelete(ev.id)}>
-                        <Trash2 size={12} />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <CMSItemCard 
+                  key={ev.id} 
+                  item={ev} 
+                  icon={Calendar} 
+                  imageKey="thumbnail"
+                  onEdit={handleEdit}
+                  onDelete={handleDelete} 
+                />
               ))}
             </div>
           )}

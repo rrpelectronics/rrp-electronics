@@ -1,76 +1,63 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Plus, Trash2, ExternalLink, Loader2, MapPin, Users, Briefcase } from "lucide-react";
-import { getAllItems, createItem, deleteItem } from "@/lib/cms-actions";
+import React, { useState } from "react";
+import { Plus, MapPin, Users, Briefcase, Loader2 } from "lucide-react";
 import { TABLES } from "@/lib/database-schema";
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { CMSHeader } from "@/components/cms/shared/CMSHeader";
+import { CMSStatGrid } from "@/components/cms/shared/CMSStatGrid";
+import { CMSItemCard } from "@/components/cms/shared/CMSItemCard";
+import { useCMSManager } from "@/hooks/useCMSManager";
 
 const typeColors = {
   "Full-time": "bg-green-50 text-green-700 border-green-200",
   "Part-time": "bg-blue-50 text-blue-700 border-blue-200",
-  "Contract": "bg-purple-50 text-purple-700 border-purple-200",
+  "Contract": "bg-purple-50 text-purple-700 border-blue-200",
   "Internship": "bg-orange-50 text-orange-700 border-orange-200",
 };
 
 export default function CareersCMS() {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const {
+     items: jobs,
+     loading,
+     saving,
+     isAdding,
+     setIsAdding,
+     refresh: fetchJobs,
+     add,
+     remove
+  } = useCMSManager(TABLES.CAREERS);
+
   const [formData, setFormData] = useState({ title: "", location: "Mumbai, India", type: "Full-time", link: "", department: "Engineering", description: "" });
 
-  useEffect(() => { fetchJobs(); }, []);
-
-  const fetchJobs = async () => {
-    setLoading(true);
-    const data = await getAllItems(TABLES.CAREERS);
-    setJobs(data);
-    setLoading(false);
-  };
-
-  const handleAdd = async (e) => {
+  const handleAdd = async (e: any) => {
     e.preventDefault();
-    setSaving(true);
-    try {
-      await createItem(TABLES.CAREERS, formData);
-      setFormData({ title: "", location: "Mumbai, India", type: "Full-time", link: "", department: "Engineering", description: "" });
-      fetchJobs();
-    } catch { alert("Error adding job"); }
-    finally { setSaving(false); }
+    await add(formData);
+    setFormData({ title: "", location: "Mumbai, India", type: "Full-time", link: "", department: "Engineering", description: "" });
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Remove this job posting?")) return;
-    await deleteItem(TABLES.CAREERS, id);
-    setJobs(jobs.filter(j => j.id !== id));
+  const handleDelete = (id: string) => {
+     remove(id, "Remove this job posting?");
   };
+
+  const stats = [
+    { label: "Total Openings", value: jobs.length, icon: Briefcase, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "Full-Time", value: jobs.filter(j => j.type === "Full-time").length, icon: Users, color: "text-green-600", bg: "bg-green-50" },
+    { label: "Departments", value: [...new Set(jobs.map(j => j.department))].length, icon: MapPin, color: "text-purple-600", bg: "bg-purple-50" },
+  ];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div>
-        <h2 className="text-2xl  ">Career Postings</h2>
-        <p className="text-sm text-muted-foreground mt-1">Manage open roles and job listings for RRP Electronics</p>
-      </div>
+      <CMSHeader 
+        title="Career Postings" 
+        subtitle="Manage open roles and job listings for RRP Electronics" 
+        onAdd={() => setIsAdding(true)} 
+        buttonText="Add Role" 
+      />
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {[
-          { label: "Total Openings", value: jobs.length },
-          { label: "Full-Time", value: jobs.filter(j => j.type === "Full-time").length },
-          { label: "Departments", value: [...new Set(jobs.map(j => j.department))].length },
-        ].map((s, i) => (
-          <Card key={i} className="border-border/50">
-            <CardContent className="p-4">
-              <p className="text-3xl  text-foreground">{s.value}</p>
-              <p className="text-xs text-muted-foreground font-medium mt-1">{s.label}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <CMSStatGrid stats={stats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Job List */}
@@ -84,41 +71,24 @@ export default function CareersCMS() {
               <CardContent className="py-16 flex flex-col items-center gap-3">
                 <Briefcase size={40} className="text-muted-foreground/30" />
                 <p className="text-muted-foreground ">No active job postings</p>
+                <Button variant="outline" size="sm" onClick={() => setIsAdding(true)} className="rounded-xl gap-1.5">
+                  <Plus size={14} /> Add first role
+                </Button>
               </CardContent>
             </Card>
           ) : (
             <div className="space-y-3">
               {jobs.map(job => (
-                <Card key={job.id} className="border-border/50 group hover:border-primary/30 hover:shadow-md transition-all duration-300">
-                  <CardContent className="p-4 flex items-center gap-4">
-                    <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center text-muted-foreground flex-shrink-0 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                      <Briefcase size={20} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                        <p className=" text-sm text-foreground group-hover:text-primary transition-colors">{job.title}</p>
-                        <Badge variant="outline" className={`text-[10px]  rounded-lg ${typeColors[job.type] || ""}`}>
-                          {job.type}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1"><MapPin size={10} /> {job.location}</span>
-                        <span className="flex items-center gap-1"><Users size={10} /> {job.department}</span>
-                      </div>
-                      {job.description && <p className="text-xs text-muted-foreground mt-1.5 line-clamp-1 italic">{job.description}</p>}
-                    </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {job.link && (
-                        <Link href={job.link} target="_blank" className="inline-flex h-8 w-8 items-center justify-center rounded-lg hover:bg-muted text-muted-foreground hover:text-primary transition-colors">
-                          <ExternalLink size={14} />
-                        </Link>
-                      )}
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive" onClick={() => handleDelete(job.id)}>
-                        <Trash2 size={14} />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <CMSItemCard 
+                  key={job.id} 
+                  item={{
+                    ...job,
+                    date: job.type,
+                    source: job.department
+                  }} 
+                  icon={Briefcase}
+                  onDelete={handleDelete} 
+                />
               ))}
             </div>
           )}

@@ -1,20 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, ExternalLink, Loader2, FileText, Upload, Calendar } from "lucide-react";
-import { getAllItems, createItem, deleteItem } from "@/lib/cms-actions";
+import { Plus, Trash2, Loader2, FileText, Upload, Calendar } from "lucide-react";
+import { createItem, getAllItems } from "@/lib/cms-actions";
 import { uploadAsset } from "@/lib/upload-action";
 import { TABLES } from "@/lib/database-schema";
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { CMSHeader } from "@/components/cms/shared/CMSHeader";
+import { CMSStatGrid } from "@/components/cms/shared/CMSStatGrid";
+import { CMSItemCard } from "@/components/cms/shared/CMSItemCard";
+import { useCMSManager } from "@/hooks/useCMSManager";
 
 export default function NewslettersCMS() {
-  const [newsletters, setNewsletters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const {
+    items: newsletters,
+    setItems: setNewsletters,
+    loading,
+    setLoading,
+    saving,
+    setIsAdding,
+    refresh: fetchNewsletters,
+    remove: deleteNewsletter
+  } = useCMSManager(TABLES.NEWSLETTERS);
+
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -22,7 +32,7 @@ export default function NewslettersCMS() {
 
   useEffect(() => { fetchNewsletters(); }, []);
 
-  const fetchNewsletters = async () => {
+  const handleFetchNewsletters = async () => {
     setLoading(true);
     const data = await getAllItems(TABLES.NEWSLETTERS);
     setNewsletters(data.sort((a, b) => (b.date > a.date ? 1 : -1)));
@@ -32,70 +42,55 @@ export default function NewslettersCMS() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   };
 
   const handleAdd = async (e: any) => {
     e.preventDefault();
-    setSaving(true);
+    setUploading(true);
     try {
       let finalLink = formData.link;
-      
       if (selectedFile) {
-        setUploading(true);
         const uploadData = new FormData();
         uploadData.append("file", selectedFile);
         const { url } = await uploadAsset(uploadData, "newsletters");
         finalLink = url;
-        setUploading(false);
       }
-      
-      const finalData = { ...formData, link: finalLink };
-      await createItem(TABLES.NEWSLETTERS, finalData);
+      await createItem(TABLES.NEWSLETTERS, { ...formData, link: finalLink });
       setFormData({ title: "", date: "", description: "", link: "" });
       setSelectedFile(null);
       setPreviewUrl(null);
+      setIsAdding(false);
       fetchNewsletters();
-    } catch (err: any) { 
-       alert("Error adding newsletter: " + err.message); 
-    }
-    finally { setSaving(false); setUploading(false); }
+    } catch (err: any) { alert("Error adding newsletter: " + err.message); }
+    finally { setUploading(false); }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this newsletter?")) return;
-    await deleteItem(TABLES.NEWSLETTERS, id);
-    setNewsletters(newsletters.filter(n => n.id !== id));
+  const handleDelete = (id: string) => {
+    deleteNewsletter(id);
   };
+
+  const stats = [
+    { label: "Total Editions", value: newsletters.length, icon: FileText, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { label: "This Year", value: newsletters.filter(n => n.date?.includes(String(new Date().getFullYear()))).length, icon: Calendar, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "Latest Issue", value: newsletters[0]?.date || "—", icon: Upload, color: "text-amber-600", bg: "bg-amber-50" },
+  ];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <div>
-        <h2 className="text-2xl  ">Newsletters</h2>
-        <p className="text-sm text-muted-foreground mt-1">Upload and manage monthly/quarterly newsletter editions</p>
-      </div>
+      <CMSHeader 
+        title="Newsletters" 
+        subtitle="Upload and manage monthly/quarterly newsletter editions" 
+        onAdd={() => setIsAdding(true)} 
+        buttonText="Add Edition" 
+      />
 
-      {/* Stat row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {[
-          { label: "Total Editions", value: newsletters.length },
-          { label: "This Year", value: newsletters.filter(n => n.date?.includes(String(new Date().getFullYear()))).length },
-          { label: "Latest Issue", value: newsletters[0]?.date || "—" },
-        ].map((s, i) => (
-          <Card key={i} className="border-border/50">
-            <CardContent className="p-4">
-              <p className="text-2xl  text-foreground">{s.value}</p>
-              <p className="text-xs text-muted-foreground font-medium mt-1">{s.label}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <CMSStatGrid stats={stats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* List */}
-        <div className="lg:col-span-7 space-y-3">
+        <div className="lg:col-span-12 xl:col-span-7 space-y-3">
           {loading ? (
             <div className="flex items-center justify-center py-20">
               <Loader2 className="animate-spin text-primary" size={32} />
@@ -105,37 +100,20 @@ export default function NewslettersCMS() {
               <CardContent className="py-16 flex flex-col items-center gap-3">
                 <FileText size={40} className="text-muted-foreground/30" />
                 <p className="text-muted-foreground ">No newsletters uploaded yet</p>
+                <Button variant="outline" size="sm" onClick={() => setIsAdding(true)} className="rounded-xl gap-1.5">
+                  <Plus size={14} /> Add first edition
+                </Button>
               </CardContent>
             </Card>
           ) : (
             <div className="space-y-3">
               {newsletters.map(n => (
-                <Card key={n.id} className="border-border/50 group hover:border-primary/30 hover:shadow-md transition-all duration-300">
-                  <CardContent className="p-4 flex items-center gap-4">
-                    <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 flex-shrink-0 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                      <FileText size={20} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className=" text-sm text-foreground group-hover:text-primary transition-colors mb-1">{n.title}</p>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline" className="text-[10px]  rounded-lg gap-1">
-                          <Calendar size={9} /> {n.date}
-                        </Badge>
-                        {n.description && <p className="text-xs text-muted-foreground italic truncate max-w-[200px]">{n.description}</p>}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {n.link && (
-                        <Button render={<Link href={n.link} target="_blank" />} variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:text-primary">
-                          <ExternalLink size={14} />
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive" onClick={() => handleDelete(n.id)}>
-                        <Trash2 size={14} />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <CMSItemCard 
+                  key={n.id} 
+                  item={n} 
+                  icon={FileText}
+                  onDelete={handleDelete} 
+                />
               ))}
             </div>
           )}
