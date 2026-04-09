@@ -15,6 +15,7 @@ import { MobileUnifiedFilter } from "@/components/common/MobileUnifiedFilter";
 const Events = ({ id }) => {
   const headerHeight = useHeaderHeight();
   
+  const fetchEvents = React.useMemo(() => () => getAllItems(TABLES.EVENTS), []);
   const {
     filteredItems: currentItems,
     loading,
@@ -27,7 +28,7 @@ const Events = ({ id }) => {
     years,
     reset
   } = useContentFilter(
-    () => getAllItems(TABLES.EVENTS), 
+    fetchEvents, 
     { date: "all", eventType: "all" }
   );
 

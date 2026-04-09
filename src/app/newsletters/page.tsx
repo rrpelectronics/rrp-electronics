@@ -43,6 +43,7 @@ const NewsletterCard = ({ title, date, link }) => {
 const NewslettersPage = () => {
   const headerHeight = useHeaderHeight();
   
+  const fetchNewsletters = useMemo(() => () => getAllItems(TABLES.NEWSLETTERS), []);
   const {
      filteredItems: sortedNewsletters,
      loading: isLoading,
@@ -50,7 +51,7 @@ const NewslettersPage = () => {
      setSortBy,
      isFiltered,
      reset
-  } = useContentFilter(() => getAllItems(TABLES.NEWSLETTERS), { date: "all" });
+  } = useContentFilter(fetchNewsletters, { date: "all" });
 
   return (
     <main style={{ marginTop: headerHeight }} className="min-h-screen bg-white">

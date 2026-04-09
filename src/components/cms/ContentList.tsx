@@ -127,7 +127,7 @@ const ContentList: React.FC<ContentListProps> = ({
                 <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-4 lg:px-10 py-6 lg:py-8">
                     <div className="flex items-center gap-4 lg:gap-6">
-                      {category !== 'careers' && (
+                      {category !== 'careers' && category !== 'newsletters' && (
                         <div className={cn(
                           "h-16 w-16 aspect-square rounded-xl border border-gray-100 overflow-hidden shrink-0 flex items-center justify-center transition-all",
                           category === 'newsletters' ? "bg-orange-50/50" : "bg-gray-100"
@@ -156,10 +156,12 @@ const ContentList: React.FC<ContentListProps> = ({
                     </div>
                   </td>
                   <td className="px-4 lg:px-10 py-6 lg:py-8">
-                    <p className="text-body4 font-neueMontreal text-gray-600 tracking-normal truncate max-w-[200px]">
-                      {category === 'careers' ? (item.source || 'No Department') : (item.source || '-')}
-                    </p>
-                    <p className="text-body4 font-neueMontreal text-gray-400 font-normal mt-1">
+                    {category !== 'newsletters' && (
+                      <p className="text-body4 font-neueMontreal text-gray-600 tracking-normal truncate max-w-[200px]">
+                        {category === 'careers' ? (item.source || 'No Department') : (item.source || '-')}
+                      </p>
+                    )}
+                    <p className={cn("text-body4 font-neueMontreal font-normal", category !== 'newsletters' ? "text-gray-400 mt-1" : "text-gray-600")}>
                       {category === 'careers' ? (item.date || 'Type Not Specified') : (item.date || '-')}
                     </p>
                   </td>
