@@ -77,14 +77,21 @@ export const useCMSDashboard = () => {
     }
   }, [category, getTableName]);
 
+  // Handle initial session check
   useEffect(() => {
     const session = localStorage.getItem("adminSession_ele");
     if (session === "active") {
       setIsLoggedIn(true);
-      loadData();
     }
     setIsVerifying(false);
-  }, [loadData]);
+  }, []);
+
+  // Handle data loading when logged in or category changes
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadData();
+    }
+  }, [isLoggedIn, category, loadData]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

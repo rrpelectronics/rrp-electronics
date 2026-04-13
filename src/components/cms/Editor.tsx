@@ -157,19 +157,23 @@ const MenuBar = ({ editor }: { editor: any }) => {
   );
 };
 
+const extensions = [
+  StarterKit.configure({
+    heading: { levels: [1, 2] }
+  }),
+  Underline,
+  Link.configure({
+    openOnClick: false,
+    HTMLAttributes: {
+      class: "text-[#FF5C19] underline cursor-pointer"
+    }
+  }),
+];
+
 const TiptapEditor: React.FC<EditorProps> = ({ value, onChange, placeholder, className }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2] }
-      }),
-      Underline,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-[#FF5C19] underline cursor-pointer"
-        }
-      }),
+      ...extensions,
       Placeholder.configure({
         placeholder: placeholder || "Write something...",
       }),
