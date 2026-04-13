@@ -50,6 +50,10 @@ export const exploreLinkData = [
     title: "News & Events",
   },
   {
+    href: "/newsletter",
+    title: "Newsletter",
+  },
+  {
     href: "/careers",
     title: "Careers",
   },
