@@ -25,6 +25,7 @@ interface ContentListProps {
   onAdd: () => void;
   onEdit: (item: Item) => void;
   onDelete: (item: Item) => void;
+  isLoading?: boolean;
 }
 
 const ContentList: React.FC<ContentListProps> = ({
@@ -35,6 +36,7 @@ const ContentList: React.FC<ContentListProps> = ({
   onAdd,
   onEdit,
   onDelete,
+  isLoading = false,
 }) => {
   const [sortOrder, setSortOrder] = React.useState<"desc" | "asc">("desc");
 
@@ -123,7 +125,17 @@ const ContentList: React.FC<ContentListProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredItems.map((item) => (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={3} className="px-4 lg:px-10 py-20 text-center">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 border-2 border-[#FF5C19] border-t-transparent rounded-full animate-spin" />
+                      <p className="text-body4 font-neueMontreal text-gray-400">Loading database records...</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                filteredItems.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-4 lg:px-10 py-6 lg:py-8">
                     <div className="flex items-center gap-4 lg:gap-6">
@@ -184,10 +196,11 @@ const ContentList: React.FC<ContentListProps> = ({
                     </div>
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              ))
+            )}
+          </tbody>
           </table>
-          {filteredItems.length === 0 && (
+          {!isLoading && filteredItems.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 px-8 text-center bg-gray-50/50">
               <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-sm border border-gray-100">
                 <FileText className="w-8 h-8 text-gray-200" />
