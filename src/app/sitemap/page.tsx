@@ -46,12 +46,16 @@ const operationsLinkData = [
 
 export const exploreLinkData = [
   {
-    href: "/news-events",
-    title: "News & Events",
+    href: "/news",
+    title: "News",
   },
   {
-    href: "/newsletter",
-    title: "Newsletter",
+    href: "/events",
+    title: "Events",
+  },
+  {
+    href: "/newsletters",
+    title: "Newsletters",
   },
   {
     href: "/careers",
