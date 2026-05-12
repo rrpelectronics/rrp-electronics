@@ -106,7 +106,7 @@ const Header = forwardRef<HTMLElement, any>((props, ref) => {
       {/* Black transparent overlay for mobile menu */}
       <div
         onClick={() => setIsMobileMenuOpen(false)}
-        className={`fixed inset-0 bg-black/50 z-[65] transition-opacity duration-300 min-[1152px]:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/50 z-65 transition-opacity duration-300 min-[1152px]:hidden ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       />
 
       {/* Mobile Drawer (Max 512px, slides from right) */}

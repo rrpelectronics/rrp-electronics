@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useFooter } from "@/context/FooterContext";
 import BannerStack from "@/components/BannerStack";
 import Text from "@/components/Text";
-import VideoImgSection from "@/components/VideoImgSection";
 import Carousel from "./Carousel";
 import Accordion from "./Accordion";
 import Grid from "./Grid";
