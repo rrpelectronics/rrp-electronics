@@ -16,17 +16,16 @@ const JobItem = React.memo(({ job, index }: JobItemProps) => {
 
   return (
     <li
-      className={`grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-4 md:gap-y-5 ${job.id === "diploma-engineers-electronics" ? "pt-0 pb-6 lg:pt-6" : "py-6"
-        } border-b-1 border-b-borderPrimary`}
+      className={`grid grid-cols-4 gap-x-3 md:gap-x-5 gap-y-4 md:gap-y-5 py-6 border-b-1 border-b-borderPrimary`}
     >
       <p
-                className="col-span-4 lg:col-span-2 text-heading4 leading-[115%] text-black"
+        className="col-span-4 lg:col-span-2 text-heading4 leading-[115%] text-black"
       >
         {job.title}
       </p>
       <ul className="flex justify-between col-span-4 lg:col-span-2">
         <li
-                    className="text-bodyBase text-black leading-[120%] font-neueMontreal"
+          className="text-bodyBase text-black leading-[120%] font-neueMontreal"
         >
           {job.location}
         </li>
@@ -36,12 +35,12 @@ const JobItem = React.memo(({ job, index }: JobItemProps) => {
           aria-label={`View job details for ${job.title}`}
         >
           <p
-                        className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal"
+            className="leading-[110%] text-bodyBase text-primary underline decoration-solid decoration-primary font-neueMontreal"
           >
             Job Details
           </p>
           <img
-                        src="/images/icons/arrow_outward.svg"
+            src="/images/icons/arrow_outward.svg"
             alt={`Job Details of ${job.title}`}
             className="h-5.5 w-5.5 md:h-6 md:w-6"
             loading="lazy"
