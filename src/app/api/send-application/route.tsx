@@ -5,7 +5,7 @@ import { sendGraphEmail } from '@/utils/graphMail';
 export async function POST(request) {
   try {
     const formData = await request.formData();
-    
+
     const name = formData.get('name');
     const email = formData.get('email');
     const phone = formData.get('phone');
@@ -249,7 +249,7 @@ export async function POST(request) {
                 <p>We have successfully received your application for the position of <strong>${position}</strong>.</p>
                 <div class="highlight-box">
                   <p><strong>What happens next?</strong></p>
-                  <p style="margin-top: 8px;">Our HR team will carefully review your application and get back to you within 5-7 business days.</p>
+                  <p style="margin-top: 8px;">Our team will carefully review your application and get back to you in due course if your profile matches our current requirements.</p>
                 </div>
                 <p>We appreciate your interest in joining RRP Electronics and look forward to learning more about your qualifications.</p>
                 <p style="margin-top: 24px;">Best regards,<br><strong>RRP Electronics HR Team</strong></p>
@@ -267,16 +267,16 @@ export async function POST(request) {
       console.log('⚠️ Could not send confirmation email:', confirmError.message);
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: 'Application sent successfully'
     });
 
   } catch (error) {
     console.error('❌ Error in send-application API:', error);
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         message: 'Failed to send application',
         error: process.env.NODE_ENV === 'development' ? error.message : undefined
       },

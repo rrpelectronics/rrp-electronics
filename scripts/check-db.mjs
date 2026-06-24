@@ -3,7 +3,12 @@ import { config } from 'dotenv';
 import { resolve } from 'path';
 
 config({ path: resolve('.env.local') });
-const sql = neon(process.env.DATABASE_URL);
+const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+if (!connectionString) {
+  console.error('Neither DATABASE_URL nor POSTGRES_URL is configured in .env.local');
+  process.exit(1);
+}
+const sql = neon(connectionString);
 
 const news = await sql`SELECT COUNT(*) as c FROM rrp_news`;
 const events = await sql`SELECT COUNT(*) as c FROM rrp_events`;
